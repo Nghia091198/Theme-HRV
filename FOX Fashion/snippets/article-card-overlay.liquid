@@ -1,0 +1,64 @@
+{%- assign article_title = article.title | strip -%}
+{%- assign article_alt = article.image.alt | default: article_title -%}
+{%- assign article_summary = article.excerpt | default: article.content | strip_html | strip_newlines | strip | truncate: 180 -%}
+
+<article class="fox-latest-stories__article">
+  <div class="fox-latest-stories__card">
+    <div class="fox-latest-stories__media">
+      <a class="fox-latest-stories__media-link" href="{{ article.url | escape }}" aria-label="{{ article_title | escape }}">
+        {%- if article.image -%}
+          <img
+            class="fox-latest-stories__image"
+            src="{{ article.image.src | product_img_url: 'grande' }}"
+            srcset="{{ article.image.src | product_img_url: 'compact' }} 160w, {{ article.image.src | product_img_url: 'grande' }} 600w, {{ article.image.src | product_img_url: '1024x1024' }} 1024w, {{ article.image.src | product_img_url: 'master' }} 1600w"
+            sizes="(min-width: 1200px) calc((100vw - 8vw) / 3), (min-width: 768px) 45vw, 85vw"
+            width="900"
+            height="600"
+            alt="{{ article_alt | escape }}"
+            loading="lazy"
+            decoding="async">
+        {%- else -%}
+          <img
+            class="fox-latest-stories__image"
+            src="{{ 'no-image-blog.jpg' | asset_url }}"
+            width="900"
+            height="600"
+            alt="{{ article_alt | escape }}"
+            loading="lazy"
+            decoding="async">
+        {%- endif -%}
+      </a>
+
+      {%- if show_date -%}
+        <time class="fox-latest-stories__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+          {{ article.published_at | date: '%d Tháng %m, %Y' }}
+        </time>
+      {%- endif -%}
+    </div>
+
+    <div class="fox-latest-stories__card-content">
+      <h3 class="fox-latest-stories__article-title">
+        <a class="fox-latest-stories__article-title-link fox-text-link" href="{{ article.url | escape }}">
+          {{ article_title | escape }}
+        </a>
+      </h3>
+
+      {%- if article_summary != blank -%}
+        <p class="fox-latest-stories__summary">{{ article_summary | escape }}</p>
+      {%- endif -%}
+
+      {%- if read_more_label != blank -%}
+        <a class="fox-latest-stories__read-more btn btn-secondary" button-effect href="{{ article.url | escape }}">
+          <span class="btn__label">
+            {{ read_more_label | escape }}
+            <span class="fox-latest-stories__sr-only">: {{ article_title | escape }}</span>
+          </span>
+          <span class="btn--icon" aria-hidden="true">
+            <svg class="icon-svg" focusable="false"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+          </span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,31 @@
+{% if previous_first %}
+<button
+  type="button"
+  class="swiper-nav swiper-button-prev{% if style == '01' %} swiper-nav--01{% endif %}{% if button_effect %} btn btn-secondary{% endif %}"
+  {% if button_effect %}button-effect{% endif %}
+  data-action="previous"
+  aria-label="Slide trước">
+  <svg class="icon-svg" style="transform:scaleX(-1);" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+  {% if button_effect %}<span data-btn-effect-span aria-hidden="true"></span>{% endif %}
+</button>
+{% endif %}
+<button
+  type="button"
+  class="swiper-nav swiper-button-next{% if style == '01' %} swiper-nav--01{% endif %}{% if button_effect %} btn btn-secondary{% endif %}"
+  {% if button_effect %}button-effect{% endif %}
+  data-action="next"
+  aria-label="Slide tiếp theo">
+  <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+  {% if button_effect %}<span data-btn-effect-span aria-hidden="true"></span>{% endif %}
+</button>
+{% unless previous_first %}
+<button
+  type="button"
+  class="swiper-nav swiper-button-prev{% if style == '01' %} swiper-nav--01{% endif %}{% if button_effect %} btn btn-secondary{% endif %}"
+  {% if button_effect %}button-effect{% endif %}
+  data-action="previous"
+  aria-label="Slide trước">
+  <svg class="icon-svg" style="transform:scaleX(-1);" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+  {% if button_effect %}<span data-btn-effect-span aria-hidden="true"></span>{% endif %}
+</button>
+{% endunless %}

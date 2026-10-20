@@ -1,0 +1,10 @@
+<main class="fox-cart-page" data-template="cart">
+  <div class="container">
+    <header class="fox-cart-page__header">
+      <h1>Giỏ hàng</h1>
+    </header>
+    <cart-root class="fox-cart-page__inner fox-mini-cart" style="--fox-cart-surface: {{ settings.theme_color | default: '#1B2631' | escape }};">
+      {% include 'cart-content' %}
+    </cart-root>
+  </div>
+</main>

@@ -1,0 +1,95 @@
+{% comment %}Desktop/basic markup consumes concise shared menu state.{% endcomment %}
+<ul class="fox-menu{% if mobile %} fox-menu--mobile{% endif %}" role="list">
+  {% for link in linklists[menuHandle].links %}
+    {% include 'component-header-menu-shared' with operation: 'menu-state', menu_link: link %}
+    {% assign lv2_links = menu_children %}
+    {% assign is_mega = menu_is_mega %}
+
+    <li
+      class="fox-menu__item{% if lv2_links != empty %} fox-menu__item--parent{% endif %}{% if is_mega %} fox-menu__item--mega{% endif %}"
+      data-menu-title="{{ link.title | strip | escape }}"
+    >
+      <div class="fox-menu__row">
+        <a class="fox-menu__link" href="{{ link.url }}">{{ link.title }}</a>
+
+        {% if lv2_links != empty or is_mega %}
+          <button
+            type="button"
+            class="fox-menu__toggle"
+            data-action="toggle-submenu"
+            aria-expanded="false"
+            aria-label="Mở menu {{ link.title | strip | escape }}"
+          >
+            <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron"></use></svg>
+          </button>
+        {% endif %}
+      </div>
+
+      {% if is_mega %}
+        <div class="fox-menu__mega" data-role="mega-slot" data-state="idle">
+          <div class="fox-menu__loading" aria-live="polite">Đang tải menu…</div>
+        </div>
+      {% elsif lv2_links != empty %}
+        <ul class="fox-submenu fox-submenu--level-2" role="list">
+          {% for lv2 in lv2_links %}
+            {% assign lv3_links = linklists[lv2.handle].links %}
+
+            <li class="fox-submenu__item{% if lv3_links != empty %} fox-submenu__item--parent{% endif %}">
+              <div class="fox-menu__row">
+                <a href="{{ lv2.url }}">{{ lv2.title }}</a>
+
+                {% if lv3_links != empty %}
+                  <button
+                    type="button"
+                    class="fox-menu__toggle"
+                    data-action="toggle-submenu"
+                    aria-expanded="false"
+                    aria-label="Mở menu {{ lv2.title | strip | escape }}"
+                  >
+                    <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+                  </button>
+                {% endif %}
+              </div>
+
+              {% if lv3_links != empty %}
+                <ul class="fox-submenu fox-submenu--level-3" role="list">
+                  {% for lv3 in lv3_links %}
+                    {% assign lv4_links = linklists[lv3.handle].links %}
+
+                    <li class="fox-submenu__item{% if lv4_links != empty %} fox-submenu__item--parent{% endif %}">
+                      <div class="fox-menu__row">
+                        <a href="{{ lv3.url }}">{{ lv3.title }}</a>
+
+                        {% if lv4_links != empty %}
+                          <button
+                            type="button"
+                            class="fox-menu__toggle"
+                            data-action="toggle-submenu"
+                            aria-expanded="false"
+                            aria-label="Mở menu {{ lv3.title | strip | escape }}"
+                          >
+                            <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+                          </button>
+                        {% endif %}
+                      </div>
+
+                      {% if lv4_links != empty %}
+                        <ul class="fox-submenu fox-submenu--level-4" role="list">
+                          {% for lv4 in lv4_links %}
+                            <li class="fox-submenu__item">
+                              <a href="{{ lv4.url }}">{{ lv4.title }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

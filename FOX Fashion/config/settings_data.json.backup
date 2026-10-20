@@ -1,0 +1,864 @@
+{
+
+"current": {
+
+
+"use_logo": true,
+
+
+"logo.png": "",
+
+
+"favicon.png": "",
+
+
+"base_font": "Inter",
+
+
+"ico_favicon": "",
+
+
+"base_font_title": "Quicksand",
+
+
+"theme_color": "#1B2631",
+
+
+"theme_bg_color": "#FFFFFF",
+
+
+"theme_text_color": "#1B2631",
+
+
+"theme_text_hover": "#1B2631",
+
+
+"slide_container": "full_width",
+
+
+"slide_interval": "3000",
+
+
+"slide_1_type": "type_mp4",
+
+
+"slide_1_d_image.png": "",
+
+
+"slide_1_m_image.png": "",
+
+
+"slide_1_youtube_url": "",
+
+
+"slide_1_mp4_url": "https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/15e4ec09dd4341dc9e8d9f19a78b05ec/15e4ec09dd4341dc9e8d9f19a78b05ec.HD-1080p-7.2Mbps-76797248.mp4?v=0",
+
+
+"slide_2_show": false,
+
+
+"slide_2_type": "type_image",
+
+
+"slide_2_d_image.png": "",
+
+
+"slide_2_m_image.png": "",
+
+
+"slide_2_youtube_url": "",
+
+
+"slide_2_mp4_url": "",
+
+
+"slide_3_show": false,
+
+
+"slide_3_type": "type_youtube",
+
+
+"slide_3_d_image.png": "",
+
+
+"slide_3_m_image.png": "",
+
+
+"slide_3_youtube_url": "https://www.youtube.com/watch?v=Z4pk54u_4J8",
+
+
+"slide_3_mp4_url": "",
+
+
+"slide_4_show": false,
+
+
+"slide_4_type": "type_image",
+
+
+"slide_4_d_image.png": "",
+
+
+"slide_4_m_image.png": "",
+
+
+"slide_4_youtube_url": "",
+
+
+"slide_4_mp4_url": "",
+
+
+"slide_5_show": false,
+
+
+"slide_5_type": "type_image",
+
+
+"slide_5_d_image.png": "",
+
+
+"slide_5_m_image.png": "",
+
+
+"slide_5_youtube_url": "",
+
+
+"slide_5_mp4_url": "",
+
+
+"slide_text_color": "#ffffff",
+
+
+"slide_btn_textcolor": "#1B2631",
+
+
+"slide_btn_bgcolor": "#ffffff",
+
+
+"slide_btn_textcolor_hover": "#ffffff",
+
+
+"slide_btn_bgcolor_hover": "#1B2631",
+
+
+"slide_1_content_position": "left",
+
+
+"slide_1_title": "Bộ sưu tập chạy hiệu suất",
+
+
+"slide_1_desc": "Hãy làm chủ cuộc chạy của bạn với trang phục chạy bộ hiệu suất cao của chúng tôi.",
+
+
+"slide_1_btntitle": "Xem Bộ sưu tập",
+
+
+"slide_1_btnurl": "/collections/all",
+
+
+"slide_1_youtube_content_show": false,
+
+
+"slide_1_mp4_content_show": true,
+
+
+"slide_2_content_position": "right",
+
+
+"slide_2_title": "Bộ sưu tập đồ thể thao thường ngày",
+
+
+"slide_2_desc": "Di chuyển dễ dàng và phong cách với những trang phục đa năng được thiết kế cho sự thoải mái hàng ngày.",
+
+
+"slide_2_btntitle": "Xem Bộ sưu tập",
+
+
+"slide_2_btnurl": "/",
+
+
+"slide_2_youtube_content_show": false,
+
+
+"slide_2_mp4_content_show": false,
+
+
+"slide_3_content_position": "center",
+
+
+"slide_3_title": "Bộ sưu tập đào tạo tích cực",
+
+
+"slide_3_desc": "Nâng tầm mọi buổi tập luyện với các dụng cụ tập luyện thiết yếu hiệu suất cao của chúng tôi.",
+
+
+"slide_3_btntitle": "Xem Bộ sưu tập",
+
+
+"slide_3_btnurl": "/",
+
+
+"slide_3_youtube_content_show": false,
+
+
+"slide_3_mp4_content_show": false,
+
+
+"slide_4_content_position": "left",
+
+
+"slide_4_title": "",
+
+
+"slide_4_desc": "",
+
+
+"slide_4_btntitle": "",
+
+
+"slide_4_btnurl": "",
+
+
+"slide_4_youtube_content_show": false,
+
+
+"slide_4_mp4_content_show": false,
+
+
+"slide_5_content_position": "left",
+
+
+"slide_5_title": "",
+
+
+"slide_5_desc": "",
+
+
+"slide_5_btntitle": "",
+
+
+"slide_5_btnurl": "",
+
+
+"slide_5_youtube_content_show": false,
+
+
+"slide_5_mp4_content_show": false,
+
+
+"theme_btn_bgcolor": "#1B2631",
+
+
+"theme_btn_textcolor": "#ffffff",
+
+
+"theme_btn_bgcolor_hover": "#1B2631",
+
+
+"theme_btn_textcolor_hover": "#ffffff",
+
+
+"theme_btn_bgcolor_2": "#ffffff",
+
+
+"theme_btn_textcolor_2": "#1B2631",
+
+
+"theme_btn_bgcolor_2_hover": "#1B2631",
+
+
+"theme_btn_textcolor_2_hover": "#ffffff",
+
+
+"slide_1_alt": "",
+
+
+"slide_2_alt": "",
+
+
+"slide_3_alt": "",
+
+
+"slide_4_alt": "",
+
+
+"slide_5_alt": "",
+
+
+"hcs_show": true,
+
+
+"hcs_title": "Danh mục sản phẩm",
+
+
+"hcs_desc": "Chỉ trong thời gian ngắn, hãy nhanh tay sở hữu những món đồ thể thao yêu thích với giá cả không thể tin được!",
+
+
+"hcs_btn_title": "Xem tất cả",
+
+
+"hcs_btn_url": "/collections/all",
+
+
+"hcs_1_show": false,
+
+
+"hcs_1_image.png": "",
+
+
+"hcs_1_alt": "Thể thao",
+
+
+"hcs_1_url": "/collections/all",
+
+
+"hcs_1_label": "Tất cả ",
+
+
+"hcs_2_show": true,
+
+
+"hcs_2_image.png": "",
+
+
+"hcs_2_alt": "Jogglers & Sweatpants",
+
+
+"hcs_2_url": "/collections/all",
+
+
+"hcs_2_label": "Jogglers & Sweatpants",
+
+
+"hcs_3_show": true,
+
+
+"hcs_3_image.png": "",
+
+
+"hcs_3_alt": "Leggings",
+
+
+"hcs_3_url": "/collections/all",
+
+
+"hcs_3_label": "Leggings",
+
+
+"hcs_4_show": true,
+
+
+"hcs_4_image.png": "",
+
+
+"hcs_4_alt": "Yoga & Pilates",
+
+
+"hcs_4_url": "/collections/all",
+
+
+"hcs_4_label": "Yoga & Pilates",
+
+
+"hcs_5_show": true,
+
+
+"hcs_5_image.png": "",
+
+
+"hcs_5_alt": "Bán chạy nhất",
+
+
+"hcs_5_url": "/collections/all",
+
+
+"hcs_5_label": "Bán chạy nhất",
+
+
+"hcs_6_show": true,
+
+
+"hcs_6_image.png": "",
+
+
+"hcs_6_alt": "Phụ kiện chạy bộ",
+
+
+"hcs_6_url": "/collections/all",
+
+
+"hcs_6_label": "Phụ kiện chạy bộ",
+
+
+"fox_hmb_show": true,
+
+
+"fox_hmb_media_type": "type_mp4",
+
+
+"fox_hmb_d_image.png": "",
+
+
+"fox_hmb_m_image.png": "",
+
+
+"fox_hmb_alt": "FOX Fashion performance campaign",
+
+
+"fox_hmb_mp4_url": "https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/15e4ec09dd4341dc9e8d9f19a78b05ec/15e4ec09dd4341dc9e8d9f19a78b05ec.HD-1080p-7.2Mbps-76797248.mp4?v=0",
+
+
+"fox_hmb_youtube_url": "",
+
+
+"fox_hmb_content_position": "left",
+
+
+"fox_hmb_title": "Built to perform designed to inspire",
+
+
+"fox_hmb_desc": "Sweat-wicking, ultra-flexible, and made for every workout.",
+
+
+"fox_hmb_btn_title": "Shop now",
+
+
+"fox_hmb_btn_url": "/collections/all",
+
+
+"fox_hmb_text_color": "#ffffff",
+
+
+"fox_hmb_overlay_opacity": "20",
+
+
+"fox_countdown_show": true,
+
+
+"fox_countdown_d_image.png": "",
+
+
+"fox_countdown_m_image.png": "",
+
+
+"fox_countdown_alt": "FOX countdown offer",
+
+
+"fox_countdown_badge": "Limited-time deals",
+
+
+"fox_countdown_title": "Don't miss out on these exclusive offers",
+
+
+"fox_countdown_desc": "For a short time only, grab your favorite activewear pieces at unbeatable prices.",
+
+
+"fox_countdown_btn_title": "Shop now",
+
+
+"fox_countdown_btn_url": "/collections/all",
+
+
+"fox_countdown_type": "deadline",
+
+
+"fox_countdown_day": "31",
+
+
+"fox_countdown_month": "12",
+
+
+"fox_countdown_year": "2026",
+
+
+"fox_countdown_time": "23:59:59",
+
+
+"fox_countdown_text_color": "#ffffff",
+
+
+"fox_countdown_overlay_opacity": "48",
+
+
+"fox_iwto_show": true,
+
+
+"fox_iwto_title": "Mua sắm theo hoạt động",
+
+
+"fox_iwto_overlay_opacity": "32",
+
+
+"fox_iwto_1_show": true,
+
+
+"fox_iwto_1_image.jpg": "",
+
+
+"fox_iwto_1_alt": "Trang phục chạy bộ",
+
+
+"fox_iwto_1_title": "Chạy bộ",
+
+
+"fox_iwto_1_desc": "Nhẹ, thoáng khí và sẵn sàng cho từng bước chạy.",
+
+
+"fox_iwto_1_btn_title": "Mua ngay",
+
+
+"fox_iwto_1_url": "/collections/all",
+
+
+"fox_iwto_2_show": true,
+
+
+"fox_iwto_2_image.jpg": "",
+
+
+"fox_iwto_2_alt": "Trang phục tập gym",
+
+
+"fox_iwto_2_title": "Tập gym",
+
+
+"fox_iwto_2_desc": "Co giãn linh hoạt, hỗ trợ bạn trong mọi buổi tập.",
+
+
+"fox_iwto_2_btn_title": "Mua ngay",
+
+
+"fox_iwto_2_url": "/collections/all",
+
+
+"fox_iwto_3_show": true,
+
+
+"fox_iwto_3_image.jpg": "",
+
+
+"fox_iwto_3_alt": "Trang phục Pilates",
+
+
+"fox_iwto_3_title": "Pilates",
+
+
+"fox_iwto_3_desc": "Mềm mại và ôm vừa vặn cho chuyển động cân bằng.",
+
+
+"fox_iwto_3_btn_title": "Mua ngay",
+
+
+"fox_iwto_3_url": "/collections/all",
+
+
+"fox_iwto_4_show": true,
+
+
+"fox_iwto_4_image.jpg": "",
+
+
+"fox_iwto_4_alt": "Đồ bơi thể thao",
+
+
+"fox_iwto_4_title": "Đồ bơi",
+
+
+"fox_iwto_4_desc": "Thiết kế gọn nhẹ cho những ngày vận động dưới nước.",
+
+
+"fox_iwto_4_btn_title": "Mua ngay",
+
+
+"fox_iwto_4_url": "/collections/all",
+
+
+"fox_iwto_5_show": true,
+
+
+"fox_iwto_5_image.jpg": "",
+
+
+"fox_iwto_5_alt": "Trang phục thường ngày",
+
+
+"fox_iwto_5_title": "Thường ngày",
+
+
+"fox_iwto_5_desc": "Thoải mái cả ngày với phong cách năng động tối giản.",
+
+
+"fox_iwto_5_btn_title": "Mua ngay",
+
+
+"fox_iwto_5_url": "/collections/all",
+
+
+"fox_scroll_media_text_show": true,
+
+
+"fox_scroll_media_text_image.jpg": "",
+
+
+"fox_scroll_media_text_alt": "Woman stretching in cream activewear",
+
+
+"fox_scroll_media_text_text_1": "Flexibility",
+
+
+"fox_scroll_media_text_text_2": "Confidence",
+
+
+"fox_scroll_media_text_text_3": "Always",
+
+
+"fox_scroll_media_text_title": "Born to move, designed to inspire",
+
+
+"fox_scroll_media_text_desc": "Our mission is to empower you with high-performance activewear that blends style, comfort, and innovation.",
+
+
+"fox_scroll_media_text_btn_title": "Shop now",
+
+
+"fox_scroll_media_text_btn_url": "/collections",
+
+
+"fox_scroll_media_text_marquee_color": "#5c3d50",
+
+
+"fox_scroll_media_text_content_color": "#ffffff",
+
+
+"fox_scroll_media_text_overlay_opacity": "38",
+
+
+
+"fox_image_compare_show": true,
+
+
+"fox_image_compare_title": "Những thiết kế mới không thể bỏ lỡ",
+
+
+"fox_image_compare_desc": "Sẵn sàng cho buổi tập tiếp theo với những thiết kế mạnh mẽ và linh hoạt.",
+
+
+"fox_image_compare_position": "50",
+
+
+"fox_image_compare_left_image.jpg": "",
+
+
+"fox_image_compare_left_alt": "Người phụ nữ chạy bộ ngoài trời trong trang phục thể thao màu xanh",
+
+
+"fox_image_compare_left_label": "Chạy bộ ngoài trời",
+
+
+"fox_image_compare_right_image.jpg": "",
+
+
+"fox_image_compare_right_alt": "Người phụ nữ tập yoga trong trang phục thể thao màu hồng",
+
+
+"fox_image_compare_right_label": "Yoga & Pilates",
+
+
+"fox_latest_stories_show": true,
+
+
+"fox_latest_stories_blog_handle": "news",
+
+
+"fox_latest_stories_title": "Câu chuyện mới nhất",
+
+
+"fox_latest_stories_desc": "Xem khách hàng nói gì về sản phẩm của chúng tôi",
+
+
+"fox_latest_stories_limit": "6",
+
+
+"fox_latest_stories_cta_label": "Xem tất cả bài viết",
+
+
+"fox_latest_stories_read_more_label": "Đọc thêm",
+
+
+"fox_latest_stories_show_date": true,
+
+
+"fox_home_policies_show": true,
+
+
+"fox_home_policy_1_show": true,
+
+
+"fox_home_policy_1_title": "Miễn phí vận chuyển",
+
+
+"fox_home_policy_1_description": "Áp dụng theo chính sách giao hàng.",
+
+
+"fox_home_policy_2_show": true,
+
+
+"fox_home_policy_2_title": "Đổi trả dễ dàng",
+
+
+"fox_home_policy_2_description": "Hỗ trợ đổi trả trong vòng 14 ngày.",
+
+
+"fox_home_policy_3_show": true,
+
+
+"fox_home_policy_3_title": "Thanh toán an toàn",
+
+
+"fox_home_policy_3_description": "Mọi giao dịch được xử lý bảo mật.",
+
+
+"fox_home_policy_4_show": true,
+
+
+"fox_home_policy_4_title": "Chăm sóc khách hàng",
+
+
+"fox_home_policy_4_description": "Luôn sẵn sàng hỗ trợ khi bạn cần.",
+
+
+"fox_product_tabs_show": false,
+
+
+"fox_product_tabs_title": "Sản phẩm bán chạy",
+
+
+"fox_product_tabs_desc": "",
+
+
+"fox_product_tabs_cta_label": "",
+
+
+"fox_product_tabs_cta_url": "",
+
+
+"fox_product_tabs_limit": "8",
+
+
+"fox_product_tabs_1_show": true,
+
+
+"fox_product_tabs_1_label": "Bán chạy",
+
+
+"fox_product_tabs_1_icon": "",
+
+
+"fox_product_tabs_1_collection": "",
+
+
+"fox_product_tabs_2_show": false,
+
+
+"fox_product_tabs_2_label": "",
+
+
+"fox_product_tabs_2_icon": "",
+
+
+"fox_product_tabs_2_collection": "",
+
+
+"fox_product_tabs_3_show": false,
+
+
+"fox_product_tabs_3_label": "",
+
+
+"fox_product_tabs_3_icon": "",
+
+
+"fox_product_tabs_3_collection": "",
+
+
+"fox_product_tabs_4_show": false,
+
+
+"fox_product_tabs_4_label": "",
+
+
+"fox_product_tabs_4_icon": "",
+
+
+"fox_product_tabs_4_collection": "",
+
+
+"fox_product_tabs_5_show": false,
+
+
+"fox_product_tabs_5_label": "",
+
+
+"fox_product_tabs_5_icon": "",
+
+
+"fox_product_tabs_5_collection": "",
+
+
+"fox_footer_show": true,
+
+
+"fox_footer_newsletter_show": true,
+
+
+"fox_footer_newsletter_title": "Đăng ký nhận tin",
+
+
+"fox_footer_newsletter_description": "Cập nhật ưu đãi độc quyền và những sản phẩm mới nhất.",
+
+
+"fox_footer_newsletter_placeholder": "Nhập email của bạn",
+
+
+"fox_footer_newsletter_button_label": "Đăng ký",
+
+
+"fox_footer_help_title": "Hỗ trợ",
+
+
+"fox_footer_help_menu": "footer-help",
+
+
+"fox_footer_about_title": "Về FOX",
+
+
+"fox_footer_about_menu": "footer-about",
+
+
+"fox_footer_facebook_url": "",
+
+
+"fox_footer_instagram_url": "",
+
+
+"fox_footer_youtube_url": "",
+
+
+"fox_footer_tiktok_url": "",
+
+
+"fox_footer_x_url": "",
+
+
+"fox_footer_copyright": "",
+
+
+"fox_footer_payment_image.png": "",
+
+
+"fox_footer_payment_alt": "Các phương thức thanh toán được chấp nhận"
+
+},
+
+"presets": {}
+}

@@ -1,0 +1,22 @@
+{%- if settings.collection_promo_show and settings.collection_promo_title != blank -%}
+  {%- assign fox_promo_type = settings.collection_promo_type | default: 'deadline' -%}
+  <aside class="fox-collection__promo" aria-label="Ưu đãi">
+    {%- if settings.collection_promo_badge != blank -%}<p class="fox-collection__promo-badge">{{ settings.collection_promo_badge | escape }}</p>{%- endif -%}
+    <h2 class="fox-collection__promo-title">{{ settings.collection_promo_title | escape }}</h2>
+    {%- if settings.collection_promo_desc != blank -%}<p class="fox-collection__promo-desc">{{ settings.collection_promo_desc | escape }}</p>{%- endif -%}
+    {%- if settings.collection_promo_time != blank -%}
+      {%- if fox_promo_type == 'daily' or settings.collection_promo_day != blank and settings.collection_promo_month != blank and settings.collection_promo_year != blank -%}
+      <fox-countdown class="fox-collection__promo-countdown" data-type="{{ fox_promo_type | escape }}" data-day="{{ settings.collection_promo_day | escape }}" data-month="{{ settings.collection_promo_month | escape }}" data-year="{{ settings.collection_promo_year | escape }}" data-time="{{ settings.collection_promo_time | escape }}" data-state="idle" aria-label="Thời gian còn lại">
+        <span><strong data-countdown-value="days">00</strong><small>Ngày</small></span>
+        <span><strong data-countdown-value="hours">00</strong><small>Giờ</small></span>
+        <span><strong data-countdown-value="minutes">00</strong><small>Phút</small></span>
+        <span><strong data-countdown-value="seconds">00</strong><small>Giây</small></span>
+      </fox-countdown>
+      {%- endif -%}
+    {%- endif -%} 
+    {%- if settings.collection_promo_btn_label != blank and settings.collection_promo_btn_url != blank -%}
+      <a class="fox-collection__promo-link" href="{{ settings.collection_promo_btn_url | escape }}">{{ settings.collection_promo_btn_label | escape }} <svg aria-hidden="true"><use xlink:href="#ic-arrow-45top-r"></use></svg></a>
+    {%- endif -%}
+  </aside>
+{%- endif -%}
+

@@ -1,0 +1,10 @@
+{%- comment -%}
+  product-loop-no
+  Skeleton placeholder cho 1 product card. Delegate sang component-skeleton
+  để đồng bộ shimmer với các nơi khác.
+
+  Params:
+    type : 'default' (dọc) | 'horizontal' (ngang). Default 'default'.
+{%- endcomment -%} 
+{%- assign product_loop_no_type = type | default: 'default' -%}
+{%- include 'component-skeleton' with type: product_loop_no_type, item: 1, row: 1 -%}

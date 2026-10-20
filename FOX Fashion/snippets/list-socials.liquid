@@ -1,0 +1,21 @@
+{% comment %}Canonical basic social list; blank URLs keep each channel hidden.{% endcomment %}
+{%- assign fox_socials_visible = false -%}
+{%- if settings.footer_facebook_url != blank or settings.footer_zalo_url != blank or settings.footer_instagram_url != blank or settings.footer_youtube_url != blank or settings.footer_tiktok_url != blank or settings.footer_x_url != blank or settings.footer_linkedin_url != blank or settings.footer_shopee_url != blank or settings.footer_lazada_url != blank -%}
+  {%- assign fox_socials_visible = true -%}
+{%- endif -%}
+{%- if fox_socials_visible -%}
+<div class="block-list-social">
+  {%- include 'link-css-preload' with css_file: 'default-list-social.css' -%}
+  <ul class="d-flex list-social {{style}}">
+    {%- if settings.footer_facebook_url != blank -%}<li class="social-item ss-facebook"><a href="{{ settings.footer_facebook_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="Facebook"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-facebook"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_zalo_url != blank -%}<li class="social-item ss-zalo"><a href="{{ settings.footer_zalo_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="Zalo"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-zalo"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_instagram_url != blank -%}<li class="social-item ss-instagram"><a href="{{ settings.footer_instagram_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="Instagram"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-instagram-bi"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_youtube_url != blank -%}<li class="social-item ss-youtube"><a href="{{ settings.footer_youtube_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="YouTube"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-youtube"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_tiktok_url != blank -%}<li class="social-item ss-tiktok"><a href="{{ settings.footer_tiktok_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="TikTok"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-tiktok-square"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_x_url != blank -%}<li class="social-item ss-x"><a href="{{ settings.footer_x_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="X"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-x"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_linkedin_url != blank -%}<li class="social-item ss-linkedin"><a href="{{ settings.footer_linkedin_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="LinkedIn"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-linkedin"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_shopee_url != blank -%}<li class="social-item ss-shopee"><a href="{{ settings.footer_shopee_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="Shopee"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-shopee"></use></svg></a></li>{%- endif -%}
+    {%- if settings.footer_lazada_url != blank -%}<li class="social-item ss-lazada"><a href="{{ settings.footer_lazada_url | escape }}" class="link" target="_blank" rel="nofollow noopener noreferrer" aria-label="Lazada"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-lazada"></use></svg></a></li>{%- endif -%}
+  </ul>
+</div>
+{%- endif -%}

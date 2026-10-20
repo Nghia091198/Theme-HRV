@@ -1,0 +1,16 @@
+{%- assign fox_product_context = fox_product_context | default: 'page' -%}
+<product-component
+  class="fox-product fox-product--{{ fox_product_context }}"
+  data-state="idle"
+  data-context="{{ fox_product_context }}"
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+  data-update-url="{% if fox_product_context == 'page' %}inherit{% else %}false{% endif %}"
+  data-change-image-with-alt="inherit"
+  data-contact-mode="{% if settings.disable_shop_buying %}true{% else %}false{% endif %}">
+  <script type="application/json" data-role="product-data">{{ product | json }}</script>
+  <div class="fox-product__layout" data-zoom-scope>
+    {%- include 'product-gallery' -%}
+    {%- include 'product-form' -%}
+  </div>
+</product-component>

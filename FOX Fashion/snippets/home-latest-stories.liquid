@@ -1,0 +1,118 @@
+{%- assign blog_handle = settings.latest_stories_blog_handle | default: 'news' | strip -%}
+{%- assign blog = blogs[blog_handle] -%}
+{%- assign title = settings.latest_stories_title -%}
+{%- assign cta_label = settings.latest_stories_cta_label -%}
+{%- assign read_more_label = settings.latest_stories_read_more_label -%}
+{%- assign show_date = settings.latest_stories_show_date -%}
+{%- assign limit = settings.latest_stories_limit | default: 6 | plus: 0 -%}
+{%- if limit < 1 -%}
+  {%- assign limit = 1 -%}
+{%- elsif limit > 8 -%}
+  {%- assign limit = 8 -%}
+{%- endif -%}
+
+{%- if settings.latest_stories_show and blog != blank and blog.articles != blank -%}
+  <section
+    class="fox-latest-stories"
+    {%- if title != blank %}
+      aria-labelledby="fox-latest-stories-heading"
+    {%- else %}
+      aria-label="{{ blog.title | escape }}"
+    {%- endif %}
+  >
+    <div class="container">
+      <header class="fox-latest-stories__header">
+        <div class="fox-latest-stories__copy">
+          {%- if title != blank -%}
+            <h2 id="fox-latest-stories-heading" class="fox-section__title fox-latest-stories__title">
+              {{ title | escape }}
+            </h2>
+          {%- endif -%}
+          {%- if settings.latest_stories_desc != blank -%}
+            <p class="fox-section__desc fox-latest-stories__description">{{ settings.latest_stories_desc | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if cta_label != blank -%}
+          <a
+            button-effect
+            class="fox-latest-stories__cta fox-latest-stories__cta--desktop btn btn-secondary"
+            href="{{ blog.url | escape }}"
+            title="{{ cta_label | strip | escape }}"
+          >
+            <span class="btn__label">{{ cta_label | escape }}</span>
+            <span class="fox-latest-stories__cta-icon btn--icon" aria-hidden="true">
+              <svg class="icon-svg" focusable="false"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+            </span>
+            <span data-btn-effect-span aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </header>
+
+      <slider-component
+        class="fox-latest-stories__slider"
+        data-state="idle"
+        data-preset="product"
+        data-autoplay="false"
+        data-loop="false"
+        data-pagination="false"
+        data-navigation="true"
+        data-slides-mobile="auto"
+        data-slides-tablet="auto"
+        data-slides-desktop="auto"
+        data-space-mobile="0"
+        data-space-tablet="0"
+        data-space-desktop="0"
+        data-transition-duration="520"
+      >
+        <button
+          class="fox-latest-stories__navigation fox-latest-stories__navigation--previous"
+          type="button"
+          data-action="previous"
+          aria-label="Bài viết trước"
+        >
+          <span aria-hidden="true">&#8592;</span>
+        </button>
+
+        <div
+          class="fox-latest-stories__viewport swiper"
+          data-role="viewport"
+          role="region"
+          aria-label="{{ title | default: blog.title | escape }}"
+        >
+          <div class="fox-latest-stories__track swiper-wrapper">
+            {%- for article in blog.articles limit: limit -%}
+              <div class="fox-latest-stories__slide swiper-slide">
+                {%- include 'article-card-overlay' with article: article, read_more_label: read_more_label, show_date: show_date -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <button
+          class="fox-latest-stories__navigation fox-latest-stories__navigation--next"
+          type="button"
+          data-action="next"
+          aria-label="Bài viết tiếp theo"
+        >
+          <span aria-hidden="true">&#8594;</span>
+        </button>
+      </slider-component>
+
+      {%- if cta_label != blank -%}
+        <a
+          button-effect
+          class="fox-latest-stories__cta fox-latest-stories__cta--mobile btn btn-secondary"
+          href="{{ blog.url | escape }}"
+          title="{{ cta_label | strip | escape }}"
+        >
+          <span class="btn__label">{{ cta_label | escape }}</span>
+          <span class="fox-latest-stories__cta-icon btn--icon" aria-hidden="true">
+            <svg class="icon-svg" focusable="false"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+          </span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}

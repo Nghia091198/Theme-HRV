@@ -1,0 +1,71 @@
+html {
+    font-size: 62.5%;
+}
+body {
+    line-height: 1.45;
+    background: var(--shop-bg-color);
+    font-family: var(--base-font), sans-serif;
+    position: initial;
+    font-size: 14px;
+}
+body,a {color: var(--shop-text-color);} 
+h1,h2,h3,h4,h5,h6,
+.h1,.h2,.h3,.h4,.h5,.h6 {
+    font-family: var(--base-font-title), sans-serif;
+}
+
+.fox-pagination__progress {
+    margin: 42px 0 8px;
+    color: var(--color-text-secondary, #687078);
+    font-size: 14px;
+    text-align: center;
+}
+.fox-pagination__track {
+    width: 160px;
+    height: 3px;
+    margin: 0 auto;
+    background: var(--color-border, #e4e5e6);
+}
+.fox-pagination__track span {
+    display: block;
+    height: 100%;
+    background: var(--color-text-theme, #1b2631);
+}
+.fox-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+.fox-pagination__pages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.fox-pagination__link {
+    display: grid;
+    min-width: 36px;
+    min-height: 36px;
+    place-items: center;
+    padding: 4px 9px;
+    border: 1px solid var(--color-border, #e4e5e6);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-text-theme, #1b2631);
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+.fox-pagination__link.is-current {
+    border-color: var(--color-text-theme, #1b2631);
+    background: var(--color-text-theme, #1b2631);
+    color: var(--color-text-bg-primary, #fff);
+}
+.fox-pagination__link:focus-visible {
+    outline: 2px solid var(--color-text-theme, #1b2631);
+    outline-offset: 3px;
+}

@@ -1,0 +1,24 @@
+<h1 class="d-none">{{shop.name}}</h1>
+
+{%comment%}
+{%- for i in (1..14) -%}
+{%- capture sectionname -%}section_home_{{i}}{%- endcapture -%}
+{%- if settings[sectionname] != 'none' -%}
+{%- include settings[sectionname] -%}
+{%- endif -%}
+{%- endfor -%}
+{%endcomment%}
+{%- include 'home-slider' -%} 
+{%- include 'home-category' -%} 
+{%- include 'home-media-banner' -%}
+{%- include 'home-marquee' -%}
+{%- include 'home-lookbook' -%}
+{%- include 'home-product-story' -%}
+{%- include 'home-testimonial-product' -%} {%- comment -%}FOX social proof.{%- endcomment -%}
+{%- include 'home-product-tabs' -%}
+{%- include 'home-countdown' -%}
+{%- include 'home-images-overlay' -%}
+{%- include 'home-featured-product' -%}
+{%- include 'home-scroll-media-text' -%}
+{%- include 'home-image-compare' -%}
+{%- include 'home-latest-stories' -%}

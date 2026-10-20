@@ -1,0 +1,96 @@
+:root {
+  --core-form-control-primary: var(--color-text-theme, #171718);
+  --core-form-control-secondary: var(--color-border, #cecece);
+  --core-form-control-size: 1rem;
+  --core-form-control-motion: .4s cubic-bezier(.45, 1.8, .5, .75);
+}
+
+.fox-form-control {
+  position: relative;
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+}
+
+.fox-form-control > input {
+  position: absolute;
+  width: var(--core-form-control-size);
+  height: var(--core-form-control-size);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fox-form-control__indicator {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 var(--core-form-control-size);
+  width: var(--core-form-control-size);
+  height: var(--core-form-control-size);
+  border: 2px solid var(--core-form-control-secondary);
+  background: #fff;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.fox-form-control__indicator::after {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity var(--core-form-control-motion), transform var(--core-form-control-motion);
+}
+
+.fox-form-control--checkbox .fox-form-control__indicator::after {
+  top: 2px;
+  left: 3px;
+  width: 10px;
+  height: 5px;
+  border: 2px solid var(--core-form-control-primary);
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-45deg) scale(0);
+  transform-origin: center;
+}
+
+.fox-form-control--radio .fox-form-control__indicator {
+  border-radius: 50%;
+}
+
+.fox-form-control--radio .fox-form-control__indicator::after {
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--core-form-control-primary);
+}
+
+.fox-form-control > input:checked + .fox-form-control__indicator {
+  border-color: var(--core-form-control-primary);
+  background: transparent;
+}
+
+.fox-form-control > input:checked + .fox-form-control__indicator::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fox-form-control--checkbox > input:checked + .fox-form-control__indicator::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+.fox-form-control > input:focus-visible + .fox-form-control__indicator {
+  outline: 2px solid var(--core-form-control-primary);
+  outline-offset: 3px;
+}
+
+.fox-form-control > input:disabled + .fox-form-control__indicator,
+.fox-form-control > input:disabled ~ span {
+  opacity: .5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-form-control__indicator,
+  .fox-form-control__indicator::after {
+    transition: none;
+  }
+}

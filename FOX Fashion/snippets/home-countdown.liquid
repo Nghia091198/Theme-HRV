@@ -1,0 +1,116 @@
+{%- comment -%}Homepage countdown markup is rendered before countdown.js enhances its timer.{%- endcomment -%}
+{%- if settings.countdown_show -%}
+  {%- capture countdown_d_key -%}countdown_d_image.png{%- endcapture -%}
+  {%- capture countdown_m_key -%}countdown_m_image.png{%- endcapture -%}
+  {%- assign countdown_image_desktop = settings[countdown_d_key] | default: 'countdown_d_image.png' -%}
+  {%- assign countdown_image_mobile = settings[countdown_m_key] | default: 'countdown_m_image.png' -%}
+  {%- if countdown_image_mobile == blank -%}
+    {%- assign countdown_image_mobile = countdown_image_desktop -%}
+  {%- endif -%}
+  {%- assign countdown_image_desktop_url = countdown_image_desktop | asset_url -%}
+  {%- assign countdown_image_mobile_url = countdown_image_mobile | asset_url -%}
+  {%- if countdown_image_desktop contains '//' -%}
+    {%- assign countdown_image_desktop_url = countdown_image_desktop -%}
+  {%- endif -%}
+  {%- if countdown_image_mobile contains '//' -%}
+    {%- assign countdown_image_mobile_url = countdown_image_mobile -%}
+  {%- endif -%}
+
+  <section
+    class="fox-countdown-section"
+    data-fox-scroll-viewport="shrink"
+    data-fox-scroll-effects="clip scale"
+    data-fox-scroll-range="viewport"
+    data-fox-scroll-breakpoint="1024"
+    data-fox-scroll-media-scale-max="1.1"
+    data-fox-scroll-media-translate="3"
+    data-fox-scroll-expand
+    style="
+      --fox-scroll-clip-x: 15px;
+      --fox-scroll-shrink-radius: 28;
+      --fox-countdown-text-color: {{ settings.countdown_text_color | default: '#ffffff' | escape }};
+      --fox-countdown-overlay-opacity: {{ settings.countdown_overlay_opacity | default: 48 | times: 0.01 }};
+    "
+  >
+    <div class="fox-countdown-section__stage">
+      <div class="fox-countdown-section__inner" data-fox-scroll-inner>
+        <div class="fox-countdown-section__media" data-fox-scroll-media aria-hidden="true">
+          <picture data-fox-scroll-media-effect>
+            <source
+              media="(max-width: 767px)"
+              srcset="{{ countdown_image_mobile_url | escape }}"
+              width="720"
+              height="960">
+            <img
+              class="fox-countdown-section__image"
+              src="{{ countdown_image_desktop_url | escape }}"
+              alt="{{ settings.countdown_alt | default: shop.name | escape }}"
+              width="1600"
+              height="900"
+              sizes="100vw"
+              loading="lazy"
+              decoding="async">
+          </picture>
+        </div>
+
+        <div class="fox-countdown-section__content">
+          {%- if settings.countdown_badge != blank -%}
+            <p class="fox-countdown-section__badge">
+              <span class="fox-countdown-section__badge-dot" aria-hidden="true"><span class="fox-countdown-section__badge-ring"></span></span>
+              {{ settings.countdown_badge | escape }}
+            </p>
+          {%- endif -%}
+
+          {%- if settings.countdown_title != blank -%}
+            <h2 class="fox-countdown-section__title">{{ settings.countdown_title | escape }}</h2>
+          {%- endif -%}
+
+          {%- if settings.countdown_desc != blank -%}
+            <p class="fox-section__desc">{{ settings.countdown_desc | escape }}</p>
+          {%- endif -%}
+
+          <fox-countdown
+            class="fox-countdown"
+            data-type="{{ settings.countdown_type | default: 'deadline' | escape }}"
+            data-day="{{ settings.countdown_day | default: 31 | escape }}"
+            data-month="{{ settings.countdown_month | default: 12 | escape }}"
+            data-year="{{ settings.countdown_year | default: 2026 | escape }}"
+            data-time="{{ settings.countdown_time | default: '23:59:59' | escape }}"
+            data-state="idle"
+          >
+            <div class="fox-countdown__item">
+              <span class="fox-countdown__value" data-countdown-value="days">00</span>
+              <span class="fox-countdown__label">Days</span>
+            </div>
+            <div class="fox-countdown__item">
+              <span class="fox-countdown__value" data-countdown-value="hours">00</span>
+              <span class="fox-countdown__label">Hours</span>
+            </div>
+            <div class="fox-countdown__item">
+              <span class="fox-countdown__value" data-countdown-value="minutes">00</span>
+              <span class="fox-countdown__label">Minutes</span>
+            </div>
+            <div class="fox-countdown__item">
+              <span class="fox-countdown__value" data-countdown-value="seconds">00</span>
+              <span class="fox-countdown__label">Seconds</span>
+            </div>
+          </fox-countdown>
+
+          {%- if settings.countdown_btn_title != blank and settings.countdown_btn_url != blank -%}
+            <a
+              button-effect
+              class="fox-countdown-section__button btn btn-secondary"
+              href="{{ settings.countdown_btn_url | escape }}"
+              title="{{ settings.countdown_btn_title | strip | escape }}">
+              <span class="btn__label">{{ settings.countdown_btn_title | escape }}</span>
+              <span class="btn--icon" aria-hidden="true">
+                <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+              </span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}

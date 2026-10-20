@@ -1,0 +1,22 @@
+{%- comment -%}Variant tuples are shared by all cart lines of the same product.{%- endcomment -%}
+{%- assign cart_mapped_products = ',' -%}
+{%- for item in cart.items -%}
+  {%- assign cart_product_key = item.product_id | prepend: ',' | append: ',' -%}
+  {%- unless cart_mapped_products contains cart_product_key -%}
+    {%- assign cart_mapped_products = cart_mapped_products | append: item.product_id | append: ',' -%}
+    <script type="application/json" data-role="variant-map" data-product-id="{{ item.product_id }}">[
+      {%- for variant in item.product.variants -%}
+        {%- capture cart_variant_options -%}
+          {%- for option_name in item.product.options -%}
+            {%- assign option_index = forloop.index0 -%}
+            {%- assign option_key = 'option' | append: forloop.index -%}
+            {%- assign option_value = variant.options[option_index] -%}
+            {%- if option_value == blank -%}{%- assign option_value = variant[option_key] -%}{%- endif -%}
+            {{ option_value | json }}{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {"id":{{ variant.id }},"o":[{{ cart_variant_options }}],"a":{% if variant.available %}true{% else %}false{% endif %}}{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]</script>
+  {%- endunless -%}
+{%- endfor -%}

@@ -1,0 +1,22 @@
+{% assign auth_mode = 'activate' %}
+{% capture fox_customer_password_content %}
+  <section class="fox-customer__form-panel" aria-labelledby="fox-customer-password-title">
+    <h2 id="fox-customer-password-title">Kích hoạt tài khoản</h2>
+    <p class="fox-customer__subtitle">Tạo mật khẩu để kích hoạt tài khoản của bạn.</p>
+    {% form 'activate_customer_password' %}
+      {{ form.errors | default_errors }}
+      <div class="fox-floating-field fox-customer__field">
+        <input id="fox-customer-new-password" type="password" name="customer[password]" autocomplete="new-password" placeholder=" " required>
+        <label for="fox-customer-new-password">Mật khẩu</label>
+      </div>
+      <div class="fox-floating-field fox-customer__field">
+        <input id="fox-customer-confirm-password" type="password" name="customer[password_confirmation]" autocomplete="new-password" placeholder=" " required>
+        <label for="fox-customer-confirm-password">Xác nhận mật khẩu</label>
+      </div>
+      <button class="btn btn-primary btn-effect--out fox-customer__submit" button-effect type="submit"><span class="btn__label">Kích hoạt</span><span data-btn-effect-span aria-hidden="true"></span></button>
+    {% endform %}
+    <p class="fox-customer__recaptcha">Trang này được bảo vệ bởi reCAPTCHA và tuân theo <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Chính sách quyền riêng tư</a> cùng <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Điều khoản dịch vụ</a> của Google.</p>
+    <a class="fox-customer__back-link" href="/">Từ chối đăng ký</a>
+  </section>
+{% endcapture %}
+{% include 'customer' %}

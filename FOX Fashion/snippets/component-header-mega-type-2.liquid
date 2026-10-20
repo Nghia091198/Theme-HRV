@@ -1,0 +1,119 @@
+{% comment %}Dynamic setting keys use the concise shared menu contract.{% endcomment %}
+{% assign category_count = 0 %}
+
+{% for i in (1..8) %}
+  {% include 'component-header-menu-shared' with operation: 'category-keys', mega_type: 2, item_index: i %}
+  {% if settings[category_show_key] %}
+    {% assign category_count = category_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% assign use_demo_categories = false %}
+{% if category_count == 0 %}
+  {% assign use_demo_categories = true %}
+  {% assign category_count = 8 %}
+{% endif %}
+
+<div class="fox-mega fox-mega--type-2">
+  <slider-component
+    data-preset="product"
+    data-state="idle"
+    data-loop="false"
+    data-navigation="{% if category_count > 1 %}true{% else %}false{% endif %}"
+    data-pagination="false"
+    data-slides-mobile="1"
+    data-slides-tablet="2"
+    data-slides-desktop="4"
+    data-space-mobile="14"
+    data-space-tablet="20"
+    data-space-desktop="24"
+  >
+    <div class="swiper" data-role="viewport">
+      <div class="swiper-wrapper">
+        {% for i in (1..8) %}
+          {% include 'component-header-menu-shared' with operation: 'category-keys', mega_type: 2, item_index: i %}
+
+          {% assign category_show = settings[category_show_key] %}
+          {% assign category_title = settings[category_title_key] %}
+          {% assign category_alt = settings[category_alt_key] %}
+
+          {% if use_demo_categories %}
+            {% assign category_show = true %}
+          {% endif %}
+
+          {% if category_show %}
+            <div class="swiper-slide">
+              <a
+                class="fox-mega-card"
+                href="{{ settings[category_url_key] | default: '/collections/all' }}"
+              >
+                <span class="fox-mega-card__effect" button-effect aria-hidden="true">
+                  <span data-btn-effect-span></span>
+                </span>
+                <span class="fox-mega-card__media">
+                  <img
+                    src="{{ category_image_key | asset_url }}"
+                    width="800"
+                    height="1000"
+                    loading="lazy"
+                    decoding="async"
+                    alt="{{ category_alt | default: category_title | escape }}"
+                  >
+                </span>
+                <span class="fox-mega-card__title">{{ category_title | default: 'Danh mục sản phẩm' }}</span>
+                {% if settings.header_mega_2_more_label != blank %}
+                  <span class="fox-mega-card__cta">{{ settings.header_mega_2_more_label }}</span>
+                {% endif %}
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div
+      class="fox-mega-type-2__navigation"
+      data-role="navigation"
+    >
+      {% if category_count > 1 %}
+        <button
+          type="button"
+          class="swiper-nav swiper-button-prev swiper-nav--01 btn btn-secondary"
+          button-effect
+          data-action="previous"
+          aria-label="Slide trước"
+        >
+          <svg class="icon-svg" style="transform:scaleX(-1);" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      {% endif %}
+
+      {% if settings.header_mega_2_more_label != blank %}
+        <a
+          class="fox-mega__more btn btn-primary btn-effect--out"
+          href="{{ settings.header_mega_2_more_url | default: '/collections/all' }}"
+          button-effect
+        >
+          <span class="btn__label">{{ settings.header_mega_2_more_label }}</span>
+          <span class="btn--icon" aria-hidden="true">
+            <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+          </span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+      {% endif %}
+
+      {% if category_count > 1 %}
+        <button
+          type="button"
+          class="swiper-nav swiper-button-next swiper-nav--01 btn btn-secondary"
+          button-effect
+          data-action="next"
+          aria-label="Slide tiếp theo"
+        >
+          <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      {% endif %}
+    </div>
+  </slider-component>
+</div>

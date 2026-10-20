@@ -1,0 +1,11 @@
+{% layout none %}
+{%- assign limit = settings.product_tabs_limit | default: 8 | plus: 0 -%}
+{%- if limit < 1 -%}{%- assign limit = 1 -%}{%- endif -%}
+{%- if limit > 12 -%}{%- assign limit = 12 -%}{%- endif -%}
+{%- for product in collection.products limit: limit -%}
+<div class="fox-product-tabs__slide">
+  {%- assign product_card_context = 'product-tabs' -%}{% comment %}Shared product card context.{% endcomment %}
+  {%- include 'product-loop' with grid: '' -%}
+  {%- assign product_card_context = blank -%}
+</div>
+{%- endfor -%} 

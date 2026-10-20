@@ -1,0 +1,115 @@
+{%- assign swatch_limit = settings.swatch_limit | default: 5 -%}
+{%- assign is_color = false -%}
+{%- assign option_index = -1 -%}
+{%- assign colors_seen = '|' -%}
+{%- assign count = 0 -%}
+{%- assign extra_count = 0 -%}
+
+{%- for option in product.options -%}
+{%- assign option_name = option.name | default: option -%}
+{%- assign option_downcased = option_name | downcase -%}
+{%- if is_color == false and option_downcased contains 'màu sắc' or is_color == false and option_downcased contains 'màu' or is_color == false and option_downcased contains 'color' -%}
+{%- assign is_color = true -%}
+{%- assign option_index = forloop.index0 -%}
+{%- endif -%}
+{%- endfor -%}
+
+{%- if is_color -%}
+<ul class="fox-swatch">
+	{%- for variant in product.variants -%}
+	{%- assign color = blank -%}
+	{%- if option_index == 0 -%}
+		{%- assign color = variant.option1 -%}
+	{%- elsif option_index == 1 -%}
+		{%- assign color = variant.option2 -%}
+	{%- elsif option_index == 2 -%}
+		{%- assign color = variant.option3 -%}
+	{%- endif -%}
+	{%- assign color_handle = color | handleize -%}
+	{%- capture color_token -%}|{{ color_handle }}|{%- endcapture -%}
+	{%- unless color == blank or colors_seen contains color_token -%}
+	{%- assign colors_seen = colors_seen | append: color_handle | append: '|' -%}
+
+	{%- assign swatch_image = '' -%}
+	{%- for image_variant in product.variants -%}
+		{%- assign image_variant_color = image_variant.option1 -%}
+		{%- if option_index == 1 -%}
+			{%- assign image_variant_color = image_variant.option2 -%}
+		{%- elsif option_index == 2 -%}
+			{%- assign image_variant_color = image_variant.option3 -%}
+		{%- endif -%}
+		{%- if swatch_image == '' and image_variant_color == color and image_variant.image.src != blank -%}
+			{%- assign swatch_image = image_variant.image.src -%}
+		{%- endif -%}
+	{%- endfor -%}
+	{%- assign swatch_color = '#dedede' -%}
+	{%- case color_handle -%}
+		{%- when 'do' -%}{%- assign swatch_color = '#c94a4a' -%}
+		{%- when 'xanh' -%}{%- assign swatch_color = '#427a72' -%}
+		{%- when 'vang' -%}{%- assign swatch_color = '#e7bd43' -%}
+		{%- when 'den' -%}{%- assign swatch_color = '#171718' -%}
+		{%- when 'trang' -%}{%- assign swatch_color = '#ffffff' -%}
+		{%- when 'nau' -%}{%- assign swatch_color = '#68483f' -%}
+		{%- when 'cam' -%}{%- assign swatch_color = '#e57a35' -%}
+		{%- when 'hong' -%}{%- assign swatch_color = '#d995aa' -%}
+		{%- when 'tim' -%}{%- assign swatch_color = '#765b88' -%}
+		{%- when 'xam' -%}{%- assign swatch_color = '#858585' -%}
+		{%- when 'be' -%}{%- assign swatch_color = '#d4bea4' -%}
+		{%- when 'xanh-duong' -%}{%- assign swatch_color = '#355f9b' -%}
+		{%- when 'xanh-la' -%}{%- assign swatch_color = '#56815a' -%}
+	{%- endcase -%}
+	{%- if color_handle contains 'xanh-coban' or color_handle contains 'xanh-cobalt' -%}
+		{%- assign swatch_color = '#244e9b' -%}
+	{%- elsif color_handle contains 'xanh-suong' -%}
+		{%- assign swatch_color = '#a9c4cd' -%}
+	{%- elsif color_handle contains 'xanh-navy' -%}
+		{%- assign swatch_color = '#26364f' -%}
+	{%- elsif color_handle contains 'xanh-bien' -%}
+		{%- assign swatch_color = '#3f7898' -%}
+	{%- elsif color_handle contains 'xanh-reu' -%}
+		{%- assign swatch_color = '#667052' -%}
+	{%- elsif color_handle == 'xanh' -%}
+		{%- assign swatch_color = '#427a72' -%}
+	{%- elsif color_handle contains 'xanh' -%}
+		{%- assign swatch_color = '#5b8b8c' -%}
+	{%- elsif color_handle contains 'hong' -%}
+		{%- assign swatch_color = '#d79aaa' -%}
+	{%- elsif color_handle contains 'cam' -%}
+		{%- assign swatch_color = '#dc704b' -%}
+	{%- elsif color_handle contains 'nau' -%}
+		{%- assign swatch_color = '#68483f' -%}
+	{%- elsif color_handle contains 'xam' -%}
+		{%- assign swatch_color = '#74787d' -%}
+	{%- elsif color_handle contains 'kem' or color_handle contains 'be' -%}
+		{%- assign swatch_color = '#d5c3a7' -%}
+	{%- endif -%}
+	{%- for image in product.images -%}
+		{%- assign image_alt_handle = image.alt | downcase | handleize -%}
+		{%- assign image_src_handle = image.src | downcase | handleize -%}
+		{%- if swatch_image == '' and image_alt_handle contains color_handle -%}
+			{%- assign swatch_image = image.src -%}
+		{%- elsif swatch_image == '' and image_src_handle contains color_handle -%}
+			{%- assign swatch_image = image.src -%}
+		{%- endif -%}
+	{%- endfor -%}
+
+	{%- if count < swatch_limit -%}
+	<li class="fox-swatch__item swatch-color"{%- if swatch_image != '' -%} data-src="{{ swatch_image | product_img_url: 'large' }}"{%- endif -%}>
+		<span class="swatch-element swatch-color">
+			<span class="fox-swatch__label {{ color_handle }}" style="--fox-swatch-color: {{ swatch_color }}" aria-hidden="true"></span>
+			<span class="fox-swatch__name">{{ color }}</span>
+		</span>
+	</li>
+	{%- else -%}
+	{%- assign extra_count = extra_count | plus: 1 -%}
+	{%- endif -%}
+	{%- assign count = count | plus: 1 -%}
+	{%- endunless -%}
+	{%- endfor -%}
+
+	{%- if extra_count > 0 -%}
+	<li class="fox-swatch__item fox-swatch__more"><span>+{{ extra_count }}</span></li>
+	{%- endif -%}
+</ul>
+{%- endif -%}
+

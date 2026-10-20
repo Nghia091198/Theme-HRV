@@ -1,0 +1,146 @@
+{% comment %}Synced by Haravan CLI: quickview fixes 2026-08-12.{% endcomment %}
+{%- assign selected_variant = product.variants.first -%}
+{%- assign selected_available_variant = false -%}
+{%- for variant in product.variants -%}
+  {%- if variant.available and selected_available_variant == false -%}
+    {%- assign variant_has_stock = true -%}
+    {%- if variant.inventory_management != blank and variant.inventory_policy != 'continue' and variant.inventory_quantity <= 0 -%}
+      {%- assign variant_has_stock = false -%}
+    {%- endif -%}
+    {%- if variant_has_stock -%}
+      {%- assign selected_variant = variant -%}
+      {%- assign selected_available_variant = true -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%} 
+<div class="fox-product__info" data-role="product-info">
+  {%- if fox_product_context == 'featured' and settings.x1_featured_product_show_vendor != false and product.vendor != blank -%}
+  <p class="fox-product__vendor" data-role="vendor">{{ product.vendor | escape }}</p>
+  {%- endif -%}
+  {%- if settings.product_show_type and product.type != blank -%}
+  <p class="fox-product__type">{{ product.type | escape }}</p>
+  {%- endif -%}
+  {%- if fox_product_context == 'featured' -%}
+  <h2 class="fox-product__title">{{ product.title | escape }}</h2>
+  {%- else -%}
+  <h1 class="fox-product__title">{{ product.title | escape }}</h1>
+  {%- endif -%}
+  {%- if fox_product_context == 'featured' or fox_product_context == 'quickview' -%}
+  <div class="fox-product__meta">
+    <p class="fox-product__status" data-role="availability" aria-live="polite"></p>
+    <p class="fox-product__sku" data-role="sku"{% if selected_variant.sku == blank %} hidden{% endif %}>{% if selected_variant.sku != blank %}SKU: {{ selected_variant.sku | escape }}{% endif %}</p>
+  </div>
+  {%- endif -%}
+  {%- if fox_product_context == 'featured' -%}
+  <div hidden data-role="formatted-prices">
+    {%- for variant in product.variants -%}
+    <span data-price-variant="{{ variant.id }}" data-price="{{ variant.price | money | strip_html | escape }}" data-compare-price="{{ variant.compare_at_price | money | strip_html | escape }}"></span>
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+  <div class="fox-product__price-wrap" data-role="price-wrap">
+    {%- if fox_product_context == 'featured' -%}
+    <span data-role="price">{{ selected_variant.price | money }}</span>
+    <del data-role="compare-price"{% unless selected_variant.compare_at_price > selected_variant.price %} hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</del>
+    {%- else -%}
+    <span data-role="price">{{ selected_variant.price | money }}</span>
+    <del data-role="compare-price"{% unless selected_variant.compare_at_price > selected_variant.price %} hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</del>
+    {%- endif -%}
+    <span data-role="sale-percent"></span>
+  </div>
+  {%- if fox_product_context == 'page' -%}
+  <p class="fox-product__status" data-role="availability" aria-live="polite"></p>
+  <p class="fox-product__sku" data-role="sku"></p>
+  {%- endif -%}
+  {%- if fox_product_context == 'featured' and settings.x1_featured_product_show_description != false and product.description != blank -%}
+  <div class="fox-product__description" data-role="description">{{ product.description | strip_html | escape }}</div>
+  {%- endif -%}
+
+  {%- include 'variant-picker' -%}
+
+  <div class="fox-product__purchase" data-role="purchase">
+    <div class="core-quantity fox-product__quantity" data-role="quantity-control">
+      <button type="button" data-action="quantity-minus" aria-label="Giảm số lượng" disabled>
+        <svg aria-hidden="true" focusable="false" width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect y="0.75" width="8" height="1.5" rx="0.75" fill="currentColor"></rect>
+        </svg>
+      </button>
+      <label>
+        <span class="fox-product__quantity-label">Số lượng</span>
+        <input type="number" data-role="quantity" value="1" min="1" inputmode="numeric" aria-label="Số lượng">
+      </label>
+      <button type="button" data-action="quantity-plus" aria-label="Tăng số lượng">
+        <svg aria-hidden="true" focusable="false" width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 0.5C4.38 0.5 4.69 0.81 4.69 1.19V3.81H7.31C7.69 3.81 8 4.12 8 4.5C8 4.88 7.69 5.19 7.31 5.19H4.69V7.81C4.69 8.19 4.38 8.5 4 8.5C3.62 8.5 3.31 8.19 3.31 7.81V5.19H0.69C0.31 5.19 0 4.88 0 4.5C0 4.12 0.31 3.81 0.69 3.81H3.31V1.19C3.31 0.81 3.62 0.5 4 0.5Z" fill="currentColor"></path>
+        </svg>
+      </button>
+    </div>
+    <add-to-cart
+      data-state="idle"
+      data-mode="cart"
+      data-variant-id="{{ selected_variant.id }}"
+      data-product-id="{{ product.id }}"
+      data-handle="{{ product.handle }}"
+      data-quantity="1">
+      <button type="button" class="button btn {% if fox_product_context == 'featured' %}btn-secondary{% else %}btn-primary{% endif %}" button-effect data-role="trigger">
+        <span class="btn__label">Thêm vào giỏ</span>
+        <span data-btn-effect-span aria-hidden="true"></span>
+      </button>
+    </add-to-cart>
+    <add-to-cart
+      data-state="idle"
+      data-mode="buy-now"
+      data-open-minicart="false"
+      data-variant-id="{{ selected_variant.id }}"
+      data-product-id="{{ product.id }}"
+      data-handle="{{ product.handle }}"
+      data-quantity="1">
+      <button type="button" class="button btn {% if fox_product_context == 'featured' %}btn-primary{% else %}btn-secondary{% endif %}" button-effect data-role="trigger">
+        <span class="btn__label">Mua ngay</span>
+        <span data-btn-effect-span aria-hidden="true"></span>
+      </button>
+    </add-to-cart>
+  </div>
+
+  {%- if fox_product_context == 'featured' and settings.x1_featured_product_show_inventory != false -%}
+  <p class="fox-product__inventory" data-role="inventory" aria-live="polite"></p>
+  {%- endif -%}
+
+  <div class="fox-product__contact" data-role="contact" hidden>
+    <a class="button" href="{{ settings.product_contact_url | default: '/pages/contact' }}">
+      {{ settings.product_contact_title | default: 'Liên hệ' | escape }}
+    </a>
+  </div>
+  {%- if fox_product_context == 'quickview' or fox_product_context == 'featured' -%}
+  <div class="fox-product__policy-marquee" aria-label="Chính sách mua hàng">
+    <div class="fox-product__policy-track">
+      <div class="fox-product__policy-group">
+        <span class="fox-product__policy-item">
+          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-shipping"></use></svg>
+          Giao hàng nhanh chóng, an toàn
+        </span>
+        <span class="fox-product__policy-item">
+          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-return"></use></svg>
+          Đổi trả dễ dàng trong 14 ngày
+        </span>
+      </div>
+      <div class="fox-product__policy-group" aria-hidden="true">
+        <span class="fox-product__policy-item">
+          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-shipping"></use></svg>
+          Giao hàng nhanh chóng, an toàn
+        </span>
+        <span class="fox-product__policy-item">
+          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-return"></use></svg>
+          Đổi trả dễ dàng trong 14 ngày
+        </span>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+  <a class="fox-product__details-link fox-link-effect" href="{{ product.url }}">
+    <span class="fox-link-effect__label">Xem chi tiết</span>
+    <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+    </svg>
+  </a>
+</div>

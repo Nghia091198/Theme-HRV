@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1024" viewBox="0 0 1440 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#151516"/>
+      <stop offset="0.48" stop-color="#343232"/>
+      <stop offset="1" stop-color="#09090a"/>
+    </linearGradient>
+    <radialGradient id="warm" cx="82%" cy="90%" r="58%">
+      <stop offset="0" stop-color="#b7612a" stop-opacity=".72"/>
+      <stop offset=".5" stop-color="#713a22" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#713a22" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".18"/>
+      <stop offset=".5" stop-color="#ffffff" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity=".26"/>
+    </linearGradient>
+    <filter id="blur60"><feGaussianBlur stdDeviation="60"/></filter>
+    <filter id="blur28"><feGaussianBlur stdDeviation="28"/></filter>
+    <filter id="shadow"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <rect width="1440" height="1024" fill="url(#bg)"/>
+  <rect width="1440" height="1024" fill="url(#warm)"/>
+  <g filter="url(#blur60)" opacity=".78">
+    <path d="M-120 190 C180 30 390 90 590 250 S970 480 1580 160" fill="none" stroke="#f1eee8" stroke-opacity=".18" stroke-width="120"/>
+    <path d="M-160 810 C160 660 350 720 600 860 S1120 1080 1580 760" fill="none" stroke="#a94f22" stroke-opacity=".45" stroke-width="160"/>
+    <path d="M980 -60 C1130 140 1190 280 1060 490 S890 760 1030 1090" fill="none" stroke="#d8c4ac" stroke-opacity=".18" stroke-width="80"/>
+  </g>
+  <g filter="url(#blur28)" opacity=".55">
+    <circle cx="210" cy="210" r="110" fill="#8a8580"/>
+    <circle cx="1260" cy="200" r="150" fill="#5e2b1c"/>
+    <circle cx="1260" cy="870" r="130" fill="#c26a32"/>
+  </g>
+  <rect x="48" y="42" width="1344" height="940" rx="18" fill="#0a0a0b" fill-opacity=".16" stroke="#fff" stroke-opacity=".12"/>
+  <text x="88" y="108" fill="#fff" font-family="Georgia, serif" font-size="25" letter-spacing="5">FOX FASHION</text>
+  <text x="1352" y="108" text-anchor="end" fill="#fff" fill-opacity=".72" font-family="Arial, sans-serif" font-size="13" letter-spacing="2">CLOSE</text>
+  <g transform="translate(0 6)">
+    <rect x="470" y="176" width="500" height="630" rx="24" fill="#000" fill-opacity=".25" filter="url(#shadow)"/>
+    <rect x="470" y="160" width="500" height="630" rx="24" fill="url(#glass)" stroke="#fff" stroke-opacity=".28"/>
+    <rect x="492" y="182" width="456" height="586" rx="16" fill="#111112" fill-opacity=".18" stroke="#fff" stroke-opacity=".08"/>
+    <text x="720" y="270" text-anchor="middle" fill="#fff" font-family="Georgia, serif" font-size="42">Đăng nhập</text>
+    <text x="720" y="306" text-anchor="middle" fill="#fff" fill-opacity=".62" font-family="Arial, sans-serif" font-size="14">Chào mừng bạn trở lại FOX</text>
+    <rect x="548" y="360" width="344" height="58" rx="7" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".34"/>
+    <text x="570" y="394" fill="#fff" fill-opacity=".68" font-family="Arial, sans-serif" font-size="14">Email</text>
+    <rect x="548" y="438" width="344" height="58" rx="7" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".34"/>
+    <text x="570" y="472" fill="#fff" fill-opacity=".68" font-family="Arial, sans-serif" font-size="14">Mật khẩu</text>
+    <text x="892" y="524" text-anchor="end" fill="#fff" fill-opacity=".82" font-family="Arial, sans-serif" font-size="13">Quên mật khẩu?</text>
+    <rect x="548" y="558" width="344" height="54" rx="27" fill="#fff"/>
+    <text x="720" y="592" text-anchor="middle" fill="#171718" font-family="Arial, sans-serif" font-size="15" font-weight="700">ĐĂNG NHẬP</text>
+    <line x1="548" y1="664" x2="690" y2="664" stroke="#fff" stroke-opacity=".22"/>
+    <line x1="750" y1="664" x2="892" y2="664" stroke="#fff" stroke-opacity=".22"/>
+    <text x="720" y="669" text-anchor="middle" fill="#fff" fill-opacity=".5" font-family="Arial, sans-serif" font-size="12">hoặc</text>
+    <text x="720" y="718" text-anchor="middle" fill="#fff" fill-opacity=".76" font-family="Arial, sans-serif" font-size="14">Bạn chưa có tài khoản? <tspan fill="#fff" text-decoration="underline">Đăng ký</tspan></text>
+  </g>
+  <text x="88" y="930" fill="#fff" fill-opacity=".52" font-family="Arial, sans-serif" font-size="12" letter-spacing="2">GLASS / MOTION / SOFT FOCUS</text>
+  <text x="1352" y="930" text-anchor="end" fill="#fff" fill-opacity=".52" font-family="Arial, sans-serif" font-size="12" letter-spacing="2">01 — LOGIN</text>
+</svg>

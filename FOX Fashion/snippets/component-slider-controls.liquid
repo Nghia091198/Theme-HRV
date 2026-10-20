@@ -1,0 +1,32 @@
+{%- assign slider_controls_label = slider_controls_label | default: 'Điều khiển slider' -%}
+{%- assign slider_controls_item_count = slider_controls_item_count | default: 1 -%}
+{%- if slider_controls_item_count < 1 -%}{%- assign slider_controls_item_count = 1 -%}{%- endif -%}
+{%- assign slider_controls_initial_progress = 1.0 | divided_by: slider_controls_item_count -%}
+<div
+  class="fox-slider-controls{% if slider_controls_vertical %} fox-slider-controls--vertical{% endif %}{% if slider_controls_floating %} fox-slider-controls--floating{% endif %}"
+  data-role="navigation"
+  role="group"
+  aria-label="{{ slider_controls_label | escape }}">
+  <button type="button" data-action="previous" cursor-zone data-cursor-native data-icon="#ic-arrow-45top-r" aria-label="Nội dung trước">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 8 7" width="8" height="7">
+      <path d="M.166 3.046a.58.58 0 0 0 0 .817L2.441 6.17a.564.564 0 0 0 .804 0 .58.58 0 0 0 0-.816L1.941 4.032h5.49A.574.574 0 0 0 8 3.454a.574.574 0 0 0-.569-.577h-5.49l1.304-1.323a.58.58 0 0 0 0-.817.564.564 0 0 0-.804 0L.166 3.046Z" fill="currentColor"/>
+    </svg>
+  </button>
+  <span
+    class="fox-slider-progress"
+    data-role="progress"
+    role="progressbar"
+    aria-label="Tiến độ slider"
+    aria-orientation="{% if slider_controls_vertical %}vertical{% else %}horizontal{% endif %}"
+    aria-valuemin="1"
+    aria-valuemax="{{ slider_controls_item_count }}"
+    aria-valuenow="1"
+    style="--fox-slider-progress: {{ slider_controls_initial_progress }};">
+    <span class="fox-slider-progress__bar"></span>
+  </span>
+  <button type="button" data-action="next" cursor-zone data-cursor-native data-icon="#ic-arrow-45top-r" aria-label="Nội dung tiếp theo">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 8 7" width="8" height="7">
+      <path d="M7.834 3.046a.58.58 0 0 1 0 .817L5.559 6.17a.564.564 0 0 1-.804 0 .58.58 0 0 1 0-.816l1.304-1.323H.569A.574.574 0 0 1 0 3.454c0-.319.255-.577.569-.577h5.49L4.755 1.554a.58.58 0 0 1 0-.817.564.564 0 0 1 .804 0l2.275 2.309Z" fill="currentColor"/>
+    </svg>
+  </button>
+</div>

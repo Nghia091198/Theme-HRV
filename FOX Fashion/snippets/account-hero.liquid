@@ -1,0 +1,19 @@
+{% assign fox_account_banner_desktop = settings['customer_auth_banner_desktop.jpg'] %}
+{% assign fox_account_banner_mobile = settings['customer_auth_banner_mobile.jpg'] %}
+{% if fox_account_banner_desktop == blank %}{% assign fox_account_banner_desktop_url = 'slide_1_d_image.png' | asset_url %}{% elsif fox_account_banner_desktop contains '//' %}{% assign fox_account_banner_desktop_url = fox_account_banner_desktop %}{% else %}{% assign fox_account_banner_desktop_url = fox_account_banner_desktop | asset_url %}{% endif %}
+{% if fox_account_banner_mobile == blank %}{% assign fox_account_banner_mobile_url = 'slide_1_m_image.png' | asset_url %}{% elsif fox_account_banner_mobile contains '//' %}{% assign fox_account_banner_mobile_url = fox_account_banner_mobile %}{% else %}{% assign fox_account_banner_mobile_url = fox_account_banner_mobile | asset_url %}{% endif %}
+<section class="fox-account" data-account-shell style="--fox-account-banner-desktop: url('{{ fox_account_banner_desktop_url }}'); --fox-account-banner-mobile: url('{{ fox_account_banner_mobile_url }}'); --fox-account-overlay: {{ settings.customer_auth_overlay_opacity | default: 42 }}%;">
+  <div class="fox-account__backdrop" aria-hidden="true"></div>
+  <div class="container fox-account__stage">
+    {%- include 'component-breadcrumb' with container: false, center: false, bgColor: 'transparent', textColor: '#fff' -%}
+    <div class="fox-account__heading">
+      <h1>{{ fox_account_title | escape }}</h1>
+    </div>
+    <div class="fox-account__layout">
+      <aside class="fox-account__sidebar">
+        {% include 'sidebar-account' %}
+        </aside>
+      <div class="fox-account__content">{{ fox_account_content }}</div>
+    </div>
+  </div>
+</section>

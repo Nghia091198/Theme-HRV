@@ -1,0 +1,28 @@
+{%- capture fox_pagination_current_page -%}{{ paginate.current_page }}{%- endcapture -%}
+{%- assign fox_pagination_page_size = pagination_page_size | default: 12 | plus: 0 -%}
+{%- if fox_pagination_page_size < 1 -%}{%- assign fox_pagination_page_size = 12 -%}{%- endif -%}
+{%- if pagination_show_progress -%}
+  {%- assign fox_pagination_seen = paginate.current_page | times: fox_pagination_page_size -%}
+  {%- if fox_pagination_seen > paginate.items -%}{%- assign fox_pagination_seen = paginate.items -%}{%- endif -%}
+<p class="fox-pagination__progress{% if pagination_progress_hidden %} d-none{% endif %}" data-role="pagination-progress">Đã xem {{ fox_pagination_seen }} trong {{ paginate.items }} {{ pagination_item_label | default: 'mục' | escape }}</p>
+<div class="fox-pagination__track" role="presentation"><span style="width: {% if paginate.items > 0 %}{{ fox_pagination_seen | times: 100 | divided_by: paginate.items }}{% else %}0{% endif %}%"></span></div>
+{%- endif -%}
+{%- if paginate.pages > 1 -%}
+<nav class="fox-pagination" data-role="pagination" aria-label="{{ pagination_aria_label | default: 'Phân trang' | escape }}">
+  {%- if paginate.previous -%}
+  <a class="fox-pagination__link" data-pagination-link="previous" href="{{ paginate.previous.url | escape }}" rel="prev">Trước</a>
+  {%- endif -%}
+  <div class="fox-pagination__pages">
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+      <a class="fox-pagination__link" href="{{ part.url | escape }}">{{ part.title | escape }}</a>
+      {%- else -%}
+      <span class="fox-pagination__link{% if part.title == fox_pagination_current_page %} is-current{% endif %}"{% if part.title == fox_pagination_current_page %} aria-current="page"{% endif %}>{{ part.title | escape }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  {%- if paginate.next -%}
+  <a class="fox-pagination__link" data-pagination-link="next" href="{{ paginate.next.url | escape }}" rel="next">Sau</a>
+  {%- endif -%}
+</nav>
+{%- endif -%}

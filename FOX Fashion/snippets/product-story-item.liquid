@@ -1,0 +1,78 @@
+{%- capture poster_key -%}fox_product_story_{{ story_index }}_poster.jpg{%- endcapture -%}
+
+{%- capture alt_key -%}fox_product_story_{{ story_index }}_alt{%- endcapture -%}
+{%- capture video_key -%}fox_product_story_{{ story_index }}_mp4_url{%- endcapture -%}
+{%- capture cta_key -%}fox_product_story_{{ story_index }}_cta_label{%- endcapture -%}
+{%- assign story_poster = settings[poster_key] -%}
+{%- assign story_alt = settings[alt_key] | default: settings.fox_product_story_title -%}
+{%- assign story_video_fallback = '' -%}
+{%- assign story_poster_fallback = '' -%}
+{%- case story_index -%}
+  {%- when 1 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/7db445d02098435a92b12771d59568c2/7db445d02098435a92b12771d59568c2.HD-1080p-7.2Mbps-65170171.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/7db445d02098435a92b12771d59568c2.thumbnail.0000000000.jpg?v=1765766764&width=720' -%}
+  {%- when 2 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/9b5ae9995bdd407faba2826d7aebbca0/9b5ae9995bdd407faba2826d7aebbca0.HD-1080p-7.2Mbps-65170170.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/9b5ae9995bdd407faba2826d7aebbca0.thumbnail.0000000000.jpg?v=1765766775&width=720' -%}
+  {%- when 3 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/16713045ecab457bb1811ddcf9433fd6/16713045ecab457bb1811ddcf9433fd6.HD-1080p-7.2Mbps-65170535.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/16713045ecab457bb1811ddcf9433fd6.thumbnail.0000000000.jpg?v=1765767399&width=720' -%}
+  {%- when 4 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/463ac79c0114479291d4a4aeb9e7c91e/463ac79c0114479291d4a4aeb9e7c91e.HD-1080p-2.5Mbps-65170402.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/463ac79c0114479291d4a4aeb9e7c91e.thumbnail.0000000000.jpg?v=1765767111&width=720' -%}
+  {%- when 5 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/97af13af0b804e5cbc19c623e831c011/97af13af0b804e5cbc19c623e831c011.HD-1080p-7.2Mbps-65170169.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/97af13af0b804e5cbc19c623e831c011.thumbnail.0000000000.jpg?v=1765766781&width=720' -%}
+  {%- when 6 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/f1238248f543418dbbd2ab6c52377ba1/f1238248f543418dbbd2ab6c52377ba1.HD-1080p-7.2Mbps-65170342.mp4?v=0' -%}{%- assign story_poster_fallback = 'https://athora-theme.myshopify.com/cdn/shop/files/preview_images/f1238248f543418dbbd2ab6c52377ba1.thumbnail.0000000000.jpg?v=1765766952&width=720' -%}
+{%- endcase -%}
+{%- assign story_video = settings[video_key] | default: story_video_fallback -%}
+{%- assign story_poster_src = story_poster_fallback -%}
+{%- if story_poster != blank -%}{%- assign story_poster_src = story_poster | asset_url -%}{%- endif -%}
+{%- assign story_cta = settings[cta_key] | default: 'Shop the look' -%}
+
+{%- if story_mode == 'card' -%}
+<article class="fox-product-story__card" data-story-card data-story-index="{{ story_render_index }}">
+  <button type="button" class="fox-product-story__media-trigger" data-action="open-story" aria-controls="fox-product-story-modal" aria-haspopup="dialog" aria-label="{{ story_cta | escape }}: {{ story_alt | escape }}">
+    <span class="fox-product-story__media">
+      <img src="{{ story_poster_src | escape }}" alt="{{ story_alt | strip_html | escape }}" width="720" height="1280" loading="lazy" decoding="async">
+      {%- if story_video != blank -%}<video muted loop playsinline preload="none" poster="{{ story_poster_src | escape }}" data-video-src="{{ story_video | escape }}" aria-hidden="true"></video>{%- endif -%}
+      <span class="fox-product-story__shade" aria-hidden="true"></span>
+    </span>
+  </button>
+  <div class="fox-product-story__actions">
+    <div class="fox-product-story__thumbs" aria-label="Sản phẩm trong story">
+      {%- for product_index in (1..4) -%}
+        {%- capture product_key -%}fox_product_story_{{ story_index }}_product_{{ product_index }}_handle{%- endcapture -%}
+        {%- assign product_handle = settings[product_key] -%}
+        {%- if product_handle == blank and product_index == 1 -%}{%- assign product_handle = settings.fox_lookbook_1_pin_1_product_handle | default: 'ao-bra-pilates-calm-support-fox-activewear-20260807-01' -%}{%- endif -%}
+        {%- if product_handle == blank and product_index == 2 -%}{%- assign product_handle = settings.fox_lookbook_2_pin_1_product_handle | default: 'ao-chay-nu-aeroflex-dai-tay-fox-activewear-20260807-01' -%}{%- endif -%}
+        {%- if product_handle != blank -%}<a href="/products/{{ product_handle | escape }}" data-story-product-link data-product-handle="{{ product_handle | escape }}" aria-label="Xem sản phẩm {{ product_index }}"><span>{{ product_index }}</span></a>{%- endif -%}
+      {%- endfor -%}
+    </div>
+    <button type="button" class="fox-product-story__cta btn btn-secondary" button-effect data-action="open-story" aria-controls="fox-product-story-modal" aria-haspopup="dialog" aria-label="{{ story_cta | escape }}: {{ story_alt | escape }}">
+      <span class="btn__label">{{ story_cta | escape }}</span>
+      <span class="btn--icon" aria-hidden="true">
+        <svg class="icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="12" fill="currentColor"></circle>
+          <path d="M8 14.4167C8 14.5917 8.05833 14.7083 8.175 14.825C8.40833 15.0583 8.75833 15.0583 8.99167 14.825L14.825 8.99167C15.0583 8.75833 15.0583 8.40833 14.825 8.175C14.5917 7.94167 14.2417 7.94167 14.0083 8.175L8.175 14.0083C8.05833 14.125 8 14.2417 8 14.4167Z" fill="#fff"></path>
+          <path d="M8.58333 8.58333C8.58333 8.93333 8.81667 9.16667 9.16667 9.16667H13.8333V13.8333C13.8333 14.1833 14.0667 14.4167 14.4167 14.4167C14.7667 14.4167 15 14.1833 15 13.8333V8.58333C15 8.23333 14.7667 8 14.4167 8H9.16667C8.81667 8 8.58333 8.23333 8.58333 8.58333Z" fill="#fff"></path>
+        </svg>
+      </span>
+      <span data-btn-effect-span aria-hidden="true"></span>
+    </button>
+  </div>
+</article>
+{%- else -%}
+<div class="swiper-slide fox-product-story__modal-slide" data-story-modal-slide data-story-index="{{ story_render_index }}">
+  <div class="fox-product-story__modal-layout">
+    <div class="fox-product-story__modal-media">
+      <img src="{{ story_poster_src | escape }}" alt="{{ story_alt | strip_html | escape }}" width="720" height="1280" loading="lazy" decoding="async">
+      {%- if story_video != blank -%}<video muted loop playsinline preload="none" poster="{{ story_poster_src | escape }}" data-video-src="{{ story_video | escape }}" aria-label="{{ story_alt | escape }}"></video>{%- endif -%}
+    </div>
+    <div class="fox-product-story__products swiper-no-swiping" aria-label="Sản phẩm trong story">
+      {%- for product_index in (1..4) -%}
+        {%- capture product_key -%}fox_product_story_{{ story_index }}_product_{{ product_index }}_handle{%- endcapture -%}
+        {%- assign product_handle = settings[product_key] -%}
+        {%- if product_handle == blank and product_index == 1 -%}{%- assign product_handle = settings.fox_lookbook_1_pin_1_product_handle | default: 'ao-bra-pilates-calm-support-fox-activewear-20260807-01' -%}{%- endif -%}
+        {%- if product_handle == blank and product_index == 2 -%}{%- assign product_handle = settings.fox_lookbook_2_pin_1_product_handle | default: 'ao-chay-nu-aeroflex-dai-tay-fox-activewear-20260807-01' -%}{%- endif -%}
+        {%- if product_handle != blank -%}
+        <div class="fox-product-story__product" data-story-product data-product-handle="{{ product_handle | escape }}" data-state="loading">
+          <div class="fox-product-story__skeleton" aria-hidden="true"></div>
+          <a class="fox-product-story__fallback fox-text-link" href="/products/{{ product_handle | escape }}">Xem sản phẩm</a>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}

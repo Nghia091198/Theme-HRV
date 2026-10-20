@@ -1,0 +1,190 @@
+{%- comment -%}
+  snippet: home-category
+  Dùng preset collections của scroll-viewport.js.
+  Settings keys (thêm vào config/settings.html):
+    hcs_show, hcs_title, hcs_desc, hcs_btn_title, hcs_btn_url
+    hcs_N_show, hcs_N_image.png, hcs_N_alt, hcs_N_url, hcs_N_label  (N = 1..6)
+{%- endcomment -%}
+
+{%- if settings.hcs_show -%}
+
+{%- assign hcs_count = 0 -%}
+{%- for i in (1..6) -%}
+  {%- capture k -%}hcs_{{ i }}_show{%- endcapture -%}
+  {%- if settings[k] -%}{%- assign hcs_count = hcs_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+
+<section
+  class="fox-hcs"
+  data-fox-scroll-viewport="collections"
+  data-fox-scroll-effects="translate tilt fade header clip"
+  data-fox-scroll-breakpoint="1024"
+  data-fox-scroll-focus-overscan="144"
+  data-fox-scroll-tilt-max="7"
+  data-fox-scroll-tilt-span="0.5"
+  data-fox-scroll-fade-start="0.9"
+  data-fox-scroll-header-distance="200"
+  data-fox-scroll-header-scale-min="0.82"
+  data-fox-scroll-clip-start="0.05"
+  style="--fox-scroll-item-count: {{ hcs_count }}"
+>
+
+  <div class="fox-hcs__bg" data-fox-scroll-background></div>
+  <div class="container">
+    <div class="fox-hcs__viewport">
+      <div class="fox-hcs__content" data-fox-scroll-content>
+
+        {%- if settings.hcs_title != blank or settings.hcs_desc != blank or settings.hcs_btn_title != blank -%}
+        <div class="fox-hcs__header-wrap">
+          <div class="fox-hcs__header" data-fox-scroll-header>
+            {%- if settings.hcs_title != blank -%}
+            <h2 class="fox-hcs__title">{{ settings.hcs_title }}</h2>
+            {%- endif -%}
+            {%- if settings.hcs_desc != blank -%}
+            <p class="fox-hcs__desc">{{ settings.hcs_desc }}</p>
+            {%- endif -%}
+            {%- if settings.hcs_btn_title != blank -%}
+            <a button-effect class="btn btn-primary fox-hcs__btn"
+              href="{{ settings.hcs_btn_url | default: '/collections' }}"
+              title="{{ settings.hcs_btn_title | strip }}">
+              <span class="btn__label">{{ settings.hcs_btn_title }}</span>
+              <span class="btn--icon">
+                <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+              </span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </a>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- endif -%}
+
+        <div class="fox-hcs__scroll" data-fox-scroll-window data-fox-scroll-fade>
+          <div class="fox-hcs__scroll-inner" data-fox-scroll-inner>
+            {%- for i in (1..6) -%}
+              {%- capture k_show  -%}hcs_{{ i }}_show{%- endcapture -%}
+              {%- capture k_image -%}hcs_{{ i }}_image.png{%- endcapture -%}
+              {%- capture k_alt   -%}hcs_{{ i }}_alt{%- endcapture -%}
+              {%- capture k_url   -%}hcs_{{ i }}_url{%- endcapture -%}
+              {%- capture k_label -%}hcs_{{ i }}_label{%- endcapture -%}
+              {%- if settings[k_show] -%}
+              {%- assign _alt   = settings[k_alt]   | default: settings[k_label] | default: shop.name -%}
+              {%- assign _url   = settings[k_url]   | default: '/collections/all' -%}
+              {%- assign _label = settings[k_label] -%}
+              <div
+                class="fox-hcs__card"
+                data-fox-scroll-item
+                data-fox-scroll-tilt
+                style="--item-index: {{ i }}"
+              >
+                
+                <div class="fox-hcs__card-inner" cursor-zone data-icon="#ic-arrow-45top-r">
+                  <a
+                    href="{{ _url }}"
+                    class="fox-hcs__card-link"
+                    data-fox-scroll-focus
+                    title="{{ _label | strip }}"
+                  >
+                    <div class="fox-hcs__card-media">
+                        {%- capture img_src -%}hcs_{{ i }}_image{%- endcapture -%}
+                        {%- include 'render-img' with src: k_image,class: 'fox-hcs__card-img',alt: hcs_alt,w: '800',h: '800',sizes: '(min-width: 1150px) calc(min(430px, 40%)), (min-width: 480px) 50vw, 100vw'-%}
+                      
+                    </div>
+                    {%- if _label != blank -%}
+                    <div class="fox-hcs__card-content">
+                      <span button-effect data-cursor-native class="fox-hcs__card-label btn btn-secondary">
+  <span class="btn__label">{{ _label }}</span>
+  <span data-btn-effect-span aria-hidden="true"></span>
+</span>
+                    </div>
+                    {%- endif -%}
+                  </a>
+                </div>
+              </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.fox-hcs__bg {
+  background: var(--bkg_allpageColor2, #f5f6fa);
+}
+
+.fox-hcs__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.fox-hcs__title {
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  font-weight: 700;
+  margin: 0;
+}
+.fox-hcs__desc {
+  font-size: 1.4rem;
+  margin: 0;
+}
+.fox-hcs__btn {
+  margin-top: 2rem;
+  align-self: flex-start;
+}
+
+.fox-hcs__scroll::after {
+  background: linear-gradient(to right, transparent 0%, var(--bkg_allpageColor2, #f5f6fa) 100%);
+}
+[dir='rtl'] .fox-hcs__scroll::after {
+  background: linear-gradient(to left, transparent 0%, var(--bkg_allpageColor2, #f5f6fa) 100%);
+}
+
+.fox-hcs__card-inner > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  text-decoration: none;
+  position: relative;
+}
+
+.fox-hcs__card-media {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.fox-hcs__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.fox-hcs__card:hover .fox-hcs__card-img {
+  transform: scale(1.05);
+}
+.fox-hcs__card-content {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 2.5rem 2.5rem;
+}
+.fox-hcs__card-label {
+  display: inline-flex;
+  align-items: center;
+}
+.fox-hcs__card-label span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 24ch;
+}
+</style>
+
+{%- endif -%}

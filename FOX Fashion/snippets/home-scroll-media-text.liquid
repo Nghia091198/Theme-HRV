@@ -1,0 +1,113 @@
+{%- if settings.scroll_media_text_show -%}
+  {%- capture smt_image_key -%}scroll_media_text_image.jpg{%- endcapture -%}
+  {%- assign smt_image = settings[smt_image_key] | default: 'scroll_media_text_image.jpg' -%}
+  {%- assign smt_image_url = smt_image | asset_url -%}
+  {%- if smt_image contains '//' -%}
+    {%- assign smt_image_url = smt_image -%}
+  {%- endif -%}
+  {%- assign smt_title = settings.scroll_media_text_title -%}
+  {%- assign smt_button_title = settings.scroll_media_text_btn_title -%}
+
+  {%- capture smt_marquee_item -%}
+    <div class="fox-marquee__item fox-smt__marquee-item">
+      {%- if settings.scroll_media_text_text_1 != blank -%}
+        <svg class="fox-smt__marquee-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="#ic-fox-wave"></use>
+        </svg>
+        <span class="fox-marquee__text fox-smt__marquee-text">{{ settings.scroll_media_text_text_1 | escape }}</span>
+      {%- endif -%}
+      {%- if settings.scroll_media_text_text_2 != blank -%}
+        <svg class="fox-smt__marquee-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="#ic-fox-network"></use>
+        </svg>
+        <span class="fox-marquee__text fox-smt__marquee-text">{{ settings.scroll_media_text_text_2 | escape }}</span>
+      {%- endif -%}
+      {%- if settings.scroll_media_text_text_3 != blank -%}
+        <svg class="fox-smt__marquee-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="#ic-fox-lightning"></use>
+        </svg>
+        <span class="fox-marquee__text fox-smt__marquee-text">{{ settings.scroll_media_text_text_3 | escape }}</span>
+      {%- endif -%}
+    </div>
+  {%- endcapture -%}
+
+  <section
+    class="fox-smt"
+    data-fox-scroll-viewport="media-text-reveal"
+    data-fox-scroll-breakpoint="767"
+    data-fox-scroll-state="idle"
+    style="
+      --fox-smt-marquee-color: {{ settings.scroll_media_text_marquee_color | default: '#5c3d50' | escape }};
+      --fox-smt-content-color: {{ settings.scroll_media_text_content_color | default: '#ffffff' | escape }};
+      --fox-smt-overlay-opacity: {{ settings.scroll_media_text_overlay_opacity | default: 38 | times: 0.01 }};
+    "
+  >
+    <div class="fox-smt__sticky" data-fox-scroll-sticky>
+      {%- if settings.scroll_media_text_text_1 != blank or settings.scroll_media_text_text_2 != blank or settings.scroll_media_text_text_3 != blank -%}
+        <div class="fox-smt__marquee-panel">
+          <fox-marquee
+            class="fox-marquee fox-smt__marquee"
+            direction="rtl"
+            speed-factor="0.2"
+            data-state="idle"
+          >
+            <div class="fox-marquee__inner">
+              {{ smt_marquee_item }}
+            </div>
+          </fox-marquee>
+          <fox-marquee
+            class="fox-marquee fox-smt__marquee"
+            direction="ltr"
+            speed-factor="0.2"
+            data-state="idle"
+            aria-hidden="true"
+          >
+            <div class="fox-marquee__inner">
+              {{ smt_marquee_item }}
+            </div>
+          </fox-marquee>
+        </div>
+      {%- endif -%}
+
+      <div
+        class="fox-smt__media"
+        data-fox-scroll-media
+        style="--fox-scroll-media-radius: var(--fox-smt-media-radius);"
+      >
+        <img
+          class="fox-smt__image"
+          src="{{ smt_image_url | escape }}"
+          alt="{{ settings.scroll_media_text_alt | default: smt_title | default: 'FOX Fashion activewear' | escape }}"
+          width="1600"
+          height="1200"
+          sizes="100vw"
+          loading="lazy"
+          decoding="async">
+      </div>
+
+      <div class="fox-smt__content" data-fox-scroll-content>
+        {%- if smt_title != blank -%}
+          <h2 class="fox-smt__title">{{ smt_title | escape }}</h2>
+        {%- endif -%}
+
+        {%- if settings.scroll_media_text_desc != blank -%}
+          <p class="fox-smt__description">{{ settings.scroll_media_text_desc | escape }}</p>
+        {%- endif -%}
+
+        {%- if smt_button_title != blank and settings.scroll_media_text_btn_url != blank -%}
+          <a
+            button-effect
+            class="fox-smt__button btn btn-secondary"
+            href="{{ settings.scroll_media_text_btn_url | escape }}"
+            title="{{ smt_button_title | strip | escape }}">
+            <span class="btn__label">{{ smt_button_title | escape }}</span>
+            <span class="btn--icon" aria-hidden="true">
+              <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+            </span>
+            <span data-btn-effect-span aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}

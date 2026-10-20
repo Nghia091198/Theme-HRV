@@ -1,0 +1,66 @@
+.topbar {
+  color: var(--topbar-text);
+  background-color: var(--topbar-bg);
+  padding: 7px 0;
+  margin-bottom: 0; 
+}
+.topbar .wrapper {
+  display: flex;
+}
+.topbar .topbar-content {
+  /* The announcement slider owns the full topbar row. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  flex: 1;
+  max-width: 100%;
+  align-items: center;
+  text-align: center;
+}
+.topbar .topbar-content .swiper { width: 100%; min-width: 0; }
+.topbar .topbar-content .topbar-item {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.topbar .swiperStyle .swiper-nav {
+  position: relative;
+  inset: auto;
+  display: inline-flex;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;
+  color: currentColor;
+  box-shadow: none;
+}
+.topbar .swiperStyle .swiper-nav:hover {
+  background: unset;
+  border: unset;
+}
+.topbar .swiperStyle .swiper-nav:hover svg {
+  color: inherit;
+}
+.topbar .swiperStyle .swiper-nav .icon-svg { width: 12px; height: 12px; color: currentColor; }
+.topbar .topbar-content .topbar-item a {
+  color: currentcolor;
+}
+.topbar .topbar-content .topbar-item a:hover {
+  color: var(--topbar-hover);
+}
+@media (max-width: 992px) {
+  .topbar .wrapper {flex-direction: column;align-items: center;}
+  .topbar .topbar-content {max-width: 100%;}
+  .topbar .topbar-content .topbar-item {
+    font-size: 11px;
+    padding: 0;
+  }
+}

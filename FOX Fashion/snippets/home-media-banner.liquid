@@ -1,0 +1,114 @@
+{%- if settings.hmb_show -%}
+  {%- assign hmb_youtube_url = settings.hmb_youtube_url -%}
+  {%- assign hmb_title = settings.hmb_title -%}
+  {%- assign hmb_btn_title = settings.hmb_btn_title -%}
+
+  {%- if settings.hmb_media_type == 'type_youtube' -%}
+    {%- if hmb_youtube_url contains 'youtu.be/' -%}
+      {%- assign hmb_youtube_id = hmb_youtube_url | split: 'youtu.be/' | last -%}
+    {%- elsif hmb_youtube_url contains 'watch?v=' -%}
+      {%- assign hmb_youtube_id = hmb_youtube_url | split: 'watch?v=' | last -%}
+    {%- elsif hmb_youtube_url contains '/shorts/' -%}
+      {%- assign hmb_youtube_id = hmb_youtube_url | split: '/shorts/' | last -%}
+    {%- elsif hmb_youtube_url contains '/embed/' -%}
+      {%- assign hmb_youtube_id = hmb_youtube_url | split: '/embed/' | last -%}
+    {%- else -%}
+      {%- assign hmb_youtube_id = hmb_youtube_url -%}
+    {%- endif -%}
+    {%- assign hmb_youtube_id = hmb_youtube_id | split: '?' | first | split: '&' | first | strip -%}
+  {%- endif -%}
+
+  <section
+    class="fox-hmb fox-hmb--content-{{ settings.hmb_content_position | default: 'left' | escape }}"
+    data-fox-scroll-viewport="shrink"
+    data-fox-scroll-effects="clip scale"
+    data-fox-scroll-range="viewport"
+    data-fox-scroll-breakpoint="1024"
+    data-fox-scroll-media-scale-max="1.12"
+    data-fox-scroll-media-translate="4"
+    data-fox-scroll-expand
+    style="
+      --fox-scroll-clip-x: 15px;
+      --fox-scroll-shrink-radius: 28;
+      --fox-hmb-text-color: {{ settings.hmb_text_color | default: '#ffffff' | escape }};
+      --fox-hmb-overlay-opacity: {{ settings.hmb_overlay_opacity | default: 20 | times: 0.01 }};
+    "
+  >
+    <div class="fox-hmb__stage">
+      <div class="fox-hmb__inner" data-fox-scroll-inner>
+        <div class="fox-hmb__media" data-fox-scroll-media>
+          <div class="fox-hmb__frame">
+            <div class="fox-hmb__poster" data-fox-scroll-media-effect>
+              {%- include 'render-img' with src: 'hmb_d_image.png', src_mobile: 'hmb_m_image.png', class: 'fox-hmb__poster-image', alt: settings.hmb_alt, w: '960', h: '540', w_mobile: '576', h_mobile: '864', sizes: '100vw', loading: 'lazy', decoding: 'async' -%}
+            </div>
+
+            {%- if settings.hmb_media_type == 'type_youtube' -%}
+              {%- if hmb_youtube_id != blank -%}
+                <media-progress
+                  class="fox-hmb__player"
+                  data-autoplay="true"
+                  data-loop
+                  data-scroll-pause="true"
+                  data-state="idle">
+                  <slide-youtube
+                    class="fox-hmb__youtube"
+                    data-fox-scroll-media-effect
+                    data-id="{{ hmb_youtube_id | escape }}"
+                    data-autoplay="false"
+                    data-muted="true"
+                    data-loop="false"
+                    data-controls="false"
+                    data-scroll-pause="false">
+                  </slide-youtube>
+                  {%- include 'component-media-progress-control' with media_play_label: 'Phát video', media_pause_label: 'Tạm dừng video' -%}
+                </media-progress>
+              {%- endif -%}
+            {%- elsif settings.hmb_mp4_url != blank -%}
+              <media-progress
+                class="fox-hmb__player"
+                data-autoplay="true"
+                data-loop
+                data-scroll-pause="true"
+                data-state="idle">
+                <video
+                  class="fox-hmb__video"
+                  data-fox-scroll-media-effect
+                  muted
+                  playsinline
+                  preload="metadata"
+                  aria-label="{{ settings.hmb_alt | default: hmb_title | default: shop.name | escape }}">
+                  <source src="{{ settings.hmb_mp4_url | escape }}" type="video/mp4">
+                </video>
+                {%- include 'component-media-progress-control' with media_play_label: 'Phát video', media_pause_label: 'Tạm dừng video' -%}
+              </media-progress>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="fox-hmb__content" data-fox-scroll-content>
+          <div class="fox-hmb__content-inner">
+            {%- if hmb_title != blank -%}
+              <h2 class="fox-hmb__title">{{ hmb_title | escape }}</h2>
+            {%- endif -%}
+            {%- if settings.hmb_desc != blank -%}
+              <p class="fox-hmb__description">{{ settings.hmb_desc | escape }}</p>
+            {%- endif -%}
+            {%- if hmb_btn_title != blank and settings.hmb_btn_url != blank -%}
+              <a
+                button-effect
+                class="fox-hmb__button btn btn-secondary"
+                href="{{ settings.hmb_btn_url | escape }}"
+                title="{{ hmb_btn_title | strip | escape }}">
+                <span class="btn__label">{{ hmb_btn_title | escape }}</span>
+                <span class="btn--icon" aria-hidden="true">
+                  <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+                </span>
+                <span data-btn-effect-span aria-hidden="true"></span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}

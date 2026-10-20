@@ -1,0 +1,56 @@
+accordion-component {
+	display: block;
+}
+
+.fox-accordion__item {
+	border-bottom: var(--stroke-width) solid var(--color-border, #cecece);
+}
+
+.fox-accordion__item > button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 14px 0;
+	font: inherit;
+	color: var(--color-text-theme);
+	text-align: left;
+}
+
+.fox-accordion__item > button::after {
+	content: '';
+	flex-shrink: 0;
+	width: 10px;
+	height: 10px;
+	margin-left: 12px;
+	border-right: var(--stroke-width) solid currentColor;
+	border-bottom: var(--stroke-width) solid currentColor;
+	transform: rotate(45deg);
+	transition: transform 0.25s ease;
+}
+
+.fox-accordion__item > button[aria-expanded="true"]::after {
+	transform: rotate(-135deg);
+}
+
+.fox-accordion__item > button:focus-visible {
+	outline: 2px solid var(--color-btn-bg-primary, #1b2631);
+	outline-offset: 2px;
+}
+
+.fox-accordion__item > [role="region"][hidden] {
+	display: none;
+}
+
+.fox-accordion__item > [role="region"] {
+	padding: 0 0 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fox-accordion__item > button::after {
+		transition: none;
+	}
+}

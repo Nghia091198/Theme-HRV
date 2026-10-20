@@ -1,0 +1,31 @@
+{%- if settings.collection_benefits_show != false -%}
+  <section class="fox-collection__benefits container" aria-label="Cam kết mua sắm">
+    {%- for fox_benefit_index in (1..4) -%}
+      {%- capture fox_benefit_title_key -%}collection_benefit_{{ fox_benefit_index }}_title{%- endcapture -%}
+      {%- capture fox_benefit_desc_key -%}collection_benefit_{{ fox_benefit_index }}_desc{%- endcapture -%}
+      {%- assign fox_benefit_title = settings[fox_benefit_title_key] -%}
+      {%- assign fox_benefit_desc = settings[fox_benefit_desc_key] -%}
+      {%- if fox_benefit_title == blank -%}
+        {%- case fox_benefit_index -%}
+          {%- when 1 -%}{%- assign fox_benefit_title = 'Vận chuyển thuận tiện' -%}{%- assign fox_benefit_desc = 'Thông tin giao hàng hiển thị khi thanh toán.' -%}
+          {%- when 2 -%}{%- assign fox_benefit_title = 'Hỗ trợ đổi trả' -%}{%- assign fox_benefit_desc = 'Xem điều kiện áp dụng trong chính sách cửa hàng.' -%}
+          {%- when 3 -%}{%- assign fox_benefit_title = 'Thanh toán an toàn' -%}{%- assign fox_benefit_desc = 'Lựa chọn phương thức thanh toán phù hợp.' -%}
+          {%- when 4 -%}{%- assign fox_benefit_title = 'Chăm sóc khách hàng' -%}{%- assign fox_benefit_desc = 'Liên hệ với chúng tôi khi cần hỗ trợ.' -%}
+        {%- endcase -%}
+      {%- endif -%} 
+      {%- if fox_benefit_title != blank -%}
+        <div class="fox-collection__benefit">
+          <span class="fox-collection__benefit-icon" aria-hidden="true">
+            {%- case fox_benefit_index -%}
+              {%- when 1 -%}<svg><use xlink:href="#ic-fox-policy-shipping"></use></svg>
+              {%- when 2 -%}<svg><use xlink:href="#ic-fox-policy-return"></use></svg>
+              {%- when 3 -%}<svg><use xlink:href="#ic-fox-policy-secure"></use></svg>
+              {%- when 4 -%}<svg><use xlink:href="#ic-fox-policy-support"></use></svg>
+            {%- endcase -%}
+          </span>
+          <div><h2>{{ fox_benefit_title | escape }}</h2>{%- if fox_benefit_desc != blank -%}<p>{{ fox_benefit_desc | escape }}</p>{%- endif -%}</div>
+        </div> 
+      {%- endif -%}
+    {%- endfor -%}
+  </section>
+{%- endif -%}

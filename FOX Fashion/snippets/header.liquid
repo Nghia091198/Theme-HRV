@@ -1,0 +1,31 @@
+{%- assign fox_header_home = false -%}
+{%- if template contains 'index' -%}{%- assign fox_header_home = true -%}{%- endif -%}
+{%- assign fox_header_menu = settings.header_main_menu | default: 'main-menu' -%}
+{%- assign fox_header_flag_key = 'header_translation_flag.png' -%}
+{%- assign fox_header_sticky = true -%}
+{%- if settings.header_sticky_enabled == false -%}{%- assign fox_header_sticky = false -%}{%- endif -%}
+{%- assign fox_header_search = true -%}
+{%- if settings.header_search_show == false -%}{%- assign fox_header_search = false -%}{%- endif -%}
+{%- assign fox_header_account = true -%}
+{%- if settings.header_account_show == false -%}{%- assign fox_header_account = false -%}{%- endif -%}
+{%- assign fox_header_cart = true -%}
+{%- if settings.header_cart_show == false -%}{%- assign fox_header_cart = false -%}{%- endif -%}
+<a class="fox-skip-link" href="#MainContent">Bỏ qua đến nội dung chính</a>
+<header-component class="fox-header{% if fox_header_home %} fox-header--home{% endif %}" data-state="ready" data-template-home="{{ fox_header_home }}" data-sticky="{{ fox_header_sticky }}" data-mega-url="/?view=header-mega">
+  <header class="fox-header__bar" data-role="header">
+    <div class="fox-header__inner container-fluid">
+      <div class="fox-header__brand">
+        <button type="button" class="fox-header-action fox-header__menu-toggle js-open-menu-mobile" data-action="open-menu" aria-controls="fox-menu-mobile" aria-expanded="false" aria-label="Mở menu"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-linecap="round"/></svg></button>
+        <a class="fox-header__logo" href="/" aria-label="{{ shop.name | escape }}">{% if settings.use_logo %}<img src="{{ 'logo.png' | asset_url }}" width="300" height="70" alt="{{ shop.name | escape }}">{% else %}<span>{{ shop.name }}</span>{% endif %}</a>
+      </div>
+      <nav class="fox-header__nav" aria-label="Điều hướng chính">{%- include 'menu' with menuHandle: fox_header_menu -%}</nav>
+      <div class="fox-header__actions">
+        {% if settings.header_translation_show and settings.header_translation_url != blank %}<a class="fox-header-action fox-header-action--translation" href="{{ settings.header_translation_url }}">{% if settings[fox_header_flag_key] != blank %}<img src="{{ fox_header_flag_key | asset_url }}" width="24" height="24" alt="">{% endif %}<span>{{ settings.header_translation_label | default: 'VI' }}</span></a>{% endif %}
+        {% if fox_header_search %}<button type="button" class="fox-header-action js-open-search" aria-label="Tìm kiếm" aria-controls="block-search-modal"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-search"></use></svg></button>{% endif %}
+        {% if fox_header_account %}{% comment %}Mini account trigger and panel share one progressive-enhancement component.{% endcomment %}{% include 'mini-account' %}{% endif %}
+        {% if fox_header_cart %}<button type="button" class="fox-header-action js-open-cart" data-action="open-cart" aria-label="Giỏ hàng có {{ cart.item_count }} sản phẩm" aria-controls="block-cart-modal"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-cart-bag"></use></svg><span class="fox-header-action__badge">{{ cart.item_count }}</span></button>{% endif %}
+      </div>
+    </div>
+  </header>
+</header-component>
+<div class="fox-header-spacer" aria-hidden="true"></div>

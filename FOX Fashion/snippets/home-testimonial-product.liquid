@@ -1,0 +1,52 @@
+{%- comment -%}Server-render review content first; product details hydrate progressively by handle.{%- endcomment -%}
+{%- if settings.fox_testimonial_product_show -%}
+  {%- assign fox_testimonial_count = 0 -%} {%- comment -%}Six configurable review slots.{%- endcomment -%}
+  {%- for testimonial_index in (1..6) -%}
+    {%- capture show_key -%}fox_testimonial_product_{{ testimonial_index }}_show{%- endcapture -%}
+    {%- if settings[show_key] -%}{%- assign fox_testimonial_count = fox_testimonial_count | plus: 1 -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if fox_testimonial_count > 0 -%}
+    <section class="fox-testimonial-product" style="--fox-testimonial-bg: {{ settings.fox_testimonial_product_bg }}; --fox-testimonial-color: {{ settings.fox_testimonial_product_text }}; --fox-testimonial-rating: {{ settings.fox_testimonial_product_rating }}; --fox-testimonial-delay: {{ settings.fox_testimonial_product_autoplay_delay }}ms; --fox-testimonial-pt: {{ settings.fox_testimonial_product_padding_top }}px; --fox-testimonial-pb: {{ settings.fox_testimonial_product_padding_bottom }}px;">
+      <fox-testimonial-product>
+      <div class="container">
+        <header class="fox-testimonial-product__header">
+          <h2 class="fox-section__title">{{ settings.fox_testimonial_product_title | escape }}</h2>
+          {%- if settings.fox_testimonial_product_desc != blank -%}<p class="fox-section__desc">{{ settings.fox_testimonial_product_desc | escape }}</p>{%- endif -%}
+        </header>
+        <slider-component class="fox-testimonial-product__slider" data-preset="product" data-state="idle" data-autoplay="true" data-autoplay-delay="{{ settings.fox_testimonial_product_autoplay_delay }}" data-loop="false" data-navigation="false" data-pagination="true" data-slides-mobile="1" data-slides-tablet="2" data-slides-desktop="4" data-space-mobile="16" data-space-tablet="24" data-space-desktop="28">
+          <div class="swiper" data-role="viewport"><div class="swiper-wrapper">
+            {%- for testimonial_index in (1..6) -%}
+              {%- capture show_key -%}fox_testimonial_product_{{ testimonial_index }}_show{%- endcapture -%}
+              {%- if settings[show_key] -%}
+                {%- capture title_key -%}fox_testimonial_product_{{ testimonial_index }}_title{%- endcapture -%}
+                {%- capture quote_key -%}fox_testimonial_product_{{ testimonial_index }}_quote{%- endcapture -%}
+                {%- capture name_key -%}fox_testimonial_product_{{ testimonial_index }}_name{%- endcapture -%}
+                {%- capture handle_key -%}fox_testimonial_product_{{ testimonial_index }}_product_handle{%- endcapture -%}
+                <div class="swiper-slide"><article class="fox-testimonial-product__card">
+                  <div class="fox-testimonial-product__rating" aria-label="5 trên 5 sao">
+                    {%- for rating_index in (1..5) -%}<svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-star-fill"></use></svg>{%- endfor -%}
+                  </div>
+                  <h3>{{ settings[title_key] | escape }}</h3>
+                  <p>{{ settings[quote_key] | escape }}</p>
+                  <p class="fox-testimonial-product__name"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-verified"></use></svg> {{ settings[name_key] | escape }}</p>
+                  {%- assign testimonial_handle = settings[handle_key] | strip -%}
+                  {%- if testimonial_handle != blank -%}<div class="fox-testimonial-product__product" data-product-handle="{{ testimonial_handle | escape }}">
+                    <a class="fox-testimonial-product__product-link" href="/products/{{ testimonial_handle | escape }}">{{ testimonial_handle | escape }}</a>
+                    <span class="fox-testimonial-product__product-meta" data-product-meta>
+                      <span class="fox-testimonial-product__product-price" data-product-price></span>
+                      <span class="fox-testimonial-product__product-price-original" data-product-price-original hidden></span>
+                    </span>
+                    {%- comment -%}Reuse the global FOX animated link treatment.{%- endcomment -%}
+                    <button type="button" class="fox-text-link fox-link-effect" data-action="quickview" data-handle="{{ testimonial_handle | escape }}" aria-label="Xem nhanh {{ testimonial_handle | escape }}"><span class="fox-link-effect__label">Xem nhanh</span><svg class="fox-link-effect__graphic" aria-hidden="true" focusable="false" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg></button>
+                  </div>{%- endif -%}
+                </article></div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div></div>
+          <div class="swiper-pagination" data-role="pagination" aria-label="Chọn đánh giá"></div>
+        </slider-component>
+      </div>
+      </fox-testimonial-product>
+    </section>
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,15 @@
+{% layout none %}
+
+<div data-header-mega-response>
+  {% if settings.header_mega_1_enabled and settings.header_mega_1_menu_title != blank %}
+    <template data-mega-title="{{ settings.header_mega_1_menu_title | strip | downcase | escape }}">
+      {% include 'component-header-mega-type-1' %}
+    </template>
+  {% endif %}
+
+  {% if settings.header_mega_2_enabled and settings.header_mega_2_menu_title != blank and settings.header_mega_2_menu_title != settings.header_mega_1_menu_title %}
+    <template data-mega-title="{{ settings.header_mega_2_menu_title | strip | downcase | escape }}">
+      {% include 'component-header-mega-type-2' %}
+    </template>
+  {% endif %}
+</div>

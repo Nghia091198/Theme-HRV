@@ -1,0 +1,94 @@
+{%- assign cart_item_variant = item.variant -%}
+{%- assign cart_item_max = '' -%}
+{%- if cart_item_variant.inventory_management != blank and cart_item_variant.inventory_policy != 'continue' -%}
+  {%- assign cart_item_max = cart_item_variant.inventory_quantity -%}
+{%- endif -%}
+
+<div class="fox-mini-cart__item" data-role="item"
+  data-line="{{ cart_item_line }}"
+  data-variant-id="{{ item.variant_id }}"
+  data-quantity="{{ item.quantity }}"
+  data-unit-price="{{ item.price }}"
+  data-line-price="{{ item.line_price }}"
+  data-compare-at-price="{{ cart_item_variant.compare_at_price | default: 0 }}"
+  data-product-id="{{ item.product_id }}"
+  data-product-handle="{{ item.product.handle | escape }}"
+  {% if cart_item_max != blank %}data-max="{{ cart_item_max }}"{% endif %}
+  data-state="idle">
+
+  <a class="fox-mini-cart__item-image" href="{{ item.product.url }}" data-role="link" title="{{ item.product.title | escape }}">
+    <img data-role="image" src="{{ item.image | img_url: 'small' }}" alt="{{ item.product.title | escape }}" width="88" height="117" loading="lazy" decoding="async">
+  </a>
+
+  <div class="fox-mini-cart__item-main">
+    <a class="fox-mini-cart__item-title" href="{{ item.product.url }}" data-role="link"><span data-role="title">{{ item.product.title | escape }}</span></a>
+
+    <button type="button" class="fox-mini-cart__remove" data-action="remove" aria-label="Xóa {{ item.product.title | escape }}">
+      <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-trash"></use></svg>
+    </button>
+
+    {%- if item.properties != blank -%}
+      <div class="fox-mini-cart__item-properties">
+        {%- for property in item.properties -%}
+          {%- if property.last != blank -%}<span>{{ property.first | escape }}: {{ property.last | escape }}</span>{%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if item.product.options != blank and item.product.variants != blank -%}
+      <div class="fox-mini-cart__item-meta" data-role="variants">
+        {%- for option_name in item.product.options -%}
+          {%- assign option_index = forloop.index0 -%}
+          {%- assign option_key = 'option' | append: forloop.index -%}
+          {%- assign cart_selected_option = cart_item_variant.options[option_index] -%}
+          {%- if cart_selected_option == blank -%}{%- assign cart_selected_option = cart_item_variant[option_key] -%}{%- endif -%}
+          {%- capture cart_available_values -%}
+            {%- for variant in item.product.variants -%}
+              {%- if variant.available -%}
+                {%- assign option_value = variant.options[option_index] -%}
+                {%- if option_value == blank -%}{%- assign option_value = variant[option_key] -%}{%- endif -%}
+                {%- unless option_value == blank -%}{{- option_value | url_encode -}}|{%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endcapture -%}
+          {%- assign cart_available_list = cart_available_values | split: '|' -%}
+          {%- assign cart_seen_options = '|' -%}
+          <label class="fox-mini-cart__variant-field">
+            <span class="fox-mini-cart__variant-label visually-hidden">{{ option_name | escape }}</span>
+            <select data-role="variant-option" data-option-index="{{ option_index }}" data-selected-value="{{ cart_selected_option | escape }}" aria-label="{{ option_name | escape }}">
+              {%- for variant in item.product.variants -%}
+                {%- assign option_value = variant.options[option_index] -%}
+                {%- if option_value == blank -%}{%- assign option_value = variant[option_key] -%}{%- endif -%}
+                {%- unless option_value == blank -%}
+                  {%- assign cart_encoded_option = option_value | url_encode -%}
+                  {%- assign cart_option_token = cart_encoded_option | prepend: '|' | append: '|' -%}
+                  {%- unless cart_seen_options contains cart_option_token -%}
+                    {%- assign cart_seen_options = cart_seen_options | append: cart_encoded_option | append: '|' -%}
+                    <option value="{{ option_value | escape }}"{% if cart_selected_option == option_value %} selected{% endif %}{% unless cart_available_list contains cart_encoded_option %} disabled{% endunless %}>{{ option_value | escape }}</option>
+                  {%- endunless -%}
+                {%- endunless -%}
+              {%- endfor -%}
+            </select>
+          </label>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fox-mini-cart__item-purchase">
+      <div class="fox-mini-cart__item-price" data-role="price">
+        <div class="fox-mini-cart__item-price-values">
+          {%- if cart_item_variant.compare_at_price > item.price -%}
+            <del class="fox-mini-cart__price-original">{{ cart_item_variant.compare_at_price | money }}</del>
+          {%- endif -%}
+          <strong class="fox-mini-cart__price-sale">{{ item.price | money }}</strong>
+        </div>
+      </div>
+
+      <div class="core-quantity fox-mini-cart__quantity">
+        <button type="button" data-action="decrease" aria-label="Giảm số lượng"><span aria-hidden="true">−</span></button>
+        <input type="number" data-role="quantity" min="1"{% if cart_item_max != blank %} max="{{ cart_item_max }}"{% endif %} inputmode="numeric" aria-label="Số lượng" value="{{ item.quantity }}">
+        <button type="button" data-action="increase" aria-label="Tăng số lượng"><span aria-hidden="true">+</span></button>
+      </div>
+    </div>
+  </div>
+</div>

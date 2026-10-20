@@ -1,0 +1,123 @@
+{%- comment -%}Homepage product tabs render product markup before product-tabs.js enhances navigation.{%- endcomment -%}
+{%- if settings.product_tabs_show -%}
+  {%- assign limit = settings.product_tabs_limit | default: 8 | plus: 0 -%}
+  {%- if limit < 1 -%}{%- assign limit = 1 -%}{%- endif -%}
+  {%- if limit > 12 -%}{%- assign limit = 12 -%}{%- endif -%}
+
+  {%- assign count = 0 -%}
+  {%- assign buttons_html = '' -%}
+  {%- assign panels_html = '' -%}
+  {%- assign first_collection = blank -%}
+
+  {%- for i in (1..5) -%}
+    {%- capture show_key -%}product_tabs_{{ i }}_show{%- endcapture -%}
+    {%- capture label_key -%}product_tabs_{{ i }}_label{%- endcapture -%}
+    {%- capture image_key -%}product_tabs_{{ i }}_image.png{%- endcapture -%}
+    {%- capture collection_key -%}product_tabs_{{ i }}_collection{%- endcapture -%}
+    {%- assign tab_collection_handle = settings[collection_key] | default: 'all' -%}
+
+    {%- if settings[show_key] -%}
+      {%- assign count = count | plus: 1 -%}
+      {%- assign tab_label = settings[label_key] -%}
+      {%- assign tab_image = settings[image_key] | default: image_key -%}
+      {%- unless tab_image contains '//' -%}
+        {%- assign tab_image = tab_image | asset_url -%}
+      {%- endunless -%}
+      {%- assign tab_collection = collections[tab_collection_handle] -%}
+      {%- assign is_first_tab = false -%}
+      {%- if count == 1 -%}
+        {%- assign is_first_tab = true -%}
+        {%- assign first_collection = tab_collection -%}
+      {%- endif -%}
+
+      {%- capture tab_button -%}
+        <button type="button" role="tab" class="btn{% if is_first_tab %} btn-primary{% else %} btn-secondary{% endif %}" button-effect
+                id="fpt-tab-{{ i }}"
+                data-target="fpt-panel-{{ i }}"
+                data-collection="{{ tab_collection_handle }}"
+                {%- if is_first_tab %} aria-selected="true"{%- else %} aria-selected="false" tabindex="-1"{%- endif -%}>
+          {%- if settings.product_tabs_show_icon -%}
+          <img class="fox-product-tabs__tab-image" src="{{ tab_image | escape }}" alt="" width="38" height="38" loading="lazy" decoding="async">
+          {%- endif -%}
+          <span class="btn__label">{{ tab_label }}</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      {%- endcapture -%}
+      {%- assign buttons_html = buttons_html | append: tab_button -%}
+
+      {%- capture tab_panel -%}
+      <div id="fpt-panel-{{ i }}"
+           role="tabpanel"
+           aria-labelledby="fpt-tab-{{ i }}"
+           class="fox-product-tabs__panel"
+           data-fox-product-tabs-panel
+           {%- if is_first_tab %} data-loaded="true"{%- else %} data-loaded="false" hidden{%- endif -%}>
+
+        <div class="fox-product-tabs__viewport" data-role="viewport">
+          <div class="fox-product-tabs__track" data-role="track">
+            {%- if is_first_tab -%}
+              {%- for product in tab_collection.products limit: limit -%}
+              <div class="fox-product-tabs__slide">
+                {%- assign product_card_context = 'product-tabs' -%}{% comment %}Shared product card context.{% endcomment %}
+                {%- include 'product-loop' with grid: '' -%}
+                {%- assign product_card_context = blank -%}
+              </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for n in (1..limit) -%}
+              <div class="fox-product-tabs__slide">
+                {%- include 'product-loop-no' -%}
+              </div>
+              {%- endfor -%}
+              <template data-role="fallback"><div class="fox-product-tabs__fallback"><p>Không thể tải sản phẩm. <a href="/collections/{{ tab_collection_handle }}">Xem collection</a></p></div></template>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endcapture -%}
+      {%- assign panels_html = panels_html | append: tab_panel -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if count > 0 and first_collection and first_collection.products.size > 0 -%}
+<section class="fox-product-tabs" aria-labelledby="fox-product-tabs-heading">
+  <div class="container">
+    <header class="fox-product-tabs__header">
+      <div class="fox-product-tabs__heading-wrapper">
+        <h2 id="fox-product-tabs-heading" class="fox-section__title fox-product-tabs__title">{{ settings.product_tabs_title }}</h2>
+        {%- if settings.product_tabs_desc != blank -%}
+        <p class="fox-section__desc">{{ settings.product_tabs_desc }}</p>
+        {%- endif -%}
+      </div>
+      {%- assign product_tabs_cta_label = settings.product_tabs_cta_label | default: 'Xem tất cả' -%}
+      {%- assign product_tabs_cta_url = settings.product_tabs_cta_url | default: first_collection.url -%}
+      {%- if product_tabs_cta_url != blank -%}
+      <a href="{{ product_tabs_cta_url }}" class="fox-product-tabs__cta fox-link-effect">
+        <span class="fox-link-effect__label">{{ product_tabs_cta_label | escape }}</span>
+        <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+        </svg>
+      </a>
+      {%- endif -%}
+    </header>
+
+    <tabs-component id="fox-product-tabs" class="fox-product-tabs__tabs" data-state="idle">
+      {%- if count > 1 -%}<div class="fox-product-tabs__tab-bar" data-role="tab-bar">
+        <button type="button" class="fox-product-tabs__nav fox-product-tabs__nav--prev btn btn-secondary" button-effect data-action="previous" aria-label="Sản phẩm trước">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-chevron"></use></svg>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+        <div class="fox-product-tabs__tablist" role="tablist" aria-label="Product categories">
+          {{ buttons_html }}
+        </div>
+        <button type="button" class="fox-product-tabs__nav fox-product-tabs__nav--next btn btn-secondary" button-effect data-action="next" aria-label="Sản phẩm tiếp theo">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-chevron"></use></svg>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      </div>{%- endif -%}
+      {{ panels_html }}
+    </tabs-component>
+  </div>
+</section>
+  {%- endif -%}
+{%- endif -%}

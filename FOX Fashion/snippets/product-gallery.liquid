@@ -1,0 +1,173 @@
+{%- assign gallery_youtube_count = 0 -%}
+{%- for media in product.media -%}
+  {%- if media.media_type == 'external_video' and media.host == 'youtube' -%}
+    {%- assign gallery_youtube_count = gallery_youtube_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign gallery_item_count = product.images.size | plus: gallery_youtube_count -%}
+<div class="fox-product__gallery" data-role="gallery">
+  <slider-component
+    data-role="gallery-main"
+    data-state="idle"
+    data-slides-mobile="1"
+    data-slides-tablet="1"
+    data-slides-desktop="1"
+    data-loop="false"
+    data-autoplay="false"
+    data-navigation="true"
+    data-pagination="false">
+    <div class="swiper" data-role="viewport">
+      <div class="swiper-wrapper">
+        {%- assign gallery_video_index = 0 -%}
+        {%- for media in product.media -%}
+        {%- if media.media_type == 'external_video' and media.host == 'youtube' -%}
+        <div
+          class="swiper-slide fox-product__media fox-product__media--video{% if gallery_video_index == 0 %} is-active{% endif %}"
+          data-role="media"
+          data-media-index="{{ gallery_video_index }}"
+          data-media-type="youtube">
+          <div class="fox-product__media-ratio ratio-image">
+            <media-progress
+              class="fox-product__media-progress"
+              data-autoplay="true"
+              data-scroll-pause="false"
+              data-loop="true"
+              data-state="idle">
+              <slide-youtube
+                data-id="{{ media.external_id | escape }}"
+                data-autoplay="true"
+                data-muted="true"
+                data-loop="true"
+                data-controls="false">
+              </slide-youtube>
+              <img
+                class="fox-product__video-poster"
+                src="{{ media.preview_image.src | product_img_url: 'master' }}"
+                alt=""
+                width="900"
+                height="1125"
+                loading="eager"
+                decoding="async"
+                aria-hidden="true">
+              {%- include 'component-media-progress-control' with media_play_label: 'Phát video', media_pause_label: 'Tạm dừng video' -%}
+            </media-progress>
+          </div>
+        </div>
+        {%- assign gallery_video_index = gallery_video_index | plus: 1 -%}
+        {%- endif -%}
+        {%- endfor -%}
+        {%- for image in product.images -%}
+        {%- assign gallery_loading = 'lazy' -%}
+        {%- if fox_product_context == 'page' and forloop.first -%}{%- assign gallery_loading = 'eager' -%}{%- endif -%}
+        {%- assign gallery_media_index = forloop.index0 | plus: gallery_youtube_count -%}
+        <div
+          class="swiper-slide fox-product__media{% if gallery_youtube_count == 0 and forloop.first %} is-active{% endif %}"
+          data-role="media"
+          data-media-index="{{ gallery_media_index }}"
+          data-media-src="{{ image.src | escape }}"
+          data-media-alt="{{ image.alt | default: product.title | strip | escape }}">
+          <div class="fox-product__media-ratio ratio-image">
+            {%- comment -%}Quick view keeps the gallery static; product pages retain zoom.{%- endcomment -%}
+            <image-zoom
+              class="core-image-zoom"
+              data-zoom-mode="external"
+              data-zoom-scale="2"
+              data-zoom-target="[data-role='product-info']"
+              data-zoom-fade-target="[data-role='gallery-thumbnails'], [data-role='product-info']"
+              data-zoom-min-width="1024"
+              data-zoom-min-source-width="800"
+              data-zoom-disabled="{% if fox_product_context == 'quickview' %}true{% else %}false{% endif %}"
+              data-state="idle">
+              <img
+                data-role="zoom-source"
+                src="{{ image.src | product_img_url: 'grande' }}"
+                srcset="{{ image.src | product_img_url: 'compact' }} 160w, {{ image.src | product_img_url: 'grande' }} 600w, {{ image.src | product_img_url: '1024x1024' }} 1024w"
+                sizes="(min-width: 1200px) 50vw, 100vw"
+                {% unless fox_product_context == 'quickview' %}data-zoom-src="{{ image.src | product_img_url: 'master' }}"{% endunless %}
+                alt="{{ image.alt | default: product.title | strip | escape }}"
+                width="900"
+                height="1125"
+                loading="{{ gallery_loading }}"
+                decoding="async">
+            </image-zoom>
+          </div>
+        </div>
+        {%- else -%}
+        {%- if gallery_youtube_count == 0 -%}
+        <div class="swiper-slide fox-product__media is-active" data-role="media" data-media-index="0">
+          <img src="{{ 'no_image.jpg' | asset_url }}" alt="{{ product.title | strip | escape }}" width="900" height="900">
+        </div>
+        {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- assign slider_controls_vertical = true -%}
+    {%- assign slider_controls_floating = true -%}
+    {%- assign slider_controls_label = 'Điều hướng ảnh sản phẩm' -%}
+    {%- assign slider_controls_item_count = gallery_item_count -%}
+    {%- include 'component-slider-controls' -%}
+    {%- assign slider_controls_floating = false -%}
+  </slider-component>
+  {%- if gallery_item_count > 1 -%}
+  <slider-component
+    class="fox-product__thumbnail-slider"
+    data-role="gallery-thumbnails"
+    data-state="idle"
+    data-slides-mobile="4"
+    data-slides-tablet="{% if fox_product_context == 'quickview' %}4{% else %}5{% endif %}"
+    data-slides-desktop="{% if fox_product_context == 'quickview' %}4{% else %}5{% endif %}"
+    data-space-mobile="10"
+    data-space-tablet="12"
+    data-space-desktop="12"
+    data-loop="false"
+    data-autoplay="false"
+    data-navigation="false"
+    data-pagination="false">
+    <div class="swiper" data-role="viewport">
+      <div class="swiper-wrapper">
+        {%- assign gallery_video_index = 0 -%}
+        {%- for media in product.media -%}
+        {%- if media.media_type == 'external_video' and media.host == 'youtube' -%}
+        <div class="swiper-slide fox-product__thumbnail-slide">
+          <button
+            type="button"
+            class="fox-product__thumbnail ratio-image{% if gallery_video_index == 0 %} is-active{% endif %}"
+            data-action="gallery-thumbnail"
+            data-media-index="{{ gallery_video_index }}"
+            aria-label="Xem video {{ forloop.index }}"
+            aria-current="{% if gallery_video_index == 0 %}true{% else %}false{% endif %}">
+            <img src="{{ media.preview_image.src | product_img_url: 'compact' }}" alt="" width="120" height="120" loading="lazy" decoding="async">
+            <span class="fox-product__thumbnail-play" aria-hidden="true">
+              <svg class="icon-svg"><use xlink:href="#ic-play-video"></use></svg>
+            </span>
+          </button>
+        </div>
+        {%- assign gallery_video_index = gallery_video_index | plus: 1 -%}
+        {%- endif -%}
+        {%- endfor -%}
+        {%- for image in product.images -%}
+        {%- assign gallery_media_index = forloop.index0 | plus: gallery_youtube_count -%}
+        <div class="swiper-slide fox-product__thumbnail-slide">
+          <button
+            type="button"
+            class="fox-product__thumbnail ratio-image{% if gallery_youtube_count == 0 and forloop.first %} is-active{% endif %}"
+            data-action="gallery-thumbnail"
+            data-media-index="{{ gallery_media_index }}"
+            aria-label="Xem ảnh {{ forloop.index }}"
+            aria-current="{% if gallery_youtube_count == 0 and forloop.first %}true{% else %}false{% endif %}">
+            <img
+              src="{{ image.src | product_img_url: 'compact' }}"
+              alt=""
+              width="120"
+              height="150"
+              loading="lazy"
+              decoding="async">
+          </button>
+        </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </slider-component>
+  {%- endif -%}
+</div>

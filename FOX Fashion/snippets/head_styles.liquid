@@ -1,0 +1,139 @@
+{%- assign fox_base_font = settings.base_font | default: 'Mulish' -%}
+{%- assign fox_base_font_title = settings.base_font_title | default: fox_base_font -%}
+{%- assign fox_base_font_query = fox_base_font | replace: ' ', '+' -%}
+{%- assign fox_base_font_title_query = fox_base_font_title | replace: ' ', '+' -%}
+{%- if fox_base_font contains 'Arial' and fox_base_font_title contains 'Arial' -%}
+  {%- assign fox_font_families = '' -%}
+{%- elsif fox_base_font contains 'Arial' -%}
+  {%- assign fox_font_families = 'family=' | append: fox_base_font_title_query | append: ':wght@400;500;600;700;800' -%}
+{%- elsif fox_base_font_title contains 'Arial' -%}
+  {%- assign fox_font_families = 'family=' | append: fox_base_font_query | append: ':wght@400;500;600;700;800' -%}
+{%- elsif fox_base_font == fox_base_font_title -%}
+  {%- assign fox_font_families = 'family=' | append: fox_base_font_query | append: ':wght@400;500;600;700;800' -%}
+{%- else -%}
+  {%- assign fox_font_families = 'family=' | append: fox_base_font_query | append: ':wght@400;500;600;700;800&family=' | append: fox_base_font_title_query | append: ':wght@400;500;600;700;800' -%}
+{%- endif -%}
+{%- if fox_font_families != '' -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?{{fox_font_families}}&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{fox_font_families}}&display=swap"></noscript>
+{%- endif -%} 
+ 
+<style> 
+:root {
+	--base-font: {{fox_base_font}}, system-ui, -apple-system, sans-serif;
+	--base-font-title: {{fox_base_font_title}}, system-ui, -apple-system, sans-serif;
+  --color-bg-theme: {{settings.theme_bg_color | default: '#ffffff'}};
+  --color-text-theme: {{settings.theme_text_color | default: '#171718'}};
+	--color-border: #CECECE;
+  --radius-sm: 4px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+	--stroke-width: 1px;
+	--icon-width: 24px;
+	--icon-height: 24px;
+	/*--price: {{settings.price_color | default: '#121212'}};
+  --price-highlight: #FF0000;
+	--price-contact: #FF0000;
+	--price-compare: {{settings.compare_price_color | default: '#CECECE'}};
+	--percent-bg: {{settings.percent_bg | default: '#e73737'}};
+	--percent-text: {{settings.percent_text | default: '#FFFFFF'}};
+	--soldout-bg: {{settings.soldout_bg_color | default: '#111111' }};
+	--soldout-text: {{settings.soldout_text_color | default: '#FFFFFF'}};
+	--proloop-label-bg: {{settings.label1_bg_color | default: '#0cb771'}};
+	--proloop-label-text: {{settings.label1_text_color | default: '#FFFFFF'}};*/
+}
+[swiper-config] {
+	--swiper-theme-color: #121212;
+	--swiper-navigation-size: 24px;
+	--swiper-pagination-bullet-inactive-color: {{settings.theme_color | default: '#171718'}};
+	--swiper-pagination-color: {{settings.theme_color | default: '#171718'}};
+	--swiper-pagination-bullet-inactive-opacity: .4;
+	--swiper-pagination-bullet-horizontal-gap: 4px;
+	--swiper-pagination-bullet-width: 10px;
+	--swiper-pagination-bullet-height: 10px;
+}
+[button-color] {
+	--color-btn-bg-primary: {{settings.theme_btn_bgcolor | default: #1B2631}};
+	--color-btn-text-primary: {{settings.theme_btn_textcolor | default: #ffffff}};
+	--color-btn-bg-primary-hover: {{settings.theme_btn_bgcolor_hover | default: #FFFFFF}};
+	--color-btn-text-primary-hover: {{settings.theme_btn_textcolor_hover | default: #1B2631}};
+	--color-btn-bg-secondary: {{settings.theme_btn_bgcolor_2 | default:#FFFFFF}};
+	--color-btn-text-secondary: {{settings.theme_btn_textcolor_2 | default: #1B2631}};
+	--color-btn-bg-secondary-hover: {{settings.theme_btn_bgcolor_2_hover | default: #FFFFFF}};
+	--color-btn-text-secondary-hover: {{settings.theme_btn_textcolor_2_hover | default: #1B2631}};
+	--color-btn-bg-transparent: transparent;
+	--color-btn-text-transparent: var(--color-text-theme);
+	--color-btn-bg-transparent-hover: var(--color-btn-bg-primary);
+	--color-btn-text-transparent-hover: var(--color-text-bg-primary);
+}
+</style>
+{%- include 'link-css-preload' with css_file: 'utilities.min.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'breadcrumb.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'style-global.scss.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'section.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'button.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'link-effect.css', blocking: true -%}
+
+{%- include 'link-css-preload' with css_file: 'core-foundation-overlay.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-foundation-form-controls.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-component-modal.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-component-popover.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-commerce-product.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'quick-view.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-component-slider.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'media-progress.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'scroll-style.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'effect-cursor.css', blocking: true -%}
+{%- comment -%}Shared off-canvas motion loads before component skins.{%- endcomment -%}
+{%- include 'link-css-preload' with css_file: 'core-component-offcanvas.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-component-header.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'header.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'mini-account.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'footer.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product-card.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'tabs.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'accordion.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'mini-cart.css', blocking: true -%}
+{%- if template contains 'index' -%}
+{%- include 'link-css-preload' with css_file: 'topbar.css', blocking: true -%}
+{%- endif -%}
+{%- if template contains 'index' -%}
+{%- include 'link-css-preload' with css_file: 'style-index.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'home-media-banner.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'countdown.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'home-images-overlay.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'core-component-image-zoom.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'featured-product.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'scroll-media-text.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'image-compare.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'latest-stories.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product-tabs.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'lookbook.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product-story.css', blocking: true -%}
+{%- comment -%}Homepage social proof section styles.{%- endcomment -%}
+{%- include 'link-css-preload' with css_file: 'testimonial-product.css', blocking: true -%}
+
+{%- elsif template contains 'collection' -%}
+{%- include 'link-css-preload' with css_file: 'core-commerce-collection.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'collection.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
+{%- elsif template contains 'product' -%}
+{%- include 'link-css-preload' with css_file: 'style-product.css', blocking: true -%}
+{%- elsif template contains 'blog' -%}
+{%- include 'link-css-preload' with css_file: 'style-article.css', blocking: true -%}
+{%- elsif template contains 'article' -%}
+{%- include 'link-css-preload' with css_file: 'style-article.css', blocking: true -%}
+{%- elsif template contains 'page' -%}
+{%- include 'link-css-preload' with css_file: 'style-page.css', blocking: true -%}
+{%- elsif template contains 'cart' -%}
+{%- comment -%}Trang cart dung chung skin trong mini-cart.css (nap toan site).{%- endcomment -%}
+{%- elsif template contains 'customers' -%}
+{%- if template contains 'login' or template contains 'register' or template contains 'reset_password' or template contains 'activate_account' -%}{%- include 'link-css-preload' with css_file: 'customer.css', blocking: true -%}{%- endif -%}
+{%- if template contains 'register' -%}{%- include 'link-css-preload' with css_file: 'flatpickr.min.css', blocking: true -%}{%- endif -%}
+{%- comment -%}Shared authenticated account shell.{%- endcomment -%}
+{%- if template contains 'customers[account]' or template contains 'customers[addresses]' or template contains 'customers[order]' -%}{%- include 'link-css-preload' with css_file: 'account.css', blocking: true -%}{%- endif -%}
+{%- if template contains 'customers[account]' -%}{%- include 'link-css-preload' with css_file: 'flatpickr.min.css', blocking: true -%}{%- endif -%}
+{%- endif -%}

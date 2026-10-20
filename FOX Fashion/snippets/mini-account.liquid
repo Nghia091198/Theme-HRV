@@ -1,0 +1,49 @@
+{% assign fox_mini_account_text_list = 'Đăng nhập;Email;Mật khẩu;Quên mật khẩu;Bạn chưa có tài khoản?;Đăng ký;Khôi phục mật khẩu;Trở về đăng nhập;Tài khoản của tôi;Danh sách địa chỉ;Đăng xuất;Thông tin tài khoản;Hiện mật khẩu;Ẩn mật khẩu;Xin chào' | split: ';' %}
+{% assign fox_mini_account_text = fox_mini_account_text_list %}
+{% assign fox_mini_account_login_placeholder = ' ' %}
+{% if settings.header_account_use_otp_template %}{% assign fox_mini_account_login_placeholder = 'Email hoặc Số điện thoại' %}{% endif %}
+{% assign fox_mini_account_interactive = false %}
+{% if customer or shop.authenticate_type != 'standard' %}{% assign fox_mini_account_interactive = true %}{% endif %}
+<mini-account class="fox-mini-account" data-use-otp-template="{{ settings.header_account_use_otp_template | default: false }}" data-authenticate-type="{{ shop.authenticate_type | escape }}">{% comment %}Reusable account field and recovery link markup.{% endcomment %}
+  {% if fox_mini_account_interactive %}
+    <button type="button" class="fox-header-action fox-mini-account__trigger" data-account-trigger aria-controls="fox-mini-account-panel" aria-expanded="false" aria-label="{{ fox_mini_account_text[0] }}"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-account"></use></svg></button>
+  {% else %}
+    <a class="fox-header-action fox-mini-account__trigger" href="/account/login" aria-label="{{ fox_mini_account_text[0] }}"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-account"></use></svg></a>
+  {% endif %}
+  {% if fox_mini_account_interactive %}
+    <div class="fox-mini-account__overlay" data-account-overlay hidden></div>
+    <aside id="fox-mini-account-panel" class="fox-mini-account__panel" data-account-panel hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="fox-mini-account-title">
+      {% if customer %}
+        <section class="fox-mini-account__view" data-account-view="account">
+          <p class="fox-mini-account__name">
+            <span class="fox-mini-account__name-label">{{ fox_mini_account_text[14] }}</span> {{ customer.first_name }} {{ customer.last_name }}!
+          </p>
+          <a class="fox-text-link" href="/account">{{ fox_mini_account_text[8] }}</a>
+          <a class="fox-text-link" href="/account/addresses">{{ fox_mini_account_text[9] }}</a>
+          <a class="fox-text-link" href="/account/logout">{{ fox_mini_account_text[10] }}</a>
+        </section>
+      {% else %}
+        <section class="fox-mini-account__view" data-account-view="login">
+          <h2 id="fox-mini-account-title">{{ fox_mini_account_text[0] }}</h2>
+          {% form 'customer_login' %}
+            {{ form.errors | default_errors }}
+            <div class="fox-floating-field fox-mini-account__field"><input id="fox-mini-account-email" type="email" name="customer[email]" autocomplete="email" inputmode="email" placeholder="{{ fox_mini_account_login_placeholder }}" required><label for="fox-mini-account-email">{{ fox_mini_account_text[1] }}</label></div>
+            <div class="fox-floating-field fox-mini-account__field"><input id="fox-mini-account-password" type="password" name="customer[password]" autocomplete="current-password" placeholder=" " required><label for="fox-mini-account-password">{{ fox_mini_account_text[2] }}</label><button type="button" class="fox-mini-account__password-toggle" data-password-toggle="fox-mini-account-password" data-label-show="{{ fox_mini_account_text[12] }}" data-label-hide="{{ fox_mini_account_text[13] }}" aria-label="{{ fox_mini_account_text[12] }}"><svg class="customer-field__icon icon-eye-show" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><use xlink:href="#ic-eye-show"></use></svg></button></div>
+            <button type="submit" class="button btn btn-primary fox-hcs__btn btn-effect--out" button-effect><span class="btn__label">{{ fox_mini_account_text[0] }}</span><span data-btn-effect-span aria-hidden="true"></span></button>
+          {% endform %}
+          <p><span>{{ fox_mini_account_text[4] }}</span> <a href="/account/register">{{ fox_mini_account_text[5] }}</a></p>
+          <button type="button" class="link fox-mini-account__recover-trigger" data-account-view-trigger="recover"><span>Bạn đã quên mật khẩu?</span> <span class="fox-mini-account__recover-link">{{ fox_mini_account_text[3] }}</span></button>
+        </section>
+        <section class="fox-mini-account__view" data-account-view="recover" hidden>
+          <h2>{{ fox_mini_account_text[6] }}</h2>
+          {% form 'recover_customer_password' %}
+            {{ form.errors | default_errors }}
+            <div class="fox-floating-field fox-mini-account__field"><input id="fox-mini-account-recover-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder=" " required><label for="fox-mini-account-recover-email">{{ fox_mini_account_text[1] }}</label></div>
+            <button type="submit" class="button btn btn-primary fox-hcs__btn btn-effect--out" button-effect><span class="btn__label">{{ fox_mini_account_text[6] }}</span><span data-btn-effect-span aria-hidden="true"></span></button>
+          {% endform %}
+          <button type="button" class="link" data-account-view-trigger="login">{{ fox_mini_account_text[7] }}</button>
+        </section>
+      {% endif %}
+    </aside>
+  {% endif %}
+</mini-account>

@@ -1,0 +1,89 @@
+{%- assign cart_total_label = 'Tạm tính' -%}
+{%- assign cart_checkout_label = 'Thanh toán' -%}
+{%- assign cart_view_label = 'Xem giỏ hàng' -%}
+{%- assign cart_empty_label = 'Giỏ hàng của bạn đang trống' -%}
+{%- assign cart_continue_label = 'Tiếp tục mua sắm' -%}
+{%- assign cart_recommend_title = 'Bạn có thể thích' -%}
+{%- assign cart_collection_title = 'Khám phá bộ sưu tập' -%}
+{%- assign cart_free_shipping_enabled = settings.cart_free_shipping_show -%}
+{%- if cart_free_shipping_enabled == blank -%}{%- assign cart_free_shipping_enabled = true -%}{%- endif -%}
+{%- assign cart_shipping_threshold = settings.cart_free_shipping_threshold | default: 500000 | times: 100 -%}
+
+<div class="fox-mini-cart__view" data-role="cart-view"
+  data-item-count="{{ cart.item_count | default: 0 }}"
+  data-total-price="{{ cart.total_price | default: 0 }}"
+  data-state="{% if cart.items.size > 0 %}ready{% else %}empty{% endif %}">
+
+  <div class="fox-mini-cart__shipping" data-role="free-shipping" data-threshold="{{ cart_shipping_threshold }}"{% unless cart_free_shipping_enabled and cart_shipping_threshold > 0 and cart.items.size > 0 %} hidden{% endunless %} aria-live="polite">
+    {%- assign cart_shipping_percent = cart.total_price | times: 100 | divided_by: cart_shipping_threshold -%}
+    {%- if cart_shipping_percent > 100 -%}{%- assign cart_shipping_percent = 100 -%}{%- endif -%}
+    <div class="fox-mini-cart__shipping-track"><span data-role="free-shipping-progress" style="width: {{ cart_shipping_percent }}%;"></span></div>
+    <p data-role="free-shipping-message">{% if cart.total_price >= cart_shipping_threshold %}Đơn hàng đã đủ điều kiện miễn phí vận chuyển.{% else %}Bạn còn {{ cart_shipping_threshold | minus: cart.total_price | money }} để được miễn phí vận chuyển.{% endif %}</p>
+  </div>
+ 
+  <div class="fox-mini-cart__list" data-role="list" aria-live="polite">
+    {%- if cart.items.size > 0 -%}
+      {%- for item in cart.items -%}
+        {%- assign cart_item_line = forloop.index -%}
+        {%- include 'cart-item' -%}
+      {%- endfor -%}
+      {%- include 'cart-variant-map' -%}
+    {%- else -%}
+      <div class="fox-mini-cart__empty">
+        <svg class="fox-mini-cart__empty-icon icon-svg" aria-hidden="true"><use xlink:href="#ic-cart-bag"></use></svg>
+        <p>{{ cart_empty_label }}</p>
+        <a href="/collections/all" class="btn btn-primary btn-effect--out" button-effect><span class="btn__label">{{ cart_continue_label }}</span><svg class="btn--icon icon-svg" aria-hidden="true"><use xlink:href="#ic-arrow-right"></use></svg><span data-btn-effect-span aria-hidden="true"></span></a>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- assign recommendation_collection_handle = settings.cart_recommendation_collection | default: 'all' -%}
+  {%- assign recommendation_collection = collections[recommendation_collection_handle] -%}
+  {%- assign recommendation_limit = settings.cart_recommendation_limit | default: 4 -%}
+  {%- if recommendation_collection != blank -%}
+    <section class="fox-mini-cart__recommendations" data-role="recommendations" aria-labelledby="fox-mini-cart-recommend-title">
+      <h3 id="fox-mini-cart-recommend-title">{{ cart_recommend_title }}</h3>
+      <slider-component class="fox-mini-cart__recommendation-slider" data-state="idle" data-loop="false" data-navigation="false" data-pagination="true" data-slides-mobile="1" data-slides-tablet="1" data-slides-desktop="1" data-space-mobile="8" data-space-tablet="8" data-space-desktop="8">
+        <div class="fox-mini-cart__recommendation-viewport swiper" data-role="viewport"><div class="fox-mini-cart__recommendation-track swiper-wrapper">
+          {%- for product in recommendation_collection.products limit: recommendation_limit -%}
+            <div class="fox-mini-cart__recommendation-slide swiper-slide"><div class="fox-mini-cart__recommendation">
+              <a class="fox-mini-cart__recommendation-media" href="{{ product.url }}" aria-label="{{ product.title | escape }}"><img src="{{ product.featured_image.src | product_img_url: 'compact' }}" alt="{{ product.title | escape }}" width="88" height="117" loading="lazy" decoding="async"></a>
+              <div class="fox-mini-cart__recommendation-body">
+                <h4><a href="{{ product.url }}">{{ product.title | escape }}</a></h4>
+                <p>{{ product.variants.first.price | money }}</p>
+                <a class="fox-mini-cart__recommendation-link btn btn-primary btn-effect--out" button-effect href="{{ product.url }}"><span class="fox-mini-cart__recommendation-link-content"><svg class="btn--icon icon-svg" aria-hidden="true"><use xlink:href="#ic-eye-show"></use></svg><span class="btn__label">Xem nhanh</span></span><span data-btn-effect-span aria-hidden="true"></span></a>
+              </div>
+            </div></div>
+          {%- endfor -%}
+        </div></div>
+        <div class="fox-mini-cart__recommendation-dots" data-role="pagination" aria-label="Điều hướng sản phẩm gợi ý"></div>
+      </slider-component>
+    </section>
+  {%- endif -%}
+
+  <div class="fox-mini-cart__empty-collections" data-role="empty-collections"{% if cart.items.size > 0 %} hidden{% endif %}>
+    <h3>{{ cart_collection_title }}</h3>
+    <div class="fox-mini-cart__collection-track">
+      {%- for collection_key in 'cart_empty_collection_1,cart_empty_collection_2,cart_empty_collection_3' | split: ',' -%}
+        {%- assign collection_handle = settings[collection_key] -%}
+        {%- if collection_key == 'cart_empty_collection_1' and collection_handle == blank -%}{%- assign collection_handle = 'all' -%}{%- endif -%}
+        {%- assign empty_collection = collections[collection_handle] -%}
+        {%- if empty_collection != blank -%}<a href="{{ empty_collection.url }}" class="fox-mini-cart__collection-pill">{{ empty_collection.title | escape }}</a>{%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <footer class="fox-mini-cart__footer" data-role="footer"{% unless cart.items.size > 0 %} hidden{% endunless %}>
+    <div class="fox-mini-cart__summary"><span>{{ cart_total_label }}</span><strong data-role="total-price">{{ cart.total_price | money }}</strong></div>
+    <div class="fox-mini-cart__actions">
+      <button type="button" class="btn btn-secondary btn-effect--out" button-effect data-role="checkout">
+        <span class="btn__label">{{ cart_checkout_label }}</span>
+        <svg class="fox-mini-cart__checkout-icon btn--icon icon-svg" aria-hidden="true"><use xlink:href="#ic-arrow-right"></use></svg>
+        <span data-btn-effect-span aria-hidden="true"></span>
+      </button> 
+      <a href="/cart" class="fox-mini-cart__view-link">{{ cart_view_label }}</a>
+    </div>
+  </footer>
+</div> 
+
+

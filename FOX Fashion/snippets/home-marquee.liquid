@@ -1,0 +1,27 @@
+{%- capture fox_marquee_content -%}
+  {%- for i in (1..3) -%}
+    {%- capture fox_marquee_text_key -%}home_marquee_text_{{ i }}{%- endcapture -%}
+    {%- if settings[fox_marquee_text_key] != blank -%}
+      <span class="fox-marquee__text">{{ settings[fox_marquee_text_key] | escape }}</span>
+    {%- endif -%}
+    {%- if i < 3 -%}
+      {%- capture fox_marquee_image_key -%}home_marquee_image_{{ i }}.png{%- endcapture -%}
+      <span class="fox-marquee__media" aria-hidden="true">
+        <img class="fox-marquee__image" src="{{ fox_marquee_image_key | asset_url | escape }}" alt="" width="180" height="180" loading="lazy" decoding="async">
+      </span>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if settings.home_marquee_show and fox_marquee_content != blank -%}
+<section class="fox-home-marquee" aria-label="{{ settings.home_marquee_label | default: shop.name | escape }}" style="--fox-marquee-background: {{ settings.home_marquee_background | default: '#ffffff' | escape }}; --fox-marquee-color: {{ settings.home_marquee_color | default: '#5c3d50' | escape }};">
+  <div class="no-container">
+    <fox-marquee class="fox-marquee" direction="{{ settings.home_marquee_direction | default: 'ltr' | escape }}" speed-factor="{{ settings.home_marquee_speed | default: 0.4 | escape }}"{% if settings.home_marquee_pausable %} pausable{% endif %} data-state="idle">
+      <div class="fox-marquee__inner">
+        <div class="fox-marquee__item">
+          {{ fox_marquee_content }}
+        </div>
+      </div>
+    </fox-marquee>
+  </div>
+</section>
+{%- endif -%}

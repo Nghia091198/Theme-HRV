@@ -1,0 +1,201 @@
+/* Homepage lookbook section. */
+.fox-lookbook {
+  --fox-lookbook-bg: var(--color-bg-theme, #fff);
+  --fox-lookbook-text: var(--color-text-theme, #171718);
+  padding: var(--fox-lookbook-padding-top, 72px) 0 var(--fox-lookbook-padding-bottom, 72px);
+  overflow: hidden;
+  color: var(--fox-lookbook-text);
+  background: var(--fox-lookbook-bg);
+}
+
+.fox-lookbook__layout {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.fox-lookbook__header {
+  text-align: left;
+}
+.fox-lookbook__eyebrow { margin: 0 0 10px; font-size: 16px; font-weight: 500; }
+.fox-lookbook__title { margin: 0; font-size: clamp(32px, 3vw, 48px); line-height: 1.14; }
+.fox-lookbook__sidebar { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 48px); min-width: 0; }
+
+.fox-lookbook__tabs {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  align-self: center;
+}
+
+.fox-lookbook__tab {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  padding: 4px;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.fox-lookbook__tab::after {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid currentColor;
+  border-radius: inherit;
+  content: '';
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .25s ease, transform .3s ease;
+}
+
+.fox-lookbook__tab[aria-selected='true']::after { opacity: 1; transform: none; }
+.fox-lookbook__tab:focus-visible { outline: 2px solid currentColor; outline-offset: 7px; }
+.fox-lookbook__tab .ratio-image { width: 100%; height: 100%; padding-top: 0; overflow: hidden; border-radius: 50%; }
+.fox-lookbook__tab img { width: 100%; height: 100%; object-fit: cover; }
+
+.fox-lookbook__panels { grid-column: 2; grid-row: 1; min-width: 0; }
+.fox-lookbook__panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: clamp(80px, 10vw, 176px); align-items: start; }
+.fox-lookbook__panel[hidden] { display: none; }
+.fox-lookbook__media { position: relative; min-width: 0; }
+
+.fox-lookbook__image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: clamp(18px, 2vw, 36px);
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.fox-lookbook__image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.fox-lookbook__pin {
+  position: absolute;
+  left: var(--fox-lookbook-x);
+  top: var(--fox-lookbook-y);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-btn-bg-primary, #1b2631);
+  background: transparent;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.fox-lookbook__pin::after {
+  width: 14px;
+  height: 14px;
+  border: 5px solid rgb(255 255 255 / .95);
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .12), 0 5px 18px rgb(0 0 0 / .2);
+  content: '';
+}
+
+.fox-lookbook__pin::before {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgb(255 255 255 / .8);
+  border-radius: inherit;
+  content: '';
+  animation: fox-lookbook-pulse 1.8s ease-out infinite;
+}
+
+.fox-lookbook__pin[aria-current='true']::before { animation: none; opacity: 0; }
+.fox-lookbook__pin[aria-current='true']::after { box-shadow: 0 0 0 3px currentColor, 0 0 0 7px rgb(255 255 255 / .9); }
+.fox-lookbook__pin:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+.fox-lookbook__products { position: relative; min-width: 0; }
+.fox-lookbook__products slider-component { padding-right: 60px; }
+.fox-lookbook__products .swiper { overflow: hidden; }
+.fox-lookbook__product-slide { height: auto; }
+.fox-lookbook__product-slide:not(.swiper-slide-active) { overflow: hidden; }
+.fox-lookbook__product-controls { position: absolute; top: 50%; right: 0; z-index: 2; transform: translateY(-50%); }
+
+.fox-lookbook .product-loop {
+  width: 100%;
+  min-width: 0;
+}
+.fox-lookbook .product-inner { display: flex; flex-direction: column; gap: 18px; }
+.fox-lookbook .proloop--image { border-radius: 14px; background: #f2f2f2; }
+.fox-lookbook .proloop--image .ratio-image { padding-top: 125%; }
+.fox-lookbook .proloop--detail { padding: 0; }
+.fox-lookbook .pro--title { margin: 0 0 8px; font-size: clamp(18px, 1.5vw, 24px); line-height: 1.3; }
+.fox-lookbook .block-proloop-price { display: flex; flex-wrap: wrap; gap: 8px; font-size: 17px; font-weight: 700; }
+.fox-lookbook .pro--price-original { opacity: .55; font-weight: 400; }
+.fox-lookbook__product-loading { aspect-ratio: 4 / 5; border-radius: 14px; background: linear-gradient(110deg, rgb(0 0 0 / .04) 25%, rgb(255 255 255 / .45) 45%, rgb(0 0 0 / .04) 65%) 0 0 / 220% 100%; animation: fox-lookbook-loading 1.3s linear infinite; }
+.fox-lookbook__product-fallback { display: block; margin-top: 14px; }
+.fox-lookbook__product-slide[data-state='ready'] .fox-lookbook__product-fallback,
+.fox-lookbook__product-slide[data-state='ready'] .fox-lookbook__product-loading { display: none; }
+.fox-lookbook__product-slide[data-state='error'] .fox-lookbook__product-loading { display: none; }
+
+@keyframes fox-lookbook-pulse {
+  0% { opacity: .8; transform: scale(.75); }
+  100% { opacity: 0; transform: scale(1.45); }
+}
+
+@keyframes fox-lookbook-loading {
+  to { background-position: -220% 0; }
+}
+
+@media (max-width: 1199px) {
+  .fox-lookbook__layout { grid-template-columns: 76px minmax(0, 1fr); }
+  .fox-lookbook__panel { grid-template-columns: minmax(0, 1fr) minmax(0, 38%); gap: 64px; }
+  .fox-lookbook__tab { width: 70px; height: 70px; }
+}
+
+@media (max-width: 991px) {
+  .fox-lookbook__layout { grid-template-columns: 72px minmax(0, 1fr); }
+  .fox-lookbook__sidebar { display: contents; }
+  .fox-lookbook__header { grid-column: 1; grid-row: 1; }
+  .fox-lookbook__media { grid-row: 2; }
+  .fox-lookbook__products { grid-row: 3; }
+  .fox-lookbook__title { max-width: 680px; }
+  .fox-lookbook__tabs { gap: 20px; }
+  .fox-lookbook__panel { grid-template-columns: 1fr; gap: 28px; }
+  .fox-lookbook__products slider-component { padding-right: 0; }
+  .fox-lookbook__product-controls { position: static; margin: 18px auto 0; transform: none; }
+  .fox-lookbook__product-controls .fox-slider-controls { flex-direction: row; margin: 0 auto; }
+  .fox-lookbook__product-controls .fox-slider-controls > button > svg { transform: none; }
+  .fox-lookbook__product-controls .fox-slider-progress { width: 4.4rem; height: .25rem; }
+  .fox-lookbook__product-controls .fox-slider-progress__bar { transform: scaleX(var(--fox-slider-progress, 0)); transform-origin: left; }
+  .fox-lookbook .product-inner { display: grid; grid-template-columns: minmax(180px, 42%) minmax(0, 1fr); align-items: center; }
+}
+
+@media (max-width: 767px) {
+  .fox-lookbook { padding: var(--fox-lookbook-padding-top-mobile, 44px) 0 var(--fox-lookbook-padding-bottom-mobile, 44px); }
+  .fox-lookbook__layout { grid-template-columns: 58px minmax(0, 1fr); }
+  .fox-lookbook__header { margin-bottom: 4px; }
+  .fox-lookbook__eyebrow { font-size: 14px; }
+  .fox-lookbook__title { font-size: clamp(30px, 10vw, 44px); }
+  .fox-lookbook__tabs { gap: 14px; }
+  .fox-lookbook__tab { width: 56px; height: 56px; padding: 4px; }
+  .fox-lookbook__panel { gap: 22px; }
+  .fox-lookbook__image { aspect-ratio: 3 / 4; border-radius: var(--radius-md, 14px); }
+  .fox-lookbook__pin { left: var(--fox-lookbook-x-mobile, var(--fox-lookbook-x)); top: var(--fox-lookbook-y-mobile, var(--fox-lookbook-y)); }
+  .fox-lookbook .product-inner { grid-template-columns: 110px minmax(0, 1fr); gap: 14px; }
+  .fox-lookbook .proloop--image { border-radius: 10px; }
+  .fox-lookbook .pro--title { font-size: 17px; }
+}
+
+@media (max-width: 420px) {
+  .fox-lookbook .product-inner { grid-template-columns: 92px minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-lookbook__tab::after { transition: none; }
+  .fox-lookbook__pin::before,
+  .fox-lookbook__product-loading { animation: none; }
+}

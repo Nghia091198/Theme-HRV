@@ -1,0 +1,50 @@
+/**
+ * fox-section
+ * Shared section layout + typography contract (brand-agnostic).
+ *
+ * Container: dùng .container / .container-fluid từ utilities.min.css.
+ *   .container       -> boxed, max-width 1400px
+ *   .container-fluid -> full width
+ * KHÔNG tạo wrapper max-width riêng cho từng section.
+ *
+ * Typography: .fox-section__title / __subtitle / __desc sở hữu STRUCTURE + margin.
+ * Mỗi section chỉ override token, không viết lại font-size/weight/color rời rạc:
+ *   --fox-section-title-size / -weight / -leading / -spacing / -color / -font
+ *   --fox-section-subtitle-size / -weight / -color
+ *   --fox-section-desc-size / -leading / -color
+ */
+
+.fox-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fox-section-header-gap, 8px);
+  margin-bottom: var(--fox-section-header-mb, clamp(2rem, 5vw, 3rem));
+}
+
+.fox-section__subtitle {
+  margin: 0;
+  font-family: var(--fox-section-subtitle-font, inherit);
+  font-size: var(--fox-section-subtitle-size, 0.875rem);
+  font-weight: var(--fox-section-subtitle-weight, 500);
+  letter-spacing: var(--fox-section-subtitle-spacing, 0.04em);
+  line-height: 1.3;
+  color: var(--fox-section-subtitle-color, #64748b);
+}
+
+.fox-section__title {
+  margin: 0;
+  font-family: var(--fox-section-title-font, var(--base-font-title));
+  font-size: var(--fox-section-title-size, clamp(2rem, 4vw, 3rem));
+  font-weight: var(--fox-section-title-weight, 700);
+  letter-spacing: var(--fox-section-title-spacing, -0.02em);
+  line-height: var(--fox-section-title-leading, 1.1);
+  color: var(--fox-section-title-color, var(--color-text-theme, #171718));
+}
+
+.fox-section__desc {
+  margin: 0;
+  font-family: var(--fox-section-desc-font, inherit);
+  font-size: var(--fox-section-desc-size, 1.4rem);
+  line-height: var(--fox-section-desc-leading, 1.5);
+  color: var(--fox-section-desc-color, #40454d);
+}

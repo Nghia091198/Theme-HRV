@@ -1,0 +1,12 @@
+<div class="fox-collection__results-content" data-role="results-content" data-result-count="{{ paginate.items | default: collection.products_count | default: collection.products.size }}" data-result-page="{{ paginate.current_page | default: 1 }}">
+  <div class="fox-collection__grid" data-role="product-grid">
+    {%- for product in collection.products -%}
+      {%- assign product_card_context = 'collection' -%}
+      {%- include 'product-loop' with grid: '' -%}
+      {%- assign product_card_context = blank -%}
+    {%- else -%}
+      <p class="fox-collection__empty" data-role="empty">Không tìm thấy sản phẩm phù hợp.</p>
+    {%- endfor -%}
+  </div>
+  {%- include 'pagination' with pagination_page_size: fox_collection_limit, pagination_item_label: 'sản phẩm', pagination_show_progress: true, pagination_progress_hidden: true, pagination_aria_label: 'Phân trang sản phẩm' -%}
+</div>

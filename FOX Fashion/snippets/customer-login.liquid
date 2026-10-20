@@ -1,0 +1,80 @@
+{% assign fox_customer_login_text = fox_customer_text %}
+
+<section class="fox-customer__form-panel" data-customer-panel="login" aria-labelledby="fox-customer-title">
+  <h2 id="fox-customer-title">{{ fox_customer_login_text[0] }}</h2>
+  <p class="fox-customer__subtitle">{{ fox_customer_login_text[22] }}</p>
+
+  {% if settings.header_account_use_otp_template %}
+    <div class="fox-customer__method" role="group" aria-label="{{ fox_customer_login_text[0] }}">
+      <button type="button" class="is-active" data-customer-method="standard">{{ fox_customer_login_text[29] }}</button>
+      <button type="button" data-customer-method="phone">{{ fox_customer_login_text[14] }}</button>
+    </div>
+  {% endif %}
+
+  <div data-customer-standard-login>
+    {% form 'customer_login' %}
+      {{ form.errors | default_errors }}
+      <div class="fox-floating-field fox-customer__field">
+        <input id="fox-customer-email" type="{% if settings.header_account_use_otp_template %}text{% else %}email{% endif %}" name="customer[email]" autocomplete="email" inputmode="email" placeholder=" " required>
+        <label for="fox-customer-email">{{ fox_customer_login_text[2] }}{% if settings.header_account_use_otp_template %} / {{ fox_customer_login_text[32] }}{% endif %}</label>
+      </div>
+      {% if form.password_needed %}
+        <div class="fox-floating-field fox-customer__field">
+          <input id="fox-customer-password" type="password" name="customer[password]" autocomplete="current-password" placeholder=" " required>
+          <label for="fox-customer-password">{{ fox_customer_login_text[3] }}</label>
+          <button type="button" class="fox-customer__password-toggle" data-password-toggle="fox-customer-password" data-label-show="{{ fox_customer_login_text[24] }}" data-label-hide="{{ fox_customer_login_text[25] }}" aria-label="{{ fox_customer_login_text[24] }}">
+            <svg class="customer-field__icon icon-eye-show" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><use xlink:href="#ic-eye-show"></use></svg>
+          </button>
+        </div>
+      {% endif %}
+      <div class="fox-customer__meta">
+        <button type="button" class="fox-customer__link" data-customer-recover>{{ fox_customer_login_text[9] }}</button>
+      </div>
+      <button class="btn btn-primary fox-hcs__btn btn-effect--out fox-customer__submit" button-effect type="submit">
+        <span class="btn__label">{{ fox_customer_login_text[0] }}</span><span data-btn-effect-span aria-hidden="true"></span>
+      </button>
+    {% endform %}
+  </div>
+
+  {% if settings.header_account_use_otp_template %}
+    <script async src="/phone_auth/lib.js"></script>
+    <div class="fox-customer__otp" data-customer-otp-panel hidden>
+      <form id="phone_auth_recaptcha" data-customer-phone-form>
+        <input type="hidden" name="country_code" value="84">
+        <div class="fox-floating-field fox-customer__field">
+          <input id="fox-customer-phone" type="tel" name="phone_number" inputmode="tel" placeholder=" " pattern="[0-9]{10,12}" required>
+          <label for="fox-customer-phone">{{ fox_customer_login_text[16] }}</label>
+        </div>
+        <button class="btn btn-primary fox-hcs__btn btn-effect--out fox-customer__submit" button-effect id="phone-auth-submit" type="submit"><span class="btn__label">{{ fox_customer_login_text[18] }}</span><span data-btn-effect-span aria-hidden="true"></span></button>
+      </form>
+      <form action="/phone_auth/validate" method="post" data-customer-otp-form hidden>
+        <input type="hidden" name="session_info">
+        <div class="fox-floating-field fox-customer__field">
+          <input id="fox-customer-otp" type="text" name="otp_code" inputmode="numeric" placeholder=" " required>
+          <label for="fox-customer-otp">{{ fox_customer_login_text[17] }}</label>
+        </div>
+        <button class="btn btn-primary fox-hcs__btn btn-effect--out fox-customer__submit" button-effect type="submit"><span class="btn__label">{{ fox_customer_login_text[19] }}</span><span data-btn-effect-span aria-hidden="true"></span></button>
+      </form>
+    </div>
+  {% endif %}
+
+  <div class="fox-customer__social">
+    <p class="fox-customer__divider"><span>{{ fox_customer_login_text[20] }}</span></p>
+    <div><button type="button" aria-label="{{ fox_customer_login_text[30] }}">G</button><button type="button" aria-label="{{ fox_customer_login_text[31] }}">●</button></div>
+  </div>
+  <p class="fox-customer__footer">{{ fox_customer_login_text[7] }} <a href="/account/register">{{ fox_customer_login_text[1] }}</a></p>
+</section>
+
+<section class="fox-customer__form-panel" data-customer-panel="recover" hidden aria-labelledby="fox-customer-recover-title">
+  <h2 id="fox-customer-recover-title">{{ fox_customer_login_text[10] }}</h2>
+  <p class="fox-customer__subtitle">{{ fox_customer_login_text[26] }}</p>
+  {% form 'recover_customer_password' %}
+    {{ form.errors | default_errors }}
+    <div class="fox-floating-field fox-customer__field">
+      <input id="fox-customer-recover-email" type="email" name="email" autocomplete="email" placeholder=" " required>
+      <label for="fox-customer-recover-email">{{ fox_customer_login_text[2] }}</label>
+    </div>
+    <button class="btn btn-primary fox-hcs__btn btn-effect--out fox-customer__submit" button-effect type="submit"><span class="btn__label">{{ fox_customer_login_text[12] }}</span><span data-btn-effect-span aria-hidden="true"></span></button>
+  {% endform %}
+  <button type="button" class="fox-customer__back-link" data-customer-login>{{ fox_customer_login_text[11] }}</button>
+</section>

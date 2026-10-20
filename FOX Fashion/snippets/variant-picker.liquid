@@ -1,0 +1,77 @@
+{%- if product.variants.size > 1 -%}
+
+<div class="fox-product__variants" data-role="variant-picker">
+  {%- for option in product.options -%}
+  {%- assign option_name = option.name | default: option -%}
+  {%- assign option_slug = option_name | strip | handleize -%}
+  {%- assign option_index = forloop.index0 -%}
+  {%- assign option_values_seen = '|' -%}
+  {%- assign selected_option_value = selected_variant.option1 -%}
+  {%- if option_index == 1 -%}{%- assign selected_option_value = selected_variant.option2 -%}{%- endif -%}
+  {%- if option_index == 2 -%}{%- assign selected_option_value = selected_variant.option3 -%}{%- endif -%}
+  {%- assign is_color_option = false -%}
+  {%- if option_slug contains 'mau-sac' or option_slug contains 'mau' or option_slug contains 'color' -%}
+    {%- assign is_color_option = true -%}
+  {%- endif -%}
+  <fieldset class="fox-product__option" data-option-index="{{ option_index }}">
+    <legend>{{ option_name | escape }}: <span data-role="option-name">{{ selected_option_value | escape }}</span></legend>
+    {%- if is_color_option -%}
+    <div class="fox-product__swatches" role="radiogroup" aria-label="{{ option_name | escape }}">
+      {%- for variant in product.variants -%}
+      {%- assign option_value = variant.option1 -%}
+      {%- if option_index == 1 -%}{%- assign option_value = variant.option2 -%}{%- endif -%}
+      {%- if option_index == 2 -%}{%- assign option_value = variant.option3 -%}{%- endif -%}
+      {%- assign option_handle = option_value | handleize -%}
+      {%- capture option_token -%}|{{ option_handle }}|{%- endcapture -%}
+      {%- unless option_value == blank or option_values_seen contains option_token -%}
+      {%- assign option_values_seen = option_values_seen | append: option_handle | append: '|' -%}
+      {%- assign swatch_image = '' -%}
+      {%- for image_variant in product.variants -%}
+        {%- assign image_variant_value = image_variant.option1 -%}
+        {%- if option_index == 1 -%}{%- assign image_variant_value = image_variant.option2 -%}{%- endif -%}
+        {%- if option_index == 2 -%}{%- assign image_variant_value = image_variant.option3 -%}{%- endif -%}
+        {%- if image_variant_value == option_value and image_variant.image.src != blank -%}
+          {%- assign swatch_image = image_variant.image.src -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      <button
+        type="button"
+        class="fox-product__swatch fox-product__swatch--color swatch color mau-{{ option_handle }}{% if option_value == selected_option_value %} is-active{% endif %}"
+        data-option-value="{{ option_value | escape }}"
+        role="radio"
+        aria-label="{{ option_value | escape }}"
+        aria-checked="{% if option_value == selected_option_value %}true{% else %}false{% endif %}">
+        {%- if swatch_image != '' -%}
+        <img class="fox-product__swatch-image" src="{{ swatch_image | product_img_url: 'thumb' }}" alt="" width="48" height="48" loading="lazy">
+        {%- else -%}
+        <span class="fox-product__swatch-color" aria-hidden="true"></span>
+        {%- endif -%}
+      </button>
+      {%- endunless -%}
+      {%- endfor -%}
+    </div>
+    {%- else -%}
+    <div class="fox-product__swatches fox-product__swatches--buttons" role="radiogroup" aria-label="{{ option_name | escape }}">
+      {%- for variant in product.variants -%}
+      {%- assign option_value = variant.option1 -%}
+      {%- if option_index == 1 -%}{%- assign option_value = variant.option2 -%}{%- endif -%}
+      {%- if option_index == 2 -%}{%- assign option_value = variant.option3 -%}{%- endif -%}
+      {%- assign option_handle = option_value | handleize -%}
+      {%- capture option_token -%}|{{ option_handle }}|{%- endcapture -%}
+      {%- unless option_value == blank or option_values_seen contains option_token -%}
+      {%- assign option_values_seen = option_values_seen | append: option_handle | append: '|' -%}
+      <button
+        type="button"
+        class="fox-product__swatch fox-product__swatch--button{% if option_value == selected_option_value %} is-active{% endif %}"
+        data-option-value="{{ option_value | escape }}"
+        role="radio"
+        aria-checked="{% if option_value == selected_option_value %}true{% else %}false{% endif %}">{{ option_value | escape }}</button>
+      {%- endunless -%}
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+  </fieldset>
+  {%- endfor -%}
+</div>
+{%- endif -%}

@@ -1,0 +1,82 @@
+{% assign fox_customer_text_list = 'Đăng nhập;Đăng ký;Email;Mật khẩu;Họ và tên;Xác nhận mật khẩu;Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật.;Bạn chưa có tài khoản?;Bạn đã có tài khoản?;Quên mật khẩu;Khôi phục mật khẩu;Trở về đăng nhập;Gửi email;Tạo tài khoản;Đăng nhập bằng số điện thoại;Đăng ký bằng số điện thoại;Nhập số điện thoại;Nhập mã OTP;Gửi mã xác nhận;Xác thực mã OTP;Tiếp tục với;Trang chủ;Chào mừng bạn trở lại.;Ghi nhớ đăng nhập;Hiện mật khẩu;Ẩn mật khẩu;Mật khẩu mới sẽ được gửi về email của bạn.;Tạo không gian riêng cho phong cách của bạn.;Đăng ký bằng email;Đăng nhập bằng email;Google;Apple;Số điện thoại;Tài khoản khách hàng' | split: ';' %}
+{% assign fox_customer_text = fox_customer_text_list %}
+{% assign fox_customer_mode = auth_mode | default: 'login' %}
+{% assign fox_customer_banner_desktop = settings['customer_auth_banner_desktop.jpg'] %}
+{% assign fox_customer_banner_mobile = settings['customer_auth_banner_mobile.jpg'] %}
+
+{% if fox_customer_banner_desktop == blank %}
+  {% assign fox_customer_banner_desktop_url = 'slide_1_d_image.png' | asset_url %}
+{% elsif fox_customer_banner_desktop contains '//' %}
+  {% assign fox_customer_banner_desktop_url = fox_customer_banner_desktop %}
+{% else %}
+  {% assign fox_customer_banner_desktop_url = fox_customer_banner_desktop | asset_url %}
+{% endif %}
+{% if fox_customer_banner_mobile == blank %}
+  {% assign fox_customer_banner_mobile_url = 'slide_1_m_image.png' | asset_url %}
+{% elsif fox_customer_banner_mobile contains '//' %}
+  {% assign fox_customer_banner_mobile_url = fox_customer_banner_mobile %}
+{% else %}
+  {% assign fox_customer_banner_mobile_url = fox_customer_banner_mobile | asset_url %}
+{% endif %}
+
+<div
+  class="fox-customer"
+  data-customer-mode="{{ fox_customer_mode }}"
+  data-customer-otp="{{ settings.header_account_use_otp_template | default: false }}"
+  style="--fox-customer-banner-desktop: url('{{ fox_customer_banner_desktop_url }}'); --fox-customer-banner-mobile: url('{{ fox_customer_banner_mobile_url }}'); --fox-customer-overlay: {{ settings.customer_auth_overlay_opacity | default: 42 }}%;"
+>
+  <div class="fox-customer__backdrop" aria-hidden="true">
+    <svg class="fox-customer__paths" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <path d="M-100 640C280 380 420 760 760 510c280-200 490 10 940-260" />
+      <path d="M-80 180c400 180 540-100 900 100 300 170 600-30 880 140" />
+      <path d="M-120 820c320-220 600-80 860-260 260-180 520-80 900-240" />
+      <path d="M120 960c140-340 390-490 700-390 300 100 420-220 820-420" />
+      <path d="M-80 420c280 80 440-160 760-40 300 110 490 120 900-60" />
+      <path d="M300 -80c120 300 400 380 570 650 140 220 400 260 760 190" />
+    </svg>
+  </div>
+
+  <div class="fox-customer__layout">
+    <section class="fox-customer__editorial" aria-labelledby="fox-customer-editorial-title">
+      <p class="fox-customer__eyebrow">{{ settings.customer_auth_eyebrow | default: 'MODA / MEMBERS' }}</p>
+      <h1 id="fox-customer-editorial-title">
+        {% if fox_customer_mode == 'register' %}
+          {{ settings.customer_auth_register_title | default: 'Phong cách của bạn bắt đầu tại đây.' }}
+        {% elsif fox_customer_mode == 'reset' %}
+          Thiết lập mật khẩu mới cho hành trình của bạn.
+        {% elsif fox_customer_mode == 'activate' %}
+          Chào mừng bạn đến với FOX.
+        {% else %}
+          {{ settings.customer_auth_login_title | default: 'Tiếp tục hành trình của bạn.' }}
+        {% endif %}
+      </h1>
+      <p>
+        {% if fox_customer_mode == 'register' %}
+          {{ settings.customer_auth_register_description | default: 'Tạo tài khoản để nhận trải nghiệm mua sắm cá nhân hóa và quyền truy cập sớm vào các bộ sưu tập mới.' }}
+        {% elsif fox_customer_mode == 'reset' %}
+          Chọn mật khẩu mới để tiếp tục khám phá các bộ sưu tập yêu thích.
+        {% elsif fox_customer_mode == 'activate' %}
+          Tạo mật khẩu để hoàn tất kích hoạt tài khoản của bạn.
+        {% else %}
+          {{ settings.customer_auth_login_description | default: 'Khám phá bộ sưu tập mới, lưu sản phẩm yêu thích và theo dõi đơn hàng trong một trải nghiệm liền mạch.' }}
+        {% endif %}
+      </p>
+    </section>
+
+    <section class="fox-customer__card" aria-label="{{ fox_customer_text[33] }}">
+      {% if fox_customer_mode == 'reset' or fox_customer_mode == 'activate' %}
+        {{ fox_customer_password_content }}
+      {% else %}
+        <nav class="fox-customer__switch" aria-label="Tài khoản">
+          <a class="{% if fox_customer_mode == 'login' %}is-active{% endif %}" href="/account/login">{{ fox_customer_text[0] }}</a>
+          <a class="{% if fox_customer_mode == 'register' %}is-active{% endif %}" href="/account/register">{{ fox_customer_text[1] }}</a>
+        </nav>
+        {% if fox_customer_mode == 'register' %}
+          {% include 'customer-register' %}
+        {% else %}
+          {% include 'customer-login' %}
+        {% endif %}
+      {% endif %}
+    </section>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+html { scrollbar-gutter: stable; }
+html.fox-overlay-lock::-webkit-scrollbar { width: 15px; background: transparent; }
+html.fox-overlay-lock::-webkit-scrollbar-track,
+html.fox-overlay-lock::-webkit-scrollbar-track-piece, 
+html.fox-overlay-lock::-webkit-scrollbar-thumb,
+html.fox-overlay-lock::-webkit-scrollbar-corner { background: transparent; border-color: transparent; }
+html.fox-overlay-lock { scrollbar-gutter: stable; scrollbar-color: transparent transparent; background: rgb(19 22 27 / 28%); }
+.fox-mini-account { position: relative; display: contents; }
+.fox-mini-account__panel { position: fixed; z-index: 1080; width: min(360px, calc(100vw - 30px)); max-height: min(560px, calc(100vh - 24px)); overflow: auto; padding: 20px 24px 22px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 1rem; background: radial-gradient(circle at 82% 115%, rgb(122 58 22 / 58%), transparent 42%), linear-gradient(145deg, rgb(120 116 116 / 82%) 0%, rgb(50 49 49 / 88%) 50%, rgb(8 8 9 / 96%) 100%); color: #fff; box-shadow: 0 2rem 6rem rgb(0 0 0 / 36%); -webkit-backdrop-filter: blur(30px); backdrop-filter: blur(30px); opacity: 0; transform: translateX(14px); clip-path: inset(0 0 0 100% round 12px); will-change: opacity, transform, clip-path; transition: opacity 150ms ease, transform 210ms ease-out, clip-path 320ms cubic-bezier(.22,1,.36,1); }
+.fox-mini-account__panel[data-open] { opacity: 1; transform: translateX(0); clip-path: inset(0 0 0 0 round 12px); }
+.fox-mini-account__overlay { position: fixed; inset: 0; z-index: 90; background: transparent; }
+.fox-mini-account__close { position: absolute; top: 12px; right: 12px; display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; border: 1px solid rgb(255 255 255 / 28%); border-radius: 50%; background: rgb(16 16 16 / 12%); color: inherit; transition: color 180ms ease, background-color 180ms ease, transform 180ms ease, border-color 180ms ease; }
+.fox-mini-account__close:hover, .fox-mini-account__close:focus-visible { border-color: rgb(255 255 255 / 70%); background: rgb(255 255 255 / 18%); transform: rotate(90deg); }
+.fox-mini-account__view[hidden], .fox-mini-account__panel[hidden], .fox-mini-account__overlay[hidden] { display: none; }
+.fox-mini-account__view[data-account-view="login"] h2 { margin: 0 0 16px; font-size: 22px; text-align: center; }
+.fox-mini-account__view form { display: grid; gap: 8px; }
+.fox-floating-field { position: relative; }
+.fox-mini-account__view input { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid rgb(255 255 255 / 35%); border-radius: 6px; outline: 0; background: rgb(255 255 255 / 8%); color: inherit; transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease; }
+.fox-mini-account__view input:focus { border-color: #fff; background: rgb(255 255 255 / 14%); box-shadow: 0 0 0 3px rgb(255 255 255 / 12%); }
+.fox-mini-account__field { position: relative; }
+.fox-mini-account__password-toggle { position: absolute; z-index: 2; top: 50%; right: 8px; display: inline-flex; width: 32px; height: 32px; min-height: 0 !important; margin: 0 !important; padding: 0; align-items: center; justify-content: center; border: 0; background: transparent; color: inherit; transform: translateY(-50%); }
+.fox-mini-account__password-toggle .customer-field__icon { width: 20px; height: 20px; }
+.fox-floating-field > label { position: absolute; z-index: 1; top: 50%; left: 12px; margin: 0; padding: 0 4px; color: rgb(255 255 255 / 76%); font-size: 14px; line-height: 1; pointer-events: none; background: transparent; border-radius: 3px; transform: translateY(-50%); transition: top 180ms ease, color 180ms ease, font-size 180ms ease, background 180ms ease; }
+.fox-floating-field > input:focus + label, .fox-floating-field > input:not(:placeholder-shown) + label { top: 0; padding: 2.5px 5px; border-radius: 6px; color: #000; font-size: 12px; background: #fff; }
+.fox-mini-account__recover-trigger, .fox-mini-account__recover-trigger:hover, .fox-mini-account__recover-trigger:focus-visible { text-decoration: none !important; }
+.fox-mini-account__recover-link { text-decoration: underline; text-underline-offset: 3px; }
+.fox-mini-account__view form button { margin-top: 8px; min-height: 44px; }
+.fox-mini-account__view p { margin: 14px 0 8px; line-height: 1.5; }
+.fox-mini-account__view a, .fox-mini-account__view .link { color: inherit;}
+.fox-mini-account__view .fox-mini-account__recover-trigger, .fox-mini-account__view .fox-mini-account__recover-trigger:hover, .fox-mini-account__view .fox-mini-account__recover-trigger:focus-visible { text-decoration: none !important; }
+.fox-mini-account__view .button { border: 0; border-radius: 999px; background: var(--color-btn-bg-primary, #fff); color: var(--color-btn-text-primary, #171718); font-weight: 700; transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
+.fox-mini-account__view .button:hover, .fox-mini-account__view .button:focus-visible { background: var(--color-btn-bg-primary-hover, #fff); box-shadow: 0 10px 24px rgb(0 0 0 / 20%); transform: translateY(-1px); }
+.fox-mini-account__view[data-account-view="account"] { display: grid; gap: 10px; }
+.fox-mini-account__view .fox-mini-account__name { font-size: 1.6rem;margin: 0 0 4px; font-weight: 700; }
+.fox-mini-account__view .fox-mini-account__name-label { font-size:1.6rem; font-weight: 400; }
+@media (prefers-reduced-motion: reduce) { .fox-mini-account__panel { transition: none; clip-path: none; transform: none; } }
+@media (min-width: 768px) { 
+    .fox-mini-account__view[data-account-view="login"] h2 { font-size: 23px; } 
+    .fox-mini-account__view .fox-mini-account__name { font-size: 2rem; }
+}

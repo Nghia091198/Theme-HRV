@@ -1,0 +1,23 @@
+{%- assign x1_featured_handle = settings.x1_featured_product_handle -%}
+{%- if settings.x1_featured_product_show and x1_featured_handle != blank -%}
+{%- assign x1_zoom_scale = settings.x1_featured_product_zoom_scale | default: 2 -%}
+<section
+  class="fox-featured-product"
+  style="--x1-featured-pt-mobile: {{ settings.x1_featured_product_padding_top_mobile | default: 60 }}px; --x1-featured-pb-mobile: {{ settings.x1_featured_product_padding_bottom_mobile | default: 60 }}px; --x1-featured-pt-desktop: {{ settings.x1_featured_product_padding_top_desktop | default: 88 }}px; --x1-featured-pb-desktop: {{ settings.x1_featured_product_padding_bottom_desktop | default: 88 }}px;">
+  <fox-featured-product
+    data-fox-featured-product
+    data-product-handle="{{ x1_featured_handle | strip | escape }}"
+    data-zoom-scale="{{ x1_zoom_scale }}"
+    data-zoom-disabled="{% if settings.x1_featured_product_zoom_show == false %}true{% else %}false{% endif %}"
+    data-zoom-scope>
+    <div class="fox-featured-product__container container" data-role="fragment" aria-live="polite">
+      <div class="fox-featured-product__loading" data-role="loading">Đang tải sản phẩm...</div>
+      <noscript><a href="/products/{{ x1_featured_handle | escape }}">Xem sản phẩm</a></noscript>
+      <div class="fox-featured-product__error" data-role="error" hidden>
+        <p>Không thể tải sản phẩm này.</p>
+        <a href="/products/{{ x1_featured_handle | escape }}">Xem sản phẩm</a>
+      </div>
+    </div>
+  </fox-featured-product>
+</section>
+{%- endif -%}

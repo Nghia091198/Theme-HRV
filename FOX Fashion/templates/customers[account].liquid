@@ -1,0 +1,120 @@
+{% assign fox_account_title = 'Tài khoản của bạn' %}
+{% assign fox_account_description = 'Quản lý thông tin cá nhân và theo dõi đơn hàng của bạn.' %}
+{% assign fox_account_default_address = customer.default_address %}
+{% assign address = customer.default_address %}
+
+{% capture fox_account_content %}
+  <section class="fox-account-panel fox-account-profile" aria-labelledby="fox-account-profile-title" data-account-profile data-account-dashboard>
+    <div class="fox-account-panel__heading">
+      <div>
+        <h2 id="fox-account-profile-title">Thông tin tài khoản</h2>
+      </div>
+    </div>
+    {% form 'update_customer' %}
+      <div class="fox-account-form" data-account-form>
+        <div class="fox-account-field fox-account-field--locked">
+          <label for="fox-account-email">Email</label>
+          <div class="fox-account-field__control"><input id="fox-account-email" type="email" value="{{ customer.email | escape }}" autocomplete="email" disabled aria-describedby="fox-account-email-note"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></div>
+          <small id="fox-account-email-note">Email đăng nhập không thể chỉnh sửa.</small>
+        </div>
+        <div class="fox-account-field"><label for="fox-account-phone">Số điện thoại</label><input id="fox-account-phone" type="tel" name="customer[phone]" value="{{ customer.phone | default: customer.default_address.phone | escape }}" autocomplete="tel" inputmode="tel" required></div>
+        <div class="fox-account-field"><label for="fox-account-last-name">Họ và tên đệm</label><input id="fox-account-last-name" type="text" name="customer[last_name]" value="{{ customer.last_name | escape }}" autocomplete="family-name" required></div>
+        <div class="fox-account-field"><label for="fox-account-first-name">Tên</label><input id="fox-account-first-name" type="text" name="customer[first_name]" value="{{ customer.first_name | escape }}" autocomplete="given-name" required></div>
+        <fieldset class="fox-account-field fox-account-field--gender">
+          <legend>Giới tính</legend>
+          <div class="fox-account-radio-group">
+            <label class="fox-form-control fox-form-control--radio"><input id="fox-account-gender-female" type="radio" value="0" name="customer[gender]"{% if customer.gender == 0 %} checked{% endif %}><span class="fox-form-control__indicator" aria-hidden="true"></span><span>Nữ</span></label>
+            <label class="fox-form-control fox-form-control--radio"><input id="fox-account-gender-male" type="radio" value="1" name="customer[gender]"{% if customer.gender == 1 %} checked{% endif %}><span class="fox-form-control__indicator" aria-hidden="true"></span><span>Nam</span></label>
+          </div>
+        </fieldset>
+        <div class="fox-account-field fox-account-field--date"><label for="fox-account-birthday">Ngày sinh</label><div class="fox-account-field__control"><input id="fox-account-birthday" type="text" name="customer[birthday]" value="{% if customer.birthday != blank %}{{ customer.birthday | date: '%d/%m/%Y' }}{% endif %}" autocomplete="bday" inputmode="numeric" placeholder="dd/mm/yyyy" data-account-date-picker required><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg></div></div>
+      </div>
+      <div class="fox-account-form__footer">
+        <button class="btn btn-primary fox-account-form__submit btn-effect--out" button-effect type="submit" data-account-submit><span class="btn__label" data-account-submit-label>Cập nhật</span><span data-btn-effect-span aria-hidden="true"></span></button>
+        <a href="/account/addresses">Xem và quản lý địa chỉ giao hàng <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="fox-account-form__status" tabindex="-1" role="status" aria-live="polite" data-account-form-status></div>
+    {% endform %}
+  </section>
+
+  {% if address != nil %}
+    <div class="fox-account-address-sync" hidden>
+      {% form 'customer_address', address %}
+        <input type="hidden" name="address[first_name]" value="{{ fox_account_default_address.first_name | escape }}" data-address-sync="first-name">
+        <input type="hidden" name="address[last_name]" value="{{ fox_account_default_address.last_name | escape }}" data-address-sync="last-name">
+        <input type="hidden" name="address[phone]" value="{{ fox_account_default_address.phone | escape }}" data-address-sync="phone">
+        <input type="hidden" name="address[company]" value="{{ fox_account_default_address.company | escape }}">
+        <input type="hidden" name="address[address1]" value="{{ fox_account_default_address.address1 | escape }}">
+        <input type="hidden" name="address[address2]" value="{{ fox_account_default_address.address2 | escape }}">
+        <input type="hidden" name="address[city]" value="{{ fox_account_default_address.city | escape }}">
+        <input type="hidden" name="address[country]" value="{{ fox_account_default_address.country | escape }}">
+        <input type="hidden" name="address[province]" value="{{ fox_account_default_address.province | escape }}">
+        <input type="hidden" name="address[district]" value="{{ fox_account_default_address.district | escape }}">
+        <input type="hidden" name="address[ward]" value="{{ fox_account_default_address.ward | escape }}">
+        <input type="hidden" name="address[zip]" value="{{ fox_account_default_address.zip | escape }}">
+      {% endform %}
+    </div>
+  {% endif %}
+
+  <section class="fox-account-panel fox-account-orders" id="customer_orders" aria-labelledby="fox-account-orders-title">
+    <div class="fox-account-panel__heading"><div><p class="fox-account-panel__eyebrow">Lịch sử mua sắm</p><h2 id="fox-account-orders-title">Danh sách đơn hàng mới nhất</h2></div></div>
+    {% if customer.orders.size != 0 %}
+      <div class="fox-account-orders__scroll" tabindex="0" aria-label="Danh sách đơn hàng">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã đơn hàng</th>
+              <th>Ngày đặt</th>
+              <th>Thành tiền</th>
+              <th>Trạng thái thanh toán</th>
+              <th>Vận chuyển</th>
+              <th>Thao tác</th>
+            </tr>
+            </thead>
+          <tbody>
+            {% for order in customer.orders %}
+              {% capture fox_payment_label %}
+                {% case order.financial_status %}
+                    {% when 'pending' %}Chờ xử lý
+                    {% when 'paid' %}Đã hoàn tất
+                    {% when 'refunded' %}Đã hoàn tiền
+                    {% when 'partially_refunded' %}Hoàn tiền một phần
+                    {% when 'voided' %}Đã hủy thanh toán
+                    {% else %}
+                  {{ order.financial_status | default: 'Chưa cập nhật' }}
+                {% endcase %}
+              {% endcapture %}
+              {% capture fox_shipment_label %}
+                {% case order.shipment_status %}
+                  {% when 'readytopick' %}Sẵn sàng lấy hàng
+                  {% when 'picking' %}Đang xử lý
+                  {% when 'delivering' %}Đang giao hàng
+                  {% when 'notmeetcustomer' %}Chưa gặp khách hàng
+                  {% when 'delivered' %}Đã giao hàng
+                  {% when 'cancel' %}Đã hủy
+                  {% when 'return' %}Đang hoàn hàng
+                  {% when 'waitingforreturn' %}Chờ hoàn hàng
+                  {% when 'pending' %}Chờ xử lý
+                    {% else %}
+                  {{ order.shipment_status | default: order.fulfillment_status | default: 'Chưa cập nhật' }}
+                {% endcase %}
+              {% endcapture %}
+              <tr>
+                <td data-label="Mã đơn hàng"><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                <td data-label="Ngày đặt">{{ order.created_at | date: '%d/%m/%Y' }}</td>
+                <td data-label="Thành tiền">{{ order.total_price | money }}</td>
+                <td data-label="Thanh toán"><span class="fox-account-status" data-status="{{ order.financial_status | default: 'unknown' }}">{{ fox_payment_label | strip }}</span></td>
+                <td data-label="Vận chuyển"><span class="fox-account-status" data-status="{{ order.shipment_status | default: order.fulfillment_status | default: 'unknown' }}">{{ fox_shipment_label | strip }}</span></td>
+                <td data-label="Thao tác"><a class="fox-account-orders__detail" href="{{ order.customer_url }}">Xem chi tiết <span aria-hidden="true">→</span></a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="fox-account-orders__empty"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"></path><path d="M4 7v10l8 4 8-4V7M12 11v10"></path></svg><h3>Bạn chưa có đơn hàng</h3><p>Khám phá những sản phẩm mới nhất và bắt đầu đơn hàng đầu tiên của bạn.</p><a class="btn btn-primary btn-effect--out" button-effect href="/collections/all"><span class="btn__label">Tiếp tục mua sắm</span><span data-btn-effect-span aria-hidden="true"></span></a></div>
+    {% endif %}
+  </section>
+{% endcapture %}
+
+{% include 'account-hero' %}

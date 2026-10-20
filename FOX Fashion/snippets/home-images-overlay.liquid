@@ -1,0 +1,90 @@
+{%- if settings.iwto_show -%}
+  {%- assign iwto_section_title = settings.iwto_title -%}
+  {%- assign iwto_item_count = 0 -%}
+  {%- for iwto_index in (1..5) -%}
+    {%- capture iwto_show_key -%}iwto_{{ iwto_index }}_show{%- endcapture -%}
+    {%- if settings[iwto_show_key] -%}
+      {%- assign iwto_item_count = iwto_item_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if iwto_item_count > 0 -%}
+    <section
+      class="fox-iwto-section"
+      style="--fox-iwto-overlay-opacity: {{ settings.iwto_overlay_opacity | default: 32 | times: 0.01 }};"
+    >
+      <div class="container">
+        {%- if iwto_section_title != blank -%}
+          <div class="fox-iwto-section__header">
+            <h2 class="fox-iwto-section__title">{{ iwto_section_title | escape }}</h2>
+          </div>
+        {%- endif -%}
+
+        <div
+          class="fox-iwto-list"
+          role="list"
+          aria-label="{{ iwto_section_title | escape }}"
+          data-item-count="{{ iwto_item_count }}"
+        >
+          {%- for iwto_index in (1..5) -%}
+            {%- capture iwto_show_key -%}iwto_{{ iwto_index }}_show{%- endcapture -%}
+            {%- if settings[iwto_show_key] -%}
+              {%- capture iwto_image_key -%}iwto_{{ iwto_index }}_image.jpg{%- endcapture -%}
+              {%- capture iwto_alt_key -%}iwto_{{ iwto_index }}_alt{%- endcapture -%}
+              {%- capture iwto_title_key -%}iwto_{{ iwto_index }}_title{%- endcapture -%}
+              {%- capture iwto_desc_key -%}iwto_{{ iwto_index }}_desc{%- endcapture -%}
+              {%- capture iwto_button_key -%}iwto_{{ iwto_index }}_btn_title{%- endcapture -%}
+              {%- capture iwto_url_key -%}iwto_{{ iwto_index }}_url{%- endcapture -%}
+              {%- assign iwto_image = settings[iwto_image_key] | default: iwto_image_key -%}
+              {%- assign iwto_image_url = iwto_image | asset_url -%}
+              {%- if iwto_image contains '//' -%}
+                {%- assign iwto_image_url = iwto_image -%}
+              {%- endif -%}
+              {%- assign iwto_item_title = settings[iwto_title_key] -%}
+              {%- assign iwto_button_title = settings[iwto_button_key] -%}
+              {%- assign iwto_item_url = settings[iwto_url_key] -%}
+
+              <article class="fox-iwto-card" role="listitem">
+                <div class="fox-iwto-card__media">
+                  <img
+                    class="fox-iwto-card__image"
+                    src="{{ iwto_image_url | escape }}"
+                    alt="{{ settings[iwto_alt_key] | default: iwto_item_title | escape }}"
+                    width="864"
+                    height="812"
+                    sizes="(min-width: 1150px) calc(30vw + 10vw), (min-width: 600px) 70vw, 88vw"
+                    loading="lazy"
+                    decoding="async">
+                </div>
+
+                <div class="fox-iwto-card__content">
+                  {%- if iwto_item_title != blank -%}
+                    <h3 class="fox-iwto-card__title">{{ iwto_item_title | escape }}</h3>
+                  {%- endif -%}
+
+                  {%- if settings[iwto_desc_key] != blank -%}
+                    <p class="fox-iwto-card__description">{{ settings[iwto_desc_key] | escape }}</p>
+                  {%- endif -%}
+
+                  {%- if iwto_button_title != blank and iwto_item_url != blank -%}
+                    <a
+                      button-effect
+                      class="fox-iwto-card__button btn btn-secondary"
+                      href="{{ iwto_item_url | escape }}"
+                      title="{{ iwto_button_title | strip | escape }}">
+                      <span class="btn__label">{{ iwto_button_title | escape }}</span>
+                      <span class="btn--icon" aria-hidden="true">
+                        <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+                      </span>
+                      <span data-btn-effect-span aria-hidden="true"></span>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}

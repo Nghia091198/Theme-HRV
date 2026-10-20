@@ -1,0 +1,12 @@
+{%- assign fox_product_context = 'page' -%}
+<section class="product-wrapper">
+  <div class="container">
+    {%- include 'product-main' -%}
+
+    {%- if product.description != blank -%}
+    <div class="product-description rte">
+      {{ product.description }}
+    </div>
+    {%- endif -%}
+  </div>
+</section>

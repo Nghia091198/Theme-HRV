@@ -1,0 +1,92 @@
+/**
+ * component-skeleton
+ * Brand-agnostic loading placeholder (shimmer).
+ * Structure/state only. Themeable via CSS custom properties.
+ */
+
+.skeleton { 
+  --skeleton-cols: 4;
+  --skeleton-gap: 20px;
+  --skeleton-base: #eceff3;
+  --skeleton-highlight: #f6f8fa;
+  --skeleton-radius: 8px;
+  --skeleton-speed: 1.4s;
+
+  display: grid;
+  grid-template-columns: repeat(var(--skeleton-cols), minmax(0, 1fr));
+  gap: var(--skeleton-gap);
+  width: 100%;
+}
+
+.skeleton__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton__card--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.skeleton__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--skeleton-radius);
+  background: var(--skeleton-base);
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.skeleton__card--horizontal .skeleton__media {
+  flex: 0 0 30%;
+  max-width: 96px;
+}
+
+.skeleton__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.skeleton__line {
+  position: relative;
+  overflow: hidden;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--skeleton-base);
+}
+
+.skeleton__line--title { height: 16px; width: 90%; }
+.skeleton__line--sm { height: 12px; width: 60%; }
+.skeleton__line--price { height: 14px; width: 45%; }
+
+/* Shimmer sweep */
+.skeleton__media::after,
+.skeleton__line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--skeleton-highlight) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer var(--skeleton-speed) ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton__media::after,
+  .skeleton__line::after {
+    animation: none;
+  }
+}

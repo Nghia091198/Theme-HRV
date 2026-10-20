@@ -1,0 +1,35 @@
+<button
+  type="button"
+  class="fox-media-progress__control"
+  data-fox-media-control
+  data-fox-label-play="{{ media_play_label | default: 'Tiếp tục' | escape }}"
+  data-fox-label-pause="{{ media_pause_label | default: 'Tạm dừng' | escape }}"
+  aria-label="{{ media_pause_label | default: 'Tạm dừng' | escape }}">
+  <svg
+    class="fox-media-progress__ring"
+    viewBox="0 0 48 48"
+    aria-hidden="true">
+    <circle
+      class="fox-media-progress__track"
+      data-fox-media-progress-track
+      cx="24"
+      cy="24"
+      r="21">
+    </circle>
+    <circle
+      class="fox-media-progress__bar"
+      data-fox-media-progress-bar
+      cx="24"
+      cy="24"
+      r="21">
+    </circle>
+  </svg>
+  <span
+    class="fox-media-progress__icon fox-media-progress__icon--pause"
+    aria-hidden="true">
+  </span>
+  <span
+    class="fox-media-progress__icon fox-media-progress__icon--play"
+    aria-hidden="true">
+  </span>
+</button>

@@ -1,0 +1,35 @@
+<quick-view-component data-state="idle">
+  <modal-component
+    id="fox-quick-view-modal"
+    data-state="closed"
+    data-modal-stack="true">
+    <dialog data-role="dialog" aria-label="Xem nhanh sản phẩm">
+      <div data-role="surface">
+        <button
+          type="button"
+          class="fox-quick-view__close"
+          data-action="close"
+          aria-controls="fox-quick-view-modal"
+          aria-label="Đóng">
+          <svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+            <circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+            <circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+          </svg>
+          <svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+          </svg>
+        </button>
+        <div class="fox-quick-view__loading" data-role="loading" aria-live="polite" hidden>Đang tải sản phẩm...</div>
+        <div class="fox-quick-view__content" data-role="content"></div>
+        <div class="fox-quick-view__scrollbar" data-role="scrollbar" aria-hidden="true" hidden>
+          <span class="fox-quick-view__scrollbar-thumb" data-role="scrollbar-thumb"></span>
+        </div>
+        <div class="fox-quick-view__error" data-role="error" role="alert" hidden>
+          <p>Không thể tải sản phẩm.</p>
+          <button type="button" data-action="retry">Thử lại</button>
+          <a data-role="product-link" href="/collections/all">Xem trang sản phẩm</a>
+        </div>
+      </div>
+    </dialog>
+  </modal-component>
+</quick-view-component>

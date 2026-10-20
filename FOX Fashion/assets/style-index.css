@@ -1,0 +1,130 @@
+@keyframes arrow-loop-next {
+  0%   { transform: scaleX(var(--flip)) translateX(0);     opacity: 1; }
+  40%  { transform: scaleX(var(--flip)) translateX(180%);  opacity: 0; }
+  41%  { transform: scaleX(var(--flip)) translateX(-180%); opacity: 0; }
+  100% { transform: scaleX(var(--flip)) translateX(0);     opacity: 1; }
+}
+@keyframes arrow-loop-prev {
+  0%   { transform: scaleX(var(--flip)) translateX(0);     opacity: 1; }
+  40%  { transform: scaleX(var(--flip)) translateX(-180%);  opacity: 0; }
+  41%  { transform: scaleX(var(--flip)) translateX(180%); opacity: 0; }
+  100% { transform: scaleX(var(--flip)) translateX(0);     opacity: 1; }
+}
+heroslider { position: relative; display: block; }
+heroslider slide-youtube {
+    position:absolute;
+    inset:0   
+}
+heroslider slide-youtube,
+heroslider slidevideo {
+    line-height: 0;
+}
+heroslider .video-wrapper {
+    padding-bottom: 48%;
+}
+heroslider slide-youtube iframe {
+    position:absolute; 
+    height:56.25vw;
+    min-height:100vh;
+    transform: translate(-50%,-50%);
+    max-width: 100%;
+    left: 50%!important;top:50%!important;
+}
+.slide-banner-container img,
+.slide-banner-container video,
+.slide-banner-container iframe {
+    height: 100vh;width: 100%; object-fit: cover;
+}
+heroslider slider-component .swiper-button-prev,
+heroslider slider-component .swiper-button-next {
+    --icon-width: 10px;
+    --icon-height: 8px;
+    --flip: 1;
+    position: static;
+    background: var(--color-btn-primary,#FFF);
+    color: var(--color-btn-secondary);
+    border-radius: 30px;
+    width: 4rem;
+    height: 2.1rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+heroslider slider-component .swiper-button-next:hover svg {animation: arrow-loop-next .5s ease}
+heroslider slider-component .swiper-button-prev:hover svg {animation: arrow-loop-prev .5s ease}
+slidecontent .slide-content__title,
+slidecontent .slide-content__desc,
+slidecontent .slide-content__btn {
+    opacity: 0;
+    transform: translateY(48px);     /* trồi xa hơn chút */
+    will-change: opacity, transform;
+}
+slidecontent.is-revealed .slide-content__title,
+slidecontent.is-revealed .slide-content__desc,
+slidecontent.is-revealed .slide-content__btn {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .8s ease, transform 1s cubic-bezier(.16, 1, .3, 1);
+    transition-delay: calc(var(--reveal-i, 0) * .25s + .15s);   /* chậm + cách rõ hơn */
+}
+
+/* Tôn trọng người tắt animation */
+@media (prefers-reduced-motion: reduce) {
+    slidecontent .slide-content__title,
+    slidecontent .slide-content__desc,
+    slidecontent .slide-content__btn {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+.slide-banner--content {
+    position: absolute;
+    z-index: 10;
+    left:0;
+    top:0; 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+.slide-banner--content .slide-content__title,
+.slide-banner--content .slide-content__desc {
+    color: var(--color-hero-text);
+}
+.slide-banner--content .slide-content__title {
+    font-size: 4rem;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+}
+.slide-banner--content .slide-content__desc {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.6rem;
+}
+.slide-content__btn {margin-top: 2rem}
+.slide-content__btn .btn{padding: 14px 28px}
+slidecontent[center] {margin-left:auto;margin-right:auto;text-align: center}
+slidecontent[right] {margin-left:auto;text-align: right}
+slidecontent[left] {margin-right:auto;text-align: left}
+
+@media (max-width: 991.9px) {
+    .slide-banner--content{padding:15px}
+    .slide-banner--content .slide-content__title{font-size: 2.6rem;margin-bottom: 1.6rem}
+    .slide-banner--content .slide-content__desc {font-size: 1.3rem;line-height:1.3}
+    .slide-content__btn{margin-top: 2rem}
+    .slide-content__btn .btn{padding: 10px 28px}
+}
+
+
+
+.fox-hcs__card-content {
+    text-align: center;
+  will-change: transform;
+  transform: translateZ(1px);
+  transform-style: flat;
+}
+.fox-hcs__card-label {
+  transform-style: flat;
+}

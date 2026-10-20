@@ -1,0 +1,107 @@
+{%- comment -%}
+  Liquid keeps both figures readable before the comparison behavior initializes.
+{%- endcomment -%}
+{%- if settings.image_compare_show -%}
+  {%- capture left_key -%}image_compare_left_image.jpg{%- endcapture -%}
+  {%- capture right_key -%}image_compare_right_image.jpg{%- endcapture -%}
+  {%- assign left_image = settings[left_key] | default: 'image_compare_left_image.jpg' -%}
+  {%- assign right_image = settings[right_key] | default: 'image_compare_right_image.jpg' -%}
+  {%- assign left_url = left_image | asset_url -%}
+  {%- assign right_url = right_image | asset_url -%}
+  {%- assign position = settings.image_compare_position | default: 50 | plus: 0 -%}
+  {%- assign left_label = settings.image_compare_left_label -%}
+  {%- assign right_label = settings.image_compare_right_label -%}
+
+  {%- if left_image contains '//' -%}
+    {%- assign left_url = left_image -%}
+  {%- endif -%}
+  {%- if right_image contains '//' -%}
+    {%- assign right_url = right_image -%}
+  {%- endif -%}
+  {%- if position < 0 -%}
+    {%- assign position = 0 -%}
+  {%- elsif position > 100 -%}
+    {%- assign position = 100 -%}
+  {%- endif -%}
+
+  <section class="fox-image-compare-section">
+    <div class="container-fluid">
+      {%- if settings.image_compare_title != blank or settings.image_compare_desc != blank -%}
+        <header class="fox-section__header fox-image-compare-section__header">
+          {%- if settings.image_compare_title != blank -%}
+            <h2 class="fox-section__title">{{ settings.image_compare_title | escape }}</h2>
+          {%- endif -%}
+          {%- if settings.image_compare_desc != blank -%}
+            <p class="fox-section__desc">{{ settings.image_compare_desc | escape }}</p>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+
+      <fox-image-compare
+        class="fox-image-compare"
+        data-state="idle"
+        data-position="{{ position }}"
+        data-default-position="{{ position }}"
+        style="--fox-image-compare-position: {{ position }}%;"
+      >
+        <div class="fox-image-compare__media" data-role="media">
+          <figure class="fox-image-compare__panel fox-image-compare__panel--left" data-role="left-panel">
+            <img
+              class="fox-image-compare__image"
+              data-role="left-image"
+              src="{{ left_url | escape }}"
+              alt="{{ settings.image_compare_left_alt | default: left_label | default: 'Người phụ nữ ngồi tập yoga trong áo thun xám và quần legging đen' | escape }}"
+              width="1672"
+              height="860"
+              sizes="(min-width: 1884px) 1824px, (min-width: 768px) calc(100vw - 60px), calc(100vw - 30px)"
+              loading="lazy"
+              decoding="async">
+            {%- if left_label != blank -%}
+              <figcaption class="fox-image-compare__caption fox-image-compare__caption--left">
+                {{ left_label | escape }}
+              </figcaption>
+            {%- endif -%}
+          </figure>
+
+          <figure class="fox-image-compare__panel fox-image-compare__panel--right" data-role="right-panel">
+            <img
+              class="fox-image-compare__image"
+              data-role="right-image"
+              src="{{ right_url | escape }}"
+              alt="{{ settings.image_compare_right_alt | default: right_label | default: 'Người phụ nữ ngồi tập yoga trong bộ đồ tập màu xanh cobalt' | escape }}"
+              width="1672"
+              height="860"
+              sizes="(min-width: 1884px) 1824px, (min-width: 768px) calc(100vw - 60px), calc(100vw - 30px)"
+              loading="lazy"
+              decoding="async">
+            {%- if right_label != blank -%}
+              <figcaption class="fox-image-compare__caption fox-image-compare__caption--right">
+                {{ right_label | escape }}
+              </figcaption>
+            {%- endif -%}
+          </figure>
+        </div>
+
+        <input
+          class="fox-image-compare__range"
+          data-role="range"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="{{ position }}"
+          aria-label="Điều chỉnh vị trí so sánh hình ảnh">
+
+        <div class="fox-image-compare__divider" data-role="divider" aria-hidden="true">
+          <span class="fox-image-compare__handle">
+            <span class="fox-image-compare__grip">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </span>
+        </div>
+      </fox-image-compare>
+    </div>
+  </section>
+{%- endif -%}

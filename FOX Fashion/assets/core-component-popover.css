@@ -1,0 +1,101 @@
+fox-popover {
+  display: contents;
+}
+
+[data-popover-panel] {
+  position: fixed;
+  z-index: 1080;
+  width: min(320px, calc(100vw - 24px));
+  max-height: min(440px, calc(100vh - 24px));
+  overflow: auto;
+  border: 1px solid var(--color-border, #cecece);
+  border-radius: var(--radius-md, 14px);
+  background: var(--color-bg-theme, #fff);
+  color: var(--color-text-theme, #171718);
+  box-shadow: 0 18px 50px rgb(0 0 0 / .16);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(6px) scale(.98);
+  transition: opacity .2s ease, transform .25s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .25s;
+}
+
+[data-popover-panel][data-state='loading'],
+[data-popover-panel][data-state='ready'],
+[data-popover-panel][data-state='error'],
+[data-popover-panel][data-state='open'] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+[data-popover-panel][hidden] {
+  display: block;
+}
+
+[data-popover-arrow],
+[data-popover-arrow]::before {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+
+[data-popover-arrow]::before {
+  border: solid var(--color-border, #cecece);
+  border-width: 1px 0 0 1px;
+  background: var(--color-bg-theme, #fff);
+  content: '';
+  transform: rotate(45deg);
+}
+
+[data-popover-panel][x-placement^='top'] [data-popover-arrow] { bottom: -7px; }
+[data-popover-panel][x-placement^='bottom'] [data-popover-arrow] { top: -7px; }
+[data-popover-panel][x-placement^='left'] [data-popover-arrow] { right: -7px; }
+[data-popover-panel][x-placement^='right'] [data-popover-arrow] { left: -7px; }
+
+[data-popover-close] {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / .88);
+  color: currentColor;
+}
+
+[data-popover-loading],
+[data-popover-error] {
+  padding: 42px 20px 24px;
+  text-align: center;
+}
+
+[data-popover-loading]::before {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 12px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  content: '';
+  animation: fox-popover-spin .7s linear infinite;
+}
+
+[data-popover-error] a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+@keyframes fox-popover-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-popover-panel] { transition: none; }
+  [data-popover-loading]::before { animation: none; }
+}

@@ -1,0 +1,6 @@
+{% layout none %}
+{%- assign fox_collection_limit = settings.pagination_limit | default: 12 | plus: 0 -%}
+{%- if fox_collection_limit < 1 -%}{%- assign fox_collection_limit = 12 -%}{%- endif -%}
+{%- paginate collection.products by fox_collection_limit -%}
+  {%- include 'collection-results' -%}
+{%- endpaginate -%} 

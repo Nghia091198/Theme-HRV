@@ -1,0 +1,9 @@
+{% layout none %}
+{% assign fox_mobile_menu = settings.header_main_menu | default: 'main-menu' %}
+{% assign fox_mobile_menu_style = settings.header_mobile_menu_style | default: 'drilldown' %}
+{% comment %}Style 2 is the storefront default; Style 1 remains available in theme settings.{% endcomment %}
+{% if fox_mobile_menu_style == 'drilldown' %}
+  {% include 'component-mobile-menu-drilldown' with menuHandle: fox_mobile_menu %}
+{% else %}
+  {% include 'component-header-menu-level' with menuHandle: fox_mobile_menu, mobile: true %}
+{% endif %}

@@ -1,0 +1,145 @@
+<section class="home-slider">
+  <style>
+    [hero-color] {
+      --color-hero-text: {{ settings.slide_text_color }};
+      --color-hero-btn-bg: {{ settings.slide_btn_bgcolor }};
+      --color-hero-btn-text: {{ settings.slide_btn_textcolor }};
+      --color-hero-btn-bg-hover: {{ settings.slide_btn_bgcolor }};
+      --color-hero-btn-text: {{ settings.slide_btn_textcolor }};
+    }
+  </style>
+
+  <div class="full-width">
+    <heroslider hero-color>
+      <slider-component
+        id="fox-hero-slider"
+        data-preset="hero"
+        data-autoplay="true"
+        data-autoplay-delay="{{ settings.slide_interval | default: '3000' }}"
+        data-transition-duration="1500"
+        data-loop="true"
+        data-pagination="true"
+        data-navigation="true"
+        data-slides-mobile="1"
+        data-slides-tablet="1"
+        data-slides-desktop="1"
+        data-space-mobile="0"
+        data-space-tablet="0"
+        data-space-desktop="0"
+        data-state="idle">
+        <div class="swiper" data-role="viewport">
+          <div class="swiper-wrapper">
+            {%- for slide_index in (1..5) -%}
+              {%- capture show_key -%}slide_{{ slide_index }}_show{%- endcapture -%}
+              {%- capture type_key -%}slide_{{ slide_index }}_type{%- endcapture -%}
+              {%- capture mp4_url_key -%}slide_{{ slide_index }}_mp4_url{%- endcapture -%}
+              {%- capture youtube_url_key -%}slide_{{ slide_index }}_youtube_url{%- endcapture -%}
+              {%- capture title_key -%}slide_{{ slide_index }}_title{%- endcapture -%}
+              {%- capture description_key -%}slide_{{ slide_index }}_desc{%- endcapture -%}
+              {%- capture content_position_key -%}slide_{{ slide_index }}_content_position{%- endcapture -%}
+              {%- capture button_label_key -%}slide_{{ slide_index }}_btntitle{%- endcapture -%}
+              {%- capture button_url_key -%}slide_{{ slide_index }}_btnurl{%- endcapture -%}
+              {%- capture alt_key -%}slide_{{ slide_index }}_alt{%- endcapture -%}
+              {%- capture desktop_image -%}slide_{{ slide_index }}_d_image.png{%- endcapture -%}
+              {%- capture mobile_image -%}slide_{{ slide_index }}_m_image.png{%- endcapture -%}
+
+              {%- assign is_enabled = true -%}
+              {%- if slide_index > 1 -%}
+                {%- assign is_enabled = settings[show_key] -%}
+              {%- endif -%}
+
+              {%- assign media_type = settings[type_key] | default: 'type_image' -%}
+              {%- assign title = settings[title_key] -%}
+              {%- assign description = settings[description_key] -%}
+              {%- assign content_position = settings[content_position_key] | default: 'center' -%}
+              {%- assign button_label = settings[button_label_key] -%}
+              {%- assign button_url = settings[button_url_key] -%}
+              {%- assign alt_text = settings[alt_key] | default: title | default: shop.name -%}
+              {%- assign image_loading = 'lazy' -%}
+              {%- assign image_decoding = 'async' -%}
+              {%- assign image_fetchpriority = 'auto' -%}
+              {%- assign video_preload = 'none' -%}
+
+              {%- if slide_index == 1 -%}
+                {%- assign image_loading = 'eager' -%}
+                {%- assign image_decoding = 'sync' -%}
+                {%- assign image_fetchpriority = 'high' -%}
+                {%- assign video_preload = 'metadata' -%}
+              {%- endif -%}
+
+              {%- if is_enabled -%}
+                <div class="swiper-slide {{ media_type }}">
+                  <div class="slide-banner-container">
+                    <div class="slide-banner--hero position-relative">
+                      {%- case media_type -%}
+                        {%- when 'type_image' -%}
+                          <slideimage>
+                            {%- if button_url != blank -%}<a href="{{ button_url }}" title="{{ title | strip | escape }}">{%- endif -%}
+                              {%- include 'render-img' with src: desktop_image, src_mobile: mobile_image, class: 'img-fluid', alt: alt_text, w: '1920', h: '800', loading: image_loading, decoding: image_decoding, fetchpriority: image_fetchpriority -%}
+                            {%- if button_url != blank -%}</a>{%- endif -%}
+                          </slideimage>
+                        {%- when 'type_youtube' -%}
+                          <div class="video-wrapper">
+                            <slide-youtube
+                              data-id="{{ settings[youtube_url_key] | split: '?v=' | last | split: '&' | first | escape }}"
+                              data-autoplay="true"
+                              data-muted="true"
+                              data-controls="false">
+                            </slide-youtube>
+                          </div>
+                        {%- when 'type_mp4' -%}
+                          <slidevideo>
+                            <video muted playsinline preload="{{ video_preload }}">
+                              <source src="{{ settings[mp4_url_key] | escape }}" type="video/mp4">
+                            </video>
+                          </slidevideo>
+                      {%- endcase -%}
+                    </div>
+
+                    <div class="slide-banner--content">
+                      <slidecontent {% if content_position == 'left' %}left{% elsif content_position == 'right' %}right{% else %}center{% endif %}>
+                        {%- if title != blank -%}
+                          <h2 class="slide-content__title">{{ title | escape }}</h2>
+                        {%- endif -%}
+                        {%- if description != blank -%}
+                          <p class="slide-content__desc">{{ description | escape }}</p>
+                        {%- endif -%}
+                        {%- if button_label != blank and button_url != blank -%}
+                          <div class="slide-content__btn">
+                            <a
+                              button-effect
+                              class="btn btn-secondary"
+                              href="{{ button_url }}"
+                              title="{{ button_label | strip | escape }}">
+                              <span class="btn__label">{{ button_label | escape }}</span>
+                              <span class="btn--icon" aria-hidden="true">
+                                <svg class="icon-svg"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+                              </span>
+                              <span data-btn-effect-span aria-hidden="true"></span>
+                            </a>
+                          </div>
+                        {%- endif -%}
+                      </slidecontent>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="swiper-pagination" data-role="pagination"></div>
+        <div class="swiper-button-container" data-role="navigation" hidden>
+          {%- include 'swiper-navigation' with style: '01' -%}
+        </div>
+      </slider-component>
+
+      <slide-progress
+        data-target="fox-hero-slider"
+        data-image-time="{{ settings.slide_interval | default: '3000' }}"
+        hidden>
+        {%- include 'component-media-progress-control' with media_play_label: 'Tiếp tục', media_pause_label: 'Tạm dừng' -%}
+      </slide-progress>
+    </heroslider>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+{% comment %}
+  Shared menu preparation with concise local variable names.
+  Operations: menu-state, category-keys, link-group-state.
+{% endcomment %}
+
+{% if operation == 'menu-state' %}
+  {% assign menu_children = linklists[menu_link.handle].links %}
+  {% assign menu_is_mega_1 = false %}
+  {% assign menu_is_mega_2 = false %}
+  {% if settings.header_mega_1_enabled and settings.header_mega_1_menu_title == menu_link.title %}{% assign menu_is_mega_1 = true %}{% endif %}
+  {% if settings.header_mega_2_enabled and settings.header_mega_2_menu_title == menu_link.title %}{% assign menu_is_mega_2 = true %}{% endif %}
+  {% assign menu_is_mega = false %}
+  {% if menu_is_mega_1 or menu_is_mega_2 %}{% assign menu_is_mega = true %}{% endif %}
+  {% assign menu_has_panel = false %}
+  {% if menu_children != empty or menu_is_mega %}{% assign menu_has_panel = true %}{% endif %}
+{% elsif operation == 'category-keys' %}
+  {% capture category_show_key %}header_mega_{{ mega_type }}_category_{{ item_index }}_show{% endcapture %}
+  {% capture category_image_key %}header_mega_{{ mega_type }}_category_{{ item_index }}_image.png{% endcapture %}
+  {% capture category_alt_key %}header_mega_{{ mega_type }}_category_{{ item_index }}_alt{% endcapture %}
+  {% capture category_title_key %}header_mega_{{ mega_type }}_category_{{ item_index }}_title{% endcapture %}
+  {% capture category_url_key %}header_mega_{{ mega_type }}_category_{{ item_index }}_url{% endcapture %}
+{% elsif operation == 'link-group-state' %}
+  {% capture link_group_show_key %}header_mega_1_links_{{ item_index }}_show{% endcapture %}
+  {% capture link_group_title_key %}header_mega_1_links_{{ item_index }}_title{% endcapture %}
+  {% capture link_group_menu_key %}header_mega_1_links_{{ item_index }}_menu{% endcapture %}
+  {% assign link_group_menu = settings[link_group_menu_key] %}
+  {% assign link_group_links = link_group_menu.links %}
+  {% if link_group_links == blank %}{% assign link_group_links = linklists[link_group_menu].links %}{% endif %}
+  {% assign link_group_visible = false %}
+  {% if settings[link_group_show_key] and link_group_links != blank %}{% assign link_group_visible = true %}{% endif %}
+{% endif %}

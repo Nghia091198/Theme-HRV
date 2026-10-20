@@ -1,0 +1,32 @@
+html.fox-overlay-lock,
+body.fox-overlay-lock {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.fox-page-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(19, 22, 27, .28);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .24s ease, visibility .24s ease;
+}
+
+.fox-overlay-visible .fox-page-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.fox-overlay-lock,
+  body.fox-overlay-lock {
+    scroll-behavior: auto;
+  }
+
+  .fox-page-overlay {
+    transition: none;
+  }
+}

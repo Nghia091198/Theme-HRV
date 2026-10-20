@@ -1,0 +1,37 @@
+{%- comment -%}
+  component-skeleton
+  Reusable loading placeholder (shimmer). Brand-agnostic core component.
+
+  Params:
+    type     : 'default' (card dọc: ảnh trên, text dưới) | 'horizontal' (card ngang: ảnh trái, text phải). Default 'default'.
+    item     : số card mỗi hàng (grid columns). Default 4.
+    row      : số hàng. Default 1.
+    fallback : (optional) markup hiển thị khi rỗng/lỗi. Được nhúng vào <template data-role="fallback"> để JS lấy khi cần.
+
+  Tổng số card = item * row.
+
+  Usage:
+    {%- include 'component-skeleton' with type: 'default', item: 4, row: 1 -%}
+    {%- include 'component-skeleton' with type: 'horizontal', item: 1, row: 4, fallback: my_fallback_html -%}
+{%- endcomment -%} 
+{%- assign skeleton_type = type | default: 'default' -%}
+{%- assign skeleton_item = item | default: 4 | plus: 0 -%}
+{%- assign skeleton_row = row | default: 1 | plus: 0 -%}
+{%- if skeleton_item < 1 -%}{%- assign skeleton_item = 1 -%}{%- endif -%}
+{%- if skeleton_row < 1 -%}{%- assign skeleton_row = 1 -%}{%- endif -%}
+{%- assign skeleton_total = skeleton_item | times: skeleton_row -%}
+<div class="skeleton skeleton--{{ skeleton_type }}" data-role="skeleton" aria-hidden="true" style="--skeleton-cols: {{ skeleton_item }};">
+  {%- for n in (1..skeleton_total) -%}
+  <div class="skeleton__card{% if skeleton_type == 'horizontal' %} skeleton__card--horizontal{% endif %}">
+    <div class="skeleton__media"></div>
+    <div class="skeleton__body">
+      <div class="skeleton__line skeleton__line--title"></div>
+      <div class="skeleton__line skeleton__line--sm"></div>
+      <div class="skeleton__line skeleton__line--price"></div>
+    </div>
+  </div>
+  {%- endfor -%}
+</div>
+{%- if fallback != blank -%}
+<template data-role="fallback">{{ fallback }}</template>
+{%- endif -%}

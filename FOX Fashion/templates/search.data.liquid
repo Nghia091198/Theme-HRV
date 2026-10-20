@@ -1,0 +1,23 @@
+{% layout none %}
+{%- assign fox_collection_limit = settings.pagination_limit | default: 12 | plus: 0 -%}
+{%- if fox_collection_limit < 1 -%}{%- assign fox_collection_limit = 12 -%}{%- endif -%}
+{%- paginate search.results by fox_collection_limit -%}
+<div class="fox-collection__results-content" data-role="results-content" data-result-count="{{ search.results_count | default: paginate.items | default: search.results.size }}" data-result-page="{{ paginate.current_page | default: 1 }}">
+  <div class="fox-collection__grid" data-role="product-grid">
+    {%- assign fox_search_products_rendered = 0 -%}
+    {%- for result in search.results -%}
+      {%- if result.variants != blank -%}
+        {%- assign product = result -%}
+        {%- assign product_card_context = 'collection' -%}
+        {%- include 'product-loop' with grid: '' -%}
+        {%- assign product_card_context = blank -%}
+        {%- assign fox_search_products_rendered = fox_search_products_rendered | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if fox_search_products_rendered == 0 -%}
+      <p class="fox-collection__empty" data-role="empty">Không tìm thấy sản phẩm phù hợp.</p>
+    {%- endif -%}
+  </div>
+  {%- include 'pagination' with pagination_page_size: fox_collection_limit, pagination_item_label: 'sản phẩm', pagination_show_progress: true, pagination_progress_hidden: true, pagination_aria_label: 'Phân trang sản phẩm' -%}
+</div>
+{%- endpaginate -%}

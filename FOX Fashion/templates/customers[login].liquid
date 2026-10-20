@@ -1,0 +1,6 @@
+{%- if customer -%}
+<script>window.location = "/account";</script>
+{%- else -%}
+{% assign auth_mode = 'login' %}
+{% include 'customer' %}
+{%- endif -%}

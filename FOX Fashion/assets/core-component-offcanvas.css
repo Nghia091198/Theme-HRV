@@ -1,0 +1,53 @@
+/* Brand-agnostic off-canvas motion contract for drawers and future sidebars. */
+/* Keep the panel anchored 10px from the viewport while its content fades independently. */
+/* Both endpoints preserve the body gutter during the transition. */
+/* Closed state starts just outside the matching edge. */
+.core-offcanvas {
+  --core-offcanvas-pin: 10px;
+  --core-offcanvas-duration: 320ms;
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  visibility: hidden;
+  pointer-events: none;
+}
+.core-offcanvas[data-open], .core-offcanvas[data-closing] { visibility: visible; }
+.core-offcanvas[data-open] { pointer-events: auto; }
+.core-offcanvas__overlay { position: absolute; inset: 0; width: 100%; border: 0; opacity: 0; }
+.core-offcanvas__panel {
+  position: absolute;
+  inset-block: var(--core-offcanvas-pin);
+  width: calc(100vw - (var(--core-offcanvas-pin) * 2));
+  max-width: none;
+  overflow: clip;
+  contain: layout paint;
+  will-change: clip-path;
+}
+.core-offcanvas[data-position="left"] .core-offcanvas__panel {
+  left: var(--core-offcanvas-pin);
+  clip-path: inset(0 100% 0 0 round 12px);
+}
+.core-offcanvas[data-position="right"] .core-offcanvas__panel {
+  right: var(--core-offcanvas-pin);
+  clip-path: inset(0 0 0 100% round 12px);
+}
+.core-offcanvas__content { display: flex; width: 100%; min-height: 0; flex: 1 1 auto; flex-direction: column; opacity: 0; }
+.core-offcanvas[data-position="left"] .core-offcanvas__content { transform: translate3d(-12px, 0, 0); }
+.core-offcanvas[data-position="right"] .core-offcanvas__content { transform: translate3d(12px, 0, 0); }
+.core-offcanvas[data-open] .core-offcanvas__overlay { opacity: 1; }
+.core-offcanvas[data-open] .core-offcanvas__panel { clip-path: inset(0 0 0 0 round 12px); }
+.core-offcanvas[data-open][data-state="ready"] .core-offcanvas__content,
+.core-offcanvas[data-open][data-state="empty"] .core-offcanvas__content,
+.core-offcanvas[data-open][data-state="error"] .core-offcanvas__content { opacity: 1; transform: translate3d(0, 0, 0); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .core-offcanvas__overlay { transition: opacity 220ms ease; }
+  .core-offcanvas__panel { transition-property: clip-path; transition-duration: var(--core-offcanvas-duration); transition-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  .core-offcanvas__content { transition: opacity 150ms ease, transform 210ms ease-out; }
+  .core-offcanvas[data-open] .core-offcanvas__content { transition-delay: 90ms; }
+  .core-offcanvas[data-closing] .core-offcanvas__content { transition-duration: 150ms; transition-delay: 180ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .core-offcanvas__panel, .core-offcanvas__content { clip-path: none; transform: none; }
+}

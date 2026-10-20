@@ -1,0 +1,39 @@
+{% assign fox_mobile_menu_style = settings.header_mobile_menu_style | default: 'drilldown' %}
+{% comment %}The Style 2 drawer shell owns its configured color, persistent header and social footer.{% endcomment %}
+{% comment %}The off-canvas wrapper keeps motion reusable for future sidebars.{% endcomment %}
+<menu-drawer id="fox-menu-mobile" class="core-offcanvas fox-menu-drawer" data-position="left" data-state="idle" data-style="{{ fox_mobile_menu_style }}" aria-hidden="true" data-menu-url="/?view=menu-mobile" style="--fox-menu-color: {{ settings.theme_color | default: '#1B2631' | escape }};">
+  <button type="button" class="core-offcanvas__overlay fox-menu-drawer__overlay" data-action="close-menu" aria-label="Đóng menu"></button>
+  <aside class="core-offcanvas__panel fox-menu-drawer__panel" role="dialog" aria-modal="true" aria-label="Menu di động" tabindex="-1">
+    <div class="core-offcanvas__content">
+    <div class="fox-menu-drawer__header" data-role="drawer-header">
+      {% if fox_mobile_menu_style == 'drilldown' %}
+        <div class="fox-menu-drawer__root-brand" data-role="drawer-root-brand">
+          {% if settings.use_logo %}
+            <img src="{{ 'logo.png' | asset_url }}" width="300" height="70" alt="{{ shop.name | escape }}">
+          {% else %}
+            <strong>{{ shop.name }}</strong>
+          {% endif %}
+        </div>
+      {% else %}
+        <strong>Menu</strong>
+      {% endif %}
+      <button type="button" class="fox-header-action fox-menu-drawer__close" data-action="close-menu" aria-label="Đóng menu"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-times"></use></svg></button>
+    </div>
+    {% if fox_mobile_menu_style == 'drilldown' %}
+      <div class="fox-menu-drawer__subheader" data-role="drawer-subheader" hidden>
+        <button type="button" class="fox-menu-drawer__back" data-action="back-panel" aria-label="Quay lại menu trước">
+          <svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-chevron-right"></use></svg>
+        </button>
+        <strong class="fox-menu-drawer__title" data-role="drawer-title"></strong>
+      </div>
+    {% endif %}
+    <div class="fox-menu-drawer__content" data-role="mobile-content" aria-live="polite"></div>
+    {% if fox_mobile_menu_style == 'drilldown' %}
+      {% comment %}Capture prevents an empty drawer footer when every URL is blank.{% endcomment %}
+      {%- capture fox_mobile_socials -%}{%- include 'list-socials' with style:'social--basic',link_style:true -%}{%- endcapture -%}
+      {%- assign fox_mobile_socials = fox_mobile_socials | strip -%}
+      {%- if fox_mobile_socials != blank -%}<footer class="fox-menu-drawer__footer">{{ fox_mobile_socials }}</footer>{%- endif -%}
+    {% endif %}
+    </div>
+  </aside>
+</menu-drawer>

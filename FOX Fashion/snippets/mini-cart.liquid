@@ -1,0 +1,20 @@
+{%- comment -%}
+  Drawer gio hang. <cart-root> boc ngoai cart-view vi JS tim no bang closest()
+  de goi afterRender va bat trang thai busy.
+  Khong include tren trang /cart nua — truoc day trang do co 2 cart-view trung nhau.
+{%- endcomment -%}
+{%- assign cart_title = 'Giỏ hàng' -%}
+<mini-cart id="block-cart-modal" class="core-offcanvas fox-mini-cart" data-position="right" data-state="idle" data-item-count="{{ cart.item_count | default: 0 }}" aria-hidden="true" style="--fox-cart-surface: {{ settings.theme_color | default: '#1B2631' | escape }};">
+  <button type="button" class="core-offcanvas__overlay fox-mini-cart__overlay" data-action="close" aria-label="Đóng giỏ hàng"></button>
+  <aside class="core-offcanvas__panel fox-mini-cart__panel" data-role="panel" role="dialog" aria-modal="true" aria-labelledby="fox-mini-cart-title" tabindex="-1">
+    <div class="core-offcanvas__content">
+      <header class="fox-mini-cart__header">
+        <h2 id="fox-mini-cart-title">{{ cart_title }}</h2>
+        <button type="button" class="fox-mini-cart__close" data-action="close" aria-label="Đóng giỏ hàng"><svg class="icon-svg" aria-hidden="true"><use xlink:href="#ic-times"></use></svg></button>
+      </header>
+      <cart-root class="fox-mini-cart__body" data-role="body">
+        {% include 'cart-content' %}
+      </cart-root>
+    </div>
+  </aside>
+</mini-cart>

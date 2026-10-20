@@ -1,0 +1,118 @@
+{% comment %}Dynamic setting keys use the concise shared menu contract.{% endcomment %}
+{% assign left_count = 0 %}
+{% for i in (1..4) %}
+  {% include 'component-header-menu-shared' with operation: 'category-keys', mega_type: 1, item_index: i %}
+  {% if settings[category_show_key] %}
+    {% assign left_count = left_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% assign mega_collection = collections[settings.header_mega_1_collection] %}
+{% assign center_show = settings.header_mega_1_collection_show %}
+{% if mega_collection == empty %}
+  {% assign center_show = false %}
+{% endif %}
+
+{% assign right_show = false %}
+{% if settings.header_mega_1_links_1_show or settings.header_mega_1_links_2_show %}
+  {% assign right_show = true %}
+{% endif %}
+
+<div class="fox-mega fox-mega--type-1{% if left_count == 0 %} fox-mega--no-left{% endif %}{% unless center_show %} fox-mega--no-center{% endunless %}{% unless right_show %} fox-mega--no-right{% endunless %}">
+  {% if left_count > 0 %}
+    <section class="fox-mega__categories" aria-label="Danh mục nổi bật">
+      <div class="fox-mega-type-1__category-list">
+        {% for i in (1..4) %}
+          {% include 'component-header-menu-shared' with operation: 'category-keys', mega_type: 1, item_index: i %}
+
+          {% if settings[category_show_key] %}
+            <a class="fox-mega-category" href="{{ settings[category_url_key] | default: '/collections/all' }}" button-effect>
+              <span class="fox-mega-category__media">
+                <img
+                  src="{{ category_image_key | asset_url }}"
+                  width="800"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  alt="{{ settings[category_alt_key] | default: settings[category_title_key] | escape }}"
+                >
+              </span>
+              <span class="fox-mega-category__title">{{ settings[category_title_key] }}</span>
+              <span class="fox-mega-category__icon" aria-hidden="true">
+                <svg class="icon-svg" focusable="false"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+              </span>
+              <span class="fox-mega-category__effect" data-btn-effect-span aria-hidden="true"></span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if settings.header_mega_1_all_label != blank %}
+        <a class="fox-mega-type-1__all fox-link-effect" href="{{ settings.header_mega_1_all_url | default: '/collections/all' }}">
+          <span class="fox-link-effect__label">{{ settings.header_mega_1_all_label | escape }}</span>
+          <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+          </svg>
+        </a>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% if center_show %}
+    <section class="fox-mega__products">
+      <slider-component data-preset="product" data-state="idle" data-loop="false" data-navigation="true" data-pagination="false" data-slides-mobile="1" data-slides-tablet="2" data-slides-desktop="3" data-space-mobile="12" data-space-tablet="14" data-space-desktop="16">
+        <div class="fox-mega__heading">
+          <h2>{{ settings.header_mega_1_collection_title }}</h2>
+          <div class="fox-mega-type-1__navigation" data-role="navigation" aria-label="Điều hướng sản phẩm nổi bật">
+            {% include 'swiper-navigation' with style: '01', button_effect: true, previous_first: true %}
+          </div>
+        </div>
+
+        <div class="swiper" data-role="viewport">
+          <div class="swiper-wrapper">
+            {% for product in mega_collection.products limit: settings.header_mega_1_product_limit %}
+              <div class="swiper-slide">
+                {% assign product_card_context = 'header-mega' %}
+                {% assign product_fallback_index = forloop.index0 | modulo: 3 | plus: 1 %}
+                {% include 'component-header-menu-shared' with operation: 'category-keys', mega_type: 1, item_index: product_fallback_index %}
+                {% assign product_fallback_image = category_image_key %}
+                {% include 'product-loop' with grid: '' %}
+                {% assign product_fallback_image = blank %}
+              </div>
+            {% endfor %}
+            {% assign product_card_context = blank %}
+          </div>
+        </div>
+      </slider-component>
+
+      {% if settings.header_mega_1_collection_more_label != blank %}
+        <a class="fox-mega-type-1__more btn btn-primary" href="{{ settings.header_mega_1_collection_more_url | default: mega_collection.url }}" button-effect>
+          <span class="btn__label">{{ settings.header_mega_1_collection_more_label }}</span>
+          <span class="btn--icon" aria-hidden="true">
+            <svg class="icon-svg" focusable="false"><use xlink:href="#ic-arrow-45top-r"></use></svg>
+          </span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% if right_show %}
+    <section class="fox-mega__links">
+      {% for i in (1..2) %}
+        {% include 'component-header-menu-shared' with operation: 'link-group-state', item_index: i %}
+
+        {% if link_group_visible %}
+          <div class="fox-mega-type-1__link-column">
+            <h2>{{ settings[link_group_title_key] }}</h2>
+            <ul role="list">
+              {% for link in link_group_links %}
+                <li class="fox-mega-type-1__link-item"><a class="fox-underline-effect" href="{{ link.url | escape }}">{{ link.title | escape }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </section>
+  {% endif %}
+</div>

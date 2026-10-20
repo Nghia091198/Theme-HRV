@@ -1,0 +1,111 @@
+{%- comment -%}Homepage lookbook markup is rendered before lookbook.js enhances its panels.{%- endcomment -%}
+{%- if settings.fox_lookbook_show -%}
+  {%- assign lookbook_count = 0 -%}
+  {%- assign lookbook_tabs = '' -%}
+  {%- assign lookbook_panels = '' -%}
+  {%- assign lookbook_title = settings.fox_lookbook_title -%}
+
+  {%- for look_index in (1..2) -%}
+    {%- capture look_show_key -%}fox_lookbook_{{ look_index }}_show{%- endcapture -%}
+    {%- capture look_image_key -%}fox_lookbook_{{ look_index }}_image.png{%- endcapture -%}
+    {%- capture look_alt_key -%}fox_lookbook_{{ look_index }}_alt{%- endcapture -%}
+    {%- capture look_product_key -%}fox_lookbook_{{ look_index }}_product_handle{%- endcapture -%}
+    {%- if settings[look_show_key] -%}
+      {%- assign lookbook_count = lookbook_count | plus: 1 -%}
+      {%- assign look_active = false -%}
+      {%- if lookbook_count == 1 -%}{%- assign look_active = true -%}{%- endif -%}
+      {%- assign look_image = settings[look_image_key] | default: 'hcs_1_image.png' -%}
+      {%- assign look_alt = settings[look_alt_key] | default: lookbook_title -%}
+      {%- assign look_product_handle = settings[look_product_key] -%}
+
+      {%- capture lookbook_tab -%}
+      <button type="button" class="fox-lookbook__tab" role="tab" id="fox-lookbook-tab-{{ look_index }}" aria-controls="fox-lookbook-panel-{{ look_index }}" aria-selected="{% if look_active %}true{% else %}false{% endif %}"{% unless look_active %} tabindex="-1"{% endunless %} data-fox-scroll-lookbook="tab" aria-label="Xem look {{ lookbook_count }}">
+        <span class="ratio-image"><img src="{{ look_image | img_url: 'compact' | asset_url }}" alt="" width="120" height="120" loading="lazy" decoding="async" data-lookbook-thumbnail></span>
+      </button>
+      {%- endcapture -%}
+      {%- assign lookbook_tabs = lookbook_tabs | append: lookbook_tab -%}
+
+      {%- assign lookbook_item_count = 0 -%}
+      {%- capture lookbook_pins -%}
+        {%- for pin_index in (1..3) -%}
+          {%- capture pin_show_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_show{%- endcapture -%}
+          {%- capture pin_handle_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_product_handle{%- endcapture -%}
+          {%- capture pin_url_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_product_url{%- endcapture -%}
+          {%- capture pin_x_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_x{%- endcapture -%}
+          {%- capture pin_y_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_y{%- endcapture -%}
+          {%- capture pin_x_mobile_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_x_mobile{%- endcapture -%}
+          {%- capture pin_y_mobile_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_y_mobile{%- endcapture -%}
+          {%- assign pin_product_source = settings[pin_handle_key] | default: settings[pin_url_key] -%}
+          {%- if settings[pin_show_key] and pin_product_source != blank -%}
+            {%- assign lookbook_item_count = lookbook_item_count | plus: 1 -%}
+            <button type="button" class="fox-lookbook__pin" data-lookbook-pin data-product-index="{{ lookbook_item_count | minus: 1 }}" data-product-handle="{{ pin_product_source | escape }}" aria-current="{% if lookbook_item_count == 1 %}true{% else %}false{% endif %}" aria-label="Xem sản phẩm {{ lookbook_item_count }} trong look {{ lookbook_count }}" data-fox-scroll-lookbook="pin" style="--fox-lookbook-x: {{ settings[pin_x_key] | default: 50 }}%; --fox-lookbook-y: {{ settings[pin_y_key] | default: 50 }}%; --fox-lookbook-x-mobile: {{ settings[pin_x_mobile_key] | default: settings[pin_x_key] | default: 50 }}%; --fox-lookbook-y-mobile: {{ settings[pin_y_mobile_key] | default: settings[pin_y_key] | default: 50 }}%;"></button>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- capture lookbook_slides -%}
+        {%- for pin_index in (1..3) -%}
+          {%- capture pin_show_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_show{%- endcapture -%}
+          {%- capture pin_handle_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_product_handle{%- endcapture -%}
+          {%- capture pin_url_key -%}fox_lookbook_{{ look_index }}_pin_{{ pin_index }}_product_url{%- endcapture -%}
+          {%- assign pin_product_source = settings[pin_handle_key] | default: settings[pin_url_key] -%}
+          {%- if settings[pin_show_key] and pin_product_source != blank -%}
+          <div class="swiper-slide fox-lookbook__product-slide" data-lookbook-product data-product-handle="{{ pin_product_source | escape }}" data-state="loading" aria-live="polite">
+            <div class="fox-lookbook__product-loading" aria-hidden="true"></div>
+            <a class="fox-lookbook__product-fallback fox-text-link" href="{{ pin_product_source | escape }}">Xem sản phẩm</a>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- capture lookbook_panel -%}
+      <div class="fox-lookbook__panel" id="fox-lookbook-panel-{{ look_index }}" role="tabpanel" aria-labelledby="fox-lookbook-tab-{{ look_index }}"{% unless look_active %} hidden{% endunless %} data-look-index="{{ look_index | minus: 1 }}" data-look-handle="{{ look_product_handle | escape }}" data-fox-scroll-lookbook="content">
+        <div class="fox-lookbook__media">
+          <div class="fox-lookbook__image" data-fox-scroll-lookbook="image">
+            <img src="{{ look_image | asset_url }}" alt="{{ look_alt | strip_html | escape }}" width="900" height="1125" loading="lazy" decoding="async" data-lookbook-image>
+          </div>
+          {{ lookbook_pins }}
+        </div>
+        <div class="fox-lookbook__sidebar">
+          <header class="fox-lookbook__header">
+            {%- if settings.fox_lookbook_eyebrow != blank -%}<p class="fox-lookbook__eyebrow">{{ settings.fox_lookbook_eyebrow | escape }}</p>{%- endif -%}
+            <h2 class="fox-lookbook__title">{{ lookbook_title | escape }}</h2>
+          </header>
+          {%- if lookbook_item_count > 0 -%}
+          <div class="fox-lookbook__products">
+            <slider-component data-preset="product" data-slides-mobile="1" data-slides-tablet="1" data-slides-desktop="1" data-space-mobile="12" data-space-tablet="0" data-space-desktop="0" data-navigation="true" data-pagination="false" data-loop="false" data-state="idle">
+              <div class="swiper" data-role="viewport"><div class="swiper-wrapper">{{ lookbook_slides }}</div></div>
+              <div class="fox-lookbook__product-controls">
+                {%- assign slider_controls_vertical = true -%}
+                {%- assign slider_controls_floating = true -%}
+                {%- assign slider_controls_label = 'Điều khiển sản phẩm lookbook' -%}
+                {%- assign slider_controls_item_count = lookbook_item_count -%}
+                {%- include 'component-slider-controls' -%}
+              </div>
+            </slider-component>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endcapture -%}
+      {%- assign lookbook_panels = lookbook_panels | append: lookbook_panel -%}
+      {%- assign slider_controls_vertical = false -%}
+      {%- assign slider_controls_floating = false -%}
+      {%- assign slider_controls_label = blank -%}
+      {%- assign slider_controls_item_count = blank -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if lookbook_count > 0 -%}
+  <section class="fox-lookbook" button-color style="--fox-lookbook-bg: {{ settings.fox_lookbook_bg | default: '#ffffff' }}; --fox-lookbook-text: {{ settings.fox_lookbook_text | default: '#1b2631' }}; --fox-lookbook-padding-top: {{ settings.fox_lookbook_padding_top | default: 72 }}px; --fox-lookbook-padding-bottom: {{ settings.fox_lookbook_padding_bottom | default: 72 }}px; --fox-lookbook-padding-top-mobile: {{ settings.fox_lookbook_padding_top_mobile | default: 44 }}px; --fox-lookbook-padding-bottom-mobile: {{ settings.fox_lookbook_padding_bottom_mobile | default: 44 }}px;" aria-label="{{ lookbook_title | escape }}">
+    <div class="container">
+      <fox-lookbook class="fox-lookbook__component" data-state="idle" data-fox-scroll-viewport="lookbook-reveal" data-look-count="{{ lookbook_count }}">
+        <div class="fox-lookbook__layout">
+          <div class="fox-lookbook__tabs" role="tablist" aria-label="Chọn lookbook">{{ lookbook_tabs }}</div>
+          <div class="fox-lookbook__panels">{{ lookbook_panels }}</div>
+        </div>
+      </fox-lookbook>
+    </div>
+  </section>
+  {%- endif -%}
+{%- endif -%}
