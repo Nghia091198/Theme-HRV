@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Haravan Products"
+  short_description: "Create image-backed Haravan demo products"
+  default_prompt: "Use $create-product to create a varied Vietnamese demo product batch for Haravan."

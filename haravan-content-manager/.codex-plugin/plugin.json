@@ -1,0 +1,31 @@
+{
+  "name": "haravan-content-manager",
+  "version": "0.1.0+codex.20260807102049",
+  "description": "Create validated demo articles and products through the Haravan Admin API.",
+  "author": {
+    "name": "Personal"
+  },
+  "keywords": [
+    "haravan",
+    "content",
+    "products",
+    "articles"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Haravan Content Manager",
+    "shortDescription": "Create safe demo content for Haravan shops.",
+    "longDescription": "Creates validated Vietnamese-first articles and variant-rich demo products, including generated images, through a token-safe local MCP server.",
+    "developerName": "Personal",
+    "category": "Productivity",
+    "capabilities": [
+      "Write",
+      "Images"
+    ],
+    "defaultPrompt": [
+      "Create demo articles for my Haravan shop.",
+      "Create variant-rich demo products for Haravan."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

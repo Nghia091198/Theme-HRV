@@ -1,0 +1,34 @@
+#PROCESSING
+
+- header
+	- show header => done
+	- scroll header => done
+	- mega menu style 2 
+		=> check layout => processing
+	- mega menu style 1
+		=> check layout => processing
+	- mobile
+		=> rebuild 
+			- style 1 => basic
+			- style 2 => theme sample
+	- action account => variable check
+		- stardard => done
+		- legacy 
+			+ build dropdown
+			+ build template otp (to package for reuse)
+	- action search
+	- action minicart
+- use skill D:\html-skill-build\_skill-html-testing => page index
+- cart 
+- quickview
+- search
+- minicart
+
+
+-----------
+
+#FEATURE
+
+- 
+
+

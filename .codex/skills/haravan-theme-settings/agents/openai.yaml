@@ -1,0 +1,4 @@
+interface:
+  display_name: "Haravan Theme Settings"
+  short_description: "Tạo settings Haravan rõ ràng, đúng chuẩn repo"
+  default_prompt: "Dùng $haravan-theme-settings để tạo hoặc sửa settings Haravan với mỗi setting một dòng, tiếng Việt chuẩn và kiểm tra đầy đủ."

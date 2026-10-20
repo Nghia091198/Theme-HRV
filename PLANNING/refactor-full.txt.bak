@@ -1,0 +1,25 @@
+REFACTOR 
+# add-to-cart.js
+- 	window.ProductConfig nên khai báo một {} mapping 1 - 1 thay vì gọi trực tiếp từ config
+# core-commerce-product.js
+- 	window.ProductConfig nên khai báo một {} mapping 1 - 1 thay vì gọi trực tiếp từ config
+-	#money(value) {
+      if (window.Haravan?.formatMoney) return window.Haravan.formatMoney(value);
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(value || 0) / 100);
+    }
+	không dùng return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(value || 0) / 100);
+
+-------
+
+#setting
+##planning setting_v2
+
+- build structure
+- description detail structure
+- save skill "skill_settings_v1"
+
+##planning setting_v2
+
+- detect from v1
+- build rule parse
+- save skill "skill_settings_v1"

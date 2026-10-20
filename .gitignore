@@ -1,0 +1,6 @@
+.fox-tmp-*
+node_modules/
+.haravan-cli_local.json
+tests/
+tmp/
+*.log

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Haravan Articles"
+  short_description: "Create safe image-backed Haravan demo articles"
+  default_prompt: "Use $create-article to create a Vietnamese demo article batch for my Haravan shop."
