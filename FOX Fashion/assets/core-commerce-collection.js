@@ -1,5 +1,6 @@
 (() => {
   const ROOT_SELECTOR = '[data-collection-root]';
+  const FILTER_CONTROL_SELECTOR = 'input[type="checkbox"][data-filter][data-filter-value], input[type="radio"][data-filter][data-filter-value]';
   const REQUEST_TIMEOUT = 10000;
   const FILTER_PARAMS = {
     color: 'tag1',
@@ -7,6 +8,9 @@
     size: 'variant',
     price: 'price',
     fit: 'tag3',
+    vendor: 'vendor',
+    type: 'product_type',
+    availability: 'available',
   };
 
   function unique(values) {
@@ -14,7 +18,7 @@
   }
 
   function getControls(root) {
-    return [...root.querySelectorAll('input[type="checkbox"][data-filter][data-filter-value]')];
+    return [...root.querySelectorAll(FILTER_CONTROL_SELECTOR)];
   }
 
   function setControlState(control, active) {
@@ -31,6 +35,17 @@
     return Object.values(FILTER_PARAMS).some((param) => params.has(param));
   }
 
+  function parseFilterParamValues(param, value) {
+    const values = (value || '').split(',').filter(Boolean);
+    if (param !== FILTER_PARAMS.color) return values;
+    return values.map((item) => item.startsWith('color:') ? item : `color:${item}`);
+  }
+
+  function serializeFilterParamValues(param, values) {
+    if (param !== FILTER_PARAMS.color) return values.join(',');
+    return values.map((value, index) => index ? value.replace(/^color:/, '') : value).join(',');
+  }
+
   function getBaseQuery(root) {
     return root.dataset.baseQuery || '';
   }
@@ -43,6 +58,7 @@
       case 'price':
       case 'fit':
       case 'vendor':
+      case 'type':
         return '||';
       default:
         return '&&';
@@ -166,6 +182,7 @@
     });
     setSort(root, state.sort || 'manual');
     renderActiveFilters(root);
+    revealSelectedFilterOptions(root);
   }
 
   function getPage(url) {
@@ -194,6 +211,13 @@
     return requestUrl;
   }
 
+  function formatFilterParams(url) {
+    return url.replace(
+      /([?&](?:tag1|tag2|variant|price|tag3|vendor|product_type|available)=[^&#]*)/g,
+      (parameter) => parameter.replace(/%2C/gi, ',').replace(/%3A/gi, ':'),
+    );
+  }
+
   function getCanonicalUrl(root, sourceUrl) {
     const canonical = new URL(root.dataset.collectionUrl || window.location.pathname, window.location.href);
     const source = sourceUrl ? new URL(sourceUrl, window.location.href) : null;
@@ -216,11 +240,11 @@
       });
       Object.values(FILTER_PARAMS).forEach((param) => {
         const values = unique(selected.get(param) || []);
-        if (values.length) canonical.searchParams.set(param, values.join(','));
+        if (values.length) canonical.searchParams.set(param, serializeFilterParamValues(param, values));
       });
     }
 
-    return canonical;
+    return formatFilterParams(canonical.toString());
   }
 
   function getResultsContent(root) {
@@ -239,22 +263,59 @@
     if (status) status.textContent = message || '';
   }
 
+  function setFilterOptionsExpanded(button, expanded) {
+    const options = button.previousElementSibling;
+    if (!options?.matches('.fox-collection__filter-options')) return;
+    options.dataset.filterCollapsed = String(!expanded);
+    button.setAttribute('aria-expanded', String(expanded));
+    button.textContent = expanded ? 'Thu gọn' : 'Xem thêm';
+  }
+
+  function initializeFilterOptions(root) {
+    root.querySelectorAll('[data-filter-options-toggle]').forEach((button) => {
+      const options = button.previousElementSibling;
+      if (!options?.matches('.fox-collection__filter-options')) return;
+      setFilterOptionsExpanded(button, Boolean(options.querySelector('[data-filter-extra] input:checked')));
+      button.hidden = false;
+    });
+  }
+
+  function revealSelectedFilterOptions(root) {
+    root.querySelectorAll('[data-filter-options-toggle]').forEach((button) => {
+      const options = button.previousElementSibling;
+      if (options?.querySelector('[data-filter-extra] input:checked')) setFilterOptionsExpanded(button, true);
+    });
+  }
+
   function renderActiveFilters(root) {
     root.querySelectorAll('[data-role="active-filters"]').forEach((container) => {
       container.replaceChildren();
       const active = getControls(root).filter((control) => control.checked);
       active.forEach((control) => {
         const label = control.dataset.filterLabel || control.closest('label')?.textContent.trim() || '';
-        const chip = document.createElement('button');
-        chip.type = 'button';
+        const chip = document.createElement('span');
         chip.className = 'fox-collection__active-chip';
-        chip.dataset.filterRemove = control.dataset.filterValue;
-        chip.setAttribute('aria-label', `Bỏ lọc ${label}`);
-        chip.textContent = `${label} ×`;
+        const text = document.createElement('span');
+        text.className = 'fox-collection__active-chip-label';
+        text.textContent = label;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'fox-collection__active-chip-remove';
+        remove.dataset.filterRemove = control.dataset.filterValue;
+        remove.setAttribute('aria-label', `Bỏ lọc ${label}`);
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('aria-hidden', 'true');
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#ic-close');
+        icon.append(use);
+        remove.append(icon);
+        chip.append(text, remove);
         container.append(chip);
       });
     });
     const hasActiveFilters = getActiveValues(root).length > 0;
+    const activeRow = root.querySelector('[data-role="active-filter-row"]');
+    if (activeRow) activeRow.hidden = !hasActiveFilters;
     root.querySelectorAll('[data-filter-reset]').forEach((clear) => {
       clear.hidden = !hasActiveFilters;
     });
@@ -274,21 +335,13 @@
     if (range) range.textContent = `${start}–${end}`;
   }
 
-  function setView(root, view) {
-    const next = view === 'list' ? 'list' : 'grid';
-    root.dataset.view = next;
-    root.querySelectorAll('[data-view-toggle]').forEach((button) => {
-      button.setAttribute('aria-pressed', String(button.dataset.viewToggle === next));
-    });
-  }
-
   function syncFromUrl(root) {
     const params = new URL(window.location.href).searchParams;
     const saved = window.history.state?.foxCollection;
     const namedFilters = hasNamedFilterParams(params);
     const selected = new Map(Object.values(FILTER_PARAMS).map((param) => [
       param,
-      new Set((params.get(param) || '').split(',').filter(Boolean)),
+      new Set(parseFilterParamValues(param, params.get(param))),
     ]));
     const legacyQuery = params.get(root.dataset.queryParam || 'q') || '';
     const values = root.dataset.pushFilterParams === 'true'
@@ -399,28 +452,59 @@
 
   function toggleFilter(root, open) {
     const filters = root.querySelector('[data-role="filters"]');
+    const shell = root.querySelector('.fox-collection__filter-column');
     const media = root._foxCollectionMobile;
-    if (!filters || (!media?.matches && open)) return;
-    const wasOpen = root.dataset.filterOpen === 'true';
-    if (open === wasOpen) return;
-    root.dataset.filterOpen = String(open);
-    const toggle = root.querySelector('[data-filter-toggle]');
-    if (toggle) toggle.setAttribute('aria-expanded', String(open));
-    const overlay = root.querySelector('[data-filter-overlay]');
-    if (overlay) overlay.hidden = !open;
-    filters.inert = !open;
-    if (open) {
-      root._foxCollectionReturnFocus = document.activeElement;
-      filters.setAttribute('role', 'dialog');
-      filters.setAttribute('aria-modal', 'true');
-      window.FOX?.isOverlay?.(true, root, { lock: true, visual: false });
-      filters.querySelector('[data-filter-close]')?.focus();
-    } else {
+    if (!filters) return;
+    const isDialog = media?.matches && open;
+    const wasDialog = filters.getAttribute('role') === 'dialog';
+    window.clearTimeout(root._foxCollectionFilterCloseTimer);
+    root._foxCollectionFilterCloseTimer = null;
+    if (wasDialog && !isDialog) {
       filters.removeAttribute('role');
       filters.removeAttribute('aria-modal');
       window.FOX?.isOverlay?.(false, root);
       root._foxCollectionReturnFocus?.focus();
       root._foxCollectionReturnFocus = null;
+    }
+    root.dataset.filterOpen = String(open);
+    const toggle = root.querySelector('[data-filter-toggle]');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.classList.toggle('active', open);
+    }
+    const overlay = root.querySelector('[data-filter-overlay]');
+    if (shell) {
+      shell.removeAttribute('data-closing');
+      if (isDialog) {
+        if (overlay) overlay.hidden = false;
+        if (overlay) overlay.inert = false;
+        shell.setAttribute('data-open', '');
+      } else if (wasDialog && media?.matches) {
+        shell.removeAttribute('data-open');
+        shell.setAttribute('data-closing', '');
+        if (overlay) overlay.inert = true;
+        const finishClose = () => {
+          shell.removeAttribute('data-closing');
+          if (overlay) overlay.hidden = true;
+          root._foxCollectionFilterCloseTimer = null;
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishClose();
+        else root._foxCollectionFilterCloseTimer = window.setTimeout(finishClose, 360);
+      } else {
+        shell.removeAttribute('data-open');
+        if (overlay) overlay.hidden = true;
+        if (overlay) overlay.inert = true;
+      }
+    }
+    filters.inert = !open;
+    if (isDialog && !wasDialog) {
+      root._foxCollectionReturnFocus = document.activeElement;
+      filters.setAttribute('role', 'dialog');
+      filters.setAttribute('aria-modal', 'true');
+      window.FOX?.isOverlay?.(true, root, { lock: true, visual: false });
+      filters.querySelector('[data-filter-close]')?.focus();
+    } else if (!open && filters.contains(document.activeElement)) {
+      toggle?.focus();
     }
   }
 
@@ -432,7 +516,7 @@
       event.preventDefault();
       return;
     }
-    if (root.dataset.filterOpen !== 'true') return;
+    if (root.dataset.filterOpen !== 'true' || !root._foxCollectionMobile?.matches) return;
     if (event.key === 'Escape') {
       event.preventDefault();
       toggleFilter(root, false);
@@ -474,17 +558,25 @@
       if (getSort(root) !== previous) request(root);
       return;
     }
-    const view = event.target.closest('[data-view-toggle]');
-    if (view && root.contains(view)) {
-      setView(root, view.dataset.viewToggle);
+    const optionsToggle = event.target.closest('[data-filter-options-toggle]');
+    if (optionsToggle && root.contains(optionsToggle)) {
+      const options = optionsToggle.previousElementSibling;
+      setFilterOptionsExpanded(optionsToggle, options?.dataset.filterCollapsed === 'true');
       return;
     }
-    const chip = event.target.closest('[data-filter-remove]');
-    if (chip && root.contains(chip)) {
+    const removeButton = event.target.closest('[data-filter-remove]');
+    if (removeButton && root.contains(removeButton)) {
+      const container = removeButton.closest('[data-role="active-filters"]');
+      const position = container ? [...container.querySelectorAll('[data-filter-remove]')].indexOf(removeButton) : -1;
+      const restoreFocus = document.activeElement === removeButton;
       getControls(root)
-        .filter((control) => control.dataset.filterValue === chip.dataset.filterRemove)
+        .filter((control) => control.dataset.filterValue === removeButton.dataset.filterRemove)
         .forEach((control) => setControlState(control, false));
       renderActiveFilters(root);
+      if (restoreFocus) {
+        const remaining = container?.querySelectorAll('[data-filter-remove]') || [];
+        (remaining[Math.min(position, remaining.length - 1)] || root.querySelector('[data-filter-toggle]'))?.focus();
+      }
       request(root);
       return;
     }
@@ -497,7 +589,9 @@
     }
 
     if (event.target.closest('[data-filter-toggle]')) {
-      toggleFilter(root, true);
+      const open = root.dataset.filterOpen !== 'true';
+      if (!root._foxCollectionMobile?.matches) root._foxCollectionDesktopFilterOpen = open;
+      toggleFilter(root, open);
       return;
     }
 
@@ -521,7 +615,7 @@
   }
 
   function handleChange(root, event) {
-    if (event.target.matches('input[type="checkbox"][data-filter][data-filter-value]')) {
+    if (event.target.matches(FILTER_CONTROL_SELECTOR)) {
       const filter = event.target;
       getControls(root)
         .filter((control) => control.dataset.filterValue === filter.dataset.filterValue)
@@ -536,17 +630,16 @@
     if (root.dataset.collectionReady === 'true') return;
     root.dataset.collectionReady = 'true';
     root._foxCollectionRequest = null;
+    setLoading(root, false);
     const controller = new AbortController();
     const { signal } = controller;
     const mobile = window.matchMedia('(max-width: 767px)');
     root._foxCollectionMobile = mobile;
-    const filters = root.querySelector('[data-role="filters"]');
-    if (filters) filters.inert = mobile.matches;
+    root._foxCollectionDesktopFilterOpen = true;
+    toggleFilter(root, !mobile.matches);
     const toggle = root.querySelector('[data-filter-toggle]');
     if (toggle) toggle.hidden = false;
-    const views = root.querySelector('.fox-collection__views');
-    if (views) views.hidden = false;
-    setView(root, 'grid');
+    initializeFilterOptions(root);
 
     const sort = root.querySelector('[data-sort]');
     if (sort) {
@@ -587,8 +680,7 @@
       if (sort?.open && !sort.contains(event.target)) closeSort(root);
     }, { signal });
     mobile.addEventListener('change', () => {
-      if (root.dataset.filterOpen === 'true') toggleFilter(root, false);
-      if (filters) filters.inert = mobile.matches;
+      toggleFilter(root, mobile.matches ? false : root._foxCollectionDesktopFilterOpen);
     }, { signal });
     window.addEventListener('popstate', () => {
       syncFromUrl(root);
@@ -598,7 +690,12 @@
       if (root.dataset.filterOpen === 'true') toggleFilter(root, false);
       root._foxCollectionRequest?.abort();
       window.clearTimeout(root._foxCollectionSortTimer);
+      window.clearTimeout(root._foxCollectionFilterCloseTimer);
+      root.querySelector('.fox-collection__filter-column')?.removeAttribute('data-closing');
+      const overlay = root.querySelector('[data-filter-overlay]');
+      if (overlay) overlay.hidden = true;
       controller.abort();
+      delete root.dataset.collectionReady;
     }, { once: true, signal });
 
     const initialParams = new URL(window.location.href).searchParams;
@@ -609,7 +706,7 @@
     window.history.replaceState(
       { ...window.history.state, foxCollection: root._foxCollectionConfirmedState },
       '',
-      hasFilterParams && legacyFilter ? getCanonicalUrl(root, window.location.href) : window.location.href,
+      hasFilterParams && legacyFilter ? getCanonicalUrl(root, window.location.href) : formatFilterParams(window.location.href),
     );
     syncPaginationMode(root);
     if (hasFilterParams || initialParams.get('sortby') || (Number(root.dataset.sortCount || 1) > 1 && initialParams.get('sort_by'))) {
@@ -623,4 +720,5 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeAll, { once: true });
   else initializeAll();
+  window.addEventListener('pageshow', initializeAll);
 })();

@@ -13,8 +13,7 @@
 <link rel="dns-prefetch" href="//s-static.ak.facebook.com">
 {%comment%}<link rel="preconnect" href="https://www.youtube.com">{%endcomment%}
 {%- if settings.use_logo -%}
-<link rel="preload" href="{{ 'logo.png' | img_url: 'compact' | asset_url }}" as="image" media="(min-width: 992px)" fetchpriority="high">
-<link rel="preload" href="{{ 'logo.png' | img_url: 'compact' | asset_url }}" as="image" media="(max-width: 991px)" fetchpriority="high">
+<link rel="preload" href="{{ 'logo.png' | asset_url }}" as="image" fetchpriority="high">
 {%- endif -%}
 {%- if template contains 'index' -%}
 {%- if settings.slide_1_type == 'type_image' -%}

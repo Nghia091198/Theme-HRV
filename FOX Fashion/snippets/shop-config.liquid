@@ -1,79 +1,78 @@
 <script>
-	window.FOX = window.FOX || {};
+  window.FOX = window.FOX || {};
 
-	window.main = {
-		template: "{{template}}",
-		scriptcallafter: [
-			"{{ 'core-http.js' | asset_url }}",
-			"{{ 'core-toast.js' | asset_url }}",
-			"{{ 'cart.js' | asset_url }}",
-			"{{ 'cart-add.js' | asset_url }}",
-			"{{ 'cart-root.js' | asset_url }}"
-		],
-		scriptcallidle: [
-			{%- if template contains 'index' -%}
-			"{{ 'marquee-scroll.min.js' | asset_url }}"
-			{%- endif -%}
-		], 
-		csscallafter: [
-			"{{'search-drawer.css' | asset_url}}",
-			{%- if template contains 'index' -%}
-			"{{'marquee-scroll.min.css' | asset_url}}",
-			{%- endif -%}
-			"{{'style-callafter.css' | asset_url}}"
-		]
-	};
-	window.ProductConfig = {
-		pushVariantOnHandle: false,
-		selectFirstVariant: true,
-		changeSrcImageWithAlt: false,
-		isContact: false,
-		soldOutLabel: {{ settings.product_soldout | default: 'Hết hàng' | json }},
-		data: {{product | json | default: ''}}
-	};
-	window.SearchConfig = {
-		smartSearch: true,
-		type: "{{settings.smartsearch_type}}",
-		query: "/search?",
-		fields: ['title','tag'],
-		txtViewmore: "Xem thêm",
-		article: {
-			title: "Bài viết",
-			view: 'article-json'
-		},
-		product: {
-			title: "Sản phẩm",
-			view: 'ultimate-product'
-		},
-		limit: 8,
-		not_found: "Không có kết quả nào..."
-	};
-	{%- assign cart_free_shipping_enabled = settings.cart_free_shipping_show -%}
-	{%- if cart_free_shipping_enabled == blank -%}{%- assign cart_free_shipping_enabled = true -%}{%- endif -%}
-	window.FOX.config = {
-		cart: {
-			freeShipping: {
-				enabled: {{ cart_free_shipping_enabled }},
-				threshold: {{ settings.cart_free_shipping_threshold | default: 500000 | times: 100 }}
-			}
-		},
-		recaptcha: '6LchSLkqAAAAABVHBpeFgg8N-WgkYsr5fO6GUF_s',
-		app: {
-			promotion: "{{ settings.promotion_hrvapp | default: 'none' | escape }}",
-			review: "{{ settings.productreviews_hrvapp_use | default: 'none' | escape }}",
-		},
-			routes: {
-			cart:       '/cart.js',
-			cartView:   '/cart?view=data',
-			cartAdd:    '/cart/add.js',
-			cartChange: '/cart/change.js',
-			cartUpdate: '/cart/update.js',
-			cartClear:  '/cart/clear.js'
-		},
-		images: {
-			noImage: '//theme.hstatic.net/200000941355/1001321940/14/no-img.jpg',
-			promotionIcon: "{{'promotion_gift.png' |  product_img_url: "compact" | asset_url}}"
-		}
-	};
-
+  window.main = {
+  	template: "{{template}}",
+  	scriptcallafter: [
+  		"{{ 'core-http.js' | asset_url }}",
+  		"{{ 'core-toast.js' | asset_url }}",
+  		"{{ 'cart.js' | asset_url }}",
+  		"{{ 'cart-add.js' | asset_url }}",
+  		"{{ 'cart-root.js' | asset_url }}"
+  	],
+  	scriptcallidle: [
+  		{%- if template contains 'index' -%}
+  		"{{ 'marquee-scroll.min.js' | asset_url }}"
+  		{%- endif -%}
+  	],
+  	csscallafter: [
+  		"{{'search-drawer.css' | asset_url}}",
+  		{%- if template contains 'index' -%}
+  		"{{'marquee-scroll.min.css' | asset_url}}",
+  		{%- endif -%}
+  		"{{'style-callafter.css' | asset_url}}"
+  	]
+  };
+  window.ProductConfig = {
+  	pushVariantOnHandle: false,
+  	selectFirstVariant: true,
+  	changeSrcImageWithAlt: false,
+  	isContact: false,
+  	soldOutLabel: {{ settings.product_soldout | default: 'Hết hàng' | json }},
+  	data: {{product | json | default: ''}}
+  };
+  window.SearchConfig = {
+  	smartSearch: true,
+  	type: "{{settings.smartsearch_type}}",
+  	query: "/search?",
+  	fields: ['title','tag'],
+  	txtViewmore: "Xem thêm",
+  	article: {
+  		title: "Bài viết",
+  		view: 'article-json'
+  	},
+  	product: {
+  		title: "Sản phẩm",
+  		view: 'ultimate-product'
+  	},
+  	limit: 8,
+  	not_found: "Không có kết quả nào..."
+  };
+  {%- assign cart_free_shipping_enabled = settings.cart_free_shipping_show -%}
+  {%- if cart_free_shipping_enabled == blank -%}{%- assign cart_free_shipping_enabled = true -%}{%- endif -%}
+  window.FOX.config = {
+  	cart: {
+  		freeShipping: {
+  			enabled: {{ cart_free_shipping_enabled }},
+  			threshold: {{ settings.cart_free_shipping_threshold | default: 500000 | times: 100 }}
+  		}
+  	},
+  	recaptcha: '6LchSLkqAAAAABVHBpeFgg8N-WgkYsr5fO6GUF_s',
+  	app: {
+  		promotion: "{{ settings.promotion_hrvapp | default: 'none' | escape }}",
+  		review: "{{ settings.productreviews_hrvapp_use | default: 'none' | escape }}",
+  	},
+  		routes: {
+  		cart:       '/cart.js',
+  		cartView:   '/cart?view=data',
+  		cartAdd:    '/cart/add.js',
+  		cartChange: '/cart/change.js',
+  		cartUpdate: '/cart/update.js',
+  		cartClear:  '/cart/clear.js'
+  	},
+  	images: {
+  		noImage: '//theme.hstatic.net/200000941355/1001321940/14/no-img.jpg',
+  		promotionIcon: "{{'promotion_gift.png' |  product_img_url: "compact" | asset_url}}"
+  	}
+  };
 </script>

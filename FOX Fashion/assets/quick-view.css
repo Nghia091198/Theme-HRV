@@ -25,41 +25,12 @@ quick-view-component dialog[open]::backdrop {
 }
 
 .fox-quick-view__content {
+  --fox-scrollbar-thumb: rgb(255 255 255 / 28%);
+  --fox-scrollbar-thumb-hover: rgb(255 255 255 / 42%);
   max-height: 80vh;
   padding: 1.6rem 1.5rem 1.5rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: none;
-}
-
-.fox-quick-view__content::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.fox-quick-view__scrollbar {
-  position: absolute;
-  z-index: 2;
-  top: 3.25rem;
-  right: 0.25rem;
-  bottom: 1.5rem;
-  width: 0.4rem;
-  pointer-events: none;
-}
-
-.fox-quick-view__scrollbar-thumb {
-  display: block;
-  width: 100%;
-  height: var(--fox-quick-view-scroll-thumb-size, 20%);
-  background: rgb(255 255 255 / 28%);
-  border-radius: 999px;
-  transform: translateY(var(--fox-quick-view-scroll-thumb-offset, 0));
-  transition: background-color 180ms ease;
-}
-
-.fox-quick-view__content:hover + .fox-quick-view__scrollbar .fox-quick-view__scrollbar-thumb {
-  background: rgb(255 255 255 / 42%);
 }
 
 .fox-quick-view__loading,

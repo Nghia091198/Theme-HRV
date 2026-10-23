@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "beautify.language": {
+    "html": ["liquid"]
+  },
+  "beautify.config": {
+    "html": {
+      "indent_size": 2,
+      "templating": ["auto"],
+      "content_unformatted": ["pre", "textarea", "script", "style"]
+    }
+  },
+  "[liquid]": {
+    "editor.defaultFormatter": "hookyqr.beautify",
+    "editor.formatOnSave": true
+  }
+}

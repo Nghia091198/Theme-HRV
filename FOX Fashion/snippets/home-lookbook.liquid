@@ -20,7 +20,9 @@
 
       {%- capture lookbook_tab -%}
       <button type="button" class="fox-lookbook__tab" role="tab" id="fox-lookbook-tab-{{ look_index }}" aria-controls="fox-lookbook-panel-{{ look_index }}" aria-selected="{% if look_active %}true{% else %}false{% endif %}"{% unless look_active %} tabindex="-1"{% endunless %} data-fox-scroll-lookbook="tab" aria-label="Xem look {{ lookbook_count }}">
-        <span class="ratio-image"><img src="{{ look_image | img_url: 'compact' | asset_url }}" alt="" width="120" height="120" loading="lazy" decoding="async" data-lookbook-thumbnail></span>
+        <span class="ratio-image" data-lookbook-thumbnail>
+          {%- include 'render-img' with src: look_image, type: 'tiny', alt: '', w: '120', h: '120' -%}
+        </span>
       </button>
       {%- endcapture -%}
       {%- assign lookbook_tabs = lookbook_tabs | append: lookbook_tab -%}

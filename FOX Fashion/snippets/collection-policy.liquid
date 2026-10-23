@@ -1,0 +1,31 @@
+{%- if settings.collection_policy_show != false -%}
+  <section class="fox-collection__policy" aria-label="Cam kết mua sắm">
+    {%- for fox_policy_index in (1..4) -%}
+      {%- capture fox_policy_title_key -%}collection_policy_{{ fox_policy_index }}_title{%- endcapture -%}
+      {%- capture fox_policy_desc_key -%}collection_policy_{{ fox_policy_index }}_desc{%- endcapture -%}
+      {%- assign fox_policy_title = settings[fox_policy_title_key] -%}
+      {%- assign fox_policy_desc = settings[fox_policy_desc_key] -%}
+      {%- if fox_policy_title == blank -%}
+        {%- case fox_policy_index -%}
+          {%- when 1 -%}{%- assign fox_policy_title = 'Vận chuyển thuận tiện' -%}{%- assign fox_policy_desc = 'Thông tin giao hàng hiển thị khi thanh toán.' -%}
+          {%- when 2 -%}{%- assign fox_policy_title = 'Hỗ trợ đổi trả' -%}{%- assign fox_policy_desc = 'Xem điều kiện áp dụng trong chính sách cửa hàng.' -%}
+          {%- when 3 -%}{%- assign fox_policy_title = 'Thanh toán an toàn' -%}{%- assign fox_policy_desc = 'Lựa chọn phương thức thanh toán phù hợp.' -%}
+          {%- when 4 -%}{%- assign fox_policy_title = 'Chăm sóc khách hàng' -%}{%- assign fox_policy_desc = 'Liên hệ với chúng tôi khi cần hỗ trợ.' -%}
+        {%- endcase -%}
+      {%- endif -%}
+      {%- if fox_policy_title != blank -%}
+        <div class="fox-collection__policy-item">
+          <span class="fox-collection__policy-icon" aria-hidden="true">
+            {%- case fox_policy_index -%}
+              {%- when 1 -%}<svg><use xlink:href="#ic-fox-policy-shipping"></use></svg>
+              {%- when 2 -%}<svg><use xlink:href="#ic-fox-policy-return"></use></svg>
+              {%- when 3 -%}<svg><use xlink:href="#ic-fox-policy-secure"></use></svg>
+              {%- when 4 -%}<svg><use xlink:href="#ic-fox-policy-support"></use></svg>
+            {%- endcase -%}
+          </span>
+          <div><h2>{{ fox_policy_title | escape }}</h2>{%- if fox_policy_desc != blank -%}<p>{{ fox_policy_desc | escape }}</p>{%- endif -%}</div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </section>
+{%- endif -%}

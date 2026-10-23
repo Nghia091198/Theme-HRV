@@ -24,22 +24,10 @@
     {%- if src_mobile != blank -%}
       <source
         media="(max-width: 767px)"
-        srcset="
-          {{ src_mobile | product_img_url: 'compact' | asset_url }} 240w,
-          {{ src_mobile | product_img_url: 'grande' | asset_url }} 600w,
-          {{ src_mobile | product_img_url: 'master' | asset_url }} 1200w
-        "
+        srcset="{{ src_mobile | asset_url }}"
         width="{{ w_mb }}"
         height="{{ h_mb }}">
     {%- endif -%}
-    <source
-      srcset="
-        {{ src | product_img_url: 'grande' | asset_url }} 600w,
-        {{ src | product_img_url: '1024x1024' | asset_url }} 1024w,
-        {{ src | product_img_url: 'master' | asset_url }} 2048w
-      "
-      width="{{ w }}"
-      height="{{ h }}">
     <img
       src="{{ src | asset_url }}"
       sizes="{{ sizes }}"

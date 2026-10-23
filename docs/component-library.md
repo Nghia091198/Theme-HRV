@@ -1400,19 +1400,25 @@ for collection AJAX updates.
 
 ## FOX Collection Page
 
-`templates/collection.liquid` includes `collection-page.liquid`. The page
-renders its heading, filters, product cards, and pagination with Liquid before
-JavaScript runs. `collection.data.liquid` and `search.data.liquid` return a shared
+`templates/collection.liquid` renders the collection page and includes
+`collection-filter.liquid` and `collection-policy.liquid`. It renders the
+heading, filters, product cards, and pagination with Liquid before JavaScript
+runs. `collection.data.liquid` and `search.data.liquid` return a shared
 `[data-role="results-content"]` fragment for enhanced updates. Product cards in
 both fragments use `product_card_context = 'collection'`.
 
-The merchant settings group has a banner, five primary filters (color, material,
-size, price, fit), pagination, and advanced options. When enabled, the banner
+The merchant settings group has a banner, color, material, size, price, fit,
+vendor, product type, and in-stock filter controls, pagination, and advanced
+options. Vendor and product type groups use `collection.all_vendors` and
+`collection.all_types`. `use_available_filter` shows the in-stock switch directly
+below the filter heading. When enabled, the banner
 uses `collection.image` first and `collection_banner.jpg` second; without an image,
 the text heading remains. The 21 optional color entries match `color:Name` product
 tags. A group remains visible when its setting is enabled, even if it has no
 options: colors require enabled entries, material and fit require matching
 collection tags, and price requires configured ranges above zero.
+The policy block uses `collection-policy.liquid` and `collection_policy_*`
+settings for visibility and each item's title and description.
 
 `core-commerce-collection.js` owns filter selection, sort, requests, history,
 mobile filter focus, and the `collection:updated` event. It emits that event with
@@ -1420,19 +1426,33 @@ mobile filter focus, and the `collection:updated` event. It emits that event wit
 `data-state="ready|loading|error"`; results expose `aria-busy`. Pagination links
 and the sort dropdown remain navigable without JavaScript. The mobile filter opens
 as a dialog with Escape, focus return, and overlay scroll lock.
-Each filter group renders a `ul` of labeled checkbox inputs. The input carries
-`data-filter`, `data-filter-group`, `data-filter-value`, `data-filter-param-value`,
-and `data-filter-label`;
-the collection script reads its native `checked` state and listens for `change`.
+Each filter group renders a `ul` of labeled inputs. Price options share one
+radio group so only one range can be selected; the other groups use checkboxes.
+For type, vendor, color, size, material, and fit, Liquid counts rendered options.
+When a group has more than five, items after the fifth receive `data-filter-extra`
+and a `data-filter-options-toggle` button is rendered. Collection JavaScript
+collapses those items on initialization, updates `aria-expanded`, and reveals a
+selected extra option restored from the URL. Without JavaScript, all options
+remain visible and the toggle stays hidden. The button sits immediately after
+its option list and points to that list with `aria-controls`.
+The in-stock switch is a native checkbox with `data-filter-value="(available:product=true)"`.
+Each input carries `data-filter`, `data-filter-group`, `data-filter-value`,
+`data-filter-param-value`, and `data-filter-label`. The collection script reads
+its native `checked` state and listens for `change`.
 The collection URL stores short, comma-separated filter values: `tag1` for color,
-`tag2` for material, `variant` for size, `price` for ranges, and `tag3` for fit.
-Tag values retain their `color:`, `material:`, or `fit:` prefix; price values use
-`0-max`, `min-max`, or `min+`. The collection URL keeps `sort_by` for native
-sorting. On reload, the script restores controls from these params and also
-accepts older `q=filter=...` collection links before replacing them with the
-short form.
+`tag2` for material, `variant` for size, `price` for ranges, `tag3` for fit,
+`vendor` for vendors, `product_type` for product types, and `available=true`
+for the in-stock switch.
+Color values share one `color:` prefix, for example `tag1=color:Đỏ,Vàng`.
+Reload accepts older URLs that repeat the prefix (`color:Đỏ,color:Vàng`).
+Material and fit values retain their `material:` or `fit:` prefix for each tag;
+price values use `0-max`, `min-max`, or `min+`. The collection URL keeps
+`sort_by` for native sorting. On reload, the script restores controls from
+these params and also accepts older `q=filter=...` collection links before
+replacing them with the short form.
 Search requests use Haravan's `q=filter=(collectionid:product=...)` syntax:
-`||` joins checked values in a group and `&&` joins distinct groups. The
+`||` joins checked values in a group and `&&` joins distinct groups. Vendor and
+type values use the `vendor:product**=` and `product_type:product**=` fields. The
 `sortby` parameter maps the selected sort to a Haravan product field expression.
 The request keeps `view=data` to load `templates/search.data.liquid`.
 Price range settings are entered in VND for Haravan search; Liquid multiplies
@@ -1443,14 +1463,14 @@ Files:
 ```text
 FOX Fashion/config/settings.html
 FOX Fashion/config/settings_data.json
-FOX Fashion/snippets/collection-page.liquid
+FOX Fashion/templates/collection.liquid
 FOX Fashion/snippets/collection-filter.liquid
+FOX Fashion/snippets/collection-policy.liquid
 FOX Fashion/snippets/collection-results.liquid
 FOX Fashion/snippets/pagination.liquid
 FOX Fashion/templates/collection.data.liquid
 FOX Fashion/templates/search.data.liquid
 FOX Fashion/assets/core-commerce-collection.js
-FOX Fashion/assets/core-commerce-collection.css
 FOX Fashion/assets/collection.css
 FOX Fashion/assets/style-global.scss.liquid
 ```

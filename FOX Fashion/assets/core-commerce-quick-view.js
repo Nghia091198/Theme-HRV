@@ -8,9 +8,6 @@
     #loading = null;
     #modal = null;
     #requestController = null;
-    #resizeObserver = null;
-    #scrollbar = null;
-    #scrollbarThumb = null;
 
     connectedCallback() {
       if (this.#abortController) return;
@@ -18,8 +15,6 @@
       this.#content = this.querySelector('[data-role="content"]');
       this.#loading = this.querySelector('[data-role="loading"]');
       this.#error = this.querySelector('[data-role="error"]');
-      this.#scrollbar = this.querySelector('[data-role="scrollbar"]');
-      this.#scrollbarThumb = this.querySelector('[data-role="scrollbar-thumb"]');
       if (!this.#modal || !this.#content || !this.#loading || !this.#error) {
         this.dataset.state = 'error';
         console.warn('[QuickViewComponent] Missing required modal hooks.');
@@ -33,24 +28,14 @@
       this.addEventListener('click', (event) => {
         if (event.target.closest('[data-action="retry"]')) this.open(this.#lastHandle);
       }, { signal: this.#abortController.signal });
-      this.#content.addEventListener('scroll', () => this.#updateScrollbar(), {
-        passive: true,
-        signal: this.#abortController.signal,
-      });
-      if ('ResizeObserver' in window) {
-        this.#resizeObserver = new ResizeObserver(() => this.#updateScrollbar());
-        this.#resizeObserver.observe(this.#content);
-      }
       this.dataset.state = 'idle';
     }
 
     disconnectedCallback() {
       this.#abortController?.abort();
       this.#requestController?.abort();
-      this.#resizeObserver?.disconnect();
       this.#abortController = null;
       this.#requestController = null;
-      this.#resizeObserver = null;
     }
 
     async open(handle, trigger) {
@@ -66,8 +51,9 @@
         this.#content.innerHTML = html;
         this.#setState('ready');
 
-        await this.#modal.open(trigger);
-        requestAnimationFrame(() => this.#updateScrollbar());
+        const opened = await this.#modal.open(trigger);
+        if (!opened) return false;
+        this.#refreshGallery();
         this.dispatchEvent(new CustomEvent('quickview:opened', {
           bubbles: true,
           detail: { handle },
@@ -128,19 +114,17 @@
       if (link) link.href = `/products/${encodeURIComponent(handle)}`;
     }
 
-    #updateScrollbar() {
-      if (!this.#scrollbar || !this.#scrollbarThumb || !this.#content) return;
-      const { clientHeight, scrollHeight, scrollTop } = this.#content;
-      const scrollRange = scrollHeight - clientHeight;
-      this.#scrollbar.hidden = scrollRange <= 1;
-      if (scrollRange <= 1) return;
-
-      const thumbSize = Math.max(0.12, clientHeight / scrollHeight);
-      const trackHeight = this.#scrollbar.clientHeight;
-      const thumbHeight = trackHeight * thumbSize;
-      const thumbOffset = (scrollTop / scrollRange) * Math.max(0, trackHeight - thumbHeight);
-      this.#scrollbar.style.setProperty('--fox-quick-view-scroll-thumb-size', `${thumbSize * 100}%`);
-      this.#scrollbar.style.setProperty('--fox-quick-view-scroll-thumb-offset', `${thumbOffset}px`);
+    #refreshGallery() {
+      const product = this.#content.querySelector('product-component');
+      const activeIndex = Number(product?.dataset.activeMediaIndex || 0);
+      const sliders = this.#content.querySelectorAll(
+        'slider-component[data-role="gallery-main"], slider-component[data-role="gallery-thumbnails"]'
+      );
+      sliders.forEach((slider) => {
+        if (slider.dataset.state !== 'ready' || slider.itemCount <= 1) return;
+        slider.refresh();
+        if (activeIndex > 0) slider.goTo(activeIndex);
+      });
     }
   }
 

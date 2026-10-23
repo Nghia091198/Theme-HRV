@@ -102,7 +102,7 @@ class FoxLookbook extends HTMLElement {
       const image = fragment.querySelector('.proloop--image-front');
       if (!image?.src) return;
       const mainImage = panel.querySelector('[data-lookbook-image]');
-      const tabImage = this.querySelector(`[aria-controls="${panel.id}"] [data-lookbook-thumbnail]`);
+      const tabImage = this.querySelector(`[aria-controls="${panel.id}"] [data-lookbook-thumbnail] img`);
       [mainImage, tabImage].forEach((target) => {
         if (!target) return;
         target.src = image.src;

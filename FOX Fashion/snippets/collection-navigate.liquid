@@ -1,7 +1,7 @@
 {%- if settings.col_nav_show -%}
   <nav class="fox-collection__chips" aria-label="Danh mục sản phẩm">
-    <a class="fox-collection__chip fox-collection__chip--text fox-collection__chip--all {% if collection.handle == 'all' %} is-current{% endif %}" href="/collections/all" aria-label="Tất cả"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>
-      <span>Tất cả</span>
+    <a class="fox-collection__chip fox-collection__chip--text fox-collection__chip--all {% if collection.handle == 'all' %} is-current{% endif %}" button-effect href="/collections/all" aria-label="Tất cả"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>
+      <span>Tất cả</span><span data-btn-effect-span aria-hidden="true"></span>
     </a>
     {%- for i in (1..5) -%}
       {%- capture show -%}col_nav_{{ i }}_show{%- endcapture -%}
@@ -11,11 +11,11 @@
         {%- capture title -%}col_nav_{{ i }}_title{%- endcapture -%}
         {%- capture url -%}col_nav_{{ i }}_url{%- endcapture -%}
         {%- assign nav_handle = settings[url] | split: 'collections/' | last | split: '?' |  first -%}
-          <a class="fox-collection__chip{% unless settings[show_img] %} fox-collection__chip--text{% endunless%}{% if collection.handle == url %} is-current{% endif %}" href="{{ settings[url] }}" aria-label="{{ settings[title] | escape }}"{% if collection.handle == nav_handle %} aria-current="page"{% endif %}>
+          <a class="fox-collection__chip{% unless settings[show_img] %} fox-collection__chip--text{% endunless%}{% if collection.handle == url %} is-current{% endif %}" button-effect href="{{ settings[url] }}" aria-label="{{ settings[title] | escape }}"{% if collection.handle == nav_handle %} aria-current="page"{% endif %}>
             {%- if settings[show_img] -%}
               {%- include 'render-img' with src: img, type: 'tiny', alt: settings[title], w: '36', h: '36' -%}
             {%- endif -%}
-            <span>{{ settings[title] }}</span>
+            <span>{{ settings[title] }}</span><span data-btn-effect-span aria-hidden="true"></span>
           </a>
       {%- endif -%}
     {%- endfor -%}

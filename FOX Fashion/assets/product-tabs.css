@@ -200,12 +200,10 @@
 
 .fox-product-tabs .pro--type {
   margin: 0 0 9px;
-  color: color-mix(in srgb, var(--fox-tabs-accent) 75%, transparent);
+  color: color-mix(in srgb, var(--fox-tabs-accent) 85%, transparent);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: .12em;
   line-height: 1.2;
-  text-transform: uppercase;
 }
 
 .fox-product-tabs .pro--title {
@@ -237,18 +235,6 @@
   color: color-mix(in srgb, var(--fox-tabs-accent) 55%, transparent);
   font-size: 14px;
   font-weight: 400;
-}
-
-.fox-product-tabs .pro--price-percent {
-	  top: 14px;
-    right: auto;
-    left: 0;
-    font-weight: 500;
-    padding: 5px 11px;
-    padding-left: 8px;
-    border-radius: 0 999px 999px 0;
-    font-size: 12px;
-    letter-spacing: 0.3px;
 }
 
 .fox-product-tabs .product-card--detail-variants {

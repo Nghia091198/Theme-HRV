@@ -1,5 +1,6 @@
 {%- assign fox_collection_limit = settings.pagination_limit | default: 12 | plus: 0 -%}
 {%- if fox_collection_limit < 1 -%}{%- assign fox_collection_limit = 12 -%}{%- endif -%}
+{%- assign pagination_show_progress = false -%}
 {%- assign fox_collection_base_query = '(collectionid:product>0)' -%}
 {%- if collection.handle != 'all' -%}
   {%- capture fox_collection_base_query -%}(collectionid:product={{ collection.id }}){%- endcapture -%}
@@ -35,46 +36,63 @@
   <header class="fox-collection__hero{% if fox_collection_banner != blank %} fox-collection__hero--image{% endif %}">
     {%- include 'collection-header' -%}
     {%- include 'collection-navigate' -%}
-    </div>
   </header>
 
-  <section class="fox-collection__shop container" aria-label="Danh sách sản phẩm">
-    {%- paginate collection.products by fox_collection_limit -%}
+
+<div class="fox-collection__content container">
+<section class="fox-collection__shop" aria-label="Danh sách sản phẩm">
+  {%- paginate collection.products by fox_collection_limit -%}
     {%- assign fox_collection_result_start = paginate.current_page | minus: 1 | times: fox_collection_limit | plus: 1 -%}
     {%- assign fox_collection_result_end = paginate.current_page | times: fox_collection_limit -%}
-    {%- if fox_collection_result_end > paginate.items -%}{%- assign fox_collection_result_end = paginate.items -%}{%- endif -%}
+    {%- if fox_collection_result_end > paginate.items -%}
+      {%- assign fox_collection_result_end = paginate.items -%}
+    {%- endif -%}
     {%- if paginate.items == 0 -%}{%- assign fox_collection_result_start = 0 -%}{%- endif -%}
     <div class="fox-collection__toolbar">
-      <div class="fox-collection__toolbar-summary">
-        {%- if settings.fox_collection_show_count != false -%}
-        <p class="fox-collection__count">Hiển thị <strong data-role="result-range">{{ fox_collection_result_start }}–{{ fox_collection_result_end }}</strong> trong <strong data-role="result-count">{{ paginate.items }}</strong> sản phẩm</p>
+        {%- if settings.fox_collection_show_count != false and pagination_show_progress-%}
+          <div class="fox-collection__toolbar-summary">
+            <p class="fox-collection__count">
+              Hiển thị
+              <strong data-role="result-range">
+                {{- fox_collection_result_start }}–{{ fox_collection_result_end -}}
+              </strong>
+              trong <strong data-role="result-count">{{ paginate.items }}</strong> sản phẩm
+            </p>
+          </div>
         {%- endif -%}
-        <div class="fox-collection__active" data-role="active-filters" aria-live="polite"></div><button type="button" class="fox-collection__clear fox-collection__toolbar-clear" data-filter-reset hidden>Xóa tất cả</button>
-      </div>
-      <div class="fox-collection__toolbar-actions">
-        {%- if fox_collection_filter_enabled -%}
-        <button type="button" class="fox-collection__filter-toggle" data-filter-toggle aria-expanded="false" aria-controls="fox-collection-filters" hidden>Bộ lọc</button>
-        {%- endif -%}
-        <details class="fox-collection__sort" data-sort data-sort-value="manual">
-          <summary><span class="fox-collection__sort-caption">Sắp xếp theo</span><span data-sort-label>Nổi bật</span><span class="fox-collection__sort-chevron" aria-hidden="true"></span></summary>
-          <ul class="fox-collection__sort-options" data-role="sort-options" aria-label="Sắp xếp sản phẩm">
-            <li><a href="{{ fox_collection_url | escape }}" data-sort-option="manual" aria-current="true">Nổi bật</a></li>
-            <li><a href="{{ fox_collection_url | escape }}?sort_by=created-descending" data-sort-option="created-descending">Mới nhất</a></li>
-            <li><a href="{{ fox_collection_url | escape }}?sort_by=price-ascending" data-sort-option="price-ascending">Giá: thấp đến cao</a></li>
-            <li><a href="{{ fox_collection_url | escape }}?sort_by=price-descending" data-sort-option="price-descending">Giá: cao đến thấp</a></li>
-          </ul>
-        </details>
-        <div class="fox-collection__views" role="group" aria-label="Kiểu hiển thị sản phẩm" hidden>
-          <button type="button" data-view-toggle="grid" aria-label="Hiển thị dạng lưới" aria-pressed="true" title="Dạng lưới"><svg aria-hidden="true"><use xlink:href="#ic-grid"></use></svg></button>
-          <button type="button" data-view-toggle="list" aria-label="Hiển thị dạng danh sách" aria-pressed="false" title="Dạng danh sách"><svg aria-hidden="true"><use xlink:href="#ic-list"></use></svg></button>
+      <div class="fox-collection__toolbar-controls">
+          {%- if fox_collection_filter_enabled -%}
+            <button
+              type="button"
+              class="fox-collection__filter-toggle"
+              data-filter-toggle
+              aria-expanded="true"
+              aria-controls="fox-collection-filters"
+              hidden
+            >
+              <svg aria-hidden="true"><use xlink:href="#ic-filter"></use></svg>
+              <span>Bộ lọc</span>
+            </button>
+          {%- endif -%}
+        <div class="fox-collection__toolbar-active" data-role="active-filter-row" hidden>
+          <div class="fox-collection__active" data-role="active-filters" aria-live="polite"></div>
+          <button type="button" class="fox-collection__clear fox-collection__toolbar-clear" data-filter-reset hidden>
+            Xóa tất cả
+          </button>
+        </div>
+        <div class="fox-collection__toolbar-actions">
+          {%- include 'collection-sortby' -%}
         </div>
       </div>
     </div>
 
     <div class="fox-collection__layout">
       {%- if fox_collection_filter_enabled -%}
-      <div id="fox-collection-filters">
-        {%- include 'collection-facets' -%}
+      <div class="fox-collection__sidebar">
+        <div id="fox-collection-filters" class="core-offcanvas fox-collection__filter-column" data-position="left" data-state="ready" style="--fox-menu-color: {{ settings.theme_color | default: '#1B2631' | escape }};">
+          <button type="button" class="core-offcanvas__overlay fox-collection__filter-overlay" data-filter-overlay data-filter-close aria-label="Đóng bộ lọc" hidden></button>
+          {%-include 'collection-filter'-%}
+        </div>
       </div>
       {%- endif -%}
       <div class="fox-collection__results" data-role="results" aria-busy="false">
@@ -82,12 +100,13 @@
         <div class="fox-collection__loading" data-role="loading" hidden>
           {%- include 'component-skeleton' with type: 'default', item: 3, row: 2 -%}
         </div>
-        <p class="fox-collection__status" data-role="status" aria-live="polite"></p>
+        {%- if pagination_show_progress -%}
+          <p class="fox-collection__status" data-role="status" aria-live="polite"></p>
+        {%- endif -%}
       </div>
-      {%- include 'collection-promo' -%}
     </div>
-    {%- endpaginate -%}
-    {%- if fox_collection_filter_enabled -%}<button type="button" class="fox-collection__filter-overlay" data-filter-overlay data-filter-close aria-label="Đóng bộ lọc" hidden></button>{%- endif -%}
-  </section>
-  {%- include 'collection-benefits' -%}
+  {%- endpaginate -%}
+</section>
+{%- include 'collection-policy' -%}
+</div>
 </div>

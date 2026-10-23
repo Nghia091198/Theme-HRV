@@ -14,8 +14,8 @@
       <div class="fox-footer__main{% if fox_footer_contact_visible %} fox-footer__main--with-contact{% endif %}">
         <div class="fox-footer__brand">
           <a class="fox-footer__logo-link" href="/" aria-label="Trang chủ - {{ shop.name | escape }}">
-            {%- if settings.footer_logo_show -%}
-              {%- include 'render-img' with src: "footer_logo.png", alt: alt_text, w: '300', h: '160', className: "img-fluid fox-footer__logo" -%}
+            {%- if settings.footer_logo_show and settings['footer_logo.png'] != blank -%}
+              {%- include 'render-img' with src: 'footer_logo.png', alt: shop.name, w: '160', h: '40', class: 'img-fluid fox-footer__logo' -%}
             {%- else -%}
               <span class="fox-footer__logo-text">{{ shop.name | escape }}</span>
             {%- endif -%}
@@ -106,7 +106,7 @@
 
         {%- if settings.footer_help_menu != blank and linklists[settings.footer_help_menu].links != blank -%}
           <fox-footer-menu class="fox-footer-menu" data-state="idle">
-            <details class="fox-footer__menu-group">
+            <details class="fox-footer__menu-group" open>
               <summary class="fox-footer__menu-summary">
                 <span>{{ settings.footer_help_title | default: 'Hỗ trợ' | escape }}</span>
                 <span class="fox-footer__menu-toggle" aria-hidden="true">
@@ -124,7 +124,7 @@
 
         {%- if settings.footer_about_menu != blank and linklists[settings.footer_about_menu].links != blank -%}
           <fox-footer-menu class="fox-footer-menu" data-state="idle">
-            <details class="fox-footer__menu-group">
+            <details class="fox-footer__menu-group" open>
               <summary class="fox-footer__menu-summary">
                 <span>{{ settings.footer_about_title | default: 'Về FOX' | escape }}</span>
                 <span class="fox-footer__menu-toggle" aria-hidden="true">

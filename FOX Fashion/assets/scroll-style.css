@@ -1,3 +1,26 @@
+.fox-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fox-scrollbar-thumb, rgb(27 38 49 / 28%)) transparent;
+}
+
+.fox-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+} 
+
+.fox-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fox-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--fox-scrollbar-thumb, rgb(27 38 49 / 28%));
+}
+
+.fox-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--fox-scrollbar-thumb-hover, rgb(27 38 49 / 42%));
+}
+
 [data-fox-scroll-viewport] {
   --fox-scroll-progress: 0; 
   --fox-scroll-direction: -1;

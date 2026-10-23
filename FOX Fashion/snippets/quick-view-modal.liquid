@@ -2,7 +2,7 @@
   <modal-component
     id="fox-quick-view-modal"
     data-state="closed"
-    data-modal-stack="true">
+    data-modal-stack="true"> 
     <dialog data-role="dialog" aria-label="Xem nhanh sản phẩm">
       <div data-role="surface">
         <button
@@ -20,10 +20,7 @@
           </svg>
         </button>
         <div class="fox-quick-view__loading" data-role="loading" aria-live="polite" hidden>Đang tải sản phẩm...</div>
-        <div class="fox-quick-view__content" data-role="content"></div>
-        <div class="fox-quick-view__scrollbar" data-role="scrollbar" aria-hidden="true" hidden>
-          <span class="fox-quick-view__scrollbar-thumb" data-role="scrollbar-thumb"></span>
-        </div>
+        <div class="fox-quick-view__content fox-scrollbar" data-role="content"></div>
         <div class="fox-quick-view__error" data-role="error" role="alert" hidden>
           <p>Không thể tải sản phẩm.</p>
           <button type="button" data-action="retry">Thử lại</button>

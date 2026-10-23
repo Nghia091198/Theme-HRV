@@ -1452,10 +1452,39 @@
 					<div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
 						<table>
 							<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="show_collection_filter" value="1" checked="checked"/></td></tr>
+							<tr><td><strong>Hiển thị bộ lọc “Còn hàng”?</strong></td><td><input type="checkbox" name="use_available_filter" value="1" checked="checked"/></td></tr>
 						</table>
 						<fieldset>
-							<legend>.1. Bộ lọc màu (product tag)</legend>
-							<p>Nhập tag: color:[giá trị] → VD: color:Đen</p>
+							<legend>2.1. Bộ lọc loại sản phẩm</legend>
+							<table>
+								<tr><td>Hiển thị</td><td><input type="checkbox" name='use_type_filter' value='1'></td></tr>
+								<tr><td>Tiêu đề</td><td><input type="text" class="text" name="title_type_filter"></td></tr>
+							</table>
+						</fieldset>
+						<fieldset>
+							<legend>2.2. Bộ lọc nhà cung cấp</legend>
+							<table>
+								<tr><td>Hiển thị</td><td><input type="checkbox" name='use_vendor_filter' value='1'></td></tr>
+								<tr><td>Tiêu đề</td><td><input type="text" class="text" name="title_vendor_filter"></td></tr>
+							</table>
+						</fieldset>
+						<fieldset>
+							<legend>2.3. Bộ lọc giá</legend>
+							<table>
+								<tr><td>Hiển thị</td><td><input type="checkbox" name='use_price_filter' value='1'></td></tr>
+								<tr><td>Tiêu đề</td><td><input type="text" class="text" name="title_price_filter"/></td></tr>
+								<tr><td>Khoảng giá 1: (nhỏ hơn) </td><td><input type="text" class="text" name="1_price_to" value="0" /></td></tr>
+								<tr><td colspan="2">Khoảng giá 2:</td></tr>
+								<tr><td><input type="text" class="text" name="2_price_from" value="0" /></td><td><input type="text" class="text" name="2_price_to" value="0" /></td></tr>
+								<tr><td colspan="2">Khoảng giá 3:</td></tr>
+								<tr><td><input type="text" class="text" name="3_price_from" value="0" /></td><td><input type="text" class="text" name="3_price_to" value="0" /></td></tr>
+								<tr><td colspan="2">Khoảng giá 4:</td></tr>
+								<tr><td><input type="text" class="text" name="4_price_from" value="0" /></td><td><input type="text" class="text" name="4_price_to" value="0" /></td></tr>
+								<tr><td>Khoảng giá 5: (lớn hơn) </td> <td><input type="text" class="text" name="5_price_from" value="0" /></td></tr>
+							</table>
+						</fieldset>	
+						<fieldset>
+							<legend>2.4. Bộ lọc màu</legend>
 							<table>
 								<tr><td>Hiển thị</td><td><input type="checkbox" name='use_color_filter' value='1'></td></tr>					
 								<tr><td>Tiêu đề</td><td><input type="text" class="text" name="title_color_filter"></td></tr>
@@ -1617,42 +1646,32 @@
 							</div>
 						</fieldset>
 						<fieldset>
-							<legend>2.2. Bộ lọc chất liệu (product tag)</legend>
-							<p>Nhập tag theo mẫu material:Giá trị, ví dụ material:Cotton.</p>
-							<table>
-								<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="use_metal_filter" value="1" checked="checked"/></td></tr>
-								<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="title_metal_filter" value="Chất liệu"/></td></tr>
-							</table>
-						</fieldset>
-						<fieldset>
-							<legend>2.3. Bộ lọc kích thước (product variant)</legend>
+							<legend>2.5. Bộ lọc kích thước (product variant)</legend>
 							<table>
 								<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="use_size_filter" value="1" checked="checked"/></td></tr>
 								<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="title_size_filter" value="Kích thước"/></td></tr>
-								<tr><td><strong>Các giá trị hiển thị</strong><p style="font-size: 12px;">Ngăn cách bằng dấu phẩy, ví dụ XS,S,M,L,XL.</p></td><td><textarea name="values_size_filter">XS,S,M,L,XL</textarea></td></tr>
+								<tr>
+									<td><strong>Các giá trị hiển thị</strong><p style="font-size: 12px;">Ngăn cách bằng dấu chấm phẩy, ví dụ XS;S;M;L;XL.</p></td>
+									<td><textarea class="min-width-360px" name="values_size_filter"></textarea></td>
+								</tr>
 							</table>
 						</fieldset>
 						<fieldset>
-							<legend>2.4. Bộ lọc giá (VND)</legend>
+							<legend>2.6. Bộ lọc theo tag 1 (product tag)</legend>
+							<p>Nhập tag theo mẫu fil1:Giá trị, ví dụ fil1:Cotton.</p>
 							<table>
-								<tr><td>Hiển thị</td><td><input type="checkbox" name='use_price_filter' value='1'></td></tr>
-								<tr><td>Tiêu đề</td><td><input type="text" class="text" name="title_price_filter"/></td></tr>
-								<tr><td>Khoảng giá 1: (nhỏ hơn) </td><td><input type="text" class="text" name="1_price_to" value="0" /></td></tr>
-								<tr><td colspan="2">Khoảng giá 2:</td></tr>
-								<tr><td><input type="text" class="text" name="2_price_from" value="0" /></td><td><input type="text" class="text" name="2_price_to" value="0" /></td></tr>
-								<tr><td colspan="2">Khoảng giá 3:</td></tr>
-								<tr><td><input type="text" class="text" name="3_price_from" value="0" /></td><td><input type="text" class="text" name="3_price_to" value="0" /></td></tr>
-								<tr><td colspan="2">Khoảng giá 4:</td></tr>
-								<tr><td><input type="text" class="text" name="4_price_from" value="0" /></td><td><input type="text" class="text" name="4_price_to" value="0" /></td></tr>
-								<tr><td>Khoảng giá 5: (lớn hơn) </td> <td><input type="text" class="text" name="5_price_from" value="0" /></td></tr>
+								<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="use_tag1_filter" value="1" checked="checked"/></td></tr>
+								<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="title_tag1_filter" value="Chất liệu"/></td></tr>
+								<tr><td><strong>Nội dung</strong></td><td><textarea class="min-width-360px" type="text" name="content_tag1_filter"></textarea></td></tr>
 							</table>
-						</fieldset>	
+						</fieldset>
 						<fieldset>
-							<legend>2.5. Bộ lọc form dáng (product tag)</legend>
-							<p>Nhập tag theo mẫu fit:Giá trị, ví dụ fit:Linh hoạt.</p>
+							<legend>2.7. Bộ lọc theo tag 2 (product tag)</legend>
+							<p>Nhập tag theo mẫu fil2:Giá trị, ví dụ fil2:Linh hoạt.</p>
 							<table>
-								<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="use_form_filter" value="1" checked="checked"/></td></tr>
-								<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="title_form_filter" value="Form dáng"/></td></tr>
+								<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="use_tag2_filter" value="1" checked="checked"/></td></tr>
+								<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="title_tag2_filter" value="Form dáng"/></td></tr>
+								<tr><td><strong>Nội dung</strong></td><td><textarea class="min-width-360px" type="text" name="content_tag2_filter"></textarea></td></tr>
 							</table>
 						</fieldset>
 					</div>
@@ -1666,6 +1685,7 @@
 						</table>
 					</div>
 				</fieldset>
+
 				<fieldset>
 					<legend>4. Thẻ sản phẩm</legend>
 					<div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
@@ -1692,36 +1712,18 @@
 				</fieldset>
 				
 				<fieldset>
-					<legend>6. Ưu đãi cạnh bộ lọc</legend>
+					<legend>5. Cam kết mua sắm</legend>
 					<div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
 						<table>
-							<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="collection_promo_show" value="1"/></td></tr>
-							<tr><td><strong>Nhãn nhỏ</strong></td><td><input type="text" name="collection_promo_badge"/></td></tr>
-							<tr><td><strong>Tiêu đề</strong></td><td><input type="text" name="collection_promo_title"/></td></tr>
-							<tr><td><strong>Mô tả</strong></td><td><textarea name="collection_promo_desc"></textarea></td></tr>
-							<tr><td><strong>Nhãn nút</strong><p style="font-size: 12px;">Bỏ trống để ẩn nút.</p></td><td><input type="text" name="collection_promo_btn_label"/></td></tr>
-							<tr><td><strong>Đường dẫn</strong></td><td><input type="text" name="collection_promo_btn_url"/></td></tr>
-							<tr><td><strong>Kiểu countdown</strong></td><td><select name="collection_promo_type"><option value="deadline">Có thời hạn</option><option value="daily">Lặp lại hàng ngày</option></select></td></tr>
-							<tr><td><strong>Ngày</strong></td><td><input type="number" name="collection_promo_day" min="1" max="31"/></td></tr>
-							<tr><td><strong>Tháng</strong></td><td><input type="number" name="collection_promo_month" min="1" max="12"/></td></tr>
-							<tr><td><strong>Năm</strong></td><td><input type="number" name="collection_promo_year" min="2020" max="2099"/></td></tr>
-							<tr><td><strong>Thời gian kết thúc</strong><p style="font-size: 12px;">Giờ:phút:giây, ví dụ 20:00:00.</p></td><td><input type="text" name="collection_promo_time" placeholder="20:00:00"/></td></tr>
-						</table>
-					</div>
-				</fieldset>
-				<fieldset>
-					<legend>7. Cam kết mua sắm</legend>
-					<div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
-						<table>
-							<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="collection_benefits_show" value="1" checked="checked"/></td></tr>
-							<tr><td><strong>Tiêu đề 1</strong></td><td><input type="text" name="collection_benefit_1_title" value="Vận chuyển thuận tiện"/></td></tr>
-							<tr><td><strong>Mô tả 1</strong></td><td><input type="text" name="collection_benefit_1_desc" value="Thông tin giao hàng hiển thị khi thanh toán."/></td></tr>
-							<tr><td><strong>Tiêu đề 2</strong></td><td><input type="text" name="collection_benefit_2_title" value="Hỗ trợ đổi trả"/></td></tr>
-							<tr><td><strong>Mô tả 2</strong></td><td><input type="text" name="collection_benefit_2_desc" value="Xem điều kiện áp dụng trong chính sách cửa hàng."/></td></tr>
-							<tr><td><strong>Tiêu đề 3</strong></td><td><input type="text" name="collection_benefit_3_title" value="Thanh toán an toàn"/></td></tr>
-							<tr><td><strong>Mô tả 3</strong></td><td><input type="text" name="collection_benefit_3_desc" value="Lựa chọn phương thức thanh toán phù hợp."/></td></tr>
-							<tr><td><strong>Tiêu đề 4</strong></td><td><input type="text" name="collection_benefit_4_title" value="Chăm sóc khách hàng"/></td></tr>
-							<tr><td><strong>Mô tả 4</strong></td><td><input type="text" name="collection_benefit_4_desc" value="Liên hệ với chúng tôi khi cần hỗ trợ."/></td></tr>
+							<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="collection_policy_show" value="1" checked="checked"/></td></tr>
+							<tr><td><strong>Tiêu đề 1</strong></td><td><input type="text" name="collection_policy_1_title" value="Vận chuyển thuận tiện"/></td></tr>
+							<tr><td><strong>Mô tả 1</strong></td><td><input type="text" name="collection_policy_1_desc" value="Thông tin giao hàng hiển thị khi thanh toán."/></td></tr>
+							<tr><td><strong>Tiêu đề 2</strong></td><td><input type="text" name="collection_policy_2_title" value="Hỗ trợ đổi trả"/></td></tr>
+							<tr><td><strong>Mô tả 2</strong></td><td><input type="text" name="collection_policy_2_desc" value="Xem điều kiện áp dụng trong chính sách cửa hàng."/></td></tr>
+							<tr><td><strong>Tiêu đề 3</strong></td><td><input type="text" name="collection_policy_3_title" value="Thanh toán an toàn"/></td></tr>
+							<tr><td><strong>Mô tả 3</strong></td><td><input type="text" name="collection_policy_3_desc" value="Lựa chọn phương thức thanh toán phù hợp."/></td></tr>
+							<tr><td><strong>Tiêu đề 4</strong></td><td><input type="text" name="collection_policy_4_title" value="Chăm sóc khách hàng"/></td></tr>
+							<tr><td><strong>Mô tả 4</strong></td><td><input type="text" name="collection_policy_4_desc" value="Liên hệ với chúng tôi khi cần hỗ trợ."/></td></tr>
 						</table>
 					</div>
 				</fieldset>
