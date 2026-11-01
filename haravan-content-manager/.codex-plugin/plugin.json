@@ -1,6 +1,6 @@
 {
   "name": "haravan-content-manager",
-  "version": "0.1.0+codex.20260807102049",
+  "version": "0.1.0+codex.20261029.1",
   "description": "Create validated demo articles and products through the Haravan Admin API.",
   "author": {
     "name": "Personal"

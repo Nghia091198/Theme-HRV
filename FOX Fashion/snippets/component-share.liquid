@@ -1,0 +1,34 @@
+{%- comment -%}
+  Reusable share icons (product page, article). Input: share_url (absolute), share_title, share_label (optional).
+  Each icon has its own setting (share_facebook, share_messenger, share_x, share_email, share_copy, share_native).
+  Messenger uses the app link, so it shows on touch devices only. Behavior: assets/share-links.js.
+{%- endcomment -%}
+<share-links class="fox-share" data-state="idle" data-url="{{ share_url | escape }}" data-title="{{ share_title | escape }}">
+  {%- if share_label != blank -%}
+  <span class="fox-share__label">
+    <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-blog-share"></use></svg>
+    {{ share_label | escape }}
+  </span>
+  {%- endif -%}
+  <ul class="fox-share__list">
+    {%- if settings.share_facebook != false -%}
+    <li><a class="fox-share__btn" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | url_encode }}" target="_blank" rel="nofollow noopener noreferrer" aria-label="Chia sẻ lên Facebook"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-facebook"></use></svg></a></li>
+    {%- endif -%}
+    {%- if settings.share_messenger != false -%}
+    <li class="fox-share__item--touch"><a class="fox-share__btn" href="fb-messenger://share/?link={{ share_url | url_encode }}" aria-label="Chia sẻ qua Messenger"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-messenger"></use></svg></a></li>
+    {%- endif -%}
+    {%- if settings.share_x != false -%}
+    <li><a class="fox-share__btn" href="https://twitter.com/intent/tweet?url={{ share_url | url_encode }}&amp;text={{ share_title | url_encode }}" target="_blank" rel="nofollow noopener noreferrer" aria-label="Chia sẻ lên X"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-x"></use></svg></a></li>
+    {%- endif -%}
+    {%- if settings.share_email != false -%}
+    <li><a class="fox-share__btn" href="mailto:?subject={{ share_title | url_encode }}&amp;body={{ share_url | url_encode }}" aria-label="Chia sẻ qua email"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-mail"></use></svg></a></li>
+    {%- endif -%}
+    {%- if settings.share_copy != false -%}
+    <li><button type="button" class="fox-share__btn" data-action="copy-link" aria-label="Sao chép link" data-copied-label="Đã sao chép"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-blog-link"></use></svg></button></li>
+    {%- endif -%}
+    {%- if settings.share_native != false -%}
+    <li><button type="button" class="fox-share__btn" data-action="native-share" aria-label="Chia sẻ qua ứng dụng khác" hidden><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-blog-share"></use></svg></button></li>
+    {%- endif -%}
+  </ul>
+  <span class="fox-share__status" data-role="share-status" aria-live="polite"></span>
+</share-links>

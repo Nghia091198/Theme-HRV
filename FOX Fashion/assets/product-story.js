@@ -324,7 +324,7 @@ class FoxProductStory extends HTMLElement {
         return;
       }
       try {
-        const fragment = await window.FOX.loadProductFragment(handle, 'lookbook-card');
+        const fragment = await window.FOX.loadProductFragment(handle, 'product-loop-data'); 
         const product = fragment.querySelector('product-card');
         if (!product) throw new Error('missing-product-markup');
         product.classList.add('product-card--story');

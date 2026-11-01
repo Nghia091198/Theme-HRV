@@ -12,7 +12,7 @@ modal-component {
 
 modal-component dialog {
   width: var(--modal-width);
-  max-width: 90vw;
+  max-width: 94vw;
   max-height: var(--modal-max-height);
   margin: auto;
   padding: 0;
@@ -43,6 +43,42 @@ modal-component[data-state="closing"] dialog {
 
 modal-component[data-state="closing"] dialog::backdrop {
   animation: fox-modal-backdrop-out var(--modal-duration) var(--modal-easing) both;
+}
+
+modal-component[data-modal-sheet="always"] {
+  --modal-duration: 360ms;
+}
+
+modal-component[data-modal-sheet="always"][data-state="opening"] dialog {
+  animation: fox-modal-sheet-in var(--modal-duration) cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+modal-component[data-modal-sheet="always"][data-state="closing"] dialog {
+  animation: fox-modal-sheet-out calc(var(--modal-duration) * 0.8) cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@media (max-width: 767px) {
+  modal-component[data-modal-sheet="mobile"] {
+    --modal-duration: 360ms;
+  }
+
+  modal-component[data-modal-sheet="mobile"][data-state="opening"] dialog {
+    animation: fox-modal-sheet-in var(--modal-duration) cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+
+  modal-component[data-modal-sheet="mobile"][data-state="closing"] dialog {
+    animation: fox-modal-sheet-out calc(var(--modal-duration) * 0.8) cubic-bezier(0.4, 0, 1, 1) both;
+  }
+}
+
+@keyframes fox-modal-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+
+@keyframes fox-modal-sheet-out {
+  from { transform: none; }
+  to { transform: translateY(100%); }
 }
 
 modal-component [data-role="surface"] {

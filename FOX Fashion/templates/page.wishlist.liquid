@@ -1,0 +1,92 @@
+{%- comment -%}
+  Alternate page template "wishlist" (layout B: grid + sticky glass summary). Saved items live in localStorage
+  (assets/wishlist.js). <wishlist-page> loads each card from the product-loop-data view and one /search.js request
+  (by product id) for the summary (availability, total value, savings) and for "Thêm tất cả vào giỏ".
+  ?ids=<id>,<id> opens a shared list (read only): it never touches the visitor's own wishlist until they save it.
+  Styles: assets/wishlist.css.
+{%- endcomment -%}
+{%- assign wishlist_title = settings.wishlist_title | default: page.title -%}
+<div class="fox-wishlist">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
+
+    <wishlist-page
+      class="fox-wishlist__page"
+      data-state="idle"
+      data-mode="own"
+      data-title-own="{{ wishlist_title | escape }}"
+      data-title-shared="{{ settings.wishlist_shared_title | default: 'Danh sách được chia sẻ' | escape }}"
+      data-confirm-clear="{{ settings.wishlist_confirm_clear | default: 'Xóa tất cả sản phẩm khỏi danh sách yêu thích?' | escape }}">
+      <div class="fox-wishlist__layout">
+        <div class="fox-wishlist__main">
+          <header class="fox-wishlist__header">
+            <h1 class="fox-wishlist__title" data-role="title">{{ wishlist_title | escape }}</h1>
+            <p class="fox-wishlist__count" data-role="subtitle"><span data-role="count">0</span> sản phẩm</p>
+          </header>
+
+          <p class="fox-wishlist__loading" aria-live="polite">Đang tải danh sách yêu thích…</p>
+          <div class="fox-wishlist__grid" data-role="grid" aria-live="polite"></div>
+
+          <div class="fox-wishlist__empty" data-role="empty" hidden>
+            <span class="fox-wishlist__empty-icon" aria-hidden="true">
+              <svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-heart"></use></svg>
+            </span>
+            <h2 class="fox-wishlist__empty-title">{{ settings.wishlist_empty_title | default: 'Chưa có sản phẩm yêu thích' | escape }}</h2>
+            <p class="fox-wishlist__empty-text">{{ settings.wishlist_empty_text | default: 'Nhấn biểu tượng trái tim trên sản phẩm để lưu lại và xem sau.' | escape }}</p>
+            <a class="btn btn-primary" button-effect href="{{ settings.wishlist_empty_url | default: '/collections/all' | escape }}">
+              <span class="btn__label">{{ settings.wishlist_empty_cta | default: 'Khám phá sản phẩm' | escape }}</span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+
+        <aside class="fox-wishlist__summary" data-role="summary" aria-labelledby="fox-wishlist-summary-title" hidden>
+          <h2 id="fox-wishlist-summary-title" class="fox-wishlist__summary-title">{{ settings.wishlist_summary_title | default: 'Tóm tắt danh sách' | escape }}</h2>
+          <div class="fox-wishlist__stats">
+            <p><strong data-role="stat-in">0</strong>Còn hàng</p>
+            <p><strong data-role="stat-out">0</strong>Hết hàng</p>
+            <p><strong data-role="stat-sale">0</strong>Giảm giá</p>
+          </div>
+          <p class="fox-wishlist__summary-row"><span>Số sản phẩm</span><strong data-role="stat-total">0</strong></p>
+          <p class="fox-wishlist__summary-total"><span>Tổng giá trị</span><strong data-role="total-value">0₫</strong></p>
+          <p class="fox-wishlist__summary-save" data-role="total-save" hidden></p>
+
+          <button type="button" class="fox-wishlist__summary-btn fox-wishlist__summary-btn--solid" data-action="add-all" button-effect>
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-cart-plus"></use></svg>
+            <span data-role="add-all-label">Thêm vào giỏ</span>
+            <span data-btn-effect-span aria-hidden="true"></span>
+          </button>
+
+          <div class="fox-wishlist__summary-own">
+            <button type="button" class="fox-wishlist__summary-btn fox-wishlist__summary-btn--outline" data-action="share" button-effect>
+              <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-blog-share"></use></svg>
+              <span>{{ settings.wishlist_share_label | default: 'Chia sẻ danh sách' | escape }}</span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </button>
+            <button type="button" class="fox-wishlist__summary-link" data-action="clear">{{ settings.wishlist_clear_label | default: 'Xóa tất cả' | escape }}</button>
+          </div>
+
+          <div class="fox-wishlist__summary-shared" hidden>
+            <button type="button" class="fox-wishlist__summary-btn fox-wishlist__summary-btn--outline" data-action="save-shared" button-effect>
+              <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-heart"></use></svg>
+              <span>{{ settings.wishlist_save_shared_label | default: 'Lưu vào yêu thích của tôi' | escape }}</span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </button>
+            <a class="fox-wishlist__summary-link" href="{{ page.url | default: settings.wishlist_page_url | escape }}">{{ settings.wishlist_view_own_label | default: 'Xem danh sách của tôi' | escape }}</a>
+          </div>
+
+          <p class="fox-wishlist__summary-status" data-role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+
+      <template data-role="item-template">
+        <div class="fox-wishlist__item" data-role="item">
+          <button type="button" class="fox-wishlist__remove" data-action="remove" aria-label="Bỏ khỏi yêu thích">
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-heart-filled"></use></svg>
+          </button>
+          <div data-role="slot"></div>
+        </div>
+      </template>
+    </wishlist-page>
+  </div>
+</div>

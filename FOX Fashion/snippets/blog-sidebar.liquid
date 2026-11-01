@@ -1,0 +1,40 @@
+<aside class="fox-blog-sidebar" aria-label="Thanh bên blog">
+  {%- if settings.blog_menu != blank and linklists[settings.blog_menu].links.size > 0 -%}
+  <nav class="fox-blog-glass" aria-label="{{ settings.blog_menu_title | default: 'Danh mục' | escape }}">
+    <p class="fox-blog-glass__title">{{ settings.blog_menu_title | default: 'Danh mục' | escape }}</p>
+    {%- assign menu_accordion_handle = settings.blog_menu -%}
+    {%- assign menu_accordion_id = 'fox-blog-menu' -%}
+    {%- include 'component-menu-accordion' -%}
+  </nav>
+  {%- endif -%} 
+
+  {%- if settings.blog_show_recent != false -%}
+    {%- assign recent_count = 0 -%}
+    {%- capture recent_html -%}
+      {%- for recent_article in blog.articles -%}
+        {%- if recent_article.id != article.id and recent_count < 4 -%}
+          {%- assign recent_count = recent_count | plus: 1 -%}
+          <li>
+            <a class="fox-blog-recent__item" href="{{ recent_article.url | escape }}">
+              <span class="fox-blog-recent__media">
+                {%- if recent_article.image -%}
+                <img src="{{ recent_article.image.src | product_img_url: 'small' }}" alt="" width="100" height="100" loading="lazy" decoding="async">
+                {%- endif -%}
+              </span>
+              <span class="fox-blog-recent__text">
+                <strong>{{ recent_article.title | escape }}</strong>
+                <time datetime="{{ recent_article.published_at | date: '%Y-%m-%d' }}">{{ recent_article.published_at | date: '%d/%m/%Y' }}</time>
+              </span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if recent_count > 0 -%}
+    <div class="fox-blog-glass">
+      <p class="fox-blog-glass__title">{{ settings.blog_recent_title | default: 'Bài mới' | escape }}</p>
+      <ul class="fox-blog-recent">{{ recent_html }}</ul>
+    </div>
+    {%- endif -%}
+  {%- endif -%}
+</aside>

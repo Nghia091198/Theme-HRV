@@ -71,12 +71,36 @@ const SANITIZE_OPTIONS = {
   },
 };
 
-export function sanitizeContentHtml(html, fieldName = "body_html") {
+const ARTICLE_SANITIZE_OPTIONS = {
+  ...SANITIZE_OPTIONS,
+  allowedTags: [...ALLOWED_TAGS, "img"],
+  allowedAttributes: {
+    ...SANITIZE_OPTIONS.allowedAttributes,
+    img: ["src", "alt", "width", "height", "loading", "decoding"],
+  },
+  allowedSchemesByTag: {
+    ...SANITIZE_OPTIONS.allowedSchemesByTag,
+    img: ["https"],
+  },
+  exclusiveFilter(frame) {
+    if (frame.tag !== "img") return false;
+    try {
+      const url = new URL(frame.attribs.src);
+      return url.protocol !== "https:"
+        || url.hostname !== "cdn.hstatic.net"
+        || !/^\/products\/\d+\//.test(url.pathname);
+    } catch {
+      return true;
+    }
+  },
+};
+
+export function sanitizeContentHtml(html, fieldName = "body_html", options = {}) {
   if (typeof html !== "string" || !html.trim()) {
     throw new InputValidationError(`${fieldName} must be a non-empty HTML string.`);
   }
 
-  const clean = sanitizeHtml(html, SANITIZE_OPTIONS).trim();
+  const clean = sanitizeHtml(html, options.allowArticleImages ? ARTICLE_SANITIZE_OPTIONS : SANITIZE_OPTIONS).trim();
   const plainText = sanitizeHtml(clean, { allowedTags: [], allowedAttributes: {} }).trim();
   if (!plainText) {
     throw new InputValidationError(`${fieldName} has no readable content after sanitization.`);
@@ -121,7 +145,7 @@ function normalizeTags(tags) {
 
 export function prepareArticlePayload(article) {
   const title = normalizeText(article?.title, "article.title");
-  const bodyHtml = sanitizeContentHtml(article?.body_html, "article.body_html");
+  const bodyHtml = sanitizeContentHtml(article?.body_html, "article.body_html", { allowArticleImages: true });
   const summaryHtml = article?.summary_html
     ? sanitizeContentHtml(article.summary_html, "article.summary_html")
     : "";
@@ -138,9 +162,25 @@ export function prepareArticlePayload(article) {
   };
 }
 
+const OPTION_NAME_ALIASES = new Map([
+  ["mau", "Màu sắc"],
+  ["mau sac", "Màu sắc"],
+  ["color", "Màu sắc"],
+  ["colour", "Màu sắc"],
+  ["kich co", "Kích thước"],
+  ["kich thuoc", "Kích thước"],
+  ["size", "Kích thước"],
+]);
+
+export function canonicalProductOptionName(value) {
+  const name = String(value ?? "").trim();
+  const key = name.toLowerCase().replace(/đ/g, "d").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ");
+  return OPTION_NAME_ALIASES.get(key) ?? name;
+}
+
 function normalizeOption(option, index) {
   const name = normalizeText(option?.name, `product.options[${index}].name`, 100);
-  return { name, position: index + 1 };
+  return { name: canonicalProductOptionName(name), position: index + 1 };
 }
 
 function normalizeVariant(variant, index, optionCount) {

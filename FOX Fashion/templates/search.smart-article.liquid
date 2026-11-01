@@ -1,0 +1,42 @@
+{% layout none %}
+{%- assign smart_limit = settings.smartsearch_article_limit | default: 4 | plus: 0 -%}
+{%- if smart_limit < 1 -%}{%- assign smart_limit = 4 -%}{%- endif -%}
+{%- paginate search.results by smart_limit -%}
+{%- assign smart_loaded = 0 -%}
+{%- for smart_item in search.results -%}
+  {%- if smart_item.variants == blank -%}{%- assign smart_loaded = smart_loaded | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- assign smart_total = search.results_count | default: paginate.items | default: smart_loaded -%}
+<div data-role="smart-result" data-type="article" data-total="{{ smart_total }}">
+  {%- if smart_loaded > 0 -%}
+  <ul class="fox-search__articles">
+    {%- for smart_item in search.results -%}
+      {%- if smart_item.variants == blank -%}
+      <li>
+        <a class="fox-search__article" href="{{ smart_item.url }}">
+          <span class="fox-search__article-media">
+            {%- if smart_item.image -%}
+            <img src="{{ smart_item.image.src | product_img_url: 'medium' }}" alt="" width="160" height="120" loading="lazy" decoding="async">
+            {%- endif -%}
+          </span>
+          <span class="fox-search__article-text">
+            <strong data-role="highlight">{{ smart_item.title | escape }}</strong>
+            {%- if smart_item.published_at -%}<small>{{ smart_item.published_at | date: '%d/%m/%Y' }}</small>{%- endif -%}
+          </span>
+        </a>
+      </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+  {%- if smart_total > smart_loaded -%}
+  <div class="fox-search__more-wrap">
+    <a class="fox-search__more btn btn-secondary" button-effect data-role="more" href="/search?q={{ search.terms | url_encode }}&amp;type=article">
+      <span class="btn__label">Xem thêm {{ smart_total | minus: smart_loaded }} bài viết</span>
+      <span class="btn--icon" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg></span>
+      <span data-btn-effect-span aria-hidden="true"></span>
+    </a>
+  </div>
+  {%- endif -%}
+  {%- endif -%}
+</div>
+{%- endpaginate -%}

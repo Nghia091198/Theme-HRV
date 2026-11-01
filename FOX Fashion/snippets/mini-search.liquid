@@ -1,85 +1,145 @@
-{%- assign lbl_search_page = 'Đến trang tìm kiếm' -%}
-{%- capture smartSearchStyle -%}
-  --smartsearch-bg: {{settings.smartsearch_bg}};
-    --smartsearch-text: {{settings.smartsearch_text}};
-  --smartsearch-bg-tab: {% include'hex-to-rgb',color:settings.smartsearch_tab_bg,alpha:0.08%}{{hex_rgb_output}};
-  --smartsearch-text-tab: {{settings.smartsearch_tab_text}};
-  --smartsearch-bg-tab-hover: {{settings.smartsearch_tab_bghover}};
-  --smartsearch-text-tab-hover: {{settings.smartsearch_tab_texthover}};
-{%- endcapture -%}
-<div class="modal newModal" id="block-search-modal" style="{{smartSearchStyle-}}">
-	<div class="newModal-backdrop"></div>
-	<div class="modal--container">
-		<div class="modal--wrapper">
-			<div class="modal--header">
-				<button type="button" class="close" data-dismiss="modal"><svg class="icon-svg"><use xlink:href="#ic-times"></use></svg></button>
-				<div class="modal--title">{{settings.smartsearch_title}}</div>
-			</div>
-			<div class="modal--body">
-				<div class="block-smart-search js-search-panel" id="block-smart-search">
-					<form action="/search" class="searchform-product ultimate-search js-search-form">
-						<div class="wpo-search-inner field field--bill">
-							<input type="hidden" name="type" value="product,article" />
-							<input required id="inputSearchAuto" class="input-search field-input js-search-input" name="q" maxlength="40" autocomplete="off" type="text" size="20" placeholder="{{settings.smartsearch_placeholder}}" aria-label="input search">
-						</div>
-						<button type="submit" class="btn-search js-search-submit" aria-label="{{settings.smartsearch_title}}">
-							<svg class="icon-svg" style="--icon-width: 26px;--icon-height: 32px;"><use xlink:href="#ic-search"></use></svg>
-						</button>
-					</form>
-          <div class="block-smartsearch-result js-search-results" style="display: none;">
-              <ul class="smartsearch-result-tabs js-search-tabs"></ul>
+{%- comment -%}
+  Search panel (glass, drops right under the header). Behavior: assets/search-panel.js, styles: assets/search-panel.css.
+  Left column: keyword suggestions (while typing) · recent searches (localStorage) · popular searches (menu).
+  Right zone: results with product / article tabs (views search.smart-product / search.smart-article) ·
+  empty state · recommended products (initial and empty states).
+  Settings: smartsearch_* (config/settings.html, group "Tìm kiếm").
+{%- endcomment -%}
+{%- assign search_title = settings.smartsearch_title | default: 'Tìm kiếm' -%}
+{%- assign search_with_articles = false -%}
+{%- if settings.smartsearch_type contains 'article' -%}{%- assign search_with_articles = true -%}{%- endif -%}
+<search-panel
+  id="block-search-modal"
+  class="fox-search"
+  data-state="closed"
+  data-view="initial"
+  data-articles="{{ search_with_articles }}"
+  data-min-chars="2"
+  data-debounce="300"
+  data-recent-limit="6"
+  data-recent="{% if settings.smartsearch_recent_show != false %}true{% else %}false{% endif %}"
+  data-title-initial="{{ settings.smartsearch_product_title | default: 'Sản phẩm đề xuất' | escape }}"
+  data-title-empty="{{ settings.smartsearch_empty_recommend_title | default: 'Có thể bạn sẽ thích' | escape }}"
+  hidden>
+  <div class="fox-search__backdrop" data-action="close"></div>
+  <div class="fox-search__panel" role="dialog" aria-modal="true" aria-labelledby="fox-search-title">
+    <div class="container fox-search__inner">
+      <div class="fox-search__top">
+        <p id="fox-search-title" class="fox-search__title">{{ search_title | escape }}</p>
+        <form class="fox-search__form" action="/search" method="get" role="search" data-role="form">
+          <input type="hidden" name="type" value="product">
+          <svg class="icon-svg fox-search__form-icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
+          <label class="fox-search__sr" for="fox-search-input">{{ search_title | escape }}</label>
+          <input id="fox-search-input" class="fox-search__input" type="search" name="q" data-role="input" maxlength="60" autocomplete="off" spellcheck="false" placeholder="{{ settings.smartsearch_placeholder | default: 'Bạn đang cần tìm...' | escape }}" aria-controls="fox-search-zone">
+          <button type="button" class="fox-search__clear" data-action="clear" aria-label="Xoá từ khoá" hidden>
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+          </button>
+          <button type="submit" class="fox-search__submit">
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
+            <span>Tìm</span>
+          </button>
+        </form>
+        <button type="button" class="fox-quick-view__close fox-search__close" data-action="close" aria-label="Đóng tìm kiếm">
+          <svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+            <circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+            <circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+          </svg>
+          <svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="fox-search__body">
+        <aside class="fox-search__left" aria-label="Gợi ý tìm kiếm">
+          <div class="fox-search__block" data-role="suggest-block" hidden>
+            <p class="fox-search__heading">Gợi ý</p>
+            <ul class="fox-search__suggest" data-role="suggest-list"></ul>
           </div>
-				</div>
-			</div>
-			<div class="wrapper-bottom">
-        {%- if settings.smartsearch_suggest_show -%}
-        <div class="block-suggest-search">
-          <div class="title font-weight-bold">{{settings.smartsearch_suggest_title}}</div>
-          <div class="list-suggest-search">
-            {%- for link in linklists[settings.smartsearch_suggest_menu].links -%}
-            <a class="item hover-underline" href="{{link.url}}">{{link.title}}</a>
-            {%- endfor -%}
+
+          <div class="fox-search__block" data-role="recent-block" hidden>
+            <div class="fox-search__heading-row">
+              <p class="fox-search__heading">{{ settings.smartsearch_recent_title | default: 'Tìm kiếm gần đây' | escape }}</p>
+              <button type="button" class="fox-search__text-btn" data-action="recent-clear">Xoá tất cả</button>
+            </div>
+            <ul class="fox-search__chips" data-role="recent-list"></ul>
           </div>
-        </div>
-        {%- endif -%}
-        {%- if settings.smartsearch_product_show -%}
-        <div class="block-recommend-search">
-          <div class="title font-weight-bold">{{settings.smartsearch_product_title}}</div>
-          <slider-component
-            class="list-recommend position-relative swiperStyle"
-            data-preset="product"
-            data-autoplay="false"
-            data-loop="false"
-            data-pagination="false"
-            data-navigation="true"
-            data-slides-mobile="1"
-            data-slides-tablet="1"
-            data-slides-desktop="1"
-            data-space-mobile="10"
-            data-space-tablet="10"
-            data-space-desktop="10"
-            data-state="idle">
-            <div class="swiper swiper-container" data-role="viewport">
-              <div class="swiper-wrapper">
-              {%- for product in collections[settings.smartsearch_product_collection].products limit: settings.smartsearch_product_limit -%}
-                <div class="swiper-slide">
-                  <div class="block-product block-product-horizontal">
-                    {%- include 'product-loop-horizontal' with isTag: false,quickview:false -%}
-                  </div>
-                </div>
+
+          {%- assign search_popular_links = linklists[settings.smartsearch_suggest_menu].links -%}
+          {%- if settings.smartsearch_suggest_show != false and search_popular_links.size > 0 -%}
+          <div class="fox-search__block">
+            <p class="fox-search__heading">{{ settings.smartsearch_suggest_title | default: 'Thường được tìm kiếm' | escape }}</p>
+            <ul class="fox-search__chips">
+              {%- for link in search_popular_links -%}
+              <li><a class="fox-search__chip" href="{{ link.url }}">
+                <svg class="icon-svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="m16 6 2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" fill="currentColor" stroke="none"/></svg>
+                {{ link.title | escape }}
+              </a></li>
               {%- endfor -%}
-              </div>
+            </ul>
+          </div>
+          {%- endif -%}
+        </aside>
+
+        <section class="fox-search__zone" id="fox-search-zone" aria-live="polite">
+          <p class="fox-search__status" data-role="status"></p>
+
+          <div class="fox-search__results" data-role="results" hidden>
+            <div class="fox-search__tabs" role="tablist" aria-label="Kết quả tìm kiếm">
+              <button type="button" class="fox-search__tab" role="tab" id="fox-search-tab-product" aria-controls="fox-search-panel-product" aria-selected="true" data-tab="product">
+                Sản phẩm <span class="fox-search__count" data-role="count-product">0</span>
+              </button>
+              {%- if search_with_articles -%}
+              <button type="button" class="fox-search__tab" role="tab" id="fox-search-tab-article" aria-controls="fox-search-panel-article" aria-selected="false" data-tab="article" tabindex="-1">
+                Bài viết <span class="fox-search__count" data-role="count-article">0</span>
+              </button>
+              {%- endif -%}
             </div>
-            <div data-role="navigation">
-              {%- include 'swiper-navigation' with style: '01' -%}
+            <div class="fox-search__tab-panel" role="tabpanel" id="fox-search-panel-product" aria-labelledby="fox-search-tab-product" data-panel="product"></div>
+            {%- if search_with_articles -%}
+            <div class="fox-search__tab-panel" role="tabpanel" id="fox-search-panel-article" aria-labelledby="fox-search-tab-article" data-panel="article" hidden></div>
+            {%- endif -%}
+          </div>
+
+          <div class="fox-search__empty" data-role="empty" hidden>
+            <span class="fox-search__empty-icon" aria-hidden="true">
+              <svg class="icon-svg" focusable="false"><use xlink:href="#ic-search"></use></svg>
+            </span>
+            <div>
+              <p class="fox-search__empty-title">Không tìm thấy kết quả cho “<span data-role="empty-query"></span>”</p>
+              <p class="fox-search__empty-text">{{ settings.smartsearch_empty_text | default: 'Thử từ khoá ngắn hơn, kiểm tra chính tả hoặc chọn gợi ý bên cạnh.' | escape }}</p>
+              <ul class="fox-search__tips">
+                <li>Dùng từ chung: “áo khoác”</li>
+                <li>Gõ không dấu cũng được</li>
+              </ul>
             </div>
-          </slider-component>
-        </div>
-        {%- endif -%}
-        <div class="block-action">
-          <a class="button w-100" href="/search">{{lbl_search_page}}<svg class="icon-svg"><use xlink:href="#ic-arrow-right"></use></svg></a>
-        </div>
-				</div>
-		</div>
-	</div>
-</div>
+          </div>
+
+          {%- if settings.smartsearch_product_show != false and settings.smartsearch_product_collection != blank -%}
+          <div class="fox-search__recommend" data-role="recommend">
+            {%- assign rail_items = collections[settings.smartsearch_product_collection].products -%}
+            {%- assign rail_limit = settings.smartsearch_product_limit | default: 10 | plus: 0 -%}
+            {%- assign rail_title = settings.smartsearch_product_title | default: 'Sản phẩm đề xuất' -%}
+            {%- capture rail_link_url -%}/collections/{{ settings.smartsearch_product_collection }}{%- endcapture -%}
+            {%- assign rail_link_label = 'Xem tất cả' -%}
+            {%- assign rail_id = 'fox-search-recommend' -%}
+            {%- include 'search-product-rail' -%}
+          </div>
+          {%- endif -%}
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <template data-role="recent-template">
+    <li class="fox-search__recent-item">
+      <button type="button" class="fox-search__chip fox-search__chip--recent" data-action="recent-run">
+        <svg class="icon-svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor" stroke="none"/></svg>
+        <span data-role="recent-label"></span>
+      </button>
+      <button type="button" class="fox-search__recent-remove" data-action="recent-remove" aria-label="Xoá">
+        <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+      </button>
+    </li>
+  </template>
+</search-panel>

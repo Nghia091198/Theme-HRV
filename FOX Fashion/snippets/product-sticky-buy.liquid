@@ -1,0 +1,156 @@
+{%- comment -%}
+  Sticky buy bar (product page only), rendered INSIDE product-component so it reuses its contracts:
+  [data-option-index] + select[data-role="option"] / [data-option-value], [data-action="quantity-*"]
+  and <add-to-cart> are synced by core-commerce-product.js. Desktop: glass pill with options + quantity.
+  Mobile: compact pill whose plus button opens a glass sheet (variant picker + quantity + add to cart).
+  Input: product, selected_variant (from product-form.liquid).
+{%- endcomment -%}
+{%- assign sticky_desktop = false -%}
+{%- assign sticky_mobile = false -%}
+{%- if settings.sticky_buy_show -%}
+  {%- if settings.sticky_buy_desktop != false -%}{%- assign sticky_desktop = true -%}{%- endif -%}
+  {%- if settings.sticky_buy_mobile != false -%}{%- assign sticky_mobile = true -%}{%- endif -%}
+{%- endif -%}
+{%- assign sticky_variant_label = selected_variant.title -%}
+{%- if sticky_variant_label == 'Default Title' -%}{%- assign sticky_variant_label = '' -%}{%- endif -%}
+
+{%- if sticky_desktop or sticky_mobile -%}
+<sticky-buy class="fox-sticky-buy{% if sticky_desktop %} has-desktop{% endif %}{% if sticky_mobile %} has-mobile{% endif %}" data-state="idle" data-visible="false">
+  <div class="fox-sticky-buy__bar" role="region" aria-label="Mua nhanh" data-role="sticky-bar" inert>
+    <div class="fox-sticky-buy__thumb">
+      {%- if product.featured_image != blank -%}
+      <img src="{{ product.featured_image | product_img_url: 'small' }}" alt="" width="100" height="100" loading="lazy" decoding="async">
+      {%- endif -%}
+    </div>
+
+    <div class="fox-sticky-buy__meta">
+      <p class="fox-sticky-buy__name">{{ product.title | escape }}</p>
+      <p class="fox-sticky-buy__price">
+        <span data-role="sticky-price">{{ selected_variant.price | money }}</span>
+        <del data-role="sticky-compare"{% unless selected_variant.compare_at_price > selected_variant.price %} hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</del>
+      </p>
+      {%- if product.variants.size > 1 -%}
+      <button type="button" class="fox-sticky-buy__summary" data-action="open-sheet" aria-controls="fox-sticky-buy-sheet" aria-haspopup="dialog">
+        <span data-role="sticky-variant">{{ sticky_variant_label | replace: ' / ', ' · ' | escape }}</span>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="m7 10 5 5 5-5z"/></svg>
+      </button>
+      {%- endif -%}
+    </div>
+
+    {%- if product.variants.size > 1 -%}
+    <div class="fox-sticky-buy__options">
+      {%- for option in product.options -%}
+        {%- assign sticky_option_name = option.name | default: option -%}
+        {%- assign sticky_option_slug = sticky_option_name | strip | handleize -%}
+        {%- assign sticky_option_index = forloop.index0 -%}
+        {%- assign sticky_is_color = false -%}
+        {%- if sticky_option_slug contains 'mau' or sticky_option_slug contains 'color' -%}{%- assign sticky_is_color = true -%}{%- endif -%}
+        {%- assign sticky_selected_value = selected_variant.option1 -%}
+        {%- if sticky_option_index == 1 -%}{%- assign sticky_selected_value = selected_variant.option2 -%}{%- endif -%}
+        {%- if sticky_option_index == 2 -%}{%- assign sticky_selected_value = selected_variant.option3 -%}{%- endif -%}
+        {%- assign sticky_values_seen = '|' -%}
+        {%- capture sticky_menu_id -%}fox-sticky-option-{{ product.id }}-{{ sticky_option_index }}{%- endcapture -%}
+        <div class="fox-sticky-buy__option" data-option-index="{{ sticky_option_index }}">
+          <button type="button" class="fox-sticky-buy__option-trigger" data-action="toggle-option" aria-haspopup="true" aria-expanded="false" aria-controls="{{ sticky_menu_id }}">
+            <span class="fox-sticky-buy__option-name">{{ sticky_option_name | escape }}:</span>
+            <span class="fox-sticky-buy__option-value" data-role="option-name">{{ sticky_selected_value | escape }}</span>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="m7 10 5 5 5-5z"/></svg>
+          </button>
+          <div class="fox-sticky-buy__menu" id="{{ sticky_menu_id }}" role="radiogroup" aria-label="{{ sticky_option_name | escape }}" data-role="option-menu" hidden>
+            {%- for variant in product.variants -%}
+              {%- assign sticky_value = variant.option1 -%}
+              {%- if sticky_option_index == 1 -%}{%- assign sticky_value = variant.option2 -%}{%- endif -%}
+              {%- if sticky_option_index == 2 -%}{%- assign sticky_value = variant.option3 -%}{%- endif -%}
+              {%- capture sticky_token -%}|{{ sticky_value | handleize }}|{%- endcapture -%}
+              {%- unless sticky_value == blank or sticky_values_seen contains sticky_token -%}
+              {%- assign sticky_values_seen = sticky_values_seen | append: sticky_token -%}
+              <button type="button" class="fox-sticky-buy__menu-item{% if sticky_value == sticky_selected_value %} is-active{% endif %}" role="radio" data-option-value="{{ sticky_value | escape }}" aria-checked="{% if sticky_value == sticky_selected_value %}true{% else %}false{% endif %}">
+                {%- if sticky_is_color -%}<span class="fox-sticky-buy__menu-dot fox-color--{{ sticky_value | handleize }}" aria-hidden="true"></span>{%- endif -%}
+                <span class="fox-sticky-buy__menu-label">{{ sticky_value | escape }}</span>
+                <svg class="fox-sticky-buy__menu-check" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              </button>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+
+    <div class="fox-sticky-buy__qty" role="group" aria-label="Số lượng">
+      <button type="button" data-action="quantity-minus" data-role="sticky-minus" aria-label="Giảm số lượng" disabled>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 13H5v-2h14z"/></svg>
+      </button>
+      <output data-role="sticky-quantity" aria-live="polite">1</output>
+      <button type="button" data-action="quantity-plus" aria-label="Tăng số lượng">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+      </button>
+    </div>
+
+    <div class="fox-sticky-buy__actions">
+      <add-to-cart data-state="idle" data-mode="buy-now" data-open-minicart="false" data-variant-id="{{ selected_variant.id }}" data-product-id="{{ product.id }}" data-handle="{{ product.handle }}" data-quantity="1">
+        <button type="button" class="button btn fox-sticky-buy__btn fox-sticky-buy__btn--outline" button-effect data-role="trigger">
+          <span class="btn__label">Mua ngay</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      </add-to-cart>
+      <add-to-cart data-state="idle" data-mode="cart" data-variant-id="{{ selected_variant.id }}" data-product-id="{{ product.id }}" data-handle="{{ product.handle }}" data-quantity="1">
+        <button type="button" class="button btn fox-sticky-buy__btn fox-sticky-buy__btn--solid" button-effect data-role="trigger">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-cart-plus"></use></svg>
+          <span class="btn__label">Thêm vào giỏ</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      </add-to-cart>
+    </div>
+
+    <button type="button" class="fox-sticky-buy__plus" data-action="open-sheet" aria-controls="fox-sticky-buy-sheet" aria-haspopup="dialog" aria-label="Chọn phân loại và thêm vào giỏ">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+    </button>
+  </div>
+
+  {%- if sticky_mobile -%}
+  <modal-component id="fox-sticky-buy-sheet" class="fox-sticky-buy__sheet-modal" data-state="closed" data-modal-sheet="always">
+    <dialog data-role="dialog" aria-labelledby="fox-sticky-buy-title">
+      <div class="fox-sticky-buy__sheet" data-role="surface">
+        <span class="fox-sticky-buy__grab" aria-hidden="true"></span>
+        <button type="button" class="fox-sticky-buy__close" data-action="close" aria-controls="fox-sticky-buy-sheet" aria-label="Đóng">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+        </button>
+        <div class="fox-sticky-buy__sheet-head">
+          <div class="fox-sticky-buy__thumb fox-sticky-buy__thumb--large">
+            {%- if product.featured_image != blank -%}
+            <img src="{{ product.featured_image | product_img_url: 'medium' }}" alt="" width="160" height="160" loading="lazy" decoding="async">
+            {%- endif -%}
+          </div>
+          <div>
+            <h2 id="fox-sticky-buy-title" class="fox-sticky-buy__sheet-title">{{ product.title | escape }}</h2>
+            <p class="fox-sticky-buy__price"><span data-role="sticky-price">{{ selected_variant.price | money }}</span></p>
+          </div>
+        </div>
+        {%- assign swatch_scope = '-sticky' -%}
+        {%- include 'product-swatch' -%}
+        {%- assign swatch_scope = '' -%}
+        <div class="fox-sticky-buy__sheet-actions">
+          <div class="fox-sticky-buy__qty" role="group" aria-label="Số lượng">
+            <button type="button" data-action="quantity-minus" data-role="sticky-minus" aria-label="Giảm số lượng" disabled>
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 13H5v-2h14z"/></svg>
+            </button>
+            <output data-role="sticky-quantity">1</output>
+            <button type="button" data-action="quantity-plus" aria-label="Tăng số lượng">
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+            </button>
+          </div>
+          <add-to-cart data-state="idle" data-mode="cart" data-variant-id="{{ selected_variant.id }}" data-product-id="{{ product.id }}" data-handle="{{ product.handle }}" data-quantity="1">
+            <button type="button" class="button btn fox-sticky-buy__btn fox-sticky-buy__btn--solid" button-effect data-role="trigger">
+              <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-cart-plus"></use></svg>
+              <span class="btn__label">Thêm vào giỏ</span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </button>
+          </add-to-cart>
+        </div>
+      </div>
+    </dialog>
+  </modal-component>
+  {%- endif -%}
+</sticky-buy>
+{%- endif -%}

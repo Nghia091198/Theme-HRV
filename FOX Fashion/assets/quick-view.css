@@ -24,6 +24,16 @@ quick-view-component dialog[open]::backdrop {
   backdrop-filter: blur(15px);
 }
 
+/* A stacked modal (e.g. size guide) covers quick view; core modal restores it on close. */ 
+quick-view-component modal-component dialog {
+  transition: opacity 200ms ease;
+}
+
+quick-view-component modal-component[data-modal-suspended="true"] dialog {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .fox-quick-view__content {
   --fox-scrollbar-thumb: rgb(255 255 255 / 28%);
   --fox-scrollbar-thumb-hover: rgb(255 255 255 / 42%);
@@ -202,6 +212,7 @@ quick-view-component dialog[open]::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  quick-view-component modal-component dialog,
   .fox-quick-view__close-progress,
   .fox-quick-view__close-value {
     transition: none;

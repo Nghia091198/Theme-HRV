@@ -1,6 +1,6 @@
 accordion-component {
 	display: block;
-}
+} 
 
 .fox-accordion__item {
 	border-bottom: var(--stroke-width) solid var(--color-border, #cecece);

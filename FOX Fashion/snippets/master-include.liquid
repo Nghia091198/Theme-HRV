@@ -6,9 +6,7 @@
 {%- include 'link-css-preload' with css_file: 'toast-notify.min.css' -%}
 <link href="{{ 'toast-notify.min.js' | asset_url }}" rel="preload" as="script" type="text/javascript">
 <script type="text/javascript" src="{{ 'toast-notify.min.js' | asset_url }}" defer></script>
-<link href="{{ 'script-global.js' | asset_url }}" rel="preload" as="script" type="text/javascript">
-<script type="text/javascript" src="{{ 'toast-theme.js' | asset_url }}" defer></script>
-<script type="text/javascript" src="{{ 'script-global.js' | asset_url }}" defer></script>
+<script type="text/javascript" src="{{ 'toast-theme.js' | asset_url }}" defer></script> 
  
 {%-if settings.promotion_hrvapp_use-%}
 	{%-if settings.promotion_hrvapp == 'appcombo'-%}

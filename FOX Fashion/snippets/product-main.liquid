@@ -7,10 +7,16 @@
   data-product-handle="{{ product.handle }}"
   data-update-url="{% if fox_product_context == 'page' %}inherit{% else %}false{% endif %}"
   data-change-image-with-alt="inherit"
-  data-contact-mode="{% if settings.disable_shop_buying %}true{% else %}false{% endif %}">
+  data-contact-mode="{% if settings.disable_shop_buying %}true{% else %}inherit{% endif %}">
+  {%- unless fox_product_context == 'page' -%} 
   <script type="application/json" data-role="product-data">{{ product | json }}</script>
+  {%- endunless -%}
   <div class="fox-product__layout" data-zoom-scope>
     {%- include 'product-gallery' -%}
     {%- include 'product-form' -%}
   </div>
+  {%- if fox_product_context == 'page' -%}
+    {%- comment -%}Inside product-component so options, quantity and add-to-cart stay in sync.{%- endcomment -%}
+    {%- include 'product-sticky-buy' -%}
+  {%- endif -%}
 </product-component>

@@ -1,0 +1,377 @@
+/* Size guide modal (snippets/size-guide-modal.liquid).  Loaded on first open by size-guide.js.
+   Surface mirrors the quick view glass; structure comes from core-component-modal.css. */
+.fox-size-guide__modal {
+  --modal-width: min(62rem, calc(100vw - 3.2rem));
+  --modal-max-height: min(86vh, 80rem);
+  --modal-color: #fff;
+  --modal-radius: 1.5rem;
+  --modal-backdrop-color: rgb(9 9 11 / 45%);
+}
+
+.fox-size-guide__modal,
+.fox-size-guide__card {
+  --fox-size-guide-line: rgb(255 255 255 / 16%);
+  --fox-size-guide-field: rgb(255 255 255 / 10%);
+  --fox-size-guide-muted: rgb(255 255 255 / 72%);
+}
+
+/* Inline card on the size guide page: same glass surface as the modal dialog. */
+.fox-size-guide__card {
+  position: relative;
+  padding: 2.8rem 3rem 3rem;
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 115%, rgb(122 58 22 / 58%), transparent 42%),
+    linear-gradient(145deg, rgb(120 116 116 / 82%) 0%, rgb(50 49 49 / 90%) 50%, rgb(8 8 9 / 96%) 100%);
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 1.8rem;
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 30%);
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+}
+
+.fox-size-guide__modal dialog {
+  background:
+    radial-gradient(circle at 82% 115%, rgb(122 58 22 / 58%), transparent 42%),
+    linear-gradient(145deg, rgb(120 116 116 / 82%) 0%, rgb(50 49 49 / 88%) 50%, rgb(8 8 9 / 96%) 100%);
+  border: 1px solid rgb(255 255 255 / 28%);
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 36%);
+  -webkit-backdrop-filter: blur(70px);
+  backdrop-filter: blur(70px);
+}
+
+.fox-size-guide__modal dialog[open]::backdrop {
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+}
+
+.fox-size-guide__surface {
+  --fox-scrollbar-thumb: rgb(255 255 255 / 28%);
+  --fox-scrollbar-thumb-hover: rgb(255 255 255 / 42%);
+  position: relative;
+  padding: 2.8rem 2.5rem 3rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.fox-size-guide__header {
+  padding-right: 4.8rem;
+  margin-bottom: 2.2rem;
+}
+
+.fox-size-guide__title {
+  margin: 0;
+  color: inherit;
+  font-family: var(--base-font-title);
+  font-size: clamp(2.2rem, 3vw, 2.6rem);
+  line-height: 1.2;
+}
+
+.fox-size-guide__subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--fox-size-guide-muted);
+  font-size: 1.35rem;
+}
+
+/* Tabs (behavior: tabs-component) */
+.fox-size-guide__tabs .fox-size-guide__tablist {
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-bottom: 2.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fox-size-guide__tabs .fox-size-guide__tab {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0 2rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 999px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fox-size-guide__tabs .fox-size-guide__tab .icon-svg {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.fox-size-guide__tabs .fox-size-guide__tab[aria-selected="true"] {
+  color: var(--color-text-theme, #1b2631);
+  background: #fff;
+  border-color: #fff;
+}
+
+.fox-size-guide__tabs .fox-size-guide__tab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.fox-size-guide__status,
+.fox-size-guide__empty {
+  margin: 0;
+  color: var(--fox-size-guide-muted);
+  font-size: 1.4rem;
+}
+
+/* Table tab: merchant page content on the dark surface */
+.fox-size-guide__content {
+  color: rgb(255 255 255 / 86%);
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+
+.fox-size-guide__content :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: #fff;
+}
+
+.fox-size-guide__content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.fox-size-guide__table-scroll {
+  margin: 1.6rem 0;
+  overflow-x: auto;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1.2rem;
+}
+
+.fox-size-guide__content table {
+  width: 100%;
+  min-width: 36rem;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 1.35rem;
+}
+
+.fox-size-guide__content :is(th, td) {
+  padding: 1.1rem 1.6rem;
+  text-align: left;
+  border: 0;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.fox-size-guide__content tr:first-child :is(th, td) {
+  border-top: 0;
+}
+
+.fox-size-guide__content thead :is(th, td),
+.fox-size-guide__content tr:first-child th {
+  color: #fff;
+  background: rgb(255 255 255 / 14%);
+  font-weight: 700;
+}
+
+.fox-size-guide__content tr.is-current :is(th, td) {
+  color: var(--color-text-theme, #1b2631);
+  background: rgb(255 255 255 / 92%);
+  font-weight: 600;
+}
+
+/* Finder tab */
+.fox-size-guide__field {
+  margin-bottom: 1.6rem;
+}
+
+.fox-size-guide__field label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.fox-size-guide__select {
+  position: relative;
+}
+
+.fox-size-guide__select svg {
+  position: absolute;
+  top: 50%;
+  right: 1.6rem;
+  opacity: 0.8;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.fox-size-guide__select select,
+.fox-size-guide__input {
+  width: 100%;
+  min-height: 5rem;
+  padding: 0 1.6rem;
+  color: #fff;
+  background: var(--fox-size-guide-field);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 1.2rem;
+  font: inherit;
+  font-size: 1.5rem;
+  appearance: none;
+}
+
+.fox-size-guide__select select {
+  padding-right: 4.4rem;
+  cursor: pointer;
+}
+
+.fox-size-guide__select option {
+  color: var(--color-text-theme, #1b2631);
+}
+
+.fox-size-guide__input::placeholder {
+  color: rgb(255 255 255 / 50%);
+}
+
+.fox-size-guide__select select:focus-visible,
+.fox-size-guide__input:focus-visible {
+  border-color: #fff;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 18%);
+}
+
+.fox-size-guide__fields {
+  display: grid;
+  gap: 0 1.2rem;
+}
+
+.fox-size-guide__systems {
+  display: inline-flex;
+  gap: 0.6rem;
+  margin: 0.4rem 0 1.8rem;
+  padding: 0.4rem;
+  background: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 999px;
+}
+
+.fox-size-guide__systems[hidden] {
+  display: none;
+}
+
+.fox-size-guide__system {
+  min-height: 3.4rem;
+  padding: 0 1.6rem;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.fox-size-guide__system[aria-checked="true"] {
+  color: var(--color-text-theme, #1b2631);
+  background: #fff;
+  opacity: 1;
+}
+
+.fox-size-guide__system:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.fox-size-guide__result {
+  padding: 2rem 2.2rem;
+  color: var(--color-text-theme, #1b2631);
+  background: rgb(255 255 255 / 94%);
+  border-radius: 1.6rem;
+}
+
+.fox-size-guide__result p {
+  margin: 0;
+}
+
+.fox-size-guide__result-label {
+  color: #6b7279;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.fox-size-guide__result .fox-size-guide__result-size {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin: 0.6rem 0;
+  font-family: var(--base-font-title);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fox-size-guide__result-size em {
+  color: #6b7279;
+  font-family: var(--base-font);
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.fox-size-guide__result-alt {
+  color: #4a525a;
+  font-size: 1.35rem;
+}
+
+.fox-size-guide__result .fox-size-guide__result-hint {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  color: #5b636b;
+  border-top: 1px solid #e4e5e6;
+  font-size: 1.25rem;
+}
+
+.fox-size-guide__note {
+  margin: 1.6rem 0 0;
+  color: rgb(255 255 255 / 55%);
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.fox-size-guide__close {
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+@media (min-width: 576px) {
+  .fox-size-guide__fields {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .fox-size-guide__modal {
+    --modal-width: 100vw;
+    --modal-max-height: 92dvh;
+    --modal-radius: 1.6rem 1.6rem 0 0;
+  }
+
+  .fox-size-guide__modal dialog {
+    max-width: 100vw;
+    margin: auto 0 0;
+    border-bottom: 0;
+  }
+
+  .fox-size-guide__surface,
+  .fox-size-guide__card {
+    padding: 2.2rem 1.6rem 2.4rem;
+  }
+
+  .fox-size-guide__tabs .fox-size-guide__tab {
+    padding: 0 1.6rem;
+    font-size: 1.35rem;
+  }
+
+  .fox-size-guide__result .fox-size-guide__result-size {
+    font-size: 3.4rem;
+  }
+}

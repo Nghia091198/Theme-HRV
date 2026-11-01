@@ -5,7 +5,7 @@
   	{% include 'master-include' %}
     {%- include 'head_preload' -%}
     {%- include 'head_shema' -%}
-    {%- include 'head_tracking' -%}
+    
     {%- include 'head_styles' -%}
     {%- capture capserverHead-%}{{ content_for_header }}{%-endcapture-%}
 		{%- assign serverHead = capserverHead -%}
@@ -49,6 +49,8 @@
 		{%- include 'mini-search' -%}
 		{%- unless template contains 'cart' -%}{%- include 'mini-cart' -%}{%- endunless -%}
 		{%- include 'quick-view-modal' -%}
+{%- include 'size-guide-modal' -%}
+{%- include 'floating-contact' -%} 
 		{%- include 'shop-config' -%}
 		{%- include 'shop-optimize' -%}
 		{%- include 'svg-cache' -%}

@@ -1,0 +1,162 @@
+{%- comment -%}
+  Product info: tabs (description + merchant tabs) and, beside them, a FAQ card.
+  Tab icons come from svg-cache: description, slot 1 (shipping), slot 2 (care).
+  FAQ questions/answers are plain text from settings (product_faq_*).
+{%- endcomment -%}
+{%- assign tab_count = 0 -%}
+{%- assign tabs_html = '' -%}
+{%- assign panels_html = '' -%}
+
+{%- if product.description != blank -%}
+  {%- assign tab_count = tab_count | plus: 1 -%}
+  {%- capture tabs_html -%}<button type="button" role="tab" class="btn btn-secondary fox-product-info__tab" button-effect data-target="fox-product-info-description"><svg class="icon-svg fox-product-info__tab-icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-info-description"></use></svg><span class="btn__label">Mô tả sản phẩm</span><span data-btn-effect-span aria-hidden="true"></span></button>{%- endcapture -%}
+  {%- assign expand_html = product.description -%}
+  {%- assign expand_id = 'fox-product-description' -%}
+  {%- assign expand_preset = 'productDescription' -%}
+  {%- assign expand_class = 'rte' -%}
+  {%- capture panels_html -%}<div id="fox-product-info-description" role="tabpanel" class="fox-product-info__panel">{%- include 'component-expand-content' -%}</div>{%- endcapture -%}
+{%- endif -%}
+
+{%- for tab_index in (1..2) -%}
+  {%- capture show_key -%}product_info_tab_{{ tab_index }}_show{%- endcapture -%}
+  {%- capture title_key -%}product_info_tab_{{ tab_index }}_title{%- endcapture -%}
+  {%- capture content_key -%}product_info_tab_{{ tab_index }}_content{%- endcapture -%}
+  {%- assign tab_title = settings[title_key] | strip -%}
+  {%- assign tab_content = settings[content_key] | strip -%}
+  {%- assign tab_icon = 'ic-fox-info-shipping' -%}
+  {%- if tab_index == 2 -%}{%- assign tab_icon = 'ic-fox-info-care' -%}{%- endif -%}
+  {%- if settings[show_key] and tab_title != blank and tab_content != blank -%}
+    {%- assign tab_count = tab_count | plus: 1 -%}
+    {%- capture tabs_html -%}{{ tabs_html }}<button type="button" role="tab" class="btn btn-secondary fox-product-info__tab" button-effect data-target="fox-product-info-tab-{{ tab_index }}"><svg class="icon-svg fox-product-info__tab-icon" aria-hidden="true" focusable="false"><use xlink:href="#{{ tab_icon }}"></use></svg><span class="btn__label">{{ tab_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></button>{%- endcapture -%}
+    {%- capture panels_html -%}{{ panels_html }}<div id="fox-product-info-tab-{{ tab_index }}" role="tabpanel" class="fox-product-info__panel fox-product-info__panel--text">{{ tab_content | escape }}</div>{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign faq_count = 0 -%} 
+{%- assign faq_html = '' -%}
+{%- if settings.product_faq_show -%}
+  {%- for faq_index in (1..5) -%}
+    {%- capture question_key -%}product_faq_{{ faq_index }}_question{%- endcapture -%}
+    {%- capture answer_key -%}product_faq_{{ faq_index }}_answer{%- endcapture -%}
+    {%- assign faq_question = settings[question_key] | strip -%}
+    {%- assign faq_answer = settings[answer_key] | strip -%}
+    {%- if faq_question != blank and faq_answer != blank -%}
+      {%- assign faq_count = faq_count | plus: 1 -%}
+      {%- capture faq_html -%}{{ faq_html }}<div class="fox-accordion__item fox-product-faq__item"><button type="button" id="fox-product-faq-q-{{ faq_index }}" aria-expanded="{% if faq_count == 1 %}true{% else %}false{% endif %}" aria-controls="fox-product-faq-a-{{ faq_index }}">{{ faq_question | escape }}</button><div id="fox-product-faq-a-{{ faq_index }}" role="region" aria-labelledby="fox-product-faq-q-{{ faq_index }}" class="fox-product-faq__answer">{{ faq_answer | escape }}</div></div>{%- endcapture -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- assign support_size_title = settings.product_support_size_title | strip -%}
+{%- assign support_size_url = settings.product_support_size_url | strip -%}
+{%- assign support_chat_title = settings.product_support_chat_title | strip -%}
+{%- assign support_chat_url = settings.product_support_chat_url | strip -%}
+{%- assign support_call_title = settings.product_support_call_title | strip -%}
+{%- assign support_call_url = settings.product_support_call_url | strip -%}
+{%- assign support_has_size = false -%}
+{%- assign support_has_actions = false -%}
+{%- assign support_opens_size_guide = false -%}
+{%- if settings.size_guide_show -%}
+  {%- assign support_guide_page = settings.size_guide_page_url | strip -%}
+  {%- assign support_guide_sheet = settings.size_guide_sheet_url | strip -%}
+  {%- if support_guide_page != blank or support_guide_sheet != blank -%}{%- assign support_opens_size_guide = true -%}{%- endif -%}
+{%- endif -%}
+{%- if settings.product_support_show -%}
+  {%- if support_size_title != blank and support_size_url != blank -%}{%- assign support_has_size = true -%}{%- endif -%}
+  {%- if support_size_title != blank and support_opens_size_guide -%}{%- assign support_has_size = true -%}{%- endif -%}
+  {%- if support_chat_title != blank and support_chat_url != blank -%}{%- assign support_has_actions = true -%}{%- endif -%}
+  {%- if support_call_title != blank and support_call_url != blank -%}{%- assign support_has_actions = true -%}{%- endif -%}
+{%- endif -%}
+
+{%- if tab_count > 0 or faq_count > 0 or support_has_size or support_has_actions -%}
+<section class="fox-product-info{% if faq_count > 0 or support_has_size or support_has_actions %} fox-product-info--with-aside{% endif %}" aria-label="Thông tin sản phẩm">
+  <div class="container">
+    <div class="fox-product-info__layout">
+      {%- if tab_count > 0 -%}
+      <tabs-component class="fox-product-info__tabs" data-state="idle">
+        <div class="fox-product-info__tablist" role="tablist" aria-label="Thông tin sản phẩm">
+          {{- tabs_html -}}
+        </div>
+        {{- panels_html -}}
+      </tabs-component>
+      {%- endif -%}
+
+      {%- if faq_count > 0 or support_has_size or support_has_actions -%}
+      <div class="fox-product-info__aside">
+      {%- if faq_count > 0 -%}
+      <aside class="fox-product-faq" aria-labelledby="fox-product-faq-title">
+        {%- if settings.product_faq_eyebrow != blank -%}
+        <p class="fox-product-faq__eyebrow">{{ settings.product_faq_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 id="fox-product-faq-title" class="fox-product-faq__title">{{ settings.product_faq_title | default: 'Câu hỏi thường gặp' | escape }}</h2>
+        {%- if settings.product_faq_desc != blank -%}
+        <p class="fox-product-faq__desc">{{ settings.product_faq_desc | escape }}</p>
+        {%- endif -%}
+        <accordion-component class="fox-product-faq__list" data-state="idle">
+          {{- faq_html -}}
+        </accordion-component>
+        {%- if settings.product_faq_link_title != blank and settings.product_faq_link_url != blank -%}
+        <a class="fox-product-faq__link fox-link-effect" href="{{ settings.product_faq_link_url | escape }}">
+          <span class="fox-link-effect__label">{{ settings.product_faq_link_title | escape }}</span>
+          <svg class="fox-product-faq__link-arrow" aria-hidden="true" focusable="false" viewBox="0 0 8 7" width="12" height="12"><path d="M7.834 3.046a.58.58 0 0 1 0 .817L5.559 6.17a.564.564 0 0 1-.804 0 .58.58 0 0 1 0-.816l1.304-1.323H.569A.574.574 0 0 1 0 3.454c0-.319.255-.577.569-.577h5.49L4.755 1.554a.58.58 0 0 1 0-.817.564.564 0 0 1 .804 0l2.275 2.309Z" fill="currentColor"/></svg>
+          <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+          </svg>
+        </a>
+        {%- endif -%}
+      </aside>
+      {%- endif -%}
+
+      {%- if support_has_size or support_has_actions -%}
+      <aside class="fox-product-support" aria-label="Hỗ trợ mua hàng">
+        {%- if support_has_size -%}
+        {%- if support_opens_size_guide -%}
+        <button type="button" class="fox-product-support__size" data-size-guide-open aria-haspopup="dialog">
+        {%- else -%}
+        <a class="fox-product-support__size" href="{{ support_size_url | escape }}">
+        {%- endif -%}
+          <svg class="icon-svg fox-product-support__size-icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-size"></use></svg>
+          <span class="fox-product-support__size-text">
+            <strong>{{ support_size_title | escape }}</strong>
+            {%- if settings.product_support_size_desc != blank -%}<span>{{ settings.product_support_size_desc | escape }}</span>{%- endif -%}
+          </span>
+          <span class="fox-product-support__size-arrow" aria-hidden="true">
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+          </span>
+        {%- if support_opens_size_guide -%}
+        </button>
+        {%- else -%}
+        </a>
+        {%- endif -%}
+        {%- endif -%}
+
+        {%- if support_has_actions -%}
+        <div class="fox-product-support__actions">
+          {%- if support_chat_title != blank and support_chat_url != blank -%}
+          <a class="fox-product-support__btn fox-product-support__btn--solid" button-effect href="{{ support_chat_url | escape }}">
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-chat"></use></svg>
+            <span>{{ support_chat_title | escape }}</span>
+            <span data-btn-effect-span aria-hidden="true"></span>
+          </a>
+          {%- endif -%}
+          {%- if support_call_title != blank and support_call_url != blank -%}
+          <a class="fox-product-support__btn fox-product-support__btn--outline" button-effect href="{{ support_call_url | escape }}">
+            <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-call"></use></svg>
+            <span>{{ support_call_title | escape }}</span>
+            <span data-btn-effect-span aria-hidden="true"></span>
+          </a>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+
+        {%- if settings.product_support_note != blank -%}
+        <p class="fox-product-support__note">{{ settings.product_support_note | escape }}</p>
+        {%- endif -%}
+      </aside>
+      {%- endif -%}
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}

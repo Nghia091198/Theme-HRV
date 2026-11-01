@@ -1,0 +1,29 @@
+{%- comment -%}
+  Scrolling purchase-policy strip (shipping / returns). Styles: core-commerce-product.css (+ page / featured skins).
+  Used inside the product form for quick view and featured product, and as its own block above
+  product-info-tabs on the product page (templates/product.liquid).
+  Input: policy_marquee_repeat (default 1). The track slides by one group (-50%), so each group must be at least as
+  wide as the strip: wide strips repeat the items N times per group and the duration grows N times (same speed).
+  Repeated items carry data-repeat (hidden for screen readers and with reduced motion).
+{%- endcomment -%}
+{%- assign policy_repeat = policy_marquee_repeat | default: 1 | plus: 0 -%}
+{%- if policy_repeat < 1 -%}{%- assign policy_repeat = 1 -%}{%- endif -%}
+{%- assign policy_duration = 18 | times: policy_repeat -%}
+<div class="fox-product__policy-marquee" aria-label="Chính sách mua hàng" style="--fox-policy-duration: {{ policy_duration }}s;">
+  <div class="fox-product__policy-track">
+    {%- for policy_group in (1..2) -%}
+    <div class="fox-product__policy-group"{% if policy_group > 1 %} aria-hidden="true"{% endif %}>
+      {%- for policy_round in (1..policy_repeat) -%}
+      <span class="fox-product__policy-item"{% if policy_round > 1 %} data-repeat aria-hidden="true"{% endif %}>
+        <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-shipping"></use></svg>
+        Giao hàng nhanh chóng, an toàn
+      </span>
+      <span class="fox-product__policy-item"{% if policy_round > 1 %} data-repeat aria-hidden="true"{% endif %}>
+        <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-return"></use></svg>
+        Đổi trả dễ dàng trong 14 ngày
+      </span>
+      {%- endfor -%}
+    </div>
+    {%- endfor -%}
+  </div>
+</div>

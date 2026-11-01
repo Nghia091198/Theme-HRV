@@ -11,7 +11,7 @@ class FoxTestimonialProduct extends HTMLElement {
     const handle = target.dataset.productHandle;
     if (!handle || typeof window.FOX?.loadProductFragment !== 'function') return;
     try {
-      const fragment = await window.FOX.loadProductFragment(handle, 'lookbook-card');
+      const fragment = await window.FOX.loadProductFragment(handle, 'product-loop-data'); 
       const card = fragment.querySelector('product-card');
       const title = card?.querySelector('.pro--title a')?.textContent?.trim();
       const price = card?.querySelector('.pro--price')?.textContent?.trim();

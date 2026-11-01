@@ -1,0 +1,401 @@
+.fox-store-stock {
+  --fox-store-glass:
+    radial-gradient(circle at 85% 120%, rgb(122 58 22 / 58%), transparent 46%),
+    linear-gradient(145deg, rgb(120 116 116 / 94%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  --fox-store-in: #4ade80;
+  --fox-store-low: #f5a65b;
+  --fox-store-out: #f07a7a;
+  display: block;
+  margin-top: 1.8rem;
+}
+
+.fox-store-stock[hidden] {
+  display: none;
+}
+
+.fox-store-stock__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fox-store-stock__card {
+  padding: 1.6rem 1.8rem 1.2rem;
+  color: #fff;
+  background: var(--fox-store-glass);
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 1.8rem;
+  box-shadow: 0 1.6rem 4rem rgb(0 0 0 / 18%);
+}
+
+.fox-store-stock__title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+  font-family: var(--base-font-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.fox-store-stock__title .icon-svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.fox-store-stock__summary {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.25rem;
+  opacity: 0.75;
+}
+
+.fox-store-stock__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-store-stock__row {
+  display: grid;
+  grid-template-columns: 0.9rem minmax(0, 1fr) auto;
+  gap: 1.2rem;
+  align-items: start;
+  padding: 1.1rem 0;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+
+.fox-store-stock__list > .fox-store-stock__row:first-child {
+  border-top: 0;
+}
+
+.fox-store-stock__dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-top: 0.6rem;
+  border-radius: 50%;
+}
+
+.fox-store-stock__row[data-status="in"] .fox-store-stock__dot { background: var(--fox-store-in); }
+.fox-store-stock__row[data-status="low"] .fox-store-stock__dot { background: var(--fox-store-low); }
+.fox-store-stock__row[data-status="out"] .fox-store-stock__dot { background: var(--fox-store-out); }
+.fox-store-stock__row[data-status="unknown"] .fox-store-stock__dot { background: rgb(255 255 255 / 35%); }
+
+.fox-store-stock__row[hidden],
+.fox-store-stock__province[hidden],
+.fox-store-stock__district[hidden] {
+  display: none;
+}
+
+/* Full list grouped province → district (rendered by Liquid from shop.addresses). */
+.fox-store-stock__province {
+  margin-top: 1.6rem;
+}
+
+.fox-store-stock__province-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.8rem;
+  color: inherit;
+  border-bottom: 1px solid rgb(255 255 255 / 18%);
+  font-size: 1.6rem;
+}
+
+.fox-store-stock__province-title span {
+  font-family: var(--base-font);
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.fox-store-stock__district-title {
+  margin: 1rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.fox-store-stock__info {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.fox-store-stock__info strong {
+  font-size: 1.4rem;
+}
+
+.fox-store-stock__info > span {
+  font-size: 1.2rem;
+  opacity: 0.72;
+}
+
+.fox-store-stock__hours[hidden] {
+  display: none;
+}
+
+.fox-store-stock__badge {
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fox-store-stock__row[data-status="in"] .fox-store-stock__badge { color: #0f3d26; background: var(--fox-store-in); }
+.fox-store-stock__row[data-status="low"] .fox-store-stock__badge { color: #4a2508; background: var(--fox-store-low); }
+.fox-store-stock__row[data-status="out"] .fox-store-stock__badge { color: #fff; background: rgb(255 255 255 / 14%); }
+.fox-store-stock__row[data-status="unknown"] .fox-store-stock__badge { color: #fff; background: rgb(255 255 255 / 10%); opacity: 0.7; }
+
+.fox-store-stock__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  opacity: 1;
+}
+
+.fox-store-stock__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  color: #fff;
+  background: rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.fox-store-stock__action .icon-svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.fox-store-stock__action:hover {
+  background: rgb(255 255 255 / 22%);
+}
+
+.fox-store-stock__more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 1.1rem 0 0.2rem;
+  color: #fff;
+  background: none;
+  border: 0;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fox-store-stock__more .icon-svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  transition: transform 200ms ease;
+}
+
+.fox-store-stock__more:hover .icon-svg {
+  transform: translateX(0.3rem);
+}
+
+.fox-store-stock__modal {
+  --modal-width: min(56rem, calc(100vw - 3.2rem));
+  --modal-max-height: min(86vh, 76rem);
+  --modal-color: #fff;
+  --modal-radius: 1.8rem;
+  --modal-backdrop-color: rgb(9 9 11 / 45%);
+}
+
+.fox-store-stock__modal dialog {
+  background: var(--fox-store-glass);
+  border: 1px solid rgb(255 255 255 / 28%);
+}
+
+.fox-store-stock__sheet {
+  position: relative;
+  padding: 2.4rem 2.4rem 2.6rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.fox-store-stock__grab {
+  display: none;
+}
+
+/* Close button: quick view close (ring + icon from quick-view.css); only its position is set here. */
+.fox-store-stock__close {
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+.fox-store-stock__sheet-title {
+  margin: 0 5.2rem 0.2rem 0;
+  color: inherit;
+  font-size: 2rem;
+}
+
+.fox-store-stock__sheet-subtitle {
+  margin: 0 0 1.4rem;
+  font-size: 1.3rem;
+  opacity: 0.75;
+}
+
+/* Province tabs (rendered by Liquid; filter in product-store-stock.js). */
+.fox-store-stock__tabs {
+  display: flex;
+  gap: 0.8rem;
+  margin: 0 -2.4rem;
+  padding: 0.2rem 2.4rem 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fox-store-stock__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.fox-store-stock__tab {
+  flex: 0 0 auto;
+  min-height: 3.8rem;
+  padding: 0 1.8rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.35rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.fox-store-stock__tab:hover {
+  border-color: rgb(255 255 255 / 60%);
+}
+
+.fox-store-stock__tab[aria-pressed="true"] {
+  color: var(--color-text-theme, #1b2631);
+  background: #fff;
+  border-color: #fff;
+}
+
+.fox-store-stock__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.2rem 0 0.6rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.fox-store-stock__toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fox-store-stock__switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3.6rem;
+  height: 2rem;
+  background: rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  transition: background-color 180ms ease;
+}
+
+.fox-store-stock__switch::after {
+  content: '';
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 180ms ease;
+}
+
+.fox-store-stock__toggle input:checked + .fox-store-stock__switch {
+  background: var(--fox-store-in);
+}
+
+.fox-store-stock__toggle input:checked + .fox-store-stock__switch::after {
+  transform: translateX(1.6rem);
+}
+
+.fox-store-stock__toggle input:focus-visible + .fox-store-stock__switch {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.fox-store-stock__empty {
+  margin: 1.6rem 0 0;
+  font-size: 1.3rem;
+  opacity: 0.75;
+}
+
+.fox-store-stock :is(button, a):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .fox-store-stock__modal {
+    --modal-width: 100vw;
+    --modal-max-height: 88dvh;
+    --modal-radius: 2.4rem 2.4rem 0 0;
+  }
+
+  .fox-store-stock__modal dialog {
+    max-width: 100vw;
+    margin: auto 0 0;
+    border-bottom: 0;
+  }
+
+  .fox-store-stock__sheet {
+    padding: 1.2rem 1.6rem calc(2.4rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fox-store-stock__grab {
+    display: block;
+    width: 4rem;
+    height: 0.5rem;
+    margin: 0 auto 1.4rem;
+    background: rgb(255 255 255 / 35%);
+    border-radius: 1rem;
+  }
+
+  .fox-store-stock__close {
+    top: 1.2rem;
+    right: 1.4rem;
+  }
+
+  .fox-store-stock__tabs {
+    margin: 0 -1.6rem;
+    padding: 0.2rem 1.6rem 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-store-stock__more .icon-svg,
+  .fox-store-stock__tab,
+  .fox-store-stock__switch,
+  .fox-store-stock__switch::after {
+    transition: none;
+  }
+}

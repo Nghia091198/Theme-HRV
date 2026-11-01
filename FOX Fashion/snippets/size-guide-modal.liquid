@@ -1,0 +1,43 @@
+{%- comment -%}
+  Global size guide modal (one instance per page). Opened by any [data-size-guide-open] trigger
+  on the product page, quick view, or product info aside. Stacks above quick view (data-modal-stack).
+  Skipped on the size guide page itself, which renders the same panel inline (page.size-guide.liquid).
+{%- endcomment -%}
+{%- assign size_guide_page_url = settings.size_guide_page_url | strip -%}
+{%- assign size_guide_sheet_url = settings.size_guide_sheet_url | strip -%}
+{%- assign size_guide_has_source = false -%}
+{%- if size_guide_page_url != blank or size_guide_sheet_url != blank -%}{%- assign size_guide_has_source = true -%}{%- endif -%}
+{%- assign size_guide_on_page = false -%}
+{%- if template contains 'page.size-guide' -%}{%- assign size_guide_on_page = true -%}{%- endif -%}
+{%- if settings.size_guide_show and size_guide_has_source and size_guide_on_page == false -%}
+<size-guide
+  class="fox-size-guide"
+  data-state="idle"
+  data-page-url="{{ size_guide_page_url | escape }}"
+  data-sheet-url="{{ size_guide_sheet_url | escape }}"
+  data-stylesheet="{{ 'size-guide.css' | asset_url }}">
+  <modal-component id="fox-size-guide-modal" class="fox-size-guide__modal" data-state="closed" data-modal-stack="true" data-modal-sheet="mobile">
+    <dialog data-role="dialog" aria-labelledby="fox-size-guide-title">
+      <div class="fox-size-guide__surface fox-scrollbar" data-role="surface">
+        <button type="button" class="fox-quick-view__close fox-size-guide__close" data-action="close" aria-controls="fox-size-guide-modal" aria-label="Đóng">
+          <svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+            <circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+            <circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+          </svg>
+          <svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+          </svg>
+        </button>
+
+        <header class="fox-size-guide__header">
+          <h2 id="fox-size-guide-title" class="fox-size-guide__title">{{ settings.size_guide_title | default: 'Hướng dẫn chọn size' | escape }}</h2>
+          {%- if settings.size_guide_subtitle != blank -%}<p class="fox-size-guide__subtitle">{{ settings.size_guide_subtitle | escape }}</p>{%- endif -%}
+        </header>
+
+        {%- assign size_guide_id = 'fox-size-guide' -%}
+        {%- include 'size-guide-panel' -%}
+      </div>
+    </dialog>
+  </modal-component>
+</size-guide>
+{%- endif -%}

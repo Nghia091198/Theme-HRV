@@ -1,5 +1,4 @@
-{%- comment -%}Homepage product stories are rendered before product-story.js enhances playback.{%- endcomment -%}
-{%- unless settings.fox_product_story_show == false -%}
+{%- if settings.fox_product_story_show -%}
 
   {%- assign story_count = 0 -%}
   {%- capture story_cards -%}
@@ -96,4 +95,4 @@
   </fox-product-story>
 </section>
   {%- endif -%}
-{%- endunless -%}
+{%- endif -%}

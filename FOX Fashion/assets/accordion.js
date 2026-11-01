@@ -1,6 +1,6 @@
 class AccordionComponent extends HTMLElement {
 	#abort = null;
-	#triggers = [];
+	#triggers = []; 
 
 	connectedCallback() {
 		this.#abort?.abort();

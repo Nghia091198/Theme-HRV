@@ -97,13 +97,14 @@ product-component {
 }
 
 .fox-product__thumbnail {
+  --thumb-radius: 10px;
   display: block;
   width: 100%;
   padding: 140% 0 0;
   overflow: hidden;
   background: transparent;
   border: 1.5px solid transparent;
-  border-radius: 0.65rem;
+  border-radius: var(--thumb-radius);
   opacity: 0.72;
 }
 
@@ -113,10 +114,29 @@ product-component {
   opacity: 1;
 }
 
+/* Image zoom fades the whole thumbnail rail ([data-zoom-faded]); only inactive thumbnails dim. */
+.fox-product__thumbnail-slider[data-zoom-faded="true"] {
+  opacity: 1;
+}
+
+.fox-product__thumbnail-slider[data-zoom-faded="true"] .fox-product__thumbnail:not(.is-active) {
+  opacity: 0.3;
+}
+
+.fox-product__thumbnail-slider .fox-product__thumbnail {
+  transition: opacity 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-product__thumbnail-slider .fox-product__thumbnail {
+    transition: none;
+  }
+}
+
 .fox-product__thumbnail img {
   object-fit: cover;
   padding: 2px;
-  border-radius: 0.65rem;
+  border-radius: var(--thumb-radius);
 }
 
 .fox-product__thumbnail-play {
@@ -193,6 +213,44 @@ product-component {
 .fox-product__option legend [data-role="option-name"] {
   font-weight: bold;
 }
+
+/* Option header: the legend wraps the title and, for size options, the size guide button
+   (snippets/size-guide-modal.liquid). Flex space-between, wraps on narrow screens. */
+.fox-product__option-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1.2rem;
+  width: 100%;
+  padding-inline: 0;
+}
+
+.fox-product__option-label {
+  min-width: 0;
+}
+
+/* Size guide trigger: underline motion comes from .fox-link-effect (link-effect.css). */
+.fox-product__size-guide-trigger {
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.6rem;
+  color: inherit;
+  background: none;
+  border: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.fox-product__size-guide-trigger .icon-svg {
+  position: relative;
+  z-index: 1;
+  width: 1.7rem;
+  height: 1.7rem;
+  flex: 0 0 auto;
+}
 .fox-product__swatches {
   display: flex;
   flex-wrap: wrap;
@@ -254,7 +312,8 @@ product-component {
   width: 2rem;
   height: 2rem;
   flex: 0 0 2rem;
-  background: #dedede;
+  /* --fox-swatch-color comes from .fox-color--<handle> on the swatch button (swatch-colors.css). */
+  background: var(--fox-swatch-color, #dedede);
   border: 1px solid rgb(255 255 255 / 24%);
   border-radius: 50%;
 }
@@ -267,27 +326,6 @@ product-component {
   object-fit: cover;
   border-radius: 50%;
 }
-
-.swatch.color.mau-den .fox-product__swatch-color { background: #090909; }
-.swatch.color.mau-trang .fox-product__swatch-color { background: #fff; }
-.swatch.color.mau-xam .fox-product__swatch-color,
-.swatch.color[class*="mau-xam-"] .fox-product__swatch-color { background: #74787d; }
-.swatch.color.mau-do .fox-product__swatch-color { background: #c94a4a; }
-.swatch.color.mau-vang .fox-product__swatch-color { background: #e7bd43; }
-.swatch.color.mau-tim .fox-product__swatch-color { background: #765b88; }
-.swatch.color.mau-xanh .fox-product__swatch-color,
-.swatch.color[class*="mau-xanh-"] .fox-product__swatch-color { background: #5b8b8c; }
-.swatch.color.mau-xanh-bien .fox-product__swatch-color { background: #3f7898; }
-.swatch.color.mau-xanh-reu .fox-product__swatch-color { background: #667052; }
-.swatch.color.mau-xanh-navy .fox-product__swatch-color { background: #26364f; }
-.swatch.color.mau-hong .fox-product__swatch-color,
-.swatch.color[class*="mau-hong-"] .fox-product__swatch-color { background: #d79aaa; }
-.swatch.color.mau-cam .fox-product__swatch-color,
-.swatch.color[class*="mau-cam-"] .fox-product__swatch-color { background: #dc704b; }
-.swatch.color.mau-nau .fox-product__swatch-color,
-.swatch.color[class*="mau-nau-"] .fox-product__swatch-color { background: #68483f; }
-.swatch.color.mau-kem .fox-product__swatch-color,
-.swatch.color.mau-be .fox-product__swatch-color { background: #d5c3a7; }
 
 .fox-product__purchase {
   display: grid;
@@ -485,7 +523,8 @@ product-component {
 .fox-product__policy-track {
   display: flex;
   width: max-content;
-  animation: fox-product-policy-marquee 18s linear infinite;
+  /* Duration scales with the repeat count (product-policy-marquee.liquid) so the speed stays the same. */
+  animation: fox-product-policy-marquee var(--fox-policy-duration, 18s) linear infinite;
 }
 
 .fox-product__policy-group {
@@ -522,7 +561,8 @@ product-component {
     animation: none;
   }
 
-  .fox-product__policy-group[aria-hidden="true"] {
+  .fox-product__policy-group[aria-hidden="true"],
+  .fox-product__policy-item[data-repeat] {
     display: none;
   }
 

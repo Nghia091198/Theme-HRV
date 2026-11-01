@@ -1,0 +1,92 @@
+{%- comment -%}
+  Floating contact: desktop dock (or grouped toggle), mobile "Hỗ trợ" pill + glass card, back-to-top.
+  Channels are declared once in floating-contact-channels (each shown only when its URL is not blank) and rendered
+  in place for each spot through float_item_variant. Styles: floating-contact.css, behavior: floating-contact.js.
+{%- endcomment -%}
+{%- assign float_primary = settings.float_contact_primary | default: 'zalo' -%}
+{%- assign float_contact_count = 0 -%}
+{%- if settings.float_contact_show -%}
+  {%- assign float_item_variant = 'count' -%}
+  {%- include 'floating-contact-channels' -%}
+{%- endif -%}
+
+{%- assign float_show_dock = false -%}
+{%- assign float_show_fab = false -%}
+{%- if float_contact_count > 0 and settings.float_contact_desktop -%}{%- assign float_show_dock = true -%}{%- endif -%}
+{%- if float_contact_count > 0 and settings.float_contact_mobile -%}{%- assign float_show_fab = true -%}{%- endif -%}
+{%- assign float_show_btt = false -%}
+{%- if settings.float_btt_show -%}{%- assign float_show_btt = true -%}{%- endif -%}
+
+{%- assign float_grouped = false -%}
+{%- if settings.float_contact_group -%}{%- assign float_grouped = true -%}{%- endif -%}
+
+{%- if float_show_dock or float_show_fab or float_show_btt -%}
+<floating-contact
+  class="fox-float{% if float_show_dock %} has-dock{% endif %}{% if float_grouped %} is-grouped{% endif %}{% if float_show_fab %} has-fab{% endif %}{% if float_show_btt %} has-btt{% endif %}{% if settings.float_btt_mobile == false %} is-btt-desktop-only{% endif %}"
+  data-state="idle"
+  data-dock-open="false">
+  {%- if float_show_dock -%}
+  {%- if float_grouped -%}
+  <button type="button" class="fox-float__toggle" data-action="toggle-dock" aria-expanded="false" aria-controls="fox-float-dock" aria-label="Mở liên hệ nhanh" data-label-open="Mở liên hệ nhanh" data-label-close="Đóng liên hệ nhanh">
+    <svg class="icon-svg fox-float__toggle-icon fox-float__toggle-icon--open" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-chat"></use></svg>
+    <svg class="icon-svg fox-float__toggle-icon fox-float__toggle-icon--close" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+  </button>
+  {%- endif -%}
+  <nav id="fox-float-dock" class="fox-float__dock" aria-label="{{ settings.float_contact_title | default: 'Liên hệ nhanh' | escape }}">
+    <ul class="fox-float__dock-list">
+      {%- assign float_item_variant = 'dock' -%}
+      {%- include 'floating-contact-channels' -%}
+    </ul>
+  </nav>
+  {%- endif -%}
+
+  {%- if float_show_fab -%}
+  {%- assign float_mobile_label = settings.float_mobile_label | default: 'Hỗ trợ' -%}
+  {%- assign float_mobile_status = settings.float_mobile_status | default: 'Đang online' -%}
+  <button type="button" class="fox-float__fab" data-action="open-sheet" aria-controls="fox-float-sheet" aria-haspopup="dialog">
+    <span class="fox-float__stack" aria-hidden="true">
+      {%- assign float_item_variant = 'stack' -%}
+      {%- assign float_stack_count = 0 -%}
+      {%- include 'floating-contact-channels' -%}
+    </span>
+    <span class="fox-float__fab-text">
+      <strong>{{ float_mobile_label | escape }}</strong>
+      {%- if float_mobile_status != blank -%}<small><span class="fox-float__online" aria-hidden="true"></span>{{ float_mobile_status | escape }}</small>{%- endif -%}
+    </span>
+  </button>
+  <modal-component id="fox-float-sheet" class="fox-float__sheet-modal" data-state="closed">
+    <dialog data-role="dialog" aria-labelledby="fox-float-sheet-title">
+      <div class="fox-float__sheet" data-role="surface">
+        <div class="fox-float__card">
+          <div class="fox-float__card-head">
+            <h2 id="fox-float-sheet-title" class="fox-float__sheet-title">{{ settings.float_contact_title | default: 'Liên hệ nhanh' | escape }}</h2>
+            {%- if settings.float_contact_subtitle != blank -%}
+            <p class="fox-float__sheet-subtitle"><span class="fox-float__online" aria-hidden="true"></span>{{ settings.float_contact_subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+          <ul class="fox-float__grid">
+            {%- assign float_item_variant = 'tile' -%}
+            {%- include 'floating-contact-channels' -%}
+          </ul>
+        </div>
+        <button type="button" class="fox-float__sheet-close" data-action="close" aria-controls="fox-float-sheet" aria-label="Đóng">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+        </button>
+      </div>
+    </dialog>
+  </modal-component>
+  {%- endif -%}
+
+  {%- if float_show_btt -%}
+  <button type="button" class="fox-float__btt" data-action="back-to-top" aria-label="Lên đầu trang">
+    <svg class="fox-float__btt-ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <circle class="fox-float__btt-track" cx="24" cy="24" r="22"></circle>
+      <circle class="fox-float__btt-value" cx="24" cy="24" r="22" pathLength="1"></circle>
+    </svg>
+    <span class="fox-float__btt-arrow" aria-hidden="true">
+      <svg class="icon-svg fox-float__btt-icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-arrow-up"></use></svg>
+    </span>
+  </button>
+  {%- endif -%}
+</floating-contact>
+{%- endif -%}

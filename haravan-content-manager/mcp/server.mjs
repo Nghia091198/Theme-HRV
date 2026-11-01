@@ -115,11 +115,11 @@ export function createServer(options = {}) {
 
   server.registerTool("create_product", {
     title: "Create and publish a Haravan product",
-    description: "Create an unpublished product, upload three local JPEGs, verify options and variants, then publish it.",
+    description: "Create an unpublished product, upload 3-10 local JPEGs, verify options, variants and images, then publish it. Color and size option names are always saved as the Haravan names Màu sắc and Kích thước; aliases such as Kích cỡ and Size are normalized.",
     inputSchema: {
       batch_id: z.string().min(1).max(80).optional(),
       product: productSchema,
-      image_paths: z.array(z.string().min(1)).length(3),
+      image_paths: z.array(z.string().min(1)).min(3).max(10),
     },
     annotations: {
       readOnlyHint: false,

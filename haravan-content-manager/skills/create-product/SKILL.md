@@ -24,6 +24,8 @@ Before each batch, ask the user to double-click `set-haravan-token.cmd` in the l
 
 Use a unique batch key in all handles and SKUs.
 
+Use Haravan's existing option names exactly: `Màu sắc` for color and `Kích thước` for size. Do not create aliases such as `Màu`, `Color`, `Kích cỡ`, or `Size` as option names. These are option names only; variant values may still be colors such as `Đen` and sizes such as `S`, `M`, or `L`. Name any third option according to its actual meaning.
+
 - For `N=1`, create one product with three options, 12-24 variants, varied prices, and zero inventory for every variant.
 - For `N>=2`, include at least one fully sold-out product and at least one product with three options, 12-24 variants, and varied prices and inventory.
 - Other products use one to three options and varied in-stock, low-stock, and sold-out states.
@@ -37,7 +39,7 @@ Write a 250-450 word semantic description for each product using the same safe H
 
 Use `$image-skill` and its `imagegen` workflow to generate all product images before any Haravan write occurs.
 
-- Generate exactly three original JPEGs per product at `1600x1600`.
+- Generate three original JPEGs per product by default at `1600x1600`. When the user explicitly requests a larger gallery, generate 5–10 distinct JPEGs per product and pass all of them to the existing `create_product` tool.
 - Keep each file below `512,000` bytes.
 - Do not include text, logos, watermarks, or identifiable brand marks.
 - For wearable products, show the product on a real human model appropriate to the intended customer. Do not use mannequins, torso forms, ghost mannequins, floating garments, or flat lays unless the user explicitly requests them.
@@ -55,7 +57,7 @@ If image generation is unavailable or any image fails validation, stop the entir
 
 1. Prepare every product and validate every image first.
 2. Process at most 10 products per chunk.
-3. Call `create_product` once per item with the product payload and exactly three image paths.
+3. Call `create_product` once per item with the product payload and the validated image paths (3–10 per product).
 4. The MCP creates an unpublished product, uploads and maps images, verifies options, variants, and images, then publishes it.
 5. Stop the remaining batch on `401` or `403`. For validation or upload failures, record the failed item and continue.
 6. Do not delete or roll back a failed draft. Report its ID when returned.

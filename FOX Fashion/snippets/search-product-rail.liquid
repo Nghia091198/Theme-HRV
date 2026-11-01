@@ -1,0 +1,75 @@
+{%- assign search_rail_per_page = 4 -%}
+{%- assign search_rail_count = 0 -%}
+{%- for rail_item in rail_items limit: rail_limit -%}
+  {%- if rail_item.variants != blank -%}{%- assign search_rail_count = search_rail_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- if search_rail_count > 0 -%}
+{%- assign search_rail_saved_product = product -%}
+{%- capture search_rail_head -%}
+  <p class="fox-search__heading" data-role="rail-title">{{ rail_title }}</p>
+{%- endcapture -%}
+<div class="fox-search__rail" data-role="rail">
+  {%- if search_rail_count > search_rail_per_page -%}
+  <slider-component
+    class="fox-search__slider"
+    data-state="idle"
+    data-preset="product"
+    data-autoplay="false"
+    data-loop="false"
+    data-pagination="false"
+    data-navigation="true"
+    data-slides-mobile="2"
+    data-slides-tablet="2"
+    data-slides-desktop="4"
+    data-space-mobile="10"
+    data-space-tablet="14"
+    data-space-desktop="14">
+    <div class="fox-search__rail-head">
+      {{ search_rail_head }}
+      {%- assign slider_controls_vertical = false -%}
+      {%- assign slider_controls_floating = false -%}
+      {%- assign slider_controls_label = rail_title -%}
+      {%- assign slider_controls_item_count = search_rail_count -%}
+      {%- include 'component-slider-controls' -%}
+    </div>
+    <div class="swiper fox-search__viewport" data-role="viewport" id="{{ rail_id }}">
+      <div class="swiper-wrapper">
+        {%- for rail_item in rail_items limit: rail_limit -%}
+          {%- if rail_item.variants != blank -%}
+          <div class="swiper-slide fox-search__slide">
+            {%- assign product = rail_item -%}
+            {%- assign product_card_context = 'search' -%}
+            {%- include 'product-loop' with grid: '' -%}
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </slider-component>
+  {%- else -%}
+  <div class="fox-search__rail-head">{{ search_rail_head }}</div>
+  <div class="fox-search__grid fox-search__grid--results" id="{{ rail_id }}">
+    {%- for rail_item in rail_items limit: rail_limit -%}
+      {%- if rail_item.variants != blank -%}
+        {%- assign product = rail_item -%}
+        {%- assign product_card_context = 'search' -%}
+        {%- include 'product-loop' with grid: '' -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+  {%- if rail_link_url != blank -%}
+  <div class="fox-search__more-wrap">
+    <a class="fox-search__more btn btn-secondary" button-effect href="{{ rail_link_url }}">
+      <span class="btn__label">{{ rail_link_label | default: 'Xem tất cả' }}</span>
+      <span class="btn--icon" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg></span>
+      <span data-btn-effect-span aria-hidden="true"></span>
+    </a>
+  </div>
+  {%- endif -%}
+</div>
+{%- assign product_card_context = blank -%}
+{%- assign product = search_rail_saved_product -%}
+{%- endif -%}
+{%- assign rail_link_url = blank -%}
+{%- assign rail_link_label = blank -%}

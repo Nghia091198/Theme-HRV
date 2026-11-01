@@ -17,7 +17,7 @@
     }
   }
 
-  function FOXLoadProductFragment(value, view = 'lookbook-card') {
+  function FOXLoadProductFragment(value, view = 'product-loop-data') {
     const handle = FOXNormalizeProductHandle(value);
     if (!handle) return Promise.reject(new Error('invalid-product-handle'));
     const cacheKey = `${view}:${handle}`;
@@ -79,7 +79,7 @@
       if (this.#initialized) return;
 
       try {
-        this.#data = JSON.parse(this.querySelector('[data-role="product-data"]')?.textContent || '{}');
+        this.#data = this.#readProductData();
       } catch (error) {
         this.dataset.state = 'error';
         console.warn('[ProductComponent] Invalid product JSON.', error);
@@ -122,6 +122,16 @@
 
     get productData() {
       return this.#data;
+    }
+
+    // Fragments (quick view, featured) carry their own JSON; the product page reuses
+    // window.ProductConfig.data (snippets/shop-config.liquid) instead of a second inline copy.
+    #readProductData() { 
+      const inline = this.querySelector('[data-role="product-data"]');
+      if (inline) return JSON.parse(inline.textContent || '{}');
+      const config = window.ProductConfig?.data;
+      if (config && String(config.id) === String(this.dataset.productId)) return config;
+      return {};
     }
 
     get selectedVariant() {
@@ -339,7 +349,7 @@
       if (availability) {
         availability.textContent = !variant
           ? 'Không có phân loại phù hợp'
-          : (FOXProductAvailable(variant) ? 'Còn hàng' : (window.ProductConfig?.soldOutLabel || 'Hết hàng'));
+          : (FOXProductAvailable(variant) ? 'Còn hàng' : this.#soldOutLabel());
       }
       if (sku) {
         sku.textContent = variant?.sku ? `SKU: ${variant.sku}` : '';
@@ -366,7 +376,7 @@
           trigger.disabled = disabled;
           if (element.dataset.mode === 'cart') {
             const label = trigger.querySelector('.btn__label');
-            const text = !variant ? 'Chọn phân loại' : (available ? 'Thêm vào giỏ' : 'Hết hàng');
+            const text = !variant ? 'Chọn phân loại' : (available ? 'Thêm vào giỏ' : this.#soldOutLabel());
             if (label) label.textContent = text;
             else trigger.textContent = text;
           }
@@ -436,8 +446,14 @@
       return FOXProductBoolean(this.dataset.updateUrl, window.ProductConfig?.pushVariantOnHandle);
     }
 
+    // Sold-out wording from ProductConfig.soldOutLabel (snippets/shop-config.liquid), shared by status and buttons.
+    #soldOutLabel() {
+      return window.ProductConfig?.soldOutLabel || 'Hết hàng';
+    }
+
     #money(value) {
-      if (window.Haravan?.formatMoney) return window.Haravan.formatMoney(value);
+      // ShopMoney (snippets/shop-config.liquid) applies the shop money format, unit included.
+      if (typeof window.ShopMoney === 'function') return window.ShopMoney(value);
       return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(value || 0) / 100);
     }
 

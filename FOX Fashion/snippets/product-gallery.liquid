@@ -6,6 +6,7 @@
 {%- endfor -%}
 
 {%- assign gallery_item_count = product.images.size | plus: gallery_youtube_count -%}
+{%- assign gallery_zoom_stylesheet = 'core-component-image-zoom.css' | asset_url -%} 
 <div class="fox-product__gallery" data-role="gallery">
   <slider-component
     data-role="gallery-main"
@@ -78,6 +79,7 @@
               data-zoom-min-width="1024"
               data-zoom-min-source-width="800"
               data-zoom-disabled="{% if fox_product_context == 'quickview' %}true{% else %}false{% endif %}"
+              data-zoom-stylesheet="{{ gallery_zoom_stylesheet }}"
               data-state="idle">
               <img
                 data-role="zoom-source"
@@ -103,6 +105,7 @@
       </div>
     </div>
     {%- assign slider_controls_vertical = true -%}
+    {%- if fox_product_context == 'page' -%}{%- assign slider_controls_vertical = false -%}{%- endif -%}
     {%- assign slider_controls_floating = true -%}
     {%- assign slider_controls_label = 'Điều hướng ảnh sản phẩm' -%}
     {%- assign slider_controls_item_count = gallery_item_count -%}

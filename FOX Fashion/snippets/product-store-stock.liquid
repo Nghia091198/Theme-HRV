@@ -1,0 +1,128 @@
+{%- comment -%}
+  Store availability for the selected variant (product page, under the buy buttons).
+  Stores: shop.addresses where is_shipping_add, rendered here grouped province → district;
+  each row carries data-location-id = address.id.
+  Stock: product-store-stock.js calls /inventory_location.js?variant_id=<id>&quantity=1 on load and on every
+  swatch change; listed location_ids are in stock, the rest out of stock. Variants without inventory management
+  count as in stock everywhere. Glass card shows the first in-stock stores; "Xem tất cả" opens a modal (desktop) /
+  bottom sheet (mobile) with province tabs and an in-stock toggle.
+{%- endcomment -%}
+{%- assign store_provinces = '' -%}
+{%- assign store_province_count = 0 -%}
+{%- assign store_total = 0 -%}
+{%- for address in shop.addresses -%}
+  {%- if address.is_shipping_add -%}
+    {%- assign store_total = store_total | plus: 1 -%}
+    {%- capture store_province_token -%}|{{ address.province_name }}|{%- endcapture -%}
+    {%- unless store_provinces contains store_province_token -%}
+      {%- assign store_provinces = store_provinces | append: store_province_token -%}
+      {%- assign store_province_count = store_province_count | plus: 1 -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if settings.store_stock_show != false and store_total > 0 -%}
+{%- assign store_stock_title = settings.store_stock_title | default: 'Còn hàng tại cửa hàng' -%}
+<store-stock class="fox-store-stock" data-state="idle" data-preview="{{ settings.store_stock_preview | default: 2 }}">
+  <div class="fox-store-stock__card">
+    <p class="fox-store-stock__title">
+      <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-map"></use></svg>
+      {{ store_stock_title | escape }}
+    </p>
+    <p class="fox-store-stock__summary" data-role="summary" aria-live="polite">{{ store_total }} cửa hàng</p>
+    <ul class="fox-store-stock__list" data-role="preview"></ul>
+    <button type="button" class="fox-store-stock__more" data-action="open-stores" aria-controls="fox-store-stock-modal" aria-haspopup="dialog">
+      <span>Xem {{ store_total }} cửa hàng</span>
+      <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+    </button>
+  </div>
+
+  <modal-component id="fox-store-stock-modal" class="fox-store-stock__modal" data-state="closed" data-modal-sheet="mobile">
+    <dialog data-role="dialog" aria-labelledby="fox-store-stock-title">
+      <div class="fox-store-stock__sheet" data-role="surface">
+        <span class="fox-store-stock__grab" aria-hidden="true"></span>
+        <button type="button" class="fox-quick-view__close fox-store-stock__close" data-action="close" aria-controls="fox-store-stock-modal" aria-label="Đóng">
+          <svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+            <circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+            <circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+          </svg>
+          <svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+          </svg>
+        </button>
+        <h2 id="fox-store-stock-title" class="fox-store-stock__sheet-title">{{ store_stock_title | escape }}</h2>
+        <p class="fox-store-stock__sheet-subtitle" data-role="sheet-subtitle">{{ store_total }} cửa hàng</p>
+        {%- assign store_tab_list = store_provinces | split: '|' -%}
+        {%- if store_province_count > 1 -%}
+        <div class="fox-store-stock__tabs" data-role="province-tabs" role="group" aria-label="Lọc theo tỉnh/thành">
+          <button type="button" class="fox-store-stock__tab" data-role="province-tab" data-province="" aria-pressed="true">Tất cả</button>
+          {%- for province_name in store_tab_list -%}
+            {%- if province_name != blank -%}
+            <button type="button" class="fox-store-stock__tab" data-role="province-tab" data-province="{{ province_name | escape }}" aria-pressed="false">{{ province_name | escape }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+        <label class="fox-store-stock__toggle">
+          <span>Chỉ hiện cửa hàng còn hàng</span>
+          <input type="checkbox" data-role="in-stock-only" role="switch">
+          <span class="fox-store-stock__switch" aria-hidden="true"></span>
+        </label>
+
+        <div class="fox-store-stock__provinces" data-role="provinces">
+          {%- assign store_province_list = store_provinces | split: '|' -%}
+          {%- for province_name in store_province_list -%}
+            {%- if province_name != blank -%}
+            <section class="fox-store-stock__province" data-role="province" data-province="{{ province_name | escape }}">
+              <h3 class="fox-store-stock__province-title">{{ province_name | escape }} <span data-role="province-count"></span></h3>
+              {%- assign store_districts = '' -%}
+              {%- for address in shop.addresses -%}
+                {%- if address.is_shipping_add and address.province_name == province_name -%}
+                  {%- capture store_district_token -%}|{{ address.district_name }}|{%- endcapture -%}
+                  {%- unless store_districts contains store_district_token -%}
+                    {%- assign store_districts = store_districts | append: store_district_token -%}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- assign store_district_list = store_districts | split: '|' -%}
+              {%- for district_name in store_district_list -%}
+                {%- if district_name != blank -%}
+                <div class="fox-store-stock__district" data-role="district">
+                  <p class="fox-store-stock__district-title">{{ district_name | escape }}</p>
+                  <ul class="fox-store-stock__list">
+                    {%- for address in shop.addresses -%}
+                      {%- if address.is_shipping_add and address.province_name == province_name and address.district_name == district_name -%}
+                      {%- capture store_full_address -%}{{ address.street }}, {{ address.ward_name }}, {{ address.district_name }}, {{ address.province_name }}{%- endcapture -%}
+                      {%- assign store_name = address.location_name | default: address.name | default: address.street -%}
+                      {%- capture store_area -%}{{ address.ward_name }}, {{ address.district_name }}, {{ address.province_name }}{%- endcapture -%}
+                      <li class="fox-store-stock__row" data-role="store" data-location-id="{{ address.id }}" data-status="unknown">
+                        <span class="fox-store-stock__dot" aria-hidden="true"></span>
+                        <div class="fox-store-stock__info">
+                          <strong>{{ store_name | escape }}</strong>
+                          <span>{{ store_area | escape }}</span>
+                          <span class="fox-store-stock__actions">
+                            <a class="fox-store-stock__action" href="https://www.google.com/maps/search/?api=1&amp;query={{ store_full_address | url_encode }}" target="_blank" rel="noopener noreferrer">
+                              <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-map"></use></svg>Chỉ đường
+                            </a>
+                          </span>
+                        </div>
+                        <span class="fox-store-stock__badge" data-role="badge">Đang kiểm tra</span>
+                      </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </section>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="fox-store-stock__empty" data-role="empty" hidden>Không có cửa hàng phù hợp.</p>
+      </div>
+    </dialog>
+  </modal-component>
+</store-stock>
+{%- else -%}
+<!-- store-stock hidden: store_stock_show={{ settings.store_stock_show }}, shop.addresses={{ shop.addresses.size }}, shipping addresses={{ store_total }} -->
+{%- endif -%}

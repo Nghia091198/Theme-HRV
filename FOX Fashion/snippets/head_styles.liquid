@@ -81,6 +81,10 @@
 {%- include 'link-css-preload' with css_file: 'core-component-modal.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'core-component-popover.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'core-commerce-product.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'swatch-colors.css', blocking: true -%}
+{%- if settings.float_contact_show or settings.float_btt_show -%}
+{%- include 'link-css-preload' with css_file: 'floating-contact.css', blocking: false -%} 
+{%- endif -%}
 {%- include 'link-css-preload' with css_file: 'quick-view.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'core-component-slider.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'media-progress.css', blocking: true -%}
@@ -95,6 +99,15 @@
 {%- include 'link-css-preload' with css_file: 'product-card.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'tabs.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'accordion.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'menu-accordion.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'expand-content.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'search-panel.css', blocking: true -%}
+{%- if settings.wishlist_show != false -%}
+{%- include 'link-css-preload' with css_file: 'wishlist.css', blocking: true -%}
+{%- endif -%}
+{%- if template == '404' -%}
+{%- include 'link-css-preload' with css_file: 'page-404.css', blocking: true -%}
+{%- endif -%}
 {%- include 'link-css-preload' with css_file: 'mini-cart.css', blocking: true -%}
 {%- if template contains 'index' -%}
 {%- include 'link-css-preload' with css_file: 'topbar.css', blocking: true -%}
@@ -104,7 +117,6 @@
 {%- include 'link-css-preload' with css_file: 'home-media-banner.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'countdown.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'home-images-overlay.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-component-image-zoom.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'featured-product.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'scroll-media-text.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'image-compare.css', blocking: true -%}
@@ -119,14 +131,42 @@
 {%- elsif template contains 'collection' -%}
 {%- include 'link-css-preload' with css_file: 'collection.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product-carousel.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'policy.css', blocking: true -%}
 {%- elsif template contains 'product' -%}
 {%- include 'link-css-preload' with css_file: 'style-product.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product-carousel.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'policy.css', blocking: true -%}
+{%- if settings.sticky_buy_show -%}
+{%- include 'link-css-preload' with css_file: 'product-sticky-buy.css', blocking: true -%}
+{%- endif -%}
+{%- include 'link-css-preload' with css_file: 'share-links.css', blocking: true -%}
+{%- if settings.store_stock_show != false -%}
+{%- include 'link-css-preload' with css_file: 'product-store-stock.css', blocking: true -%}
+{%- endif -%}
 {%- elsif template contains 'blog' -%}
-{%- include 'link-css-preload' with css_file: 'style-article.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'blog.css', blocking: true -%}
 {%- elsif template contains 'article' -%}
-{%- include 'link-css-preload' with css_file: 'style-article.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'blog.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'share-links.css', blocking: true -%}
+{%- elsif template contains 'search' -%}
+{%- comment -%}Search page reuses the collection grid, toolbar and filters.{%- endcomment -%}
+{%- include 'link-css-preload' with css_file: 'collection.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'search-page.css', blocking: true -%}
 {%- elsif template contains 'page' -%}
+{%- if template contains 'page.about' -%}
+{%- include 'link-css-preload' with css_file: 'page-about.css', blocking: true -%}
+{%- elsif template contains 'page.faq' -%}
+{%- include 'link-css-preload' with css_file: 'page-faq.css', blocking: true -%}
+{%- elsif template contains 'page.brand' -%}
+{%- include 'link-css-preload' with css_file: 'page-brand.css', blocking: true -%}
+{%- elsif template contains 'page.size-guide' -%}
+{%- include 'link-css-preload' with css_file: 'size-guide.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'page-size-guide.css', blocking: true -%}
+{%- else -%}
 {%- include 'link-css-preload' with css_file: 'style-page.css', blocking: true -%}
+{%- endif -%}
 {%- elsif template contains 'cart' -%}
 {%- comment -%}Trang cart dung chung skin trong mini-cart.css (nap toan site).{%- endcomment -%}
 {%- elsif template contains 'customers' -%}

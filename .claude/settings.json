@@ -1,0 +1,18 @@
+{
+  "enabledMcpjsonServers": ["lib-icons"],
+  "permissions": {
+    "allow": [
+      "mcp__lib-icons__list_icon_sets",
+      "mcp__lib-icons__list_icon_categories",
+      "mcp__lib-icons__search_icons",
+      "mcp__lib-icons__get_icons"
+    ],
+    "deny": [
+      "Edit(**/.haravan-cli_local.json)",
+      "Write(**/.haravan-cli_local.json)",
+      "Read(**/.env*)",
+      "Edit(**/.env*)",
+      "Write(**/.env*)"
+    ]
+  }
+}

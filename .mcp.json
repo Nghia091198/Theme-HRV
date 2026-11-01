@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "lib-icons": {
+      "type": "http",
+      "url": "https://library-icons.vercel.app/api/mcp"
+    }
+  }
+}

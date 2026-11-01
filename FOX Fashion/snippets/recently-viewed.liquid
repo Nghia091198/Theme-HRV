@@ -1,0 +1,53 @@
+{%- comment -%}Client-side history: cards are hydrated by recently-viewed.js from the product?view=product-loop-data fragment.{%- endcomment -%}
+{%- assign limit = settings.recently_viewed_limit | default: 8 | plus: 0 -%}
+{%- if limit < 1 -%}
+  {%- assign limit = 1 -%}
+{%- elsif limit > 12 -%}
+  {%- assign limit = 12 -%}
+{%- endif -%}
+{%- assign title = settings.recently_viewed_title | default: 'Sản phẩm đã xem' -%} 
+
+{%- if settings.recently_viewed_show -%}
+<recently-viewed
+  class="fox-product-carousel fox-recently-viewed"
+  data-state="idle"
+  data-limit="{{ limit }}"
+  {%- if template contains 'product' and product.handle != blank %}
+  data-current-handle="{{ product.handle | escape }}"
+  data-record="true"
+  {%- endif %}
+  hidden>
+  <section aria-labelledby="fox-recently-viewed-heading">
+    <div class="container">
+      <slider-component
+        class="fox-product-carousel__slider"
+        data-state="idle"
+        data-preset="product"
+        data-autoplay="false"
+        data-loop="false"
+        data-pagination="false"
+        data-navigation="true"
+        data-slides-mobile="auto"
+        data-slides-tablet="auto"
+        data-slides-desktop="auto"
+        data-space-mobile="12"
+        data-space-tablet="16"
+        data-space-desktop="16">
+        <header class="fox-product-carousel__header">
+          <h2 id="fox-recently-viewed-heading" class="fox-section__title fox-product-carousel__title">{{ title | escape }}</h2>
+          <div class="fox-product-carousel__actions">
+            {%- assign slider_controls_vertical = false -%}
+            {%- assign slider_controls_floating = false -%}
+            {%- assign slider_controls_label = 'Điều hướng sản phẩm đã xem' -%}
+            {%- assign slider_controls_item_count = limit -%}
+            {%- include 'component-slider-controls' -%}
+          </div>
+        </header>
+        <div class="swiper fox-product-carousel__viewport" data-role="viewport" role="region" aria-label="{{ title | escape }}">
+          <div class="swiper-wrapper" data-role="track"></div>
+        </div>
+      </slider-component>
+    </div>
+  </section>
+</recently-viewed>
+{%- endif -%}

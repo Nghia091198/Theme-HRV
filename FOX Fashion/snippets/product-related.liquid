@@ -1,0 +1,65 @@
+{%- comment -%}Product page carousel; the merchant picks the source collection by handle.{%- endcomment -%}
+{%- assign related_handle = settings.product_related_collection | default: 'all' | strip -%}
+{%- assign related_collection = collections[related_handle] -%}
+{%- assign title = settings.product_related_title | default: 'Có thể bạn cũng thích' -%}
+{%- assign limit = settings.product_related_limit | default: 8 | plus: 0 -%}
+{%- if limit < 1 -%}
+  {%- assign limit = 1 -%}
+{%- elsif limit > 12 -%}
+  {%- assign limit = 12 -%}
+{%- endif -%}
+{%- assign current_product_id = product.id -%} 
+{%- assign count = 0 -%}
+
+{%- if settings.product_related_show and related_collection != blank -%}
+  {%- capture slides -%}
+    {%- for product in related_collection.products -%}
+      {%- if count < limit and product.id != current_product_id -%}
+        {%- assign count = count | plus: 1 -%}
+        {%- assign product_card_context = 'collection' -%}
+        {%- assign grid = '' -%}
+        <div class="swiper-slide fox-product-carousel__slide">
+          {%- include 'product-loop' -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if count > 0 -%}
+  <section class="fox-product-carousel fox-product-related" aria-labelledby="fox-product-related-heading">
+    <div class="container">
+      <slider-component
+        class="fox-product-carousel__slider"
+        data-state="idle"
+        data-preset="product"
+        data-autoplay="false"
+        data-loop="false"
+        data-pagination="false"
+        data-navigation="true"
+        data-slides-mobile="auto"
+        data-slides-tablet="auto"
+        data-slides-desktop="auto"
+        data-space-mobile="12"
+        data-space-tablet="16"
+        data-space-desktop="16">
+        <header class="fox-product-carousel__header">
+          <h2 id="fox-product-related-heading" class="fox-section__title fox-product-carousel__title">{{ title | escape }}</h2>
+          <div class="fox-product-carousel__actions">
+            <a class="fox-product-carousel__link fox-text-link" href="{{ related_collection.url }}">Xem tất cả</a>
+            {%- assign slider_controls_vertical = false -%}
+            {%- assign slider_controls_floating = false -%}
+            {%- assign slider_controls_label = 'Điều hướng sản phẩm gợi ý' -%}
+            {%- assign slider_controls_item_count = count -%}
+            {%- include 'component-slider-controls' -%}
+          </div>
+        </header>
+        <div class="swiper fox-product-carousel__viewport" data-role="viewport" role="region" aria-label="{{ title | escape }}">
+          <div class="swiper-wrapper">
+            {{- slides -}}
+          </div>
+        </div>
+      </slider-component>
+    </div>
+  </section>
+  {%- endif -%}
+{%- endif -%}

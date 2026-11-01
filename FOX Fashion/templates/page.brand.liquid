@@ -1,0 +1,248 @@
+{%- comment -%}Alternate page template "brand" — content from settings group "Trang thương hiệu".{%- endcomment -%}
+{%- assign wordmark = settings.brand_wordmark | default: shop.name -%} 
+{%- assign title_font = settings.base_font_title | default: settings.base_font | default: 'Mulish' -%}
+{%- assign body_font = settings.base_font | default: 'Mulish' -%}
+
+<div class="fox-brand">
+  <section class="fox-brand__hero" aria-labelledby="fox-brand-title">
+    <div class="container">
+      {%- include 'component-breadcrumb' with container: false -%}
+      <div class="fox-brand__hero-grid">
+        <p class="fox-brand__wordmark" aria-hidden="true">{{ wordmark | escape }}<span>.</span></p>
+        <div class="fox-brand__hero-copy">
+          <h1 id="fox-brand-title" class="fox-brand__hero-title">{{ settings.brand_hero_title | default: page.title | escape }}</h1>
+          {%- if settings.brand_hero_desc != blank -%}<p>{{ settings.brand_hero_desc | escape }}</p>{%- endif -%}
+          <div class="fox-brand__hero-bar" aria-hidden="true">
+            {%- for color_index in (1..6) -%}
+              {%- capture hex_key -%}brand_color_{{ color_index }}_hex{%- endcapture -%}
+              {%- if settings[hex_key] != blank -%}<span style="background: {{ settings[hex_key] | escape }};"></span>{%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    {%- if settings.brand_pillars_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-pillars-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-pillars-title" class="fox-section__title">{{ settings.brand_pillars_title | escape }}</h2>
+        {%- if settings.brand_pillars_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_pillars_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__pillars">
+        {%- for item_index in (1..3) -%}
+          {%- capture title_key -%}brand_pillar_{{ item_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}brand_pillar_{{ item_index }}_desc{%- endcapture -%}
+          {%- if settings[title_key] != blank -%}
+          <div class="fox-brand__pillar">
+            <h3 class="fox-brand__pillar-title{% if item_index == 2 %} fox-brand__pillar-title--outline{% endif %}">{{ settings[title_key] | escape }}</h3>
+            {%- if settings[desc_key] != blank -%}<p>{{ settings[desc_key] | escape }}</p>{%- endif -%}
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_logo_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-logo-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-logo-title" class="fox-section__title">{{ settings.brand_logo_title | escape }}</h2>
+        {%- if settings.brand_logo_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_logo_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__logos">
+        <figure class="fox-brand__logo fox-brand__logo--light">
+          <span class="fox-brand__logo-mark">{{ wordmark | escape }}</span>
+          <figcaption>Logo chính trên nền sáng</figcaption>
+        </figure>
+        <figure class="fox-brand__logo fox-brand__logo--dark">
+          <span class="fox-brand__logo-mark">{{ wordmark | escape }}</span>
+          <figcaption>Trên nền tối</figcaption>
+        </figure>
+        <figure class="fox-brand__logo fox-brand__logo--accent">
+          <span class="fox-brand__monogram">{{ settings.brand_monogram | default: wordmark | escape }}</span>
+          <figcaption>Biểu tượng thu gọn</figcaption>
+        </figure>
+      </div>
+      <ul class="fox-brand__rules">
+        {%- if settings.brand_logo_do != blank -%}
+        <li class="fox-brand__rule fox-brand__rule--do"><span aria-hidden="true">✓</span><span class="fox-brand__sr-only">Nên:</span>{{ settings.brand_logo_do | escape }}</li>
+        {%- endif -%}
+        {%- for rule_index in (1..3) -%}
+          {%- capture rule_key -%}brand_logo_dont_{{ rule_index }}{%- endcapture -%}
+          {%- if settings[rule_key] != blank -%}
+          <li class="fox-brand__rule"><span aria-hidden="true">✕</span><span class="fox-brand__sr-only">Không nên:</span>{{ settings[rule_key] | escape }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_palette_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-palette-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-palette-title" class="fox-section__title">{{ settings.brand_palette_title | escape }}</h2>
+        {%- if settings.brand_palette_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_palette_desc | escape }}</p>{%- endif -%}
+      </header>
+      <ul class="fox-brand__palette">
+        {%- for color_index in (1..6) -%}
+          {%- capture name_key -%}brand_color_{{ color_index }}_name{%- endcapture -%}
+          {%- capture hex_key -%}brand_color_{{ color_index }}_hex{%- endcapture -%}
+          {%- capture role_key -%}brand_color_{{ color_index }}_role{%- endcapture -%}
+          {%- capture light_key -%}brand_color_{{ color_index }}_text_light{%- endcapture -%}
+          {%- if settings[hex_key] != blank -%}
+          <li class="fox-brand__swatch{% if settings[light_key] %} fox-brand__swatch--light-text{% endif %}" style="background: {{ settings[hex_key] | escape }};">
+            <strong>{{ settings[name_key] | escape }}</strong>
+            <span>{{ settings[hex_key] | upcase | escape }}</span>
+            {%- if settings[role_key] != blank -%}<em>{{ settings[role_key] | escape }}</em>{%- endif -%}
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="fox-brand__ratio" role="img" aria-label="Tỷ lệ sử dụng màu">
+        {%- for color_index in (1..6) -%}
+          {%- capture hex_key -%}brand_color_{{ color_index }}_hex{%- endcapture -%}
+          {%- capture ratio_key -%}brand_color_{{ color_index }}_ratio{%- endcapture -%}
+          {%- assign ratio = settings[ratio_key] | plus: 0 -%}
+          {%- if settings[hex_key] != blank and ratio > 0 -%}<span style="flex: {{ ratio }}; background: {{ settings[hex_key] | escape }};"></span>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      <ul class="fox-brand__ratio-labels">
+        {%- for color_index in (1..6) -%}
+          {%- capture name_key -%}brand_color_{{ color_index }}_name{%- endcapture -%}
+          {%- capture ratio_key -%}brand_color_{{ color_index }}_ratio{%- endcapture -%}
+          {%- assign ratio = settings[ratio_key] | plus: 0 -%}
+          {%- if ratio > 0 -%}<li>{{ settings[name_key] | escape }} {{ ratio }}%</li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_type_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-type-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-type-title" class="fox-section__title">{{ settings.brand_type_title | escape }}</h2>
+        {%- if settings.brand_type_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_type_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__type">
+        <div class="fox-brand__type-card fox-brand__type-card--title">
+          <p class="fox-brand__type-aa" aria-hidden="true">Aa</p>
+          <h3>{{ title_font | escape }}</h3>
+          <p class="fox-brand__type-role">Tiêu đề, logo, số liệu lớn</p>
+          <p class="fox-brand__type-weights"><span>Medium</span><span>SemiBold</span><span>Bold</span></p>
+          <p class="fox-brand__type-chars">A Ă Â B C D Đ E Ê G H I K L M N O Ô Ơ P Q R S T U Ư V X Y</p>
+        </div>
+        <div class="fox-brand__type-card fox-brand__type-card--body">
+          <p class="fox-brand__type-aa" aria-hidden="true">Aa</p>
+          <h3>{{ body_font | escape }}</h3>
+          <p class="fox-brand__type-role">Nội dung, nút, giá, nhãn</p>
+          <p class="fox-brand__type-weights"><span>Medium</span><span>SemiBold</span><span>Bold</span></p>
+          <p class="fox-brand__type-chars">a ă â b c d đ e ê g h i k l m n o ô ơ p q r s t u ư v x y 0 1 2 3</p>
+        </div>
+      </div>
+      <dl class="fox-brand__scale">
+        <div><dt>Tiêu đề trang</dt><dd class="fox-brand__scale-h1">{{ settings.brand_type_sample | default: wordmark | escape }}</dd></div>
+        <div><dt>Tiêu đề section</dt><dd class="fox-brand__scale-h2">{{ settings.brand_type_sample | default: wordmark | escape }}</dd></div>
+        <div><dt>Nội dung</dt><dd class="fox-brand__scale-body">{{ settings.brand_hero_desc | escape }}</dd></div>
+      </dl>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_imagery_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-imagery-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-imagery-title" class="fox-section__title">{{ settings.brand_imagery_title | escape }}</h2>
+        {%- if settings.brand_imagery_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_imagery_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__imagery">
+        {%- for item_index in (1..5) -%}
+          {%- capture media_key -%}brand_image_{{ item_index }}.jpg{%- endcapture -%}
+          {%- capture alt_key -%}brand_image_{{ item_index }}_alt{%- endcapture -%}
+          {%- capture caption_key -%}brand_image_{{ item_index }}_caption{%- endcapture -%}
+          <figure class="fox-brand__image fox-brand__image--{{ item_index }}">
+            {%- assign media_alt = settings[alt_key] -%}{%- assign media_w = '800' -%}{%- assign media_h = '800' -%}{%- assign media_sizes = '(min-width: 992px) 33vw, 50vw' -%}
+            {%- include 'page-media' -%}
+            {%- if settings[caption_key] != blank -%}<figcaption class="fox-brand__chip">{{ settings[caption_key] | escape }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endfor -%}
+      </div>
+      <ul class="fox-brand__notes">
+        {%- for note_index in (1..3) -%}
+          {%- capture title_key -%}brand_image_note_{{ note_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}brand_image_note_{{ note_index }}_desc{%- endcapture -%}
+          {%- if settings[title_key] != blank -%}
+          <li><strong>{{ settings[title_key] | escape }}</strong>{{ settings[desc_key] | escape }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_voice_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-voice-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-voice-title" class="fox-section__title">{{ settings.brand_voice_title | escape }}</h2>
+        {%- if settings.brand_voice_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_voice_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__voice">
+        <div class="fox-brand__voice-card fox-brand__voice-card--do">
+          <h3><span aria-hidden="true">✓</span>Chúng tôi nói</h3>
+          <ul>
+            {%- for voice_index in (1..3) -%}
+              {%- capture voice_key -%}brand_voice_do_{{ voice_index }}{%- endcapture -%}
+              {%- if settings[voice_key] != blank -%}<li>{{ settings[voice_key] | escape }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="fox-brand__voice-card fox-brand__voice-card--dont">
+          <h3><span aria-hidden="true">✕</span>Chúng tôi tránh</h3>
+          <ul>
+            {%- for voice_index in (1..3) -%}
+              {%- capture voice_key -%}brand_voice_dont_{{ voice_index }}{%- endcapture -%}
+              {%- if settings[voice_key] != blank -%}<li>{{ settings[voice_key] | escape }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_apps_show -%}
+    <section class="fox-brand__section" aria-labelledby="fox-brand-apps-title">
+      <header class="fox-brand__head">
+        <h2 id="fox-brand-apps-title" class="fox-section__title">{{ settings.brand_apps_title | escape }}</h2>
+        {%- if settings.brand_apps_desc != blank -%}<p class="fox-section__desc">{{ settings.brand_apps_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-brand__apps">
+        {%- for item_index in (1..3) -%}
+          {%- capture media_key -%}brand_app_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture caption_key -%}brand_app_{{ item_index }}_caption{%- endcapture -%}
+          <figure class="fox-brand__app">
+            {%- assign media_alt = settings[caption_key] -%}{%- assign media_w = '800' -%}{%- assign media_h = '1000' -%}{%- assign media_sizes = '(min-width: 992px) 33vw, 100vw' -%}
+            {%- include 'page-media' -%}
+            {%- if settings[caption_key] != blank -%}<figcaption class="fox-brand__chip">{{ settings[caption_key] | escape }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.brand_kit_show -%}
+    <section class="fox-brand__kit" aria-labelledby="fox-brand-kit-title">
+      <div>
+        <h2 id="fox-brand-kit-title" class="fox-brand__kit-title">{{ settings.brand_kit_title | escape }}</h2>
+        {%- if settings.brand_kit_desc != blank -%}<p>{{ settings.brand_kit_desc | escape }}</p>{%- endif -%}
+      </div>
+      <div class="fox-brand__kit-actions">
+        {%- if settings.brand_kit_btn_title != blank and settings.brand_kit_btn_url != blank -%}
+        <a class="btn btn-primary" button-effect href="{{ settings.brand_kit_btn_url | escape }}"><span class="btn__label">{{ settings.brand_kit_btn_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></a>
+        {%- endif -%}
+        {%- if settings.brand_kit_btn2_title != blank and settings.brand_kit_btn2_url != blank -%}
+        <a class="btn fox-brand__btn-ghost" href="{{ settings.brand_kit_btn2_url | escape }}"><span class="btn__label">{{ settings.brand_kit_btn2_title | escape }}</span></a>
+        {%- endif -%}
+      </div>
+    </section>
+    {%- endif -%}
+  </div>
+</div>

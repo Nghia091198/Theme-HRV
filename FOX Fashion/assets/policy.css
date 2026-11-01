@@ -1,0 +1,70 @@
+/* Shared policy strip  (snippets/collection-policy.liquid) for collection and product pages.
+   Class names keep the original fox-collection__policy* contract used by the snippet. */
+.fox-collection__policy {
+  --fox-policy-border: var(--color-border, #e4e5e6);
+  --fox-policy-muted: var(--color-text-secondary, #101010);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 44px;
+  padding: 10px 0;
+  border: 1px solid var(--fox-policy-border);
+  border-radius: 24px;
+}
+
+.fox-collection__policy-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 19px 14px;
+}
+
+.fox-collection__policy-icon {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-bg-secondary, #f3f0ec);
+}
+
+.fox-collection__policy-item svg {
+  --icon-size: 25px;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.fox-collection__policy-item h2 {
+  margin: 0 0 3px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.fox-collection__policy-item p {
+  margin: 0;
+  color: var(--fox-policy-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 991px) {
+  .fox-collection__policy {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    padding: 10px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .fox-collection__policy { margin-bottom: 28px; }
+  .fox-collection__policy-item { gap: 7px; padding: 14px 8px; }
+  .fox-collection__policy-icon { width: 32px; height: 32px; flex-basis: 32px; }
+  .fox-collection__policy-item h2 { font-size: 14px; }
+  .fox-collection__policy-item p { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  .fox-collection__policy { grid-template-columns: 1fr; }
+}

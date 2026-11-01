@@ -25,38 +25,37 @@
   {%- else -%}
   <h1 class="fox-product__title">{{ product.title | escape }}</h1>
   {%- endif -%}
-  {%- if fox_product_context == 'featured' or fox_product_context == 'quickview' -%}
   <div class="fox-product__meta">
     <p class="fox-product__status" data-role="availability" aria-live="polite"></p>
     <p class="fox-product__sku" data-role="sku"{% if selected_variant.sku == blank %} hidden{% endif %}>{% if selected_variant.sku != blank %}SKU: {{ selected_variant.sku | escape }}{% endif %}</p>
   </div>
-  {%- endif -%}
-  {%- if fox_product_context == 'featured' -%}
+  {%- comment -%}Liquid-formatted prices per variant:  product-component reuses them on variant change so the storefront money format (unit included) stays identical.{%- endcomment -%}
   <div hidden data-role="formatted-prices">
     {%- for variant in product.variants -%}
     <span data-price-variant="{{ variant.id }}" data-price="{{ variant.price | money | strip_html | escape }}" data-compare-price="{{ variant.compare_at_price | money | strip_html | escape }}"></span>
     {%- endfor -%}
   </div>
-  {%- endif -%}
+  {%- assign price_row_wishlist = false -%}
+  {%- if fox_product_context == 'page' and settings.wishlist_show != false -%}{%- assign price_row_wishlist = true -%}{%- endif -%}
+  {%- if price_row_wishlist -%}<div class="fox-product__price-row">{%- endif -%}
   <div class="fox-product__price-wrap" data-role="price-wrap">
-    {%- if fox_product_context == 'featured' -%}
     <span data-role="price">{{ selected_variant.price | money }}</span>
     <del data-role="compare-price"{% unless selected_variant.compare_at_price > selected_variant.price %} hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</del>
-    {%- else -%}
-    <span data-role="price">{{ selected_variant.price | money }}</span>
-    <del data-role="compare-price"{% unless selected_variant.compare_at_price > selected_variant.price %} hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</del>
-    {%- endif -%}
     <span data-role="sale-percent"></span>
   </div>
-  {%- if fox_product_context == 'page' -%}
-  <p class="fox-product__status" data-role="availability" aria-live="polite"></p>
-  <p class="fox-product__sku" data-role="sku"></p>
+  {%- if price_row_wishlist -%}
+    {%- assign wishlist_handle = product.handle -%}
+    {%- assign wishlist_product_id = product.id -%}
+    {%- assign wishlist_title = product.title -%}
+    {%- assign wishlist_style = 'inline' -%}
+    {%- include 'wishlist-button' -%}
+  </div>
   {%- endif -%}
   {%- if fox_product_context == 'featured' and settings.x1_featured_product_show_description != false and product.description != blank -%}
   <div class="fox-product__description" data-role="description">{{ product.description | strip_html | escape }}</div>
   {%- endif -%}
 
-  {%- include 'variant-picker' -%}
+  {%- include 'product-swatch' -%}
 
   <div class="fox-product__purchase" data-role="purchase">
     <div class="core-quantity fox-product__quantity" data-role="quantity-control">
@@ -111,36 +110,26 @@
       {{ settings.product_contact_title | default: 'Liên hệ' | escape }}
     </a>
   </div>
-  {%- if fox_product_context == 'quickview' or fox_product_context == 'featured' -%}
-  <div class="fox-product__policy-marquee" aria-label="Chính sách mua hàng">
-    <div class="fox-product__policy-track">
-      <div class="fox-product__policy-group">
-        <span class="fox-product__policy-item">
-          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-shipping"></use></svg>
-          Giao hàng nhanh chóng, an toàn
-        </span>
-        <span class="fox-product__policy-item">
-          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-return"></use></svg>
-          Đổi trả dễ dàng trong 14 ngày
-        </span>
-      </div>
-      <div class="fox-product__policy-group" aria-hidden="true">
-        <span class="fox-product__policy-item">
-          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-shipping"></use></svg>
-          Giao hàng nhanh chóng, an toàn
-        </span>
-        <span class="fox-product__policy-item">
-          <svg aria-hidden="true" focusable="false" width="22" height="22"><use xlink:href="#ic-fox-policy-return"></use></svg>
-          Đổi trả dễ dàng trong 14 ngày
-        </span>
-      </div>
+  {%- if fox_product_context == 'page' -%}
+    {%- include 'product-store-stock' -%}
+    {%- if settings.product_show_share != false -%}
+    <div class="fox-product__share">
+      {%- capture share_url -%}{{ shop.url }}{{ product.url }}{%- endcapture -%}
+      {%- assign share_title = product.title -%}
+      {%- assign share_label = 'Chia sẻ' -%}
+      {%- include 'component-share' -%}
     </div>
-  </div>
+    {%- endif -%}
   {%- endif -%}
+  {%- if fox_product_context == 'quickview' or fox_product_context == 'featured' -%}
+    {%- include 'product-policy-marquee' -%}
+  {%- endif -%}
+  {%- unless fox_product_context == 'page' -%}
   <a class="fox-product__details-link fox-link-effect" href="{{ product.url }}">
     <span class="fox-link-effect__label">Xem chi tiết</span>
     <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
     </svg>
   </a>
+  {%- endunless -%}
 </div>

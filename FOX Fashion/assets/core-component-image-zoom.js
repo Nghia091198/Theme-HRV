@@ -1,5 +1,28 @@
 (function () {
   const root = window.FOX = window.FOX || {};
+  const stylesheetRequests = new Map();
+
+  // The zoom skin is only needed after a fine-pointer hover, so it stays out of the critical CSS.
+  function FOXLoadImageZoomStylesheet(url) { 
+    if (!url) return Promise.reject(new Error('missing-stylesheet'));
+    if (stylesheetRequests.has(url)) return stylesheetRequests.get(url);
+
+    const request = new Promise((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = url;
+      link.dataset.foxStylesheet = 'image-zoom';
+      link.addEventListener('load', () => resolve(link), { once: true });
+      link.addEventListener('error', () => {
+        link.remove();
+        stylesheetRequests.delete(url);
+        reject(new Error('stylesheet-error'));
+      }, { once: true });
+      document.head.appendChild(link);
+    });
+    stylesheetRequests.set(url, request);
+    return request;
+  }
 
   class ImageZoom extends HTMLElement {
     #abortController = null;
@@ -14,6 +37,8 @@
     #positionDebounce = 0;
     #fadeTimer = 0;
     #initialized = false;
+    #hovering = false;
+    #stylesReady = false;
 
     connectedCallback() {
       if (this.#initialized) return;
@@ -31,6 +56,7 @@
     }
 
     destroy() {
+      this.#hovering = false;
       this.#close();
       this.#abortController?.abort();
       this.#abortController = null;
@@ -61,17 +87,44 @@
       }
       const signal = this.#abortController.signal;
       this.addEventListener('pointerenter', () => {
+        this.#hovering = true;
         if (!this.#canZoom(minWidth, minSourceWidth)) return;
-        this.#open(target);
+        this.#prepareStyles().then((ready) => {
+          if (ready && this.#hovering && this.isConnected) this.#open(target);
+        });
       }, { signal });
       this.addEventListener('pointermove', (event) => this.#move(event), { signal });
-      this.addEventListener('pointerleave', () => this.#close(), { signal });
+      this.addEventListener('pointerleave', () => {
+        this.#hovering = false;
+        this.#close();
+      }, { signal });
       this.#source.addEventListener('load', () => {
-        this.dataset.state = this.#canZoom(minWidth, minSourceWidth) ? 'ready' : 'disabled';
+        this.#syncReadyState(minWidth, minSourceWidth);
       }, { signal });
       window.addEventListener('scroll', () => this.#schedulePosition(), { passive: true, signal });
       window.addEventListener('resize', () => this.#schedulePosition(), { passive: true, signal });
-      this.dataset.state = this.#canZoom(minWidth, minSourceWidth) ? 'ready' : 'disabled';
+      this.#syncReadyState(minWidth, minSourceWidth);
+    }
+
+    #syncReadyState(minWidth, minSourceWidth) {
+      if (this.dataset.state === 'active') return;
+      const canZoom = this.#canZoom(minWidth, minSourceWidth);
+      this.dataset.state = canZoom ? 'ready' : 'disabled';
+      if (canZoom) this.#prepareStyles();
+    }
+
+    #prepareStyles() {
+      if (this.#stylesReady) return Promise.resolve(true);
+      return FOXLoadImageZoomStylesheet(this.dataset.zoomStylesheet)
+        .then(() => {
+          this.#stylesReady = true;
+          return true;
+        })
+        .catch((error) => {
+          console.warn('[ImageZoom] Zoom stylesheet could not be loaded.', error.message);
+          this.dispatchEvent(new CustomEvent('image-zoom:error', { bubbles: true, composed: true, detail: { component: this, reason: error.message } }));
+          return false;
+        });
     }
 
     #resolveFadeTargets() {

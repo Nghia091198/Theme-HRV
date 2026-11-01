@@ -4,3 +4,5 @@ node_modules/
 tests/
 tmp/
 *.log
+output/
+PLANNING/

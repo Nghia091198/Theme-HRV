@@ -73,8 +73,8 @@ export function validateArticleImage(filePath) {
 }
 
 export async function validateProductImages(filePaths) {
-  if (!Array.isArray(filePaths) || filePaths.length !== 3) {
-    throw new InputValidationError("Product creation requires exactly three image paths.");
+  if (!Array.isArray(filePaths) || filePaths.length < 3 || filePaths.length > 10) {
+    throw new InputValidationError("Product creation requires 3 to 10 image paths.");
   }
 
   const images = [];

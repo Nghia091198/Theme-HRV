@@ -18,8 +18,8 @@ slider-component [data-action="next"]:focus-visible {
   --fox-slider-control-color: currentColor;
   --fox-slider-control-background: transparent;
   --fox-slider-control-border: color-mix(in srgb, currentColor 10%, transparent);
-  --fox-slider-control-hover-color: var(--fox-slider-control-background);
-  --fox-slider-control-hover-background: var(--fox-slider-control-color);
+  --fox-slider-control-hover-color: var(--color-btn-text-primary, #fff);
+  --fox-slider-control-hover-background: var(--color-btn-bg-primary, #1b2631);
   display: flex;
   align-items: center;
   width: fit-content;
@@ -32,6 +32,9 @@ slider-component [data-action="next"]:focus-visible {
 }
 
 .fox-slider-controls > button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -43,13 +46,26 @@ slider-component [data-action="next"]:focus-visible {
   border: 1px solid var(--fox-slider-control-border);
   border-radius: 50%;
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  transition: color 300ms ease, border-color 300ms ease;
+}
+
+.fox-slider-controls > button > svg {
+  position: relative;
+  z-index: 1;
+}
+
+/* Same fill effect as .btn: [button-effect] grows this span from the pointer. */ 
+.fox-slider-controls > button [data-btn-effect-span] {
+  background-color: var(--fox-slider-control-hover-background);
+}
+
+.fox-slider-controls > button:disabled [data-btn-effect-span] {
+  display: none;
 }
 
 .fox-slider-controls > button:not(:disabled):hover,
 .fox-slider-controls > button:not(:disabled):focus-visible {
   color: var(--fox-slider-control-hover-color);
-  background: var(--fox-slider-control-hover-background);
   border-color: var(--fox-slider-control-hover-background);
 }
 
@@ -59,49 +75,10 @@ slider-component [data-action="next"]:focus-visible {
 }
 
 .fox-slider-controls--floating {
-  --fox-slider-control-color: rgb(86 60 73);
-  --fox-slider-control-background: rgb(255 255 255);
-  --fox-slider-control-border: rgb(86 60 73 / 10%);
+  --fox-slider-control-color: var(--color-text-theme, #1b2631);
+  --fox-slider-control-background: #fff;
+  --fox-slider-control-border: color-mix(in srgb, var(--fox-slider-control-color) 10%, transparent);
   box-shadow: 0 0.35rem 1.25rem rgb(0 0 0 / 10%);
-}
-
-.fox-slider-controls--floating > button:not(:disabled) {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  transition: color 300ms ease, border-color 300ms ease;
-}
-
-.fox-slider-controls--floating > button:not(:disabled)::before {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 0;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: rgb(86 60 73);
-  content: '';
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 420ms ease-in-out;
-}
-
-.fox-slider-controls--floating > button:not(:disabled) > svg {
-  position: relative;
-  z-index: 1;
-}
-
-.fox-slider-controls--floating > button:not(:disabled):hover,
-.fox-slider-controls--floating > button:not(:disabled):focus-visible {
-  color: #fff;
-  background: transparent;
-  border-color: rgb(86 60 73);
-}
-
-.fox-slider-controls--floating > button:not(:disabled):hover::before,
-.fox-slider-controls--floating > button:not(:disabled):focus-visible::before {
-  transform: translate(-50%, -50%) scale(3.5);
 }
 
 .fox-slider-progress {
@@ -151,7 +128,7 @@ slider-component [data-action="next"]:focus-visible {
     transition: none;
   }
 
-  .fox-slider-controls--floating > button:not(:disabled)::before {
+  .fox-slider-controls > button [data-btn-effect-span] {
     transition: none;
   }
 }

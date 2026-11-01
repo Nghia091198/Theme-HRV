@@ -1,3 +1,119 @@
-{{article.content}}
-<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@jasonmoments/video/7470990395606830358" data-video-id="7470990395606830358" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@jasonmoments" href="https://www.tiktok.com/@jasonmoments?refer=embed">@jasonmoments</a> <p></p> <a target="_blank" title="♬ original sound - Jason Moments" href="https://www.tiktok.com/music/original-sound-7470990405409688342?refer=embed">♬ original sound - Jason Moments</a> </section> </blockquote> 
-<script async src="https://www.tiktok.com/embed.js"></script>
+{%- assign article_words = article.content | strip_html | split: ' ' | size -%}
+{%- capture article_full_url -%}{{ shop.url }}{{ article.url }}{%- endcapture -%}
+
+<div class="fox-blog fox-article">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
+
+    <header class="fox-article__header">
+      {%- if article.tags.first != blank -%}<span class="fox-blog-chip">{{ article.tags.first | escape }}</span>{%- endif -%}
+      <h1 class="fox-article__title">{{ article.title | escape }}</h1>
+      <p class="fox-blog-meta">
+        <span class="fox-article__author">{{ article.author | escape }}</span>
+        <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%d/%m/%Y' }}</time>
+      </p>
+
+      {%- if settings.article_show_share != false -%}
+      <div class="fox-article__share">
+        {%- assign share_url = article_full_url -%}
+        {%- assign share_title = article.title -%}
+        {%- assign share_label = 'Chia sẻ' -%}
+        {%- include 'component-share' -%}
+      </div>
+      {%- endif -%}
+    </header>
+
+    {%- if article.image -%}
+    <figure class="fox-article__cover">
+      <img
+        src="{{ article.image.src | product_img_url: '1024x1024' }}"
+        srcset="{{ article.image.src | product_img_url: '1024x1024' }} 1024w, {{ article.image.src | product_img_url: 'master' }} 1600w"
+        sizes="(min-width: 1200px) 1140px, 100vw"
+        width="1600"
+        height="900"
+        alt="{{ article.image.alt | default: article.title | escape }}"
+        fetchpriority="high"
+        decoding="async">
+    </figure>
+    {%- endif -%}
+
+    <div class="fox-blog__layout fox-article__layout">
+      <main class="fox-article__main">
+        {%- if settings.article_show_toc != false -%}
+        <div id="table-of-contents" data-target="#fox-article-content" data-title="{{ settings.article_toc_title | default: 'Mục lục' | escape }}" data-count-label="mục" hidden></div>
+        {%- endif -%}
+
+        <div id="fox-article-content" class="rte fox-article__content">{{ article.content }}</div>
+
+        {%- if article.tags.size > 0 -%}
+        <p class="fox-article__tags">
+          <strong>Tags:</strong>
+          {%- for tag in article.tags -%}<a class="fox-blog-chip" href="{{ blog.url | escape }}/tagged/{{ tag | handleize }}">{{ tag | escape }}</a>{%- endfor -%}
+        </p>
+        {%- endif -%}
+      </main>
+
+      {%- include 'blog-sidebar' -%}
+    </div> 
+
+    {%- if settings.article_show_related != false -%}
+      {%- assign related_limit = settings.article_related_limit | default: 8 | plus: 0 -%}
+      {%- if related_limit < 1 -%}{%- assign related_limit = 8 -%}{%- endif -%}
+      {%- assign related_count = 0 -%}
+      {%- for related_article in blog.articles -%}
+        {%- if related_article.id != article.id and related_count < related_limit -%}{%- assign related_count = related_count | plus: 1 -%}{%- endif -%}
+      {%- endfor -%}
+      {%- assign related_is_slider = false -%}
+      {%- if related_count > 4 -%}{%- assign related_is_slider = true -%}{%- endif -%}
+      {%- assign related_rendered = 0 -%}
+      {%- capture related_html -%}
+        {%- for related_article in blog.articles -%}
+          {%- if related_article.id != article.id and related_rendered < related_limit -%}
+            {%- assign related_rendered = related_rendered | plus: 1 -%}
+            {%- assign blog_card_article = related_article -%}
+            {%- assign blog_card_featured = false -%}
+            {%- if related_is_slider -%}<div class="swiper-slide fox-article__related-slide">{%- endif -%}
+            {%- include 'blog-article-card' -%}
+            {%- if related_is_slider -%}</div>{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign related_title = settings.article_related_title | default: 'Bài viết liên quan' -%}
+      {%- if related_count > 0 -%}
+      <section class="fox-article__related" aria-labelledby="fox-article-related-title">
+        {%- if related_is_slider -%}
+        <slider-component
+          class="fox-article__related-slider"
+          data-state="idle"
+          data-preset="product"
+          data-autoplay="false"
+          data-loop="false"
+          data-pagination="false"
+          data-navigation="true"
+          data-slides-mobile="auto"
+          data-slides-tablet="auto"
+          data-slides-desktop="auto"
+          data-space-mobile="12"
+          data-space-tablet="16"
+          data-space-desktop="22">
+          <header class="fox-article__related-header">
+            <h2 id="fox-article-related-title" class="fox-article__related-title">{{ related_title | escape }}</h2>
+            {%- assign slider_controls_vertical = false -%}
+            {%- assign slider_controls_floating = false -%}
+            {%- assign slider_controls_label = 'Điều hướng bài viết liên quan' -%}
+            {%- assign slider_controls_item_count = related_count -%}
+            {%- include 'component-slider-controls' -%}
+          </header>
+          <div class="swiper fox-article__related-viewport" data-role="viewport" role="region" aria-label="{{ related_title | escape }}">
+            <div class="swiper-wrapper">{{ related_html }}</div>
+          </div>
+        </slider-component>
+        {%- else -%}
+        <h2 id="fox-article-related-title" class="fox-article__related-title">{{ related_title | escape }}</h2>
+        <div class="fox-blog__grid fox-blog__grid--mobile-{{ settings.blog_mobile_columns | default: '2' }} fox-blog__grid--4">{{ related_html }}</div>
+        {%- endif -%}
+      </section>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

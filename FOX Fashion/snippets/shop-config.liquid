@@ -1,6 +1,6 @@
 <script>
   window.FOX = window.FOX || {};
-
+ function ShopMoney(price) { return Haravan.formatMoney(price, "{{ shop.money_format }}");}
   window.main = {
   	template: "{{template}}",
   	scriptcallafter: [
@@ -16,7 +16,6 @@
   		{%- endif -%}
   	],
   	csscallafter: [
-  		"{{'search-drawer.css' | asset_url}}",
   		{%- if template contains 'index' -%}
   		"{{'marquee-scroll.min.css' | asset_url}}",
   		{%- endif -%}
@@ -62,7 +61,7 @@
   		promotion: "{{ settings.promotion_hrvapp | default: 'none' | escape }}",
   		review: "{{ settings.productreviews_hrvapp_use | default: 'none' | escape }}",
   	},
-  		routes: {
+  	routes: {
   		cart:       '/cart.js',
   		cartView:   '/cart?view=data',
   		cartAdd:    '/cart/add.js',
@@ -73,6 +72,17 @@
   	images: {
   		noImage: '//theme.hstatic.net/200000941355/1001321940/14/no-img.jpg',
   		promotionIcon: "{{'promotion_gift.png' |  product_img_url: "compact" | asset_url}}"
+  	},
+  	expandContent: {
+  		presets: {
+  			productDescription: 420,
+  			collectionDescription: 160,
+  			pageContent: 600
+  		},
+  		defaultHeight: 360,
+  		tolerance: 80,
+  		labelMore: 'Xem thêm',
+  		labelLess: 'Thu gọn'
   	}
   };
 </script>

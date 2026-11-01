@@ -4,6 +4,38 @@ body.fox-overlay-lock {
   overscroll-behavior: none;
 }
 
+/* html has scrollbar-gutter: stable (mini-account.css). Locked, that strip would stay empty and show as a bar, so it
+   is dropped; its width (--fox-overlay-gutter, measured in core-foundation-overlay.js) goes back as body padding so
+   the page does not move, and the header bar still reaches the right edge with its content padded in. */
+html.fox-overlay-lock.fox-overlay-open {
+  scrollbar-gutter: auto;
+}
+
+html.fox-overlay-lock.fox-overlay-open body {
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header:not([data-fixed]):not(.fox-header--home) .fox-header__bar {
+  box-sizing: border-box;
+  width: calc(100% + var(--fox-overlay-gutter, 0px));
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header[data-fixed]:not(.fox-header--home) .fox-header__bar {
+  box-sizing: border-box;
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+/* Home header bar: absolute (or fixed when scrolled) with 12px side padding (header.css). */
+html.fox-overlay-lock.fox-overlay-open .fox-header--home:not([data-fixed]) .fox-header__bar {
+  right: calc(-1 * var(--fox-overlay-gutter, 0px));
+  padding-right: calc(12px + var(--fox-overlay-gutter, 0px));
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header--home[data-fixed] .fox-header__bar {
+  padding-right: calc(12px + var(--fox-overlay-gutter, 0px));
+}
+
 .fox-page-overlay {
   position: fixed;
   inset: 0;

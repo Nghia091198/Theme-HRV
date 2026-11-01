@@ -1,0 +1,168 @@
+/* Shared skin for product carousels  on product and collection pages
+   ("Có thể bạn cũng thích", "Sản phẩm đã xem"). Behavior: slider-component. */
+.fox-product-carousel {
+  --fox-product-carousel-gap: 12px;
+  --fox-product-carousel-ink: var(--color-text-theme, #1b2631);
+  --fox-section-title-size: clamp(2.4rem, 3vw, 3.4rem);
+  display: block;
+  padding-block: 4rem;
+  color: var(--fox-product-carousel-ink);
+}
+
+.fox-product-carousel + .fox-product-carousel {
+  padding-top: 0;
+}
+
+.fox-product-carousel__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+}
+
+.fox-product-carousel__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.fox-product-carousel__link {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.fox-product-carousel__slide {
+  width: 72%;
+  height: auto;
+}
+
+/* Before Swiper is ready (or without JS) the track stays usable as a native scroller. */
+.fox-product-carousel__slider:not([data-state="ready"]) .fox-product-carousel__viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.fox-product-carousel__slider:not([data-state="ready"]) .swiper-wrapper {
+  display: flex;
+  gap: var(--fox-product-carousel-gap);
+}
+
+.fox-product-carousel__slider:not([data-state="ready"]) .fox-product-carousel__slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.fox-product-carousel product-card,
+.fox-product-carousel .product-loop {
+  height: 100%;
+}
+
+.fox-product-carousel .product-inner {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--fox-product-carousel-ink) 16%, transparent);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.fox-product-carousel .proloop--image {
+  border-radius: 0;
+  background: #f2f1f1;
+}
+
+.fox-product-carousel .proloop--image .ratio-image {
+  padding-top: 105%;
+}
+
+.fox-product-carousel .proloop--detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+}
+
+.fox-product-carousel .pro--type {
+  margin: 0 0 6px;
+  color: color-mix(in srgb, var(--fox-product-carousel-ink) 85%, transparent);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.fox-product-carousel .pro--title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0 0 8px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.fox-product-carousel .pro--title a {
+  color: inherit;
+}
+
+.fox-product-carousel .block-proloop-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px 8px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.fox-product-carousel .pro--price-original {
+  color: color-mix(in srgb, var(--fox-product-carousel-ink) 55%, transparent);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.fox-product-carousel a:focus-visible,
+.fox-product-carousel button:focus-visible {
+  outline: 2px solid var(--fox-product-carousel-ink);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .fox-product-carousel {
+    --fox-product-carousel-gap: 16px;
+    padding-block: 5.6rem;
+  }
+
+  .fox-product-carousel__slide {
+    width: calc((100% - 2 * var(--fox-product-carousel-gap)) / 3);
+  }
+}
+
+@media (min-width: 992px) {
+  .fox-product-carousel__slide {
+    width: calc((100% - 3 * var(--fox-product-carousel-gap)) / 4);
+  }
+  .fox-product-carousel .proloop--image .ratio-image {
+    padding-top: 124%;
+  }
+}
+
+@media (max-width: 767px) {
+  .fox-product-carousel__header {
+    align-items: center;
+  }
+
+  .fox-product-carousel .fox-slider-controls {
+    display: none;
+  }
+
+  .fox-product-carousel .pro--title,
+  .fox-product-carousel .block-proloop-price {
+    font-size: 15px;
+  }
+}

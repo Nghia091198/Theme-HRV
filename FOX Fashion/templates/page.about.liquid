@@ -1,0 +1,233 @@
+{%- comment -%}Alternate page template "about" — content from settings group "Trang Về chúng tôi".{%- endcomment -%}
+{%- assign hero_title = settings.about_hero_title | default: page.title -%} 
+{%- assign marquee_text_1 = settings.about_marquee_text_1 -%}
+{%- assign marquee_text_2 = settings.about_marquee_text_2 -%}
+{%- assign marquee_text_3 = settings.about_marquee_text_3 -%}
+
+<div class="fox-about">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false -%}
+
+    <section class="fox-about__hero" aria-labelledby="fox-about-title">
+      <div class="fox-about__hero-main">
+        {%- assign media_key = 'about_hero_image.jpg' -%}{%- assign media_alt = settings.about_hero_alt -%}{%- assign media_w = '1200' -%}{%- assign media_h = '900' -%}{%- assign media_loading = 'eager' -%}{%- assign media_sizes = '(min-width: 992px) 66vw, 100vw' -%}
+        {%- include 'page-media' -%}
+        <div class="fox-about__hero-content">
+          {%- if settings.about_hero_eyebrow != blank -%}<p class="fox-about__hero-eyebrow">{{ settings.about_hero_eyebrow | escape }}</p>{%- endif -%}
+          <h1 id="fox-about-title" class="fox-about__hero-title">{{ hero_title | escape }}</h1>
+          {%- if settings.about_hero_desc != blank -%}<p class="fox-about__hero-desc">{{ settings.about_hero_desc | escape }}</p>{%- endif -%}
+          <div class="fox-about__actions">
+            {%- if settings.about_hero_btn_title != blank and settings.about_hero_btn_url != blank -%}
+            <a class="btn btn-secondary" button-effect href="{{ settings.about_hero_btn_url | escape }}"><span class="btn__label">{{ settings.about_hero_btn_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></a>
+            {%- endif -%}
+            {%- if settings.about_hero_btn2_title != blank and settings.about_hero_btn2_url != blank -%}
+            <a class="btn fox-about__btn-ghost" href="{{ settings.about_hero_btn2_url | escape }}"><span class="btn__label">{{ settings.about_hero_btn2_title | escape }}</span></a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- for side_index in (1..2) -%}
+        {%- capture media_key -%}about_hero_side_{{ side_index }}_image.jpg{%- endcapture -%}
+        {%- capture side_alt_key -%}about_hero_side_{{ side_index }}_alt{%- endcapture -%}
+        {%- assign media_alt = settings[side_alt_key] -%}{%- assign media_w = '600' -%}{%- assign media_h = '450' -%}{%- assign media_class = 'fox-about__hero-side' -%}{%- assign media_sizes = '(min-width: 992px) 30vw, 50vw' -%}
+        {%- include 'page-media' -%}
+      {%- endfor -%}
+    </section>
+
+    {%- if settings.about_statement_text_1 != blank -%}
+    <section class="fox-about__statement" aria-label="{{ settings.about_statement_label | default: 'Giới thiệu' | escape }}">
+      {%- if settings.about_statement_label != blank -%}<p class="fox-about__statement-label">{{ settings.about_statement_label | escape }}</p>{%- endif -%}
+      <div class="fox-about__statement-text">
+        {{ settings.about_statement_text_1 | escape }}
+        {%- if settings['about_statement_image_1.jpg'] != blank -%}
+          {%- assign media_key = 'about_statement_image_1.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '240' -%}{%- assign media_h = '104' -%}{%- assign media_class = 'fox-about__statement-pill' -%}
+          {% include 'page-media' -%}
+        {%- endif %}
+        {{ settings.about_statement_text_2 | escape }}
+        {%- if settings['about_statement_image_2.jpg'] != blank -%}
+          {%- assign media_key = 'about_statement_image_2.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '240' -%}{%- assign media_h = '104' -%}{%- assign media_class = 'fox-about__statement-pill' -%}
+          {% include 'page-media' -%}
+        {%- endif -%}
+        {%- if settings.about_statement_text_3 != blank %} <span class="fox-about__statement-muted">{{ settings.about_statement_text_3 | escape }}</span>{%- endif -%}
+      </div>
+    </section>
+    {%- endif -%}
+  </div>
+
+  {%- if marquee_text_1 != blank or marquee_text_2 != blank or marquee_text_3 != blank -%}
+  <section class="fox-about__marquee" aria-label="{{ marquee_text_1 | escape }} {{ marquee_text_2 | escape }} {{ marquee_text_3 | escape }}">
+    <div class="fox-about__marquee-track">
+      {%- for group_index in (1..2) -%}
+      <div class="fox-about__marquee-group"{% if group_index == 2 %} aria-hidden="true"{% endif %}>
+        {%- if marquee_text_1 != blank -%}<span>{{ marquee_text_1 | escape }}</span>{%- endif -%}
+        {%- assign media_key = 'about_marquee_image_1.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '340' -%}{%- assign media_h = '168' -%}{%- assign media_class = 'fox-about__marquee-pill' -%}
+        {%- include 'page-media' -%}
+        {%- if marquee_text_2 != blank -%}<span class="fox-about__marquee-outline">{{ marquee_text_2 | escape }}</span>{%- endif -%}
+        {%- assign media_key = 'about_marquee_image_2.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '340' -%}{%- assign media_h = '168' -%}{%- assign media_class = 'fox-about__marquee-pill' -%}
+        {%- include 'page-media' -%}
+        {%- if marquee_text_3 != blank -%}<span>{{ marquee_text_3 | escape }}</span>{%- endif -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </section>
+  {%- endif -%}
+
+  <div class="container">
+    {%- if settings.about_workshop_show -%}
+    <section class="fox-about__section" aria-labelledby="fox-about-workshop-title">
+      <header class="fox-about__head">
+        <h2 id="fox-about-workshop-title" class="fox-section__title">{{ settings.about_workshop_title | escape }}</h2>
+        {%- if settings.about_workshop_desc != blank -%}<p class="fox-section__desc">{{ settings.about_workshop_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-about__workshop">
+        {%- for item_index in (1..4) -%}
+          {%- capture media_key -%}about_workshop_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture caption_key -%}about_workshop_{{ item_index }}_caption{%- endcapture -%}
+          <figure class="fox-about__workshop-item fox-about__workshop-item--{{ item_index }}">
+            {%- assign media_alt = settings[caption_key] -%}{%- assign media_w = '900' -%}{%- assign media_h = '700' -%}{%- assign media_sizes = '(min-width: 992px) 40vw, 100vw' -%}
+            {%- include 'page-media' -%}
+            {%- if settings[caption_key] != blank -%}<figcaption class="fox-about__chip">{{ settings[caption_key] | escape }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_process_show -%}
+    <section class="fox-about__section" aria-labelledby="fox-about-process-title">
+      <header class="fox-about__head">
+        <h2 id="fox-about-process-title" class="fox-section__title">{{ settings.about_process_title | escape }}</h2>
+        {%- if settings.about_process_desc != blank -%}<p class="fox-section__desc">{{ settings.about_process_desc | escape }}</p>{%- endif -%}
+      </header>
+      <ol class="fox-about__process">
+        {%- for item_index in (1..4) -%}
+          {%- capture media_key -%}about_process_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture title_key -%}about_process_{{ item_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}about_process_{{ item_index }}_desc{%- endcapture -%}
+          <li class="fox-about__process-item">
+            {%- assign media_alt = settings[title_key] -%}{%- assign media_w = '600' -%}{%- assign media_h = '800' -%}{%- assign media_sizes = '(min-width: 992px) 25vw, 50vw' -%}
+            {%- include 'page-media' -%}
+            <h3 class="fox-about__card-title">{{ settings[title_key] | escape }}</h3>
+            {%- if settings[desc_key] != blank -%}<p class="fox-about__card-desc">{{ settings[desc_key] | escape }}</p>{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_quote_show and settings.about_quote_text != blank -%}
+    <section class="fox-about__quote">
+      {%- assign media_key = 'about_quote_image.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '1600' -%}{%- assign media_h = '640' -%}{%- assign media_sizes = '100vw' -%}
+      {%- include 'page-media' -%}
+      <figure class="fox-about__quote-content">
+        <blockquote>{{ settings.about_quote_text | escape }}</blockquote>
+        {%- if settings.about_quote_author != blank -%}<figcaption>{{ settings.about_quote_author | escape }}</figcaption>{%- endif -%}
+      </figure>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_duo_show -%}
+    <section class="fox-about__section" aria-labelledby="fox-about-duo-title">
+      <header class="fox-about__head">
+        <h2 id="fox-about-duo-title" class="fox-section__title">{{ settings.about_duo_title | escape }}</h2>
+        {%- if settings.about_duo_desc != blank -%}<p class="fox-section__desc">{{ settings.about_duo_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-about__duo">
+        {%- for item_index in (1..2) -%}
+          {%- capture media_key -%}about_duo_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture label_key -%}about_duo_{{ item_index }}_label{%- endcapture -%}
+          {%- capture title_key -%}about_duo_{{ item_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}about_duo_{{ item_index }}_desc{%- endcapture -%}
+          {%- capture url_key -%}about_duo_{{ item_index }}_url{%- endcapture -%}
+          <article class="fox-about__duo-card">
+            {%- assign media_alt = settings[title_key] -%}{%- assign media_w = '900' -%}{%- assign media_h = '1000' -%}{%- assign media_sizes = '(min-width: 768px) 50vw, 100vw' -%}
+            {%- include 'page-media' -%}
+            {%- if settings[label_key] != blank -%}<span class="fox-about__chip fox-about__duo-label">{{ settings[label_key] | escape }}</span>{%- endif -%}
+            <div class="fox-about__duo-info">
+              <div>
+                <h3 class="fox-about__duo-title">{{ settings[title_key] | escape }}</h3>
+                {%- if settings[desc_key] != blank -%}<p>{{ settings[desc_key] | escape }}</p>{%- endif -%}
+              </div>
+              {%- if settings[url_key] != blank -%}
+              <a class="fox-about__duo-link" href="{{ settings[url_key] | escape }}" aria-label="Xem {{ settings[title_key] | escape }}">
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 8 7" width="12" height="12"><path d="M7.834 3.046a.58.58 0 0 1 0 .817L5.559 6.17a.564.564 0 0 1-.804 0 .58.58 0 0 1 0-.816l1.304-1.323H.569A.574.574 0 0 1 0 3.454c0-.319.255-.577.569-.577h5.49L4.755 1.554a.58.58 0 0 1 0-.817.564.564 0 0 1 .804 0l2.275 2.309Z" fill="currentColor"/></svg>
+              </a>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_values_show -%}
+    <section class="fox-about__section" aria-labelledby="fox-about-values-title">
+      <header class="fox-about__head">
+        <h2 id="fox-about-values-title" class="fox-section__title">{{ settings.about_values_title | escape }}</h2>
+        {%- if settings.about_values_desc != blank -%}<p class="fox-section__desc">{{ settings.about_values_desc | escape }}</p>{%- endif -%}
+      </header>
+      <div class="fox-about__values">
+        {%- for item_index in (1..3) -%}
+          {%- capture media_key -%}about_value_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture title_key -%}about_value_{{ item_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}about_value_{{ item_index }}_desc{%- endcapture -%}
+          {%- capture tag_key -%}about_value_{{ item_index }}_tag{%- endcapture -%}
+          <article class="fox-about__value">
+            {%- assign media_alt = settings[title_key] -%}{%- assign media_w = '800' -%}{%- assign media_h = '600' -%}{%- assign media_sizes = '(min-width: 992px) 33vw, 100vw' -%}
+            {%- include 'page-media' -%}
+            <div class="fox-about__value-body">
+              <h3 class="fox-about__card-title">{{ settings[title_key] | escape }}</h3>
+              {%- if settings[desc_key] != blank -%}<p class="fox-about__card-desc">{{ settings[desc_key] | escape }}</p>{%- endif -%}
+              {%- if settings[tag_key] != blank -%}<span class="fox-about__tag">{{ settings[tag_key] | escape }}</span>{%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_community_show -%}
+    <section class="fox-about__section" aria-labelledby="fox-about-community-title">
+      <header class="fox-about__head">
+        <h2 id="fox-about-community-title" class="fox-section__title">{{ settings.about_community_title | escape }}</h2>
+        {%- if settings.about_community_desc != blank -%}<p class="fox-section__desc">{{ settings.about_community_desc | escape }}</p>{%- endif -%}
+      </header>
+      <ul class="fox-about__community">
+        {%- for item_index in (1..9) -%}
+          {%- capture media_key -%}about_community_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture handle_key -%}about_community_{{ item_index }}_handle{%- endcapture -%}
+          {%- if settings[media_key] != blank -%}
+          <li class="fox-about__community-item">
+            {%- assign media_alt = settings[handle_key] -%}{%- assign media_w = '600' -%}{%- assign media_h = '600' -%}{%- assign media_sizes = '(min-width: 992px) 17vw, 33vw' -%}
+            {%- include 'page-media' -%}
+            {%- if settings[handle_key] != blank -%}<span class="fox-about__chip fox-about__community-handle">{{ settings[handle_key] | escape }}</span>{%- endif -%}
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- if settings.about_community_btn_title != blank and settings.about_community_btn_url != blank -%}
+      <a class="btn btn-primary fox-about__community-btn" button-effect href="{{ settings.about_community_btn_url | escape }}" target="_blank" rel="noopener"><span class="btn__label">{{ settings.about_community_btn_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></a>
+      {%- endif -%}
+    </section>
+    {%- endif -%}
+
+    {%- if settings.about_cta_show -%}
+    <section class="fox-about__cta" aria-labelledby="fox-about-cta-title">
+      <div class="fox-about__cta-body">
+        <h2 id="fox-about-cta-title" class="fox-about__cta-title">{{ settings.about_cta_title | escape }}</h2>
+        {%- if settings.about_cta_desc != blank -%}<p>{{ settings.about_cta_desc | escape }}</p>{%- endif -%}
+        <div class="fox-about__actions">
+          {%- if settings.about_cta_btn_title != blank and settings.about_cta_btn_url != blank -%}
+          <a class="btn btn-secondary" button-effect href="{{ settings.about_cta_btn_url | escape }}"><span class="btn__label">{{ settings.about_cta_btn_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></a>
+          {%- endif -%}
+          {%- if settings.about_cta_btn2_title != blank and settings.about_cta_btn2_url != blank -%}
+          <a class="btn fox-about__btn-ghost" href="{{ settings.about_cta_btn2_url | escape }}"><span class="btn__label">{{ settings.about_cta_btn2_title | escape }}</span></a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- assign media_key = 'about_cta_image.jpg' -%}{%- assign media_alt = '' -%}{%- assign media_w = '900' -%}{%- assign media_h = '700' -%}{%- assign media_sizes = '(min-width: 992px) 40vw, 100vw' -%}
+      {%- include 'page-media' -%}
+    </section>
+    {%- endif -%}
+  </div>
+</div>

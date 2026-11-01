@@ -1,16 +1,50 @@
 #PROCESSING
 
-- use skill D:\html-skill-build\_skill-html-testing => page index
-- cart 
-- quickview
-- search
-- minicart
+- loop sản phẩm dời list action dạng row bottom ở giữa => done
+- trang sản phẩm build
+	+ lỗi zoom => done
+	+ bật section collection lên check => done
+	+ style mobile	=> done
+	+ sidebar product bottom => done
+	+ location => done
+	+ sizeguide => done
+- trang page size
+- icon addthis
+	+ preview lại code chỉ dùng for rồi check có != blank để check hiện thị hay ẩn, không dùng mảng + namn như hiện tại
+- trang faq
+	+ preview + feedback
+- trang aboutus
+	+ preview + feedback
+	
+- trang collection
+	+ check filter color
+- trang 404 => done
+	
+- trang Yêu thích
+	
 
+### DONE LIST
+- Trang product
 
+#APP - Lib icons
+## Client
+- update endpoint api client GET icon-sets -> list-icon
+- refactors structure: component, hook
+- khi chọn tab khác listing chưa scroll top
+- thanh search nằm trên navigate
+- thêm dark/light mode, dark là như hiện tại
+- danh mục ẩn đi mục api
+- chia thêm tab Flag
+## Server 
+- group các icon cờ các nước vào group Flag
 -----------
 
 #FEATURE
 
-- 
+- nếu sử dụng type từ đây thì không cần khai báo bên json và không cần chỉnh sửa file này luôn
+- xem lại endpoint /prints/list đang làm gì có cần tạo endpoint không
+
+
+
 
 

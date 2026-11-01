@@ -124,7 +124,7 @@ class FoxPopover extends HTMLElement {
     this.#content.innerHTML = '<div data-popover-loading>Đang tải sản phẩm...</div>';
 
     const timeout = window.setTimeout(() => this.#requestController?.abort(), 10000);
-    const request = fetch(`/products/${encodeURIComponent(handle)}?view=lookbook-card`, {
+    const request = fetch(`/products/${encodeURIComponent(handle)}?view=product-loop-data`, { 
       signal: this.#requestController.signal,
       headers: { 'X-Requested-With': 'XMLHttpRequest' },
     }).then(async (response) => {

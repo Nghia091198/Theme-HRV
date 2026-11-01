@@ -1,0 +1,132 @@
+{%- comment -%}
+  Alternate page template "faq". Questions come from a blog: article title = question,
+  article content = answer, first article tag = topic.
+{%- endcomment -%}
+{%- assign faq_blog_handle = settings.faq_blog_handle | default: 'faq' | strip -%}
+{%- assign faq_blog = blogs[faq_blog_handle] -%}
+{%- assign faq_title = settings.faq_title | default: page.title -%}
+{%- assign faq_default_topic = 'Câu hỏi khác' -%} 
+
+{%- assign topic_list = '|' -%}
+{%- for article in faq_blog.articles -%}
+  {%- assign topic = article.tags.first | default: faq_default_topic | strip -%}
+  {%- capture topic_token -%}|{{ topic }}|{%- endcapture -%}
+  {%- unless topic_list contains topic_token -%}
+    {%- assign topic_list = topic_list | append: topic | append: '|' -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- assign topics = topic_list | split: '|' -%}
+
+<faq-search class="fox-faq" data-state="idle">
+  <section class="fox-faq__hero" aria-labelledby="fox-faq-title">
+    <div class="container">
+      {%- include 'component-breadcrumb' with container: false -%}
+      <div class="fox-faq__hero-grid">
+        <div>
+          <h1 id="fox-faq-title" class="fox-faq__title">{{ faq_title | escape }}</h1>
+          {%- if settings.faq_desc != blank -%}<p class="fox-faq__desc">{{ settings.faq_desc | escape }}</p>{%- endif -%}
+        </div>
+        {%- if faq_blog.articles.size > 0 -%}
+        <form class="fox-faq__search" role="search" action="#" data-role="search-form">
+          <label class="fox-faq__sr-only" for="fox-faq-search-input">Tìm câu hỏi</label>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="fox-faq-search-input" type="search" data-role="search" autocomplete="off" placeholder="{{ settings.faq_search_placeholder | default: 'Tìm câu hỏi' | escape }}">
+        </form>
+        {%- endif -%}
+      </div>
+      {%- if faq_blog.articles.size > 0 -%}
+      <nav class="fox-faq__chips" aria-label="Chủ đề câu hỏi">
+        {%- for topic in topics -%}
+          {%- if topic != blank -%}
+            {%- assign topic_count = 0 -%}
+            {%- for article in faq_blog.articles -%}
+              {%- assign article_topic = article.tags.first | default: faq_default_topic | strip -%}
+              {%- if article_topic == topic -%}{%- assign topic_count = topic_count | plus: 1 -%}{%- endif -%}
+            {%- endfor -%}
+            <a class="fox-faq__chip" href="#fox-faq-{{ topic | handleize }}" data-role="nav-link">{{ topic | escape }} <span>{{ topic_count }}</span></a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+      {%- endif -%}
+    </div>
+  </section>
+
+  <div class="container">
+    {%- if faq_blog.articles.size > 0 -%}
+    <div class="fox-faq__body">
+      <aside class="fox-faq__aside">
+        <nav class="fox-faq__nav" aria-label="Chủ đề">
+          {%- for topic in topics -%}
+            {%- if topic != blank -%}
+            <a href="#fox-faq-{{ topic | handleize }}" data-role="nav-link">{{ topic | escape }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </nav>
+        {%- if settings.faq_help_title != blank -%}
+        <p class="fox-faq__aside-help"><strong>{{ settings.faq_help_title | escape }}</strong>{{ settings.faq_help_desc | escape }}</p>
+        {%- endif -%}
+      </aside>
+
+      <div class="fox-faq__groups">
+        <p class="fox-faq__status" data-role="status" aria-live="polite"></p>
+        {%- assign first_question = true -%}
+        {%- for topic in topics -%}
+          {%- if topic != blank -%}
+          <section id="fox-faq-{{ topic | handleize }}" class="fox-faq__group" data-role="group" aria-labelledby="fox-faq-{{ topic | handleize }}-title">
+            <h2 id="fox-faq-{{ topic | handleize }}-title" class="fox-faq__group-title">{{ topic | escape }}</h2>
+            <accordion-component class="fox-faq__list" data-multiple="true" data-state="idle">
+              {%- for article in faq_blog.articles -%}
+                {%- assign article_topic = article.tags.first | default: faq_default_topic | strip -%}
+                {%- if article_topic == topic -%}
+                <div class="fox-accordion__item fox-faq__item" data-role="item">
+                  <button type="button" id="fox-faq-q-{{ article.id }}" aria-expanded="{% if first_question %}true{% else %}false{% endif %}" aria-controls="fox-faq-a-{{ article.id }}">{{ article.title | escape }}</button>
+                  <div id="fox-faq-a-{{ article.id }}" role="region" aria-labelledby="fox-faq-q-{{ article.id }}" class="fox-faq__answer rte">
+                    {{ article.content }}
+                  </div>
+                </div>
+                {%- assign first_question = false -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </accordion-component>
+          </section>
+          {%- endif -%}
+        {%- endfor -%}
+        <p class="fox-faq__empty" data-role="empty" hidden>Không tìm thấy câu hỏi phù hợp. Thử từ khóa khác hoặc liên hệ với chúng tôi bên dưới.</p>
+      </div>
+    </div>
+    {%- else -%}
+    <p class="fox-faq__empty">Chưa có câu hỏi nào. Vui lòng liên hệ với chúng tôi để được hỗ trợ.</p>
+    {%- endif -%}
+
+    {%- if settings.faq_contact_show -%}
+    <section class="fox-faq__contact" aria-labelledby="fox-faq-contact-title">
+      <div>
+        <h2 id="fox-faq-contact-title" class="fox-faq__contact-title">{{ settings.faq_contact_title | escape }}</h2>
+        {%- if settings.faq_contact_desc != blank -%}<p>{{ settings.faq_contact_desc | escape }}</p>{%- endif -%}
+      </div>
+      <ul class="fox-faq__channels">
+        {%- for channel_index in (1..3) -%}
+          {%- capture title_key -%}faq_contact_{{ channel_index }}_title{%- endcapture -%}
+          {%- capture desc_key -%}faq_contact_{{ channel_index }}_desc{%- endcapture -%}
+          {%- capture url_key -%}faq_contact_{{ channel_index }}_url{%- endcapture -%}
+          {%- if settings[title_key] != blank and settings[url_key] != blank -%}
+          <li>
+            <a class="fox-faq__channel" href="{{ settings[url_key] | escape }}">
+              <span class="fox-faq__channel-icon" aria-hidden="true">
+                {%- case channel_index -%}
+                  {%- when 1 -%}<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H9l-5 4z"/></svg>
+                  {%- when 2 -%}<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  {%- else -%}<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+                {%- endcase -%}
+              </span>
+              <strong>{{ settings[title_key] | escape }}</strong>
+              {%- if settings[desc_key] != blank -%}<span>{{ settings[desc_key] | escape }}</span>{%- endif -%}
+            </a>
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </section>
+    {%- endif -%}
+  </div>
+</faq-search>

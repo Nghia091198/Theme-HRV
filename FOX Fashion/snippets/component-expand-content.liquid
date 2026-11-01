@@ -1,0 +1,25 @@
+{%- comment -%}
+  Reusable "Xem thêm / Thu gọn" block (behavior: assets/expand-content.js, styles: assets/expand-content.css).
+  Input:
+    expand_html        content HTML (required)
+    expand_id          unique id for this block
+    expand_preset      height preset from window.FOX.config.expandContent.presets (shop-config.liquid),
+                       e.g. productDescription, collectionDescription, pageContent
+    expand_max_height  optional px height for this block only (overrides the preset)
+    expand_class       optional extra class on the content wrapper (e.g. rte)
+  Without JavaScript the content stays fully visible.
+{%- endcomment -%}
+{%- assign expand_id = expand_id | default: 'fox-expand' -%}
+<expand-content class="fox-expand" data-state="idle"{% if expand_preset != blank %} data-preset="{{ expand_preset }}"{% endif %}{% if expand_max_height != blank %} data-max-height="{{ expand_max_height }}"{% endif %}>
+  <div class="fox-expand__viewport" id="{{ expand_id }}-viewport" data-role="viewport">
+    <div class="fox-expand__content{% if expand_class != blank %} {{ expand_class }}{% endif %}" data-role="content">{{ expand_html }}</div>
+  </div>
+  <button type="button" class="fox-expand__toggle btn btn-secondary" button-effect data-role="toggle" aria-controls="{{ expand_id }}-viewport" aria-expanded="false" hidden>
+    <span class="btn__label" data-role="toggle-label">Xem thêm</span>
+    <svg class="fox-expand__chevron" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+    <span data-btn-effect-span aria-hidden="true"></span>
+  </button>
+</expand-content>
+{%- assign expand_preset = '' -%}
+{%- assign expand_max_height = '' -%}
+{%- assign expand_class = '' -%}

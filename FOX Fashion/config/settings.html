@@ -1731,7 +1731,562 @@
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>6. Featured product X1</legend>
+		<legend>6. Trang sản phẩm</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Có thể bạn cũng thích</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="product_related_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="product_related_title" value="Có thể bạn cũng thích"/></td></tr>
+<tr><td><strong>Nhóm sản phẩm</strong><p style="font-size: 12px;">(nhập handle, ví dụ: all)</p></td><td><input class="min-width-360px" type="text" name="product_related_collection" value="all"/></td></tr>
+<tr><td><strong>Số sản phẩm</strong><p style="font-size: 12px;">(không tính sản phẩm đang xem)</p></td><td><select name="product_related_limit"><option value="4">4</option><option value="6">6</option><option value="8" selected="selected">8</option><option value="10">10</option><option value="12">12</option></select></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Sản phẩm đã xem</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(trang sản phẩm và trang nhóm sản phẩm; lưu trên trình duyệt khách trong 30 ngày, tối đa 20 sản phẩm)</p></td><td><input type="checkbox" name="recently_viewed_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="recently_viewed_title" value="Sản phẩm đã xem"/></td></tr>
+<tr><td><strong>Số sản phẩm</strong></td><td><select name="recently_viewed_limit"><option value="4">4</option><option value="6">6</option><option value="8" selected="selected">8</option><option value="10">10</option><option value="12">12</option></select></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Tab thông tin sản phẩm</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Tab "Mô tả sản phẩm" luôn hiển thị khi sản phẩm có mô tả. Hai tab dưới đây hiển thị sau tab mô tả.</p></td></tr>
+<tr><td><strong>Hiển thị tab 1?</strong></td><td><input type="checkbox" name="product_info_tab_1_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề tab 1</strong></td><td><input class="min-width-360px" type="text" name="product_info_tab_1_title" value="Giao hàng &amp; đổi trả"/></td></tr>
+<tr><td><strong>Nội dung tab 1</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên; bỏ trống để ẩn)</p></td><td><textarea class="min-width-360px" name="product_info_tab_1_content" rows="5">Thông tin giao hàng hiển thị khi thanh toán.
+Hỗ trợ đổi trả trong vòng 14 ngày.</textarea></td></tr>
+<tr><td><strong>Hiển thị tab 2?</strong></td><td><input type="checkbox" name="product_info_tab_2_show" value="1"/></td></tr>
+<tr><td><strong>Tiêu đề tab 2</strong></td><td><input class="min-width-360px" type="text" name="product_info_tab_2_title" value="Hướng dẫn bảo quản"/></td></tr>
+<tr><td><strong>Nội dung tab 2</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên; bỏ trống để ẩn)</p></td><td><textarea class="min-width-360px" name="product_info_tab_2_content" rows="5"></textarea></td></tr>
+</table></div></fieldset>
+<fieldset><legend>4. Câu hỏi thường gặp (bên cạnh mô tả)</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(chỉ hiện các câu có đủ câu hỏi và câu trả lời)</p></td><td><input type="checkbox" name="product_faq_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_faq_eyebrow" value="Hỏi đáp nhanh"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="product_faq_title" value="Câu hỏi thường gặp"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="product_faq_desc" rows="3">Giải đáp nhanh trước khi bạn đặt hàng.</textarea></td></tr>
+<tr><td><strong>Câu hỏi 1</strong></td><td><input class="min-width-360px" type="text" name="product_faq_1_question" value="Tôi nên chọn size nào?"/></td></tr>
+<tr><td><strong>Câu trả lời 1</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên)</p></td><td><textarea class="min-width-360px" name="product_faq_1_answer" rows="4">Chọn đúng size bạn thường mặc nếu muốn form ôm vừa. Nếu thích mặc rộng hơn, hãy tăng một size.</textarea></td></tr>
+<tr><td><strong>Câu hỏi 2</strong></td><td><input class="min-width-360px" type="text" name="product_faq_2_question" value="Tôi có thể đổi size không?"/></td></tr>
+<tr><td><strong>Câu trả lời 2</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên)</p></td><td><textarea class="min-width-360px" name="product_faq_2_answer" rows="4">Bạn có thể đổi size trong vòng 14 ngày khi sản phẩm còn tem và chưa qua sử dụng.</textarea></td></tr>
+<tr><td><strong>Câu hỏi 3</strong></td><td><input class="min-width-360px" type="text" name="product_faq_3_question" value="Bao lâu tôi nhận được hàng?"/></td></tr>
+<tr><td><strong>Câu trả lời 3</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên)</p></td><td><textarea class="min-width-360px" name="product_faq_3_answer" rows="4">Thông tin giao hàng hiển thị khi thanh toán.</textarea></td></tr>
+<tr><td><strong>Câu hỏi 4</strong></td><td><input class="min-width-360px" type="text" name="product_faq_4_question" value="Sản phẩm có giặt máy được không?"/></td></tr>
+<tr><td><strong>Câu trả lời 4</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên)</p></td><td><textarea class="min-width-360px" name="product_faq_4_answer" rows="4">Nên giặt nước lạnh với sản phẩm cùng màu, không dùng chất tẩy mạnh và phơi tự nhiên.</textarea></td></tr>
+<tr><td><strong>Câu hỏi 5</strong></td><td><input class="min-width-360px" type="text" name="product_faq_5_question" value=""/></td></tr>
+<tr><td><strong>Câu trả lời 5</strong><p style="font-size: 12px;">(văn bản thường, xuống dòng được giữ nguyên)</p></td><td><textarea class="min-width-360px" name="product_faq_5_answer" rows="4"></textarea></td></tr>
+<tr><td><strong>Nhãn liên kết</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_faq_link_title" value="Xem tất cả câu hỏi"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="product_faq_link_url" value="/pages/faq"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>5. Hỗ trợ mua hàng (dưới câu hỏi thường gặp)</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="product_support_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề hướng dẫn size</strong><p style="font-size: 12px;">(bỏ trống tiêu đề hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_support_size_title" value="Chưa chắc size?"/></td></tr>
+<tr><td><strong>Mô tả hướng dẫn size</strong></td><td><input class="min-width-360px" type="text" name="product_support_size_desc" value="Xem bảng size và cách đo"/></td></tr>
+<tr><td><strong>Đường dẫn hướng dẫn size</strong></td><td><input class="min-width-360px" type="text" name="product_support_size_url" value="/pages/huong-dan-chon-size"/></td></tr>
+<tr><td><strong>Nhãn nút 1</strong><p style="font-size: 12px;">(nút nền trắng, biểu tượng chat; bỏ trống nhãn hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_support_chat_title" value="Chat tư vấn"/></td></tr>
+<tr><td><strong>Đường dẫn nút 1</strong><p style="font-size: 12px;">(ví dụ: https://zalo.me/0900000000)</p></td><td><input class="min-width-360px" type="text" name="product_support_chat_url" value=""/></td></tr>
+<tr><td><strong>Nhãn nút 2</strong><p style="font-size: 12px;">(nút viền, biểu tượng điện thoại; bỏ trống nhãn hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_support_call_title" value="Gọi hotline"/></td></tr>
+<tr><td><strong>Đường dẫn nút 2</strong><p style="font-size: 12px;">(ví dụ: tel:0900000000)</p></td><td><input class="min-width-360px" type="text" name="product_support_call_url" value=""/></td></tr>
+<tr><td><strong>Ghi chú</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="product_support_note" value="Hỗ trợ 8:00 – 21:00 mỗi ngày"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>6. Hướng dẫn chọn size</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(trang sản phẩm và xem nhanh; cần ít nhất link trang bảng size hoặc link Google Sheet)</p></td><td><input type="checkbox" name="size_guide_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="size_guide_title" value="Hướng dẫn chọn size"/></td></tr>
+<tr><td><strong>Mô tả</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="size_guide_subtitle" value="Tìm size vừa vặn trong vài giây"/></td></tr>
+<tr><td><strong>Nhãn nút mở</strong></td><td><input class="min-width-360px" type="text" name="size_guide_button_label" value="Hướng dẫn chọn size"/></td></tr>
+<tr><td><strong>Nhãn tab bảng size</strong></td><td><input class="min-width-360px" type="text" name="size_guide_table_label" value="Bảng size"/></td></tr>
+<tr><td><strong>Đường dẫn trang bảng size</strong><p style="font-size: 12px;">(ví dụ: /pages/bang-size; bỏ trống để ẩn tab)<br>Soạn trang: mỗi loại bắt đầu bằng tiêu đề H3 (ví dụ "Size áo"), tiếp theo là bảng size và nội dung tuỳ chọn; ngăn các loại bằng đường kẻ ngang. Có từ 2 loại trở lên sẽ hiện ô chọn loại; đặt tiêu đề trùng tên thuộc tính size của sản phẩm để tự chọn đúng loại.</p></td><td><input class="min-width-360px" type="text" name="size_guide_page_url" value="/pages/bang-size"/></td></tr>
+<tr><td><strong>Nhãn tab tìm size</strong></td><td><input class="min-width-360px" type="text" name="size_guide_finder_label" value="Tìm size phù hợp"/></td></tr>
+<tr><td><strong>Link Google Sheet</strong><p style="font-size: 12px;">(Tệp → Chia sẻ → Công bố lên web → chọn trang tính, định dạng CSV → dán link; bỏ trống để ẩn tab)<br>Mẫu nhập: dòng "Loại | Tên loại", dòng "Mã | ma" (tuỳ chọn), dòng tiêu đề bắt đầu bằng "Size" (thêm cột "Size US", "Size EU"… nếu cần), sau đó mỗi dòng một size, số đo dạng 150-160.<br>Popup tự chọn loại size có mã trùng tên thuộc tính của sản phẩm (ví dụ thuộc tính "Size giày" khớp loại "SIZE GIÀY" hoặc dòng "Mã | size-giay").</p></td><td><input class="min-width-360px" type="text" name="size_guide_sheet_url" value=""/></td></tr>
+<tr><td><strong>Ghi chú dưới kết quả</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="size_guide_finder_note" value="Kết quả mang tính tham khảo, dựa trên bảng size của cửa hàng."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>7. Thanh mua nhanh</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(hiện khi khách cuộn qua nút "Thêm vào giỏ", ví dụ lúc đang đọc mô tả)</p></td><td><input type="checkbox" name="sticky_buy_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị trên máy tính?</strong><p style="font-size: 12px;">(viên nổi giữa đáy: chọn phân loại, số lượng, mua ngay, thêm vào giỏ)</p></td><td><input type="checkbox" name="sticky_buy_desktop" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị trên điện thoại?</strong><p style="font-size: 12px;">(viên nổi gọn, bấm dấu cộng để chọn phân loại và thêm vào giỏ)</p></td><td><input type="checkbox" name="sticky_buy_mobile" value="1" checked="checked"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>8. Còn hàng tại cửa hàng</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Danh sách cửa hàng lấy từ các địa chỉ cửa hàng của shop có bật "là địa chỉ giao hàng" (Cài đặt → Địa chỉ / Chi nhánh). Tồn kho kiểm tra trực tiếp từ Haravan theo phân loại đang chọn; sản phẩm không quản lý tồn kho được coi là còn hàng ở mọi cửa hàng.</p></td></tr>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(dưới nút Mua ngay)</p></td><td><input type="checkbox" name="store_stock_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="store_stock_title" value="Còn hàng tại cửa hàng"/></td></tr>
+<tr><td><strong>Số cửa hàng hiển thị sẵn</strong><p style="font-size: 12px;">(ưu tiên cửa hàng còn hàng)</p></td><td><input class="min-width-360px" type="number" min="1" max="5" name="store_stock_preview" value="2"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>9. Chia sẻ</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Các biểu tượng dùng chung cho trang sản phẩm và trang bài viết.</p></td></tr>
+<tr><td><strong>Hiển thị chia sẻ ở trang sản phẩm?</strong></td><td><input type="checkbox" name="product_show_share" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Facebook</strong></td><td><input type="checkbox" name="share_facebook" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Messenger</strong><p style="font-size: 12px;">(chỉ hiện trên điện thoại / máy tính bảng)</p></td><td><input type="checkbox" name="share_messenger" value="1" checked="checked"/></td></tr>
+<tr><td><strong>X</strong></td><td><input type="checkbox" name="share_x" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Email</strong></td><td><input type="checkbox" name="share_email" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Sao chép link</strong></td><td><input type="checkbox" name="share_copy" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Chia sẻ qua ứng dụng khác</strong><p style="font-size: 12px;">(bảng chia sẻ của điện thoại: Zalo, tin nhắn…; chỉ hiện khi trình duyệt hỗ trợ)</p></td><td><input type="checkbox" name="share_native" value="1" checked="checked"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Trang Về chúng tôi (template page.about)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Banner đầu trang</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1600x1200px)</p></td><td><input type="file" name="about_hero_image.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="about_hero_alt" value="Không gian phòng tập FOX"/></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_hero_eyebrow" value="Về FOX Activewear"/></td></tr>
+<tr><td><strong>Tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để dùng tên trang)</p></td><td><input class="min-width-360px" type="text" name="about_hero_title" value="Sinh ra để chuyển động"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_hero_desc" rows="3">Chúng tôi may đồ tập cho những cơ thể thật, vận động thật, từ lớp Pilates buổi sáng đến buổi chạy cuối tuần.</textarea></td></tr>
+<tr><td><strong>Nhãn nút</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="about_hero_btn_title" value="Xem bộ sưu tập"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="about_hero_btn_url" value="/collections/all"/></td></tr>
+<tr><td><strong>Nhãn nút 2</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="about_hero_btn2_title" value="Tìm cửa hàng"/></td></tr>
+<tr><td><strong>Đường dẫn 2</strong></td><td><input class="min-width-360px" type="text" name="about_hero_btn2_url" value="/pages/lien-he"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x600px)</p></td><td><input type="file" name="about_hero_side_1_image.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="about_hero_side_1_alt" value="Bộ đồ tập FOX"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x600px)</p></td><td><input type="file" name="about_hero_side_2_image.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="about_hero_side_2_alt" value="Buổi chạy bộ sáng sớm"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Câu giới thiệu</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_statement_label" value="Chúng tôi là ai"/></td></tr>
+<tr><td><strong>Nội dung 1</strong></td><td><input class="min-width-360px" type="text" name="about_statement_text_1" value="FOX làm đồ tập"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(240x104px, ảnh viên thuốc sau nội dung 1)</p></td><td><input type="file" name="about_statement_image_1.jpg"/></td></tr>
+<tr><td><strong>Nội dung 2</strong></td><td><input class="min-width-360px" type="text" name="about_statement_text_2" value="từ vải tái chế, may tại xưởng của chính mình"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(240x104px, ảnh viên thuốc sau nội dung 2)</p></td><td><input type="file" name="about_statement_image_2.jpg"/></td></tr>
+<tr><td><strong>Nội dung 3</strong><p style="font-size: 12px;">(hiển thị màu nhạt)</p></td><td><input class="min-width-360px" type="text" name="about_statement_text_3" value="và thử trên những cơ thể thật trước khi đến tay bạn."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Chữ chạy</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Nội dung 1</strong></td><td><input class="min-width-360px" type="text" name="about_marquee_text_1" value="Mỗi ngày"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(340x168px)</p></td><td><input type="file" name="about_marquee_image_1.jpg"/></td></tr>
+<tr><td><strong>Nội dung 2</strong><p style="font-size: 12px;">(chữ viền)</p></td><td><input class="min-width-360px" type="text" name="about_marquee_text_2" value="Linh hoạt"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(340x168px)</p></td><td><input type="file" name="about_marquee_image_2.jpg"/></td></tr>
+<tr><td><strong>Nội dung 3</strong></td><td><input class="min-width-360px" type="text" name="about_marquee_text_3" value="Tự tin"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>4. Bên trong xưởng</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_workshop_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_workshop_title" value="Bên trong xưởng FOX"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_workshop_desc" rows="3">Mỗi thiết kế đi qua cùng một không gian: nơi chúng tôi chọn sợi, dựng rập, may và treo thử trước khi lên kệ.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1000x800px)</p></td><td><input type="file" name="about_workshop_1_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="about_workshop_1_caption" value="Sợi nylon tái chế"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1000x800px)</p></td><td><input type="file" name="about_workshop_2_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="about_workshop_2_caption" value="Bàn dựng rập"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1000x800px)</p></td><td><input type="file" name="about_workshop_3_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="about_workshop_3_caption" value="Mẫu thử mỗi tuần"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1000x800px)</p></td><td><input type="file" name="about_workshop_4_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="about_workshop_4_caption" value="Đường may phẳng"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>5. Quy trình</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_process_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_process_title" value="Từ sợi vải đến tủ đồ của bạn"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_process_desc" rows="3">Bốn công đoạn chúng tôi tự làm, để kiểm soát từng chi tiết bạn cảm nhận khi mặc.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x800px)</p></td><td><input type="file" name="about_process_1_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_process_1_title" value="Chọn sợi"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_process_1_desc" rows="3">Ưu tiên sợi tái chế, mềm, thoáng và giữ form sau nhiều lần giặt.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x800px)</p></td><td><input type="file" name="about_process_2_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_process_2_title" value="Dựng rập"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_process_2_desc" rows="3">Rập riêng cho từng dáng người, chỉnh lại sau mỗi buổi thử.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x800px)</p></td><td><input type="file" name="about_process_3_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_process_3_title" value="May và kiểm tra"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_process_3_desc" rows="3">Đường may phẳng, kiểm tra từng sản phẩm trước khi gấp gói.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x800px)</p></td><td><input type="file" name="about_process_4_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_process_4_title" value="Thử khi vận động"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_process_4_desc" rows="3">Gập người, vặn mình, chạy bộ, rồi mới đưa lên kệ.</textarea></td></tr>
+</table></div></fieldset>
+<fieldset><legend>6. Trích dẫn</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_quote_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1600x640px)</p></td><td><input type="file" name="about_quote_image.jpg"/></td></tr>
+<tr><td><strong>Nội dung</strong></td><td><textarea class="min-width-360px" name="about_quote_text" rows="3">“Một bộ đồ tập tốt là bộ bạn quên mất mình đang mặc.”</textarea></td></tr>
+<tr><td><strong>Tác giả</strong></td><td><input class="min-width-360px" type="text" name="about_quote_author" value="Đội thiết kế FOX"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>7. Hai phong cách</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_duo_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_duo_title" value="Trên thảm tập, ngoài phố"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_duo_desc" rows="3">Cùng một bảng màu trung tính, để bạn đi thẳng từ buổi tập đến cà phê mà không cần thay đồ.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(900x1000px)</p></td><td><input type="file" name="about_duo_1_image.jpg"/></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_duo_1_label" value="Yoga &amp; Pilates"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_duo_1_title" value="Bộ Calm Support"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><input class="min-width-360px" type="text" name="about_duo_1_desc" value="Áo bra và legging Flow Sculpt"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="about_duo_1_url" value="/collections/all"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(900x1000px)</p></td><td><input type="file" name="about_duo_2_image.jpg"/></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_duo_2_label" value="Chạy bộ"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_duo_2_title" value="Bộ AeroFlex"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><input class="min-width-360px" type="text" name="about_duo_2_desc" value="Áo dài tay và legging 7/8"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="about_duo_2_url" value="/collections/all"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>8. Giá trị</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_values_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_values_title" value="Điều chúng tôi giữ"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_values_desc" rows="3">Ba nguyên tắc cho mọi thiết kế, từ bản phác đầu tiên đến đường may cuối cùng.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x600px)</p></td><td><input type="file" name="about_value_1_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_value_1_title" value="Vải tốt trước tiên"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_value_1_desc" rows="3">Sợi tái chế, thoáng khí và giữ form sau nhiều lần giặt.</textarea></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_value_1_tag" value="78% nylon tái chế"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x600px)</p></td><td><input type="file" name="about_value_2_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_value_2_title" value="May tại Việt Nam"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_value_2_desc" rows="3">Mỗi đường may được kiểm tra tại xưởng của chúng tôi.</textarea></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_value_2_tag" value="Kiểm tra từng sản phẩm"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x600px)</p></td><td><input type="file" name="about_value_3_image.jpg"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_value_3_title" value="Cho cơ thể thật"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_value_3_desc" rows="3">Size XS đến XL, thử trên nhiều dáng người trước khi sản xuất.</textarea></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong></td><td><input class="min-width-360px" type="text" name="about_value_3_tag" value="Size XS – XL"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>9. Cộng đồng</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_community_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_community_title" value="Cộng đồng #FOXmoves"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_community_desc" rows="3">Những buổi tập thật từ khách hàng của chúng tôi. Gắn thẻ #FOXmoves để xuất hiện tại đây.</textarea></td></tr>
+<tr><td><strong>Nhãn nút</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="about_community_btn_title" value="Theo dõi Instagram"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="about_community_btn_url" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px, ảnh 1 hiển thị lớn)</p></td><td><input type="file" name="about_community_1_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_1_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_2_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_2_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_3_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_3_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_4_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_4_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_5_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_5_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_6_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_6_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_7_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_7_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_8_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_8_handle" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(600x600px)</p></td><td><input type="file" name="about_community_9_image.jpg"/></td></tr>
+<tr><td><strong>Tài khoản</strong><p style="font-size: 12px;">(ví dụ: @tenban)</p></td><td><input class="min-width-360px" type="text" name="about_community_9_handle" value=""/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>10. Kêu gọi cuối trang</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="about_cta_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="about_cta_title" value="Gặp chúng tôi ở buổi tập tiếp theo"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="about_cta_desc" rows="3">Ghé cửa hàng để thử đồ, hoặc bắt đầu với những thiết kế được yêu thích nhất.</textarea></td></tr>
+<tr><td><strong>Nhãn nút</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="about_cta_btn_title" value="Mua sắm ngay"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="about_cta_btn_url" value="/collections/all"/></td></tr>
+<tr><td><strong>Nhãn nút 2</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="about_cta_btn2_title" value="Tìm cửa hàng"/></td></tr>
+<tr><td><strong>Đường dẫn 2</strong></td><td><input class="min-width-360px" type="text" name="about_cta_btn2_url" value="/pages/lien-he"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(900x700px)</p></td><td><input type="file" name="about_cta_image.jpg"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Trang FAQ (template page.faq)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Nội dung chung</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để dùng tên trang)</p></td><td><input class="min-width-360px" type="text" name="faq_title" value="Câu hỏi thường gặp"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="faq_desc" rows="3">Mọi điều về đặt hàng, giao hàng, đổi trả và cách chọn size cho từng dáng tập.</textarea></td></tr>
+<tr><td><strong>Handle blog câu hỏi</strong><p style="font-size: 12px;">(mỗi bài viết là một câu hỏi, tag đầu tiên của bài là chủ đề)</p></td><td><input class="min-width-360px" type="text" name="faq_blog_handle" value="faq"/></td></tr>
+<tr><td><strong>Gợi ý ô tìm kiếm</strong></td><td><input class="min-width-360px" type="text" name="faq_search_placeholder" value="Tìm câu hỏi, ví dụ: đổi size"/></td></tr>
+<tr><td><strong>Tiêu đề hỗ trợ cột trái</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="faq_help_title" value="Không tìm thấy câu trả lời?"/></td></tr>
+<tr><td><strong>Mô tả hỗ trợ cột trái</strong></td><td><input class="min-width-360px" type="text" name="faq_help_desc" value="Nhắn cho chúng tôi, phản hồi trong giờ làm việc."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Liên hệ hỗ trợ</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="faq_contact_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_title" value="Vẫn cần hỗ trợ?"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="faq_contact_desc" rows="3">Đội chăm sóc khách hàng luôn sẵn sàng giúp bạn chọn size, kiểm tra đơn hoặc đổi trả.</textarea></td></tr>
+<tr><td><strong>Tiêu đề kênh 1</strong><p style="font-size: 12px;">(biểu tượng chat; bỏ trống tiêu đề hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="faq_contact_1_title" value="Chat với FOX"/></td></tr>
+<tr><td><strong>Mô tả kênh 1</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_1_desc" value="Phản hồi trong vài phút"/></td></tr>
+<tr><td><strong>Đường dẫn kênh 1</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_1_url" value=""/></td></tr>
+<tr><td><strong>Tiêu đề kênh 2</strong><p style="font-size: 12px;">(biểu tượng email, ví dụ: mailto:hotro@tenmien.vn; bỏ trống tiêu đề hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="faq_contact_2_title" value="Gửi email"/></td></tr>
+<tr><td><strong>Mô tả kênh 2</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_2_desc" value="Trả lời trong 24 giờ"/></td></tr>
+<tr><td><strong>Đường dẫn kênh 2</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_2_url" value=""/></td></tr>
+<tr><td><strong>Tiêu đề kênh 3</strong><p style="font-size: 12px;">(biểu tượng điện thoại, ví dụ: tel:0900000000; bỏ trống tiêu đề hoặc đường dẫn để ẩn)</p></td><td><input class="min-width-360px" type="text" name="faq_contact_3_title" value="Gọi hotline"/></td></tr>
+<tr><td><strong>Mô tả kênh 3</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_3_desc" value="8:00 – 21:00 mỗi ngày"/></td></tr>
+<tr><td><strong>Đường dẫn kênh 3</strong></td><td><input class="min-width-360px" type="text" name="faq_contact_3_url" value=""/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Trang thương hiệu (template page.brand)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Banner đầu trang</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Chữ logo</strong></td><td><input class="min-width-360px" type="text" name="brand_wordmark" value="FOX"/></td></tr>
+<tr><td><strong>Chữ biểu tượng</strong><p style="font-size: 12px;">(1 ký tự)</p></td><td><input class="min-width-360px" type="text" name="brand_monogram" value="F"/></td></tr>
+<tr><td><strong>Tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để dùng tên trang)</p></td><td><input class="min-width-360px" type="text" name="brand_hero_title" value="Một thương hiệu cho mọi chuyển động"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_hero_desc" rows="3">Bộ nhận diện FOX giữ mọi thứ tối giản: bảng màu trung tính, chữ tròn mềm và hình ảnh để sản phẩm tự lên tiếng.</textarea></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Trụ cột thương hiệu</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_pillars_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_pillars_title" value="Ba điều làm nên FOX"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_pillars_desc" rows="3">Mọi quyết định thiết kế, từ đường may đến dòng chữ trên website, đều quay về ba điều này.</textarea></td></tr>
+<tr><td><strong>Tiêu đề 1</strong></td><td><input class="min-width-360px" type="text" name="brand_pillar_1_title" value="Linh hoạt"/></td></tr>
+<tr><td><strong>Mô tả 1</strong></td><td><textarea class="min-width-360px" name="brand_pillar_1_desc" rows="3">Đồ tập theo kịp cơ thể ở mọi tư thế, từ Pilates đến chạy bộ.</textarea></td></tr>
+<tr><td><strong>Tiêu đề 2</strong></td><td><input class="min-width-360px" type="text" name="brand_pillar_2_title" value="Tự tin"/></td></tr>
+<tr><td><strong>Mô tả 2</strong></td><td><textarea class="min-width-360px" name="brand_pillar_2_desc" rows="3">Form dáng tôn người mặc, chất liệu không lộ, không cần chỉnh sửa giữa buổi.</textarea></td></tr>
+<tr><td><strong>Tiêu đề 3</strong></td><td><input class="min-width-360px" type="text" name="brand_pillar_3_title" value="Mỗi ngày"/></td></tr>
+<tr><td><strong>Mô tả 3</strong></td><td><textarea class="min-width-360px" name="brand_pillar_3_desc" rows="3">Màu trung tính dễ phối, mặc từ phòng tập ra phố.</textarea></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Logo</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_logo_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_logo_title" value="Logo"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_logo_desc" rows="3">Chữ FOX dựng trên font tiêu đề, khoảng cách chữ thu hẹp. Luôn chừa khoảng trống tối thiểu bằng chiều cao chữ O quanh logo.</textarea></td></tr>
+<tr><td><strong>Nên</strong></td><td><input class="min-width-360px" type="text" name="brand_logo_do" value="Đặt logo trên nền Navy, Cát hoặc trắng"/></td></tr>
+<tr><td><strong>Không nên 1</strong></td><td><input class="min-width-360px" type="text" name="brand_logo_dont_1" value="Không kéo giãn hoặc nghiêng logo"/></td></tr>
+<tr><td><strong>Không nên 2</strong></td><td><input class="min-width-360px" type="text" name="brand_logo_dont_2" value="Không đặt logo trên ảnh nhiều chi tiết"/></td></tr>
+<tr><td><strong>Không nên 3</strong></td><td><input class="min-width-360px" type="text" name="brand_logo_dont_3" value="Không đổi logo sang màu sản phẩm"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>4. Bảng màu</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_palette_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_palette_title" value="Bảng màu"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_palette_desc" rows="3">Navy và Cát dựng khung cho mọi trang. Mận và Nắng chỉ dùng điểm xuyết. Xô thơm và Oải hương thuộc về sản phẩm, không dùng cho giao diện.</textarea></td></tr>
+<tr><td><strong>Tên màu 1</strong></td><td><input class="min-width-360px" type="text" name="brand_color_1_name" value="Navy đêm"/></td></tr>
+<tr><td><strong>Mã màu 1</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_1_hex" value="#1B2631"/></td></tr>
+<tr><td><strong>Vai trò 1</strong></td><td><input class="min-width-360px" type="text" name="brand_color_1_role" value="Màu chính, chữ và nút"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 1 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_1_ratio" value="20" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 1?</strong></td><td><input type="checkbox" name="brand_color_1_text_light" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tên màu 2</strong></td><td><input class="min-width-360px" type="text" name="brand_color_2_name" value="Mận"/></td></tr>
+<tr><td><strong>Mã màu 2</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_2_hex" value="#5C3D50"/></td></tr>
+<tr><td><strong>Vai trò 2</strong></td><td><input class="min-width-360px" type="text" name="brand_color_2_role" value="Nhấn, chữ chạy"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 2 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_2_ratio" value="6" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 2?</strong></td><td><input type="checkbox" name="brand_color_2_text_light" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tên màu 3</strong></td><td><input class="min-width-360px" type="text" name="brand_color_3_name" value="Cát"/></td></tr>
+<tr><td><strong>Mã màu 3</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_3_hex" value="#F3EEE8"/></td></tr>
+<tr><td><strong>Vai trò 3</strong></td><td><input class="min-width-360px" type="text" name="brand_color_3_role" value="Nền phụ, thẻ"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 3 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_3_ratio" value="15" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 3?</strong></td><td><input type="checkbox" name="brand_color_3_text_light" value="1"/></td></tr>
+<tr><td><strong>Tên màu 4</strong></td><td><input class="min-width-360px" type="text" name="brand_color_4_name" value="Xô thơm"/></td></tr>
+<tr><td><strong>Mã màu 4</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_4_hex" value="#8FA18A"/></td></tr>
+<tr><td><strong>Vai trò 4</strong></td><td><input class="min-width-360px" type="text" name="brand_color_4_role" value="Màu sản phẩm"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 4 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_4_ratio" value="0" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 4?</strong></td><td><input type="checkbox" name="brand_color_4_text_light" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tên màu 5</strong></td><td><input class="min-width-360px" type="text" name="brand_color_5_name" value="Oải hương"/></td></tr>
+<tr><td><strong>Mã màu 5</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_5_hex" value="#B9A7C9"/></td></tr>
+<tr><td><strong>Vai trò 5</strong></td><td><input class="min-width-360px" type="text" name="brand_color_5_role" value="Màu sản phẩm"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 5 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_5_ratio" value="0" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 5?</strong></td><td><input type="checkbox" name="brand_color_5_text_light" value="1"/></td></tr>
+<tr><td><strong>Tên màu 6</strong></td><td><input class="min-width-360px" type="text" name="brand_color_6_name" value="Nắng"/></td></tr>
+<tr><td><strong>Mã màu 6</strong><p style="font-size: 12px;">(ví dụ: #1B2631; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_color_6_hex" value="#F2C94C"/></td></tr>
+<tr><td><strong>Vai trò 6</strong></td><td><input class="min-width-360px" type="text" name="brand_color_6_role" value="Hover, điểm nhấn nhỏ"/></td></tr>
+<tr><td><strong>Tỷ lệ sử dụng 6 (%)</strong><p style="font-size: 12px;">(0 để ẩn khỏi thanh tỷ lệ)</p></td><td><input type="number" name="brand_color_6_ratio" value="4" min="0" max="100"/></td></tr>
+<tr><td><strong>Chữ trắng trên màu 6?</strong></td><td><input type="checkbox" name="brand_color_6_text_light" value="1"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>5. Kiểu chữ</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_type_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_type_title" value="Kiểu chữ"/></td></tr>
+<tr><td><strong>Mô tả</strong><p style="font-size: 12px;">(tên font lấy từ mục Kiểu chữ)</p></td><td><textarea class="min-width-360px" name="brand_type_desc" rows="3">Font tiêu đề mang nét tròn, thân thiện. Font nội dung dùng cho giá và thông tin sản phẩm cần đọc nhanh.</textarea></td></tr>
+<tr><td><strong>Câu mẫu</strong></td><td><input class="min-width-360px" type="text" name="brand_type_sample" value="Sinh ra để chuyển động"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>6. Hình ảnh</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_imagery_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_imagery_title" value="Hình ảnh"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_imagery_desc" rows="3">Ánh sáng mềm, nền trung tính và sản phẩm ở trung tâm. Ảnh chi tiết cho thấy chất liệu thay cho lời quảng cáo.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(1000x1000px, ảnh 1 hiển thị lớn)</p></td><td><input type="file" name="brand_image_1.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="brand_image_1_alt" value="Bộ đồ tập trên nền trung tính"/></td></tr>
+<tr><td><strong>Chú thích</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_image_1_caption" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x800px)</p></td><td><input type="file" name="brand_image_2.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="brand_image_2_alt" value="Cận chất liệu vải"/></td></tr>
+<tr><td><strong>Chú thích</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_image_2_caption" value="Cận chất liệu"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x800px)</p></td><td><input type="file" name="brand_image_3.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="brand_image_3_alt" value="Áo bra trên nền sáng"/></td></tr>
+<tr><td><strong>Chú thích</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_image_3_caption" value=""/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x800px)</p></td><td><input type="file" name="brand_image_4.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="brand_image_4_alt" value="Chi tiết đường may"/></td></tr>
+<tr><td><strong>Chú thích</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_image_4_caption" value="Chi tiết đường may"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x800px)</p></td><td><input type="file" name="brand_image_5.jpg"/></td></tr>
+<tr><td><strong>Alt</strong></td><td><input class="min-width-360px" type="text" name="brand_image_5_alt" value="Legging trên nền trung tính"/></td></tr>
+<tr><td><strong>Chú thích</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_image_5_caption" value=""/></td></tr>
+<tr><td><strong>Ghi chú 1</strong></td><td><input class="min-width-360px" type="text" name="brand_image_note_1_title" value="Nền"/></td></tr>
+<tr><td><strong>Mô tả ghi chú 1</strong></td><td><textarea class="min-width-360px" name="brand_image_note_1_desc" rows="3">Cát, trắng hoặc xám rất nhạt. Không dùng nền sặc sỡ.</textarea></td></tr>
+<tr><td><strong>Ghi chú 2</strong></td><td><input class="min-width-360px" type="text" name="brand_image_note_2_title" value="Bố cục"/></td></tr>
+<tr><td><strong>Mô tả ghi chú 2</strong></td><td><textarea class="min-width-360px" name="brand_image_note_2_desc" rows="3">Tỷ lệ 4:5 cho ảnh sản phẩm, bo góc 24px trên website.</textarea></td></tr>
+<tr><td><strong>Ghi chú 3</strong></td><td><input class="min-width-360px" type="text" name="brand_image_note_3_title" value="Ảnh vận động"/></td></tr>
+<tr><td><strong>Mô tả ghi chú 3</strong></td><td><textarea class="min-width-360px" name="brand_image_note_3_desc" rows="3">Ưu tiên khoảnh khắc thật trong buổi tập thay vì dáng đứng tạo kiểu.</textarea></td></tr>
+</table></div></fieldset>
+<fieldset><legend>7. Giọng nói</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_voice_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_title" value="Giọng nói"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_voice_desc" rows="3">Chúng tôi nói như một người bạn tập cùng: ngắn, cụ thể và không phóng đại.</textarea></td></tr>
+<tr><td><strong>Chúng tôi nói 1</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_do_1" value="Cạp cao 2 lớp, không cuộn khi gập người."/></td></tr>
+<tr><td><strong>Chúng tôi nói 2</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_do_2" value="Đổi size miễn phí trong 14 ngày."/></td></tr>
+<tr><td><strong>Chúng tôi nói 3</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_do_3" value="Chọn đúng size bạn thường mặc."/></td></tr>
+<tr><td><strong>Chúng tôi tránh 1</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_dont_1" value="Chiếc legging hoàn hảo nhất mọi thời đại!"/></td></tr>
+<tr><td><strong>Chúng tôi tránh 2</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_dont_2" value="Ưu đãi sốc, mua ngay kẻo lỡ!!!"/></td></tr>
+<tr><td><strong>Chúng tôi tránh 3</strong></td><td><input class="min-width-360px" type="text" name="brand_voice_dont_3" value="Công nghệ vải đột phá hàng đầu thế giới."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>8. Ứng dụng</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_apps_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_apps_title" value="Ứng dụng"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_apps_desc" rows="3">Bộ nhận diện trên những điểm chạm khách hàng cầm trên tay.</textarea></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x1000px)</p></td><td><input type="file" name="brand_app_1_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="brand_app_1_caption" value="Thẻ treo sản phẩm"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x1000px)</p></td><td><input type="file" name="brand_app_2_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="brand_app_2_caption" value="Túi mua sắm"/></td></tr>
+<tr><td><strong>Hình ảnh</strong><p style="font-size: 12px;">(800x1000px)</p></td><td><input type="file" name="brand_app_3_image.jpg"/></td></tr>
+<tr><td><strong>Chú thích</strong></td><td><input class="min-width-360px" type="text" name="brand_app_3_caption" value="Nhãn chất liệu"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>9. Bộ nhận diện</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="brand_kit_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="brand_kit_title" value="Bộ nhận diện thương hiệu"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="brand_kit_desc" rows="3">Logo, bảng màu và hướng dẫn sử dụng cho đối tác và báo chí.</textarea></td></tr>
+<tr><td><strong>Nhãn nút</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_kit_btn_title" value="Tải bộ nhận diện"/></td></tr>
+<tr><td><strong>Đường dẫn</strong></td><td><input class="min-width-360px" type="text" name="brand_kit_btn_url" value=""/></td></tr>
+<tr><td><strong>Nhãn nút 2</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="brand_kit_btn2_title" value="Liên hệ hợp tác"/></td></tr>
+<tr><td><strong>Đường dẫn 2</strong></td><td><input class="min-width-360px" type="text" name="brand_kit_btn2_url" value="/pages/lien-he"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Tìm kiếm (bảng kính dưới header)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Chung</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_title" value="Tìm kiếm"/></td></tr>
+<tr><td><strong>Placeholder</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_placeholder" value="Bạn đang cần tìm..."/></td></tr>
+<tr><td><strong>Tìm kiếm theo</strong><p style="font-size: 12px;">(có bài viết thì hiện thêm tab "Bài viết")</p></td><td><select name="smartsearch_type"><option value="product" selected="selected">Chỉ tìm kiếm sản phẩm</option><option value="product,article">Sản phẩm và bài viết</option></select></td></tr>
+<tr><td><strong>Số dòng kết quả</strong><p style="font-size: 12px;">(4 sản phẩm mỗi dòng trên máy tính, 2 trên điện thoại)</p></td><td><select name="smartsearch_result_rows"><option value="2" selected="selected">2 dòng</option><option value="3">3 dòng</option></select></td></tr>
+<tr><td><strong>Số sản phẩm lấy về khi gõ</strong><p style="font-size: 12px;">(vừa số dòng đã chọn là lưới; nhiều hơn chạy slider giữ nguyên số dòng; tổng lớn hơn thì hiện "Xem thêm {còn lại} sản phẩm")</p></td><td><input class="min-width-360px" type="number" min="1" max="36" name="smartsearch_result_limit" value="12"/></td></tr>
+<tr><td><strong>Số bài viết lấy về khi gõ</strong><p style="font-size: 12px;">(tổng lớn hơn thì hiện "Xem thêm {còn lại} bài viết")</p></td><td><input class="min-width-360px" type="number" min="1" max="10" name="smartsearch_article_limit" value="4"/></td></tr>
+<tr><td><strong>Mô tả khi không có kết quả</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_empty_text" value="Thử từ khoá ngắn hơn, kiểm tra chính tả hoặc chọn gợi ý bên cạnh."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Tìm kiếm gần đây</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(lưu trên trình duyệt, tối đa 6 từ khoá, chỉ lưu từ khoá có kết quả)</p></td><td><input type="checkbox" name="smartsearch_recent_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_recent_title" value="Tìm kiếm gần đây"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Thường được tìm kiếm</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="smartsearch_suggest_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_suggest_title" value="Thường được tìm kiếm"/></td></tr>
+<tr><td><strong>Chọn menu</strong></td><td><select class="linklist" name="smartsearch_suggest_menu"></select></td></tr>
+</table></div></fieldset>
+<fieldset><legend>4. Sản phẩm đề xuất</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(lúc chưa gõ và khi không có kết quả)</p></td><td><input type="checkbox" name="smartsearch_product_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_product_title" value="Sản phẩm đề xuất"/></td></tr>
+<tr><td><strong>Tiêu đề khi không có kết quả</strong></td><td><input class="min-width-360px" type="text" name="smartsearch_empty_recommend_title" value="Có thể bạn sẽ thích"/></td></tr>
+<tr><td><strong>Chọn nhóm sản phẩm</strong></td><td><select class="collection" name="smartsearch_product_collection"></select></td></tr>
+<tr><td><strong>Giới hạn</strong><p style="font-size: 12px;">(nhiều hơn 1 hàng sẽ chạy slider)</p></td><td><input class="min-width-360px" type="number" min="1" max="20" name="smartsearch_product_limit" value="10"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>5. Trang tìm kiếm</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị bộ lọc?</strong><p style="font-size: 12px;">(các nhóm lọc và lựa chọn lấy từ cấu hình bộ lọc của trang danh mục; áp dụng cho tab Sản phẩm)</p></td><td><input type="checkbox" name="smartsearch_page_filter_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Nhãn dòng tìm nhiều</strong><p style="font-size: 12px;">(chip lấy từ menu "Thường được tìm kiếm")</p></td><td><input class="min-width-360px" type="text" name="smartsearch_page_popular_label" value="Tìm nhiều:"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Yêu thích (lưu trên trình duyệt)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Chung</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Tạo một Trang nội dung (ví dụ "Yêu thích", đường dẫn /pages/yeu-thich) và chọn template <b>page.wishlist</b> cho trang đó.</p></td></tr>
+<tr><td><strong>Bật tính năng yêu thích?</strong><p style="font-size: 12px;">(biểu tượng trái tim trên thẻ sản phẩm, trang sản phẩm và header)</p></td><td><input type="checkbox" name="wishlist_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị trên header?</strong><p style="font-size: 12px;">(trước biểu tượng giỏ hàng, kèm số lượng)</p></td><td><input type="checkbox" name="header_wishlist_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Đường dẫn trang yêu thích</strong></td><td><input class="min-width-360px" type="text" name="wishlist_page_url" value="/pages/yeu-thich"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Trang yêu thích</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để dùng tên trang)</p></td><td><input class="min-width-360px" type="text" name="wishlist_title" value="Sản phẩm yêu thích"/></td></tr>
+<tr><td><strong>Nhãn nút xóa tất cả</strong></td><td><input class="min-width-360px" type="text" name="wishlist_clear_label" value="Xóa tất cả"/></td></tr>
+<tr><td><strong>Tiêu đề thẻ tóm tắt</strong></td><td><input class="min-width-360px" type="text" name="wishlist_summary_title" value="Tóm tắt danh sách"/></td></tr>
+<tr><td><strong>Nhãn nút chia sẻ</strong><p style="font-size: 12px;">(tạo link ?ids=… chứa danh sách hiện tại, tối đa 50 sản phẩm)</p></td><td><input class="min-width-360px" type="text" name="wishlist_share_label" value="Chia sẻ danh sách"/></td></tr>
+<tr><td><strong>Tiêu đề khi xem danh sách được chia sẻ</strong></td><td><input class="min-width-360px" type="text" name="wishlist_shared_title" value="Danh sách được chia sẻ"/></td></tr>
+<tr><td><strong>Nhãn nút lưu danh sách được chia sẻ</strong></td><td><input class="min-width-360px" type="text" name="wishlist_save_shared_label" value="Lưu vào yêu thích của tôi"/></td></tr>
+<tr><td><strong>Nhãn quay về danh sách của tôi</strong></td><td><input class="min-width-360px" type="text" name="wishlist_view_own_label" value="Xem danh sách của tôi"/></td></tr>
+<tr><td><strong>Câu hỏi xác nhận xóa tất cả</strong></td><td><input class="min-width-360px" type="text" name="wishlist_confirm_clear" value="Xóa tất cả sản phẩm khỏi danh sách yêu thích?"/></td></tr>
+<tr><td><strong>Tiêu đề khi trống</strong></td><td><input class="min-width-360px" type="text" name="wishlist_empty_title" value="Chưa có sản phẩm yêu thích"/></td></tr>
+<tr><td><strong>Mô tả khi trống</strong></td><td><input class="min-width-360px" type="text" name="wishlist_empty_text" value="Nhấn biểu tượng trái tim trên sản phẩm để lưu lại và xem sau."/></td></tr>
+<tr><td><strong>Nút khi trống</strong></td><td><input class="min-width-360px" type="text" name="wishlist_empty_cta" value="Khám phá sản phẩm"/></td></tr>
+<tr><td><strong>Đường dẫn nút khi trống</strong></td><td><input class="min-width-360px" type="text" name="wishlist_empty_url" value="/collections/all"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Blog (danh sách &amp; chi tiết bài viết)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Trang danh sách</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Số bài mỗi trang</strong><p style="font-size: 12px;">(trang 1: bài đầu tiên hiển thị dạng nổi bật)</p></td><td><input class="min-width-360px" type="number" min="2" max="50" name="blog_page_size" value="9"/></td></tr>
+<tr><td><strong>Mô tả dưới tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="blog_description" value="Kiến thức tập luyện, phối đồ và chăm sóc đồ thể thao."/></td></tr>
+<tr><td><strong>Số cột trên điện thoại</strong></td><td><select name="blog_mobile_columns"><option value="2" selected="selected">2 cột</option><option value="1">1 cột</option></select></td></tr>
+<tr><td><strong>Nhãn nút đọc thêm</strong><p style="font-size: 12px;">(nút dưới mỗi bài viết)</p></td><td><input class="min-width-360px" type="text" name="blog_read_more_label" value="Đọc thêm"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Thanh bên (dùng chung danh sách &amp; chi tiết)</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Menu danh mục</strong><p style="font-size: 12px;">(chọn menu chứa các chuyên mục blog, hỗ trợ tối đa 5 cấp, mục con mở/đóng dạng accordion; bỏ trống để ẩn)</p></td><td><select class="linklist" name="blog_menu"></select></td></tr>
+<tr><td><strong>Tiêu đề danh mục</strong></td><td><input class="min-width-360px" type="text" name="blog_menu_title" value="Danh mục"/></td></tr>
+<tr><td><strong>Hiển thị bài mới?</strong><p style="font-size: 12px;">(4 bài mới nhất, không lặp lại bài đang đọc)</p></td><td><input type="checkbox" name="blog_show_recent" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề bài mới</strong></td><td><input class="min-width-360px" type="text" name="blog_recent_title" value="Bài mới"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Trang chi tiết bài viết</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị thanh chia sẻ?</strong><p style="font-size: 12px;">(dưới tiêu đề: Facebook, X, sao chép link)</p></td><td><input type="checkbox" name="article_show_share" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị mục lục?</strong><p style="font-size: 12px;">(đầu bài viết; tự tạo từ các tiêu đề H2, cần ít nhất 2 tiêu đề)</p></td><td><input type="checkbox" name="article_show_toc" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Tiêu đề mục lục</strong></td><td><input class="min-width-360px" type="text" name="article_toc_title" value="Mục lục"/></td></tr>
+<tr><td><strong>Hiển thị bài viết liên quan?</strong></td><td><input type="checkbox" name="article_show_related" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Số bài viết liên quan tối đa</strong><p style="font-size: 12px;">(tối đa 4 bài hiển thị dạng lưới; từ 5 bài trở lên hiển thị dạng slider)</p></td><td><input class="min-width-360px" type="number" min="1" max="12" name="article_related_limit" value="8"/></td></tr>
+<tr><td><strong>Tiêu đề bài viết liên quan</strong></td><td><input class="min-width-360px" type="text" name="article_related_title" value="Bài viết liên quan"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Trang hướng dẫn chọn size (template page.size-guide)</legend>
+<div class="col-sm-12">
+<fieldset><legend>1. Đầu trang</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Dữ liệu bảng size và tìm size dùng chung mục "Trang sản phẩm → 6. Hướng dẫn chọn size". Có thể gán template này cho chính trang bảng size.</p></td></tr>
+<tr><td><strong>Nhãn nhỏ</strong><p style="font-size: 12px;">(bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="sgp_eyebrow" value="Hướng dẫn chọn size"/></td></tr>
+<tr><td><strong>Tiêu đề</strong><p style="font-size: 12px;">(bỏ trống để dùng tên trang)</p></td><td><input class="min-width-360px" type="text" name="sgp_title" value="Tìm size vừa vặn trong 30 giây"/></td></tr>
+<tr><td><strong>Mô tả</strong></td><td><textarea class="min-width-360px" name="sgp_desc" rows="3">Nhập vài số đo cơ bản, chúng tôi gợi ý size phù hợp cho áo, quần và giày. Có bảng size chi tiết nếu bạn muốn tự đối chiếu.</textarea></td></tr>
+<tr><td><strong>Nền chuyển động?</strong><p style="font-size: 12px;">(các mảng màu mờ trôi chậm phía sau)</p></td><td><input type="checkbox" name="sgp_animate" value="1" checked="checked"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Các bước</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="sgp_steps_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Bước 1</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_1_title" value="Chọn loại sản phẩm"/></td></tr>
+<tr><td><strong>Mô tả bước 1</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_1_desc" value="Áo, quần hay giày, mỗi loại một bảng riêng."/></td></tr>
+<tr><td><strong>Bước 2</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_2_title" value="Nhập số đo"/></td></tr>
+<tr><td><strong>Mô tả bước 2</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_2_desc" value="Chiều cao, cân nặng hoặc số đo cơ thể."/></td></tr>
+<tr><td><strong>Bước 3</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_3_title" value="Nhận size gợi ý"/></td></tr>
+<tr><td><strong>Mô tả bước 3</strong></td><td><input class="min-width-360px" type="text" name="sgp_step_3_desc" value="Kèm quy đổi US / UK / EU khi có."/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Mẹo chọn size</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="sgp_tips_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mẹo 1</strong><p style="font-size: 12px;">(biểu tượng thước)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_1_title" value="Đo đúng cách"/></td></tr>
+<tr><td><strong>Mô tả mẹo 1</strong></td><td><textarea class="min-width-360px" name="sgp_tip_1_desc" rows="2">Dùng thước dây mềm, giữ thước sát người nhưng không siết, đo vào buổi chiều.</textarea></td></tr>
+<tr><td><strong>Đường dẫn mẹo 1</strong><p style="font-size: 12px;">(bỏ trống để ẩn liên kết)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_1_url" value=""/></td></tr>
+<tr><td><strong>Mẹo 2</strong><p style="font-size: 12px;">(biểu tượng tính size)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_2_title" value="Nằm giữa hai size?"/></td></tr>
+<tr><td><strong>Mô tả mẹo 2</strong></td><td><textarea class="min-width-360px" name="sgp_tip_2_desc" rows="2">Chọn size nhỏ nếu thích ôm, size lớn nếu thích thoải mái khi vận động.</textarea></td></tr>
+<tr><td><strong>Đường dẫn mẹo 2</strong><p style="font-size: 12px;">(bỏ trống để ẩn liên kết)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_2_url" value=""/></td></tr>
+<tr><td><strong>Mẹo 3</strong><p style="font-size: 12px;">(biểu tượng chat)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_3_title" value="Vẫn chưa chắc?"/></td></tr>
+<tr><td><strong>Mô tả mẹo 3</strong></td><td><textarea class="min-width-360px" name="sgp_tip_3_desc" rows="2">Nhắn tư vấn, đội ngũ của chúng tôi trả lời trong vài phút kèm gợi ý theo dáng người.</textarea></td></tr>
+<tr><td><strong>Đường dẫn mẹo 3</strong><p style="font-size: 12px;">(ví dụ: link Zalo / Messenger)</p></td><td><input class="min-width-360px" type="text" name="sgp_tip_3_url" value=""/></td></tr>
+<tr><td><strong>Nhãn liên kết</strong></td><td><input class="min-width-360px" type="text" name="sgp_tip_link_label" value="Liên hệ tư vấn"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>Liên hệ nhanh &amp; lên đầu trang</legend> 
+<div class="col-sm-12">
+<fieldset><legend>1. Liên hệ nhanh</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(chỉ hiện các kênh đã nhập đường dẫn)</p></td><td><input type="checkbox" name="float_contact_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị trên máy tính?</strong><p style="font-size: 12px;">(cột biểu tượng góc phải dưới)</p></td><td><input type="checkbox" name="float_contact_desktop" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Gom icon?</strong><p style="font-size: 12px;">(máy tính: gom các kênh vào 1 nút, bấm vào mới hiện danh sách)</p></td><td><input type="checkbox" name="float_contact_group" value="1"/></td></tr>
+<tr><td><strong>Hiển thị trên điện thoại?</strong><p style="font-size: 12px;">(viên "Hỗ trợ" góc phải dưới, bấm vào mở thẻ liên hệ)</p></td><td><input type="checkbox" name="float_contact_mobile" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Nhãn nút trên điện thoại</strong></td><td><input class="min-width-360px" type="text" name="float_mobile_label" value="Hỗ trợ"/></td></tr>
+<tr><td><strong>Trạng thái trên điện thoại</strong><p style="font-size: 12px;">(hiện kèm chấm xanh; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="float_mobile_status" value="Đang online"/></td></tr>
+<tr><td><strong>Tiêu đề</strong></td><td><input class="min-width-360px" type="text" name="float_contact_title" value="Liên hệ với chúng tôi"/></td></tr>
+<tr><td><strong>Mô tả</strong><p style="font-size: 12px;">(hiện trên điện thoại; bỏ trống để ẩn)</p></td><td><input class="min-width-360px" type="text" name="float_contact_subtitle" value="Chọn kênh thuận tiện nhất cho bạn"/></td></tr>
+<tr><td><strong>Kênh ưu tiên</strong><p style="font-size: 12px;">(được đánh dấu nổi bật)</p></td><td><select name="float_contact_primary"><option value="zalo" selected="selected">Zalo</option><option value="messenger">Messenger</option><option value="phone">Gọi hotline</option><option value="email">Email</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option><option value="tiktok">TikTok</option><option value="youtube">YouTube</option><option value="shopee">Shopee</option><option value="lazada">Lazada</option><option value="x">X</option><option value="linkedin">LinkedIn</option><option value="map">Cửa hàng</option></select></td></tr>
+</table></div></fieldset>
+<fieldset><legend>2. Kênh mạng xã hội</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Đường dẫn lấy từ "1. Thiết lập chung → 4. Mạng xã hội". Kênh chỉ hiện khi được bật và đã có đường dẫn ở đó.</p></td></tr>
+<tr><td><strong>Hiển thị Zalo?</strong></td><td><input type="checkbox" name="float_zalo_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mô tả Zalo</strong></td><td><input class="min-width-360px" type="text" name="float_zalo_desc" value="Phản hồi trong vài phút"/></td></tr>
+<tr><td><strong>Hiển thị Facebook?</strong></td><td><input type="checkbox" name="float_facebook_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mô tả Facebook</strong></td><td><input class="min-width-360px" type="text" name="float_facebook_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị Instagram?</strong></td><td><input type="checkbox" name="float_instagram_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mô tả Instagram</strong></td><td><input class="min-width-360px" type="text" name="float_instagram_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị TikTok?</strong></td><td><input type="checkbox" name="float_tiktok_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mô tả TikTok</strong></td><td><input class="min-width-360px" type="text" name="float_tiktok_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị YouTube?</strong></td><td><input type="checkbox" name="float_youtube_show" value="1"/></td></tr>
+<tr><td><strong>Mô tả YouTube</strong></td><td><input class="min-width-360px" type="text" name="float_youtube_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị Shopee?</strong></td><td><input type="checkbox" name="float_shopee_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Mô tả Shopee</strong></td><td><input class="min-width-360px" type="text" name="float_shopee_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị Lazada?</strong></td><td><input type="checkbox" name="float_lazada_show" value="1"/></td></tr>
+<tr><td><strong>Mô tả Lazada</strong></td><td><input class="min-width-360px" type="text" name="float_lazada_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị X?</strong></td><td><input type="checkbox" name="float_x_show" value="1"/></td></tr>
+<tr><td><strong>Mô tả X</strong></td><td><input class="min-width-360px" type="text" name="float_x_desc" value=""/></td></tr>
+<tr><td><strong>Hiển thị LinkedIn?</strong></td><td><input type="checkbox" name="float_linkedin_show" value="1"/></td></tr>
+<tr><td><strong>Mô tả LinkedIn</strong></td><td><input class="min-width-360px" type="text" name="float_linkedin_desc" value=""/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>3. Kênh liên hệ trực tiếp</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td colspan="2"><p style="font-size: 12px;">Các kênh không có trong "Mạng xã hội". Bỏ trống đường dẫn hoặc tắt để ẩn.</p></td></tr>
+<tr><td><strong>Hiển thị Messenger?</strong></td><td><input type="checkbox" name="float_messenger_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Messenger</strong><p style="font-size: 12px;">(ví dụ: https://m.me/tenfanpage)</p></td><td><input class="min-width-360px" type="text" name="float_messenger_url" value=""/></td></tr>
+<tr><td><strong>Mô tả Messenger</strong></td><td><input class="min-width-360px" type="text" name="float_messenger_desc" value="Chat qua Facebook"/></td></tr>
+<tr><td><strong>Hiển thị hotline?</strong></td><td><input type="checkbox" name="float_phone_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Số hotline</strong><p style="font-size: 12px;">(chỉ nhập số, ví dụ: 0900000000)</p></td><td><input class="min-width-360px" type="text" name="float_phone_url" value=""/></td></tr>
+<tr><td><strong>Mô tả hotline</strong></td><td><input class="min-width-360px" type="text" name="float_phone_desc" value="8:00 – 21:00 mỗi ngày"/></td></tr>
+<tr><td><strong>Hiển thị email?</strong></td><td><input type="checkbox" name="float_email_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Email</strong><p style="font-size: 12px;">(ví dụ: hotro@tenmien.vn)</p></td><td><input class="min-width-360px" type="text" name="float_email_url" value=""/></td></tr>
+<tr><td><strong>Mô tả email</strong></td><td><input class="min-width-360px" type="text" name="float_email_desc" value="Trả lời trong 24 giờ"/></td></tr>
+<tr><td><strong>Hiển thị cửa hàng?</strong></td><td><input type="checkbox" name="float_map_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Cửa hàng (bản đồ)</strong><p style="font-size: 12px;">(link Google Maps hoặc trang hệ thống cửa hàng)</p></td><td><input class="min-width-360px" type="text" name="float_map_url" value=""/></td></tr>
+<tr><td><strong>Mô tả cửa hàng</strong></td><td><input class="min-width-360px" type="text" name="float_map_desc" value="Xem đường đi"/></td></tr>
+</table></div></fieldset>
+<fieldset><legend>4. Lên đầu trang</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
+<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">(hiện sau khi cuộn qua màn hình đầu)</p></td><td><input type="checkbox" name="float_btt_show" value="1" checked="checked"/></td></tr>
+<tr><td><strong>Hiển thị trên điện thoại?</strong></td><td><input type="checkbox" name="float_btt_mobile" value="1" checked="checked"/></td></tr>
+</table></div></fieldset>
+</div>
+</fieldset>
+<fieldset>
+<legend>7. Featured product X1</legend>
 		<div class="col-sm-12">
 			<fieldset>
 				<legend>Cấu hình section</legend>
@@ -1759,7 +2314,7 @@
 	</fieldset>
 
 	<fieldset>
-		<legend>7. Topbar trang chủ</legend>
+		<legend>8. Topbar trang chủ</legend>
 		<div class="col-sm-12">
 			<fieldset><legend>Cấu hình chung</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
 				<tr><td><strong>Hiển thị?</strong><p style="font-size: 12px;">Chỉ hiển thị trên trang chủ.</p></td><td><input type="checkbox" name="use_topbar" value="1" checked="checked"/></td></tr>
@@ -1783,7 +2338,7 @@
 
 	<!-- Cấu hình header dùng chung cho storefront desktop và mobile. -->
 	<fieldset>
-		<legend>8. Header FOX</legend>
+		<legend>9. Header FOX</legend>
 		<div class="col-sm-12">
 			<fieldset><legend>Cấu hình chung</legend><div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px"><table>
 				<tr><td><strong>Hiển thị sticky header?</strong></td><td><input type="checkbox" name="header_sticky_enabled" value="1" checked="checked"/></td></tr>

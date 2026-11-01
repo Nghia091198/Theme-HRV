@@ -1,0 +1,118 @@
+{%- comment -%}
+  Reusable multi-level menu (up to 5 levels) built on accordion-component (accordion.js), nested per level.
+  Input: menu_accordion_handle (linklist handle), menu_accordion_id (unique id prefix per instance).
+  Haravan nests menus by handle: a link's children are linklists[link.handle].links (same as the header menu).
+  A branch starts expanded when the link or one of its direct children is the current page.
+  A level is wrapped in accordion-component only when one of its items has children.
+  Styles: assets/menu-accordion.css (colors follow currentColor).
+{%- endcomment -%}
+{%- assign menu_accordion_id = menu_accordion_id | default: 'fox-menu-accordion' -%}
+{%- assign menu_accordion_links = linklists[menu_accordion_handle].links -%}
+{%- capture menu_accordion_icon -%}<svg class="fox-menu-accordion__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="fox-menu-accordion__icon-h" d="M5 12h14"/><path class="fox-menu-accordion__icon-v" d="M12 5v14"/></svg>{%- endcapture -%}
+
+{%- if menu_accordion_links.size > 0 -%}
+{%- assign menu_l1_toggles = false -%}
+{%- for l1 in menu_accordion_links -%}{%- if linklists[l1.handle].links.size > 0 -%}{%- assign menu_l1_toggles = true -%}{%- endif -%}{%- endfor -%}
+{%- capture menu_l1_html -%}
+  <ul class="fox-menu-accordion__list" data-level="1">
+    {%- for l1 in menu_accordion_links -%}
+    {%- assign c1 = linklists[l1.handle].links -%}
+    {%- capture p1 -%}{{ menu_accordion_id }}-{{ forloop.index }}{%- endcapture -%}
+    {%- assign o1 = l1.active -%}
+    {%- for x in c1 -%}{%- if x.active -%}{%- assign o1 = true -%}{%- endif -%}{%- endfor -%}
+    <li class="fox-menu-accordion__item">
+      <div class="fox-menu-accordion__row">
+        <a class="fox-menu-accordion__link{% if l1.active %} is-active{% endif %}" href="{{ l1.url | escape }}"{% if l1.active %} aria-current="page"{% endif %}>{{ l1.title | escape }}</a>
+        {%- if c1.size > 0 -%}<button type="button" class="fox-menu-accordion__toggle" aria-controls="{{ p1 }}" aria-expanded="{% if o1 %}true{% else %}false{% endif %}" aria-label="Mở rộng {{ l1.title | escape }}">{{ menu_accordion_icon }}</button>{%- endif -%}
+      </div>
+      {%- if c1.size > 0 -%}
+      {%- assign menu_l2_toggles = false -%}
+      {%- for l2 in c1 -%}{%- if linklists[l2.handle].links.size > 0 -%}{%- assign menu_l2_toggles = true -%}{%- endif -%}{%- endfor -%}
+      <div id="{{ p1 }}" class="fox-menu-accordion__panel">
+        {%- if menu_l2_toggles -%}<accordion-component class="fox-menu-accordion" data-multiple="true" data-state="idle">{%- endif -%}
+        <ul class="fox-menu-accordion__list" data-level="2">
+          {%- for l2 in c1 -%}
+          {%- assign c2 = linklists[l2.handle].links -%}
+          {%- capture p2 -%}{{ p1 }}-{{ forloop.index }}{%- endcapture -%}
+          {%- assign o2 = l2.active -%}
+          {%- for x in c2 -%}{%- if x.active -%}{%- assign o2 = true -%}{%- endif -%}{%- endfor -%}
+          <li class="fox-menu-accordion__item">
+            <div class="fox-menu-accordion__row">
+              <a class="fox-menu-accordion__link{% if l2.active %} is-active{% endif %}" href="{{ l2.url | escape }}"{% if l2.active %} aria-current="page"{% endif %}>{{ l2.title | escape }}</a>
+              {%- if c2.size > 0 -%}<button type="button" class="fox-menu-accordion__toggle" aria-controls="{{ p2 }}" aria-expanded="{% if o2 %}true{% else %}false{% endif %}" aria-label="Mở rộng {{ l2.title | escape }}">{{ menu_accordion_icon }}</button>{%- endif -%}
+            </div>
+            {%- if c2.size > 0 -%}
+            {%- assign menu_l3_toggles = false -%}
+            {%- for l3 in c2 -%}{%- if linklists[l3.handle].links.size > 0 -%}{%- assign menu_l3_toggles = true -%}{%- endif -%}{%- endfor -%}
+            <div id="{{ p2 }}" class="fox-menu-accordion__panel">
+              {%- if menu_l3_toggles -%}<accordion-component class="fox-menu-accordion" data-multiple="true" data-state="idle">{%- endif -%}
+              <ul class="fox-menu-accordion__list" data-level="3">
+                {%- for l3 in c2 -%}
+                {%- assign c3 = linklists[l3.handle].links -%}
+                {%- capture p3 -%}{{ p2 }}-{{ forloop.index }}{%- endcapture -%}
+                {%- assign o3 = l3.active -%}
+                {%- for x in c3 -%}{%- if x.active -%}{%- assign o3 = true -%}{%- endif -%}{%- endfor -%}
+                <li class="fox-menu-accordion__item">
+                  <div class="fox-menu-accordion__row">
+                    <a class="fox-menu-accordion__link{% if l3.active %} is-active{% endif %}" href="{{ l3.url | escape }}"{% if l3.active %} aria-current="page"{% endif %}>{{ l3.title | escape }}</a>
+                    {%- if c3.size > 0 -%}<button type="button" class="fox-menu-accordion__toggle" aria-controls="{{ p3 }}" aria-expanded="{% if o3 %}true{% else %}false{% endif %}" aria-label="Mở rộng {{ l3.title | escape }}">{{ menu_accordion_icon }}</button>{%- endif -%}
+                  </div>
+                  {%- if c3.size > 0 -%}
+                  {%- assign menu_l4_toggles = false -%}
+                  {%- for l4 in c3 -%}{%- if linklists[l4.handle].links.size > 0 -%}{%- assign menu_l4_toggles = true -%}{%- endif -%}{%- endfor -%}
+                  <div id="{{ p3 }}" class="fox-menu-accordion__panel">
+                    {%- if menu_l4_toggles -%}<accordion-component class="fox-menu-accordion" data-multiple="true" data-state="idle">{%- endif -%}
+                    <ul class="fox-menu-accordion__list" data-level="4">
+                      {%- for l4 in c3 -%}
+                      {%- assign c4 = linklists[l4.handle].links -%}
+                      {%- capture p4 -%}{{ p3 }}-{{ forloop.index }}{%- endcapture -%}
+                      {%- assign o4 = l4.active -%}
+                      {%- for x in c4 -%}{%- if x.active -%}{%- assign o4 = true -%}{%- endif -%}{%- endfor -%}
+                      <li class="fox-menu-accordion__item">
+                        <div class="fox-menu-accordion__row">
+                          <a class="fox-menu-accordion__link{% if l4.active %} is-active{% endif %}" href="{{ l4.url | escape }}"{% if l4.active %} aria-current="page"{% endif %}>{{ l4.title | escape }}</a>
+                          {%- if c4.size > 0 -%}<button type="button" class="fox-menu-accordion__toggle" aria-controls="{{ p4 }}" aria-expanded="{% if o4 %}true{% else %}false{% endif %}" aria-label="Mở rộng {{ l4.title | escape }}">{{ menu_accordion_icon }}</button>{%- endif -%}
+                        </div>
+                        {%- if c4.size > 0 -%}
+                        <div id="{{ p4 }}" class="fox-menu-accordion__panel">
+                          <ul class="fox-menu-accordion__list" data-level="5">
+                            {%- for l5 in c4 -%}
+                            <li class="fox-menu-accordion__item">
+                              <div class="fox-menu-accordion__row">
+                                <a class="fox-menu-accordion__link{% if l5.active %} is-active{% endif %}" href="{{ l5.url | escape }}"{% if l5.active %} aria-current="page"{% endif %}>{{ l5.title | escape }}</a>
+                              </div>
+                            </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                        {%- endif -%}
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- if menu_l4_toggles -%}</accordion-component>{%- endif -%}
+                  </div>
+                  {%- endif -%}
+                </li>
+                {%- endfor -%}
+              </ul>
+              {%- if menu_l3_toggles -%}</accordion-component>{%- endif -%}
+            </div>
+            {%- endif -%}
+          </li>
+          {%- endfor -%}
+        </ul>
+        {%- if menu_l2_toggles -%}</accordion-component>{%- endif -%}
+      </div>
+      {%- endif -%}
+    </li>
+    {%- endfor -%}
+  </ul>
+{%- endcapture -%}
+<div class="fox-menu-accordion">
+  {%- if menu_l1_toggles -%}
+  <accordion-component class="fox-menu-accordion__root" data-multiple="true" data-state="idle">{{ menu_l1_html }}</accordion-component>
+  {%- else -%}
+  {{ menu_l1_html }}
+  {%- endif -%}
+</div>
+{%- endif -%}

@@ -1,0 +1,54 @@
+/* "Xem thêm / Thu gọn" block (snippets/component-expand-content.liquid + expand-content.js).
+   The fade is a mask (not a colored overlay) so it works on any background. Toggle: theme secondary button. */
+expand-content {
+  display: block;
+}
+
+.fox-expand__viewport {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+expand-content[data-state="collapsed"] .fox-expand__viewport {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 9rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 9rem), transparent 100%);
+}
+
+/* Toggle: theme secondary button (.btn.btn-secondary + button-effect from button.css).
+   --btn-color draws the .btn border so it stays visible on light surfaces. */
+.fox-expand__toggle {
+  --btn-color: var(--color-btn-text-secondary, #1b2631);
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.35rem;
+}
+
+.fox-expand__toggle[hidden] {
+  display: none;
+}
+
+.fox-expand__toggle:focus-visible {
+  color: var(--color-btn-text-secondary-hover, #fff);
+  outline: 2px solid var(--btn-color);
+  outline-offset: 3px;
+}
+
+.fox-expand__chevron {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  transition: transform 240ms ease;
+}
+
+expand-content[data-state="expanded"] .fox-expand__chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-expand__viewport,
+  .fox-expand__chevron {
+    transition: none;
+  }
+}

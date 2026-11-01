@@ -1,1 +1,208 @@
-/* */
+{%- comment -%}
+  Search page (design B): Aurora head (input, summary, popular chips, product / article tabs) + results.
+  Products tab reuses the collection engine (core-commerce-collection.js): filters from snippets/collection-filter
+  (collection filter settings), sort, chips, pagination, URL params; requests go to /search?view=data with the keyword
+  as base query. Tab counts, highlight and recent searches use FOX.search (search-panel.js) through search-page.js.
+  Styles: assets/search-page.css (+ collection.css for the shared grid, toolbar and filters).
+{%- endcomment -%}
+{%- assign fox_collection_limit = settings.pagination_limit | default: 12 | plus: 0 -%}
+{%- if fox_collection_limit < 1 -%}{%- assign fox_collection_limit = 12 -%}{%- endif -%}
+{%- assign search_q = search.terms | strip -%}
+{%- assign search_with_articles = false -%}
+{%- if settings.smartsearch_type contains 'article' -%}{%- assign search_with_articles = true -%}{%- endif -%}
+{%- assign search_filter_on = true -%}
+{%- if settings.smartsearch_page_filter_show == false -%}{%- assign search_filter_on = false -%}{%- endif -%}
+
+{%- comment -%}Mode: articles when the results hold articles only (?type=article), products otherwise.{%- endcomment -%}
+{%- assign search_product_hits = 0 -%}
+{%- assign search_article_hits = 0 -%}
+{%- for result in search.results -%}
+  {%- if result.variants != blank -%}{%- assign search_product_hits = search_product_hits | plus: 1 -%}{%- else -%}{%- assign search_article_hits = search_article_hits | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- assign search_mode = 'product' -%}
+{%- if search_with_articles and search_article_hits > 0 and search_product_hits == 0 -%}{%- assign search_mode = 'article' -%}{%- endif -%}
+{%- assign search_total = search.results_count | default: 0 -%}
+{%- comment -%}
+  search.terms arrives HTML-encoded from Haravan (á → &#225;): it is printed as is (the browser decodes it in text,
+  attributes and links) and never escaped again. The keyword filter is built in JS from the decoded keyword
+  (data-keyword + data-keyword-query, core-commerce-collection.js).
+{%- endcomment -%}
+{%- assign search_terms_html = search.terms | strip -%}
+
+<div class="fox-search-page" data-search-page data-state="idle" data-terms="{{ search_terms_html }}" data-mode="{{ search_mode }}" data-articles="{{ search_with_articles }}" data-total="{{ search_total }}">
+  <section class="fox-search-page__hero" aria-labelledby="fox-search-page-title">
+    <div class="fox-search-page__orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="container fox-search-page__hero-inner">
+      <p class="fox-search-page__eyebrow" id="fox-search-page-title">
+        <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
+        Kết quả tìm kiếm
+      </p>
+      <form class="fox-search-page__form" action="/search" method="get" role="search">
+        <input type="hidden" name="type" value="{% if search_mode == 'article' %}article{% else %}product{% endif %}">
+        <svg class="icon-svg fox-search-page__form-icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
+        <label class="fox-search-page__sr" for="fox-search-page-input">{{ settings.smartsearch_title | default: 'Tìm kiếm' | escape }}</label>
+        <input id="fox-search-page-input" class="fox-search-page__input" type="search" name="q" value="{{ search_terms_html }}" maxlength="60" autocomplete="off" spellcheck="false" placeholder="{{ settings.smartsearch_placeholder | default: 'Bạn đang cần tìm...' | escape }}" data-role="input">
+        <button type="button" class="fox-search-page__clear" data-action="clear" aria-label="Xoá từ khoá"{% if search_q == blank %} hidden{% endif %}>
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-close"></use></svg>
+        </button>
+        <button type="submit" class="fox-search-page__submit">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
+          <span>Tìm</span>
+        </button>
+      </form>
+
+      {%- if search_q != blank -%}
+      <p class="fox-search-page__summary" data-role="summary" aria-live="polite">
+        {%- if search_total > 0 -%}Đang đếm kết quả cho “{{ search_terms_html }}”…{%- else -%}Không có kết quả cho “<strong>{{ search_terms_html }}</strong>”{%- endif -%}
+      </p>
+      {%- endif -%}
+
+      {%- assign search_popular_links = linklists[settings.smartsearch_suggest_menu].links -%}
+      {%- if settings.smartsearch_suggest_show != false and search_popular_links.size > 0 -%}
+      <div class="fox-search-page__popular">
+        <span>{{ settings.smartsearch_page_popular_label | default: 'Tìm nhiều:' | escape }}</span>
+        {%- for link in search_popular_links limit: 8 -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      {%- if search_q != blank -%}
+      <nav class="fox-search-page__tabs" aria-label="Loại kết quả">
+        <a class="fox-search-page__tab btn {% if search_mode == 'product' %}btn-primary{% else %}btn-secondary{% endif %}" button-effect href="/search?q={{ search_terms_html }}&amp;type=product"{% if search_mode == 'product' %} aria-current="page"{% endif %}>
+          <span class="btn__label">Sản phẩm</span>
+          <span class="fox-search-page__count" data-role="count-product">{% if search_mode == 'product' %}{{ search_total }}{% else %}–{% endif %}</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+        {%- if search_with_articles -%}
+        <a class="fox-search-page__tab btn {% if search_mode == 'article' %}btn-primary{% else %}btn-secondary{% endif %}" button-effect href="/search?q={{ search_terms_html }}&amp;type=article"{% if search_mode == 'article' %} aria-current="page"{% endif %}>
+          <span class="btn__label">Bài viết</span>
+          <span class="fox-search-page__count" data-role="count-article">{% if search_mode == 'article' %}{{ search_total }}{% else %}–{% endif %}</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </a>
+        {%- endif -%}
+      </nav>
+      {%- endif -%}
+    </div>
+  </section>
+
+  {%- if search_q != blank and search_total > 0 and search_mode == 'product' -%}
+  <div class="fox-collection fox-search-page__collection" data-collection-root data-state="loading"
+    data-collection-url="/search?type=product"
+    data-keyword="{{ search_terms_html }}"
+    data-keyword-query="(title:product contains {keyword})"
+    data-always-search="true"
+    data-products-template="/search?view=data"
+    data-search-template="/search?view=data"
+    data-query-param="q"
+    data-push-filter-params="true"
+    data-pagination-mode="links"
+    data-has-filter="{{ search_filter_on }}"
+    data-sort-count="4"
+    data-page-size="{{ fox_collection_limit }}">
+    <div class="fox-collection__content container">
+      <div class="fox-collection__toolbar fox-search-page__toolbar">
+        <div class="fox-collection__toolbar-controls">
+          {%- if search_filter_on -%}
+          <button type="button" class="fox-collection__filter-toggle" data-filter-toggle aria-expanded="true" aria-controls="fox-collection-filters" hidden>
+            <svg aria-hidden="true"><use xlink:href="#ic-filter"></use></svg>
+            <span>Bộ lọc</span>
+          </button>
+          {%- endif -%}
+          <div class="fox-collection__toolbar-active" data-role="active-filter-row" hidden>
+            <div class="fox-collection__active" data-role="active-filters" aria-live="polite"></div>
+            <button type="button" class="fox-collection__clear fox-collection__toolbar-clear" data-filter-reset hidden>Xóa tất cả</button>
+          </div>
+          <div class="fox-collection__toolbar-actions">
+            {%- include 'collection-sortby' -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="fox-collection__layout fox-search-page__layout">
+        {%- if search_filter_on -%}
+        <div class="fox-collection__sidebar fox-search-page__filters">
+          <div id="fox-collection-filters" class="core-offcanvas fox-collection__filter-column" data-position="left" data-state="ready" style="--fox-menu-color: {{ settings.theme_color | default: '#1B2631' | escape }};">
+            <button type="button" class="core-offcanvas__overlay fox-collection__filter-overlay" data-filter-overlay data-filter-close aria-label="Đóng bộ lọc" hidden></button>
+            {%- comment -%}Filter options come from the store-wide collection (types, vendors, tags).{%- endcomment -%}
+            {%- assign collection = collections.all -%}
+            {%- assign filter_groups_collapsed = true -%}
+            {%- include 'collection-filter' -%}
+            {%- assign filter_groups_collapsed = false -%}
+          </div>
+        </div>
+        {%- endif -%}
+        <div class="fox-collection__results" data-role="results" aria-busy="true">
+          {%- comment -%}Filled on load by core-commerce-collection.js (/search?view=data, same as filtering).{%- endcomment -%}
+          <div class="fox-collection__results-content" data-role="results-content" data-result-count="0" data-result-page="1">
+            <div class="fox-collection__grid" data-role="product-grid"></div>
+          </div>
+          <div class="fox-collection__loading" data-role="loading">
+            {%- include 'component-skeleton' with type: 'default', item: 4, row: 2 -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- elsif search_q != blank and search_total > 0 -%}
+  <section class="container fox-search-page__articles" aria-label="Bài viết">
+    {%- paginate search.results by fox_collection_limit -%}
+    <ul class="fox-search-page__article-list">
+      {%- for result in search.results -%}
+        {%- if result.variants == blank -%}
+        <li>
+          <a class="fox-search-page__article" href="{{ result.url }}">
+            <span class="fox-search-page__article-media">
+              {%- if result.image -%}
+              <img src="{{ result.image.src | product_img_url: 'large' }}" alt="" width="480" height="320" loading="lazy" decoding="async">
+              {%- endif -%}
+            </span>
+            <span class="fox-search-page__article-text">
+              {%- if result.published_at -%}<small>{{ result.published_at | date: '%d/%m/%Y' }}</small>{%- endif -%}
+              <strong data-role="highlight">{{ result.title | escape }}</strong>
+              <span>{{ result.content | strip_html | truncatewords: 26 }}</span>
+            </span>
+          </a>
+        </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- include 'pagination' with pagination_page_size: fox_collection_limit, pagination_item_label: 'bài viết', pagination_aria_label: 'Phân trang bài viết' -%}
+    {%- endpaginate -%}
+  </section>
+
+  {%- elsif search_q != blank -%}
+  <section class="container fox-search-page__empty" aria-labelledby="fox-search-page-empty-title">
+    <span class="fox-search-page__empty-icon" aria-hidden="true">
+      <svg class="icon-svg" focusable="false"><use xlink:href="#ic-search"></use></svg>
+    </span>
+    <h1 id="fox-search-page-empty-title" class="fox-search-page__empty-title">Không tìm thấy kết quả cho “{{ search_terms_html }}”</h1>
+    <p class="fox-search-page__empty-text">{{ settings.smartsearch_empty_text | default: 'Có thể từ khoá chưa khớp với tên sản phẩm. Thử một trong các cách dưới đây hoặc chọn từ khoá gợi ý.' | escape }}</p>
+    <ul class="fox-search-page__tips">
+      <li><strong>Dùng từ chung hơn</strong>“áo khoác” thay vì “áo phao lông vũ”</li>
+      <li><strong>Kiểm tra chính tả</strong>Gõ không dấu cũng tìm được</li>
+      <li><strong>Ít từ hơn</strong>1–2 từ khoá cho kết quả rộng hơn</li>
+    </ul>
+    <p class="fox-search-page__other" data-role="other-tab" hidden></p>
+  </section>
+  {%- endif -%}
+
+  {%- if search_q == blank or search_total == 0 -%}
+    {%- if settings.smartsearch_product_show != false and settings.smartsearch_product_collection != blank -%}
+    <section class="container fox-search-page__recommend fox-search fox-search--light">
+      {%- assign rail_items = collections[settings.smartsearch_product_collection].products -%}
+      {%- assign rail_limit = settings.smartsearch_product_limit | default: 10 | plus: 0 -%}
+      {%- if search_q == blank -%}
+        {%- assign rail_title = settings.smartsearch_product_title | default: 'Sản phẩm đề xuất' -%}
+      {%- else -%}
+        {%- assign rail_title = settings.smartsearch_empty_recommend_title | default: 'Có thể bạn sẽ thích' -%}
+      {%- endif -%}
+      {%- capture rail_link_url -%}/collections/{{ settings.smartsearch_product_collection }}{%- endcapture -%}
+      {%- assign rail_link_label = 'Xem tất cả' -%}
+      {%- assign rail_id = 'fox-search-page-recommend' -%}
+      {%- include 'search-product-rail' -%}
+    </section>
+    {%- endif -%}
+  {%- endif -%}
+</div>

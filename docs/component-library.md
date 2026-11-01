@@ -1168,7 +1168,7 @@ Dependencies:
 FOX Fashion/snippets/product-main.liquid
 FOX Fashion/snippets/product-gallery.liquid
 FOX Fashion/snippets/product-form.liquid
-FOX Fashion/snippets/variant-picker.liquid
+FOX Fashion/snippets/product-swatch.liquid       (variant picker; card swatches: product-loop-swatch.liquid)
 FOX Fashion/snippets/quick-view-modal.liquid
 FOX Fashion/templates/product.quick-view.liquid
 FOX Fashion/assets/core-commerce-product.js
@@ -1357,7 +1357,7 @@ continuous autoplay configuration.
 The modal retains the shared `modal-component` and `slider-component` lifecycle. It
 uses a `9 / 16` media surface with an author header, per-story progress indicators,
 and a horizontally scrollable product strip over the lower gradient. Product cards
-are hydrated from the existing `lookbook-card` fragment and receive the
+are hydrated from the existing `product-loop-data` fragment and receive the
 `product-card--story` modifier. The public events remain `product-story:open`,
 `product-story:change`, and `product-story:close`.
 
@@ -1376,7 +1376,7 @@ FOX Fashion/assets/core-component-slider.js
 
 ## FOX Lookbook and Popover
 
-`home-lookbook.liquid` renders two configurable looks with up to three product hotspots per look. Each look accepts a primary product handle for its featured image. Each hotspot accepts a product handle and retains the legacy `/products/<handle>` URL as a fallback. Product fragments are requested from `/products/<handle>?view=lookbook-card`; that view reuses the shared `product-loop` snippet and inserts the resulting `product-card` into server-rendered slider placeholders.
+`home-lookbook.liquid` renders two configurable looks with up to three product hotspots per look. Each look accepts a primary product handle for its featured image. Each hotspot accepts a product handle and retains the legacy `/products/<handle>` URL as a fallback. Product fragments are requested from `/products/<handle>?view=product-loop-data`; that view reuses the shared `product-loop` snippet and inserts the resulting `product-card` into server-rendered slider placeholders.
 
 The lookbook does not use `<fox-popover>`. Hotspot selection and `slider-component` stay synchronized in both directions. Desktop uses a single-product slider with vertical previous/progress/next controls; tablet and mobile place the same slider below the image with horizontal controls. Events are `lookbook:change` and `lookbook:product-change`.
 
@@ -1473,4 +1473,119 @@ FOX Fashion/templates/search.data.liquid
 FOX Fashion/assets/core-commerce-collection.js
 FOX Fashion/assets/collection.css
 FOX Fashion/assets/style-global.scss.liquid
+```
+
+---
+
+## FOX Size Guide
+
+### Purpose
+
+Một modal hướng dẫn chọn size dùng chung cho trang sản phẩm và quick view, gồm tab
+"Bảng size" (nội dung tĩnh từ một Page Haravan) và tab "Tìm size phù hợp" (gợi ý size
+từ số đo, dữ liệu là Google Sheet công bố dạng CSV, không cần Apps Script).
+
+### Markup contract
+
+`snippets/size-guide-modal.liquid` render một instance duy nhất trong layout (cạnh
+`quick-view-modal`), chỉ khi `size_guide_show` bật và có ít nhất một nguồn dữ liệu.
+
+```html
+<size-guide data-state="idle" data-page-url="/pages/bang-size"
+  data-sheet-url="https://docs.google.com/.../pub?gid=0&single=true&output=csv"
+  data-stylesheet="…/size-guide.css">
+  <modal-component id="fox-size-guide-modal" data-modal-stack="true">
+    <dialog data-role="dialog" aria-labelledby="fox-size-guide-title">
+      <div data-role="surface">
+        <tabs-component>
+          <div role="tablist">…</div>
+          <div id="fox-size-guide-table" role="tabpanel">
+            <div data-role="table-status"></div><div data-role="table-content" hidden></div>
+          </div>
+          <div id="fox-size-guide-finder" role="tabpanel">
+            <div data-role="finder-status"></div>
+            <form data-role="finder-form" hidden>
+              <select data-role="category"></select>
+              <div data-role="fields"></div>
+              <div data-role="systems" role="radiogroup" hidden></div>
+              <div data-role="result" hidden>…</div>
+            </form>
+          </div>
+        </tabs-component>
+        <template data-role="field-template">…</template>
+        <template data-role="system-template">…</template>
+      </div>
+    </dialog>
+  </modal-component>
+</size-guide>
+```
+
+Trigger là bất kỳ phần tử `[data-size-guide-open]` (tùy chọn `data-size-guide-code`).
+`product-swatch.liquid` render trigger cạnh legend của option có tên khớp
+`size_guide_option_keywords` và đánh dấu fieldset `[data-size-guide-option]`. Khung
+"Chưa chắc size?" trong `product-info-tabs.liquid` cũng là trigger khi tính năng bật.
+
+### Data sources
+
+- Tab Bảng size: `GET <size_guide_page_url>?view=size-guide-data`
+  (`templates/page.size-guide-data.liquid`, `layout none`, trả `page.content`). Bảng
+  được bọc vùng cuộn ngang; dòng có ô đầu trùng size đang chọn nhận `.is-current`.
+- Tab Tìm size: CSV công bố của Google Sheet. Link `pubhtml`, `pub` và `/edit#gid=`
+  được chuẩn hóa sang CSV. Cấu trúc theo dòng, từ khóa ở cột A (không phân biệt
+  hoa/thường, có/không dấu):
+
+```text
+Loại | <tên hiển thị>          bắt đầu một loại size
+Mã   | <mã>                    tùy chọn, khớp tag sản phẩm size:<mã>
+Size | <số đo> | <số đo> …     dòng tiêu đề; cột tên bắt đầu "Size" là hệ size
+<size> | 150-160 | …           dòng dữ liệu, số đo dạng min-max hoặc một số
+```
+
+Mã mặc định là handle của tên loại. Nhiều cột `Size …` (VN/US/UK/EU) là tùy chọn;
+chỉ khi có từ hai cột mới hiện chip chọn hệ size.
+
+### Behavior
+
+Gợi ý: size có mọi số đo nằm trong khoảng là khớp; nhiều size cùng khớp (khoảng chồng
+nhau) chọn size lớn hơn và gợi ý size nhỏ hơn; không khớp thì chọn tổng độ lệch nhỏ
+nhất (chuẩn hóa theo biên độ cột) và ghi "Size gần nhất". Ô trống không tính.
+Page HTML và CSV được cache trong `sessionStorage` 30 phút; hệ size chọn gần nhất lưu
+`localStorage` (`fox-size-guide-system`). CSS được component tự nạp ở lần mở đầu.
+
+Quick view: modal mở với `data-modal-stack="true"`; quick view ở trạng thái
+`data-modal-suspended="true"` được ẩn (`quick-view.css`) và tự hiện lại khi đóng.
+
+### State, events and API
+
+```text
+data-state="idle|ready|error"
+size-guide:open    detail: { code, currentSize }
+size-guide:result  detail: { category, size, exact }
+size-guide:error   detail: { source: "stylesheet|page|sheet", message }
+open({ trigger, code, currentSize }) / close()
+FOX.sizeGuide.parseCsv / buildCategories / recommend / resolveSheetUrl / handleize
+```
+
+Lỗi nguồn nào chỉ ảnh hưởng tab đó (thông báo trong `data-role="*-status"`). Sheet
+rỗng hoặc sai mẫu báo "Chưa có dữ liệu size phù hợp". `disconnectedCallback()` abort
+listener và hủy timer; registration có guard.
+
+Settings: `size_guide_show`, `size_guide_title`, `size_guide_subtitle`,
+`size_guide_button_label`, `size_guide_option_keywords`, `size_guide_table_label`,
+`size_guide_page_url`, `size_guide_finder_label`, `size_guide_sheet_url`,
+`size_guide_finder_note`.
+
+Dependencies:
+
+```text
+FOX Fashion/snippets/size-guide-modal.liquid
+FOX Fashion/templates/page.size-guide-data.liquid
+FOX Fashion/assets/size-guide.js
+FOX Fashion/assets/size-guide.css
+FOX Fashion/snippets/product-swatch.liquid
+FOX Fashion/snippets/product-info-tabs.liquid
+FOX Fashion/assets/core-component-modal.js
+FOX Fashion/assets/tabs.js
+FOX Fashion/assets/quick-view.css
+FOX Fashion/snippets/svg-cache.liquid   (ic-fox-support-size, ic-fox-size-guide-table, ic-fox-size-guide-finder)
 ```

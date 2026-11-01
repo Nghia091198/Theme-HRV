@@ -1,1 +1,58 @@
-/* */
+{%- comment -%}
+  Blog listing (template blog). Page 1: first article is the featured card, the rest form a grid.
+  Mobile grid uses settings.blog_mobile_columns (1 | 2). Sidebar sits outside paginate so
+  "Bài mới" always lists the latest articles. Styles: assets/blog.css.
+{%- endcomment -%}
+{%- assign blog_page_size = settings.blog_page_size | default: 9 | plus: 0 -%}
+{%- if blog_page_size < 2 -%}{%- assign blog_page_size = 9 -%}{%- endif -%}
+{%- assign blog_mobile_columns = settings.blog_mobile_columns | default: '2' -%}
+
+<div class="fox-blog">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
+
+    <div class="fox-blog__layout">
+      <main class="fox-blog__main">
+        <header class="fox-blog__header">
+          <h1 class="fox-blog__title">{{ blog.title | escape }}</h1>
+          {%- if current_tags != blank -%}
+          <p class="fox-blog__subtitle">Chuyên mục: <strong>{{ current_tags | join: ', ' | escape }}</strong></p>
+          {%- elsif settings.blog_description != blank -%}
+          <p class="fox-blog__subtitle">{{ settings.blog_description | escape }}</p>
+          {%- endif -%}
+        </header>
+
+        {%- paginate blog.articles by blog_page_size -%}
+          {%- if blog.articles.size == 0 -%}
+          <p class="fox-blog__empty">Chưa có bài viết nào trong mục này.</p>
+          {%- else -%}
+            {%- assign blog_has_featured = false -%}
+            {%- if paginate.current_page == 1 and current_tags == blank -%}{%- assign blog_has_featured = true -%}{%- endif -%}
+
+            {%- if blog_has_featured -%}
+              {%- assign blog_card_article = blog.articles.first -%}
+              {%- assign blog_card_featured = true -%}
+              {%- include 'blog-article-card' -%}
+            {%- endif -%}
+
+            <div class="fox-blog__grid fox-blog__grid--mobile-{{ blog_mobile_columns }}">
+              {%- for blog_article in blog.articles -%}
+                {%- assign blog_skip_card = false -%}
+                {%- if blog_has_featured and forloop.first -%}{%- assign blog_skip_card = true -%}{%- endif -%}
+                {%- unless blog_skip_card -%}
+                  {%- assign blog_card_article = blog_article -%}
+                  {%- assign blog_card_featured = false -%}
+                  {%- include 'blog-article-card' -%}
+                {%- endunless -%}
+              {%- endfor -%}
+            </div>
+
+            {%- include 'pagination' with pagination_aria_label: 'Phân trang bài viết' -%}
+          {%- endif -%}
+        {%- endpaginate -%}
+      </main>
+
+      {%- include 'blog-sidebar' -%}
+    </div>
+  </div>
+</div>

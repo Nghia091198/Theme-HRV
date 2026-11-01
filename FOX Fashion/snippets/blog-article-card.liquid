@@ -1,0 +1,48 @@
+{%- comment -%}
+  Blog article card. Input: blog_card_article (article), blog_card_featured (true = large first card).
+  The publish date sits as a framed badge on the top-left corner of the image.
+{%- endcomment -%}
+{%- assign card_article = blog_card_article -%}
+{%- assign card_title = card_article.title | strip -%}
+{%- assign card_summary = card_article.excerpt | default: card_article.content | strip_html | strip_newlines | strip | truncate: 160 -%}
+{%- assign card_tag = card_article.tags.first -%}
+
+<article class="fox-blog-card{% if blog_card_featured %} fox-blog-card--featured{% endif %}">
+  <div class="fox-blog-card__media-wrap">
+    <a class="fox-blog-card__media" href="{{ card_article.url | escape }}" tabindex="-1" aria-hidden="true">
+      {%- if card_article.image -%}
+      <img
+        src="{{ card_article.image.src | product_img_url: 'grande' }}"
+        srcset="{{ card_article.image.src | product_img_url: 'grande' }} 600w, {{ card_article.image.src | product_img_url: '1024x1024' }} 1024w"
+        sizes="{% if blog_card_featured %}(min-width: 992px) 45vw, 100vw{% else %}(min-width: 992px) 30vw, (min-width: 576px) 50vw, 100vw{% endif %}"
+        width="900"
+        height="600"
+        alt="{{ card_article.image.alt | default: card_title | escape }}"
+        loading="lazy"
+        decoding="async">
+      {%- else -%}
+      <span class="fox-blog-card__placeholder"></span>
+      {%- endif -%}
+    </a>
+    <time class="fox-blog-card__date" datetime="{{ card_article.published_at | date: '%Y-%m-%d' }}">
+      <span class="fox-blog-card__date-day">{{ card_article.published_at | date: '%d' }}</span>
+      <span class="fox-blog-card__date-month">{{ card_article.published_at | date: '%m/%Y' }}</span>
+    </time>
+  </div>
+  <div class="fox-blog-card__body">
+    {%- if card_tag != blank -%}<span class="fox-blog-chip">{{ card_tag | escape }}</span>{%- endif -%}
+    <h2 class="fox-blog-card__title"><a class="fox-text-link" href="{{ card_article.url | escape }}">{{ card_title | escape }}</a></h2>
+    {%- if card_summary != blank -%}<p class="fox-blog-card__summary">{{ card_summary | escape }}</p>{%- endif -%}
+    {%- assign card_read_more = settings.blog_read_more_label | default: 'Đọc thêm' -%}
+    <a class="fox-blog-card__more btn btn-secondary" button-effect href="{{ card_article.url | escape }}">
+      <span class="btn__label">
+        {{ card_read_more | escape }}
+        <span class="fox-blog-sr-only">: {{ card_title | escape }}</span>
+      </span>
+      <span class="btn--icon" aria-hidden="true">
+        <svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+      </span>
+      <span data-btn-effect-span aria-hidden="true"></span>
+    </a>
+  </div>
+</article>

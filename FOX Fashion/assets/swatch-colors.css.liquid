@@ -1,0 +1,16 @@
+{%- comment -%}
+  Swatch colors generated from the collection color filter settings  (Bộ lọc màu 1..21).
+  Each enabled color with a name becomes `.fox-color--<name | handleize>` and sets
+  --fox-swatch-color, read by product cards (.fox-swatch__label) and the variant picker
+  (.fox-product__swatch-color). A color value matches when its handle equals the setting name's handle.
+{%- endcomment -%}
+{%- for color_index in (1..21) -%}
+  {%- capture color_show_key -%}use_color_filter_{{ color_index }}{%- endcapture -%}
+  {%- capture color_name_key -%}name_color_filter_{{ color_index }}{%- endcapture -%}
+  {%- capture color_code_key -%}code_color_filter_{{ color_index }}{%- endcapture -%}
+  {%- assign color_name = settings[color_name_key] | strip -%}
+  {%- assign color_code = settings[color_code_key] | strip -%}
+  {%- if settings[color_show_key] and color_name != blank and color_code != blank -%}
+.fox-color--{{ color_name | handleize }} { --fox-swatch-color: {{ color_code }}; }
+  {%- endif -%}
+{%- endfor -%}

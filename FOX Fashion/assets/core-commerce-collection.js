@@ -2,16 +2,21 @@
   const ROOT_SELECTOR = '[data-collection-root]';
   const FILTER_CONTROL_SELECTOR = 'input[type="checkbox"][data-filter][data-filter-value], input[type="radio"][data-filter][data-filter-value]';
   const REQUEST_TIMEOUT = 10000;
+  // Single source for the URL parameter of each filter group; formatFilterParams() is built from it.
   const FILTER_PARAMS = {
-    color: 'tag1',
-    material: 'tag2',
+    color: 'color',
+    material: 'tag1',
     size: 'variant',
     price: 'price',
-    fit: 'tag3',
+    fit: 'tag2',
     vendor: 'vendor',
     type: 'product_type',
     availability: 'available',
   };
+  const FILTER_PARAM_PATTERN = new RegExp(
+    `([?&](?:${Object.values(FILTER_PARAMS).map((param) => param.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})=[^&#]*)`,
+    'g',
+  );
 
   function unique(values) {
     return [...new Set(values.filter(Boolean))];
@@ -46,7 +51,13 @@
     return values.map((value, index) => index ? value.replace(/^color:/, '') : value).join(',');
   }
 
+  // Search page: data-keyword-query is the base query with a {keyword} slot, filled with the decoded keyword
+  // (data-keyword); characters of the filter syntax are dropped so any keyword keeps the query valid.
   function getBaseQuery(root) {
+    if (root.dataset.keywordQuery && root.dataset.keyword) {
+      const keyword = root.dataset.keyword.replace(/[()&|*=,]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (keyword) return root.dataset.keywordQuery.replace('{keyword}', keyword);
+    }
     return root.dataset.baseQuery || '';
   }
 
@@ -83,7 +94,9 @@
     return `filter=${unique([getBaseQuery(root), ...filters]).join('&&')}`;
   }
 
+  // data-always-search: the search page; its base query is the keyword, so every request goes through search.
   function shouldUseSearch(root) {
+    if (root.dataset.alwaysSearch === 'true') return true;
     return getActiveValues(root).length > 0 || (Number(root.dataset.sortCount || 1) > 1 && getSort(root) !== 'manual');
   }
 
@@ -211,9 +224,11 @@
     return requestUrl;
   }
 
+  // Keep "," and ":" readable in every filter parameter (Đỏ,Vàng,Cam instead of Đỏ%2CVàng%2CCam).
+  // "+" stays encoded (%2B): a raw "+" would be read back as a space (price "500000+").
   function formatFilterParams(url) {
     return url.replace(
-      /([?&](?:tag1|tag2|variant|price|tag3|vendor|product_type|available)=[^&#]*)/g,
+      FILTER_PARAM_PATTERN,
       (parameter) => parameter.replace(/%2C/gi, ',').replace(/%3A/gi, ':'),
     );
   }
@@ -230,6 +245,8 @@
       canonical.searchParams.delete('sortby');
     }
     canonical.searchParams.delete(root.dataset.queryParam || 'q');
+    // Search page: the visible URL keeps the keyword (the filter query itself is never pushed).
+    if (root.dataset.keyword) canonical.searchParams.set('q', root.dataset.keyword);
     if (root.dataset.pushFilterParams === 'true') {
       const selected = new Map();
       getControls(root).filter((control) => control.checked).forEach((control) => {
@@ -261,6 +278,20 @@
   function setStatus(root, message) {
     const status = root.querySelector('[data-role="status"]');
     if (status) status.textContent = message || '';
+  }
+
+  // Desktop: after a filter change, bring the listing top (toolbar) back into view when it has been scrolled past.
+  function scrollToListing(root) {
+    if (root._foxCollectionMobile?.matches) return;
+    const target = root.querySelector('.fox-collection__toolbar') || root.querySelector('[data-role="results"]') || root;
+    const headerOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fox-header-height'), 10) || 0;
+    const offset = headerOffset + 16;
+    const top = target.getBoundingClientRect().top;
+    if (top >= offset) return;
+    window.scrollTo({
+      top: window.scrollY + top - offset,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
   }
 
   function setFilterOptionsExpanded(button, expanded) {
@@ -577,6 +608,7 @@
         const remaining = container?.querySelectorAll('[data-filter-remove]') || [];
         (remaining[Math.min(position, remaining.length - 1)] || root.querySelector('[data-filter-toggle]'))?.focus();
       }
+      scrollToListing(root);
       request(root);
       return;
     }
@@ -584,6 +616,7 @@
     if (event.target.closest('[data-filter-reset]')) {
       getControls(root).forEach((control) => setControlState(control, false));
       renderActiveFilters(root);
+      scrollToListing(root);
       request(root);
       return;
     }
@@ -621,6 +654,7 @@
         .filter((control) => control.dataset.filterValue === filter.dataset.filterValue)
         .forEach((control) => setControlState(control, filter.checked));
       renderActiveFilters(root);
+      scrollToListing(root);
       request(root);
       return;
     }
@@ -709,7 +743,8 @@
       hasFilterParams && legacyFilter ? getCanonicalUrl(root, window.location.href) : formatFilterParams(window.location.href),
     );
     syncPaginationMode(root);
-    if (hasFilterParams || initialParams.get('sortby') || (Number(root.dataset.sortCount || 1) > 1 && initialParams.get('sort_by'))) {
+    // Search page renders no results in Liquid: they always load here, through the same view as filtering.
+    if (root.dataset.alwaysSearch === 'true' || hasFilterParams || initialParams.get('sortby') || (Number(root.dataset.sortCount || 1) > 1 && initialParams.get('sort_by'))) {
       request(root, window.location.href, { skipHistory: true });
     }
   }

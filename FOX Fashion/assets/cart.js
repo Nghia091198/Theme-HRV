@@ -194,6 +194,27 @@
             return result;
         },
 
+        /** Them nhieu dong: de quy tung dong (giong addCombo cu), dong loi thi bo qua; render + bao mot lan */
+        async addMany(items) {
+            const addNext = async (index, added) => {
+                if (index >= items.length) return added;
+                const item = items[index];
+                try {
+                    await rawAdd(item.variantId, item.quantity || 1, item.properties || null);
+                    added += 1;
+                } catch (error) {
+                    console.warn('[FOX.cart] Không thêm được', item.variantId, error?.message);
+                }
+                return addNext(index + 1, added);
+            };
+            let added = 0;
+            const result = await mutate('add', async () => {
+                added = await addNext(0, 0);
+            });
+            if (added) emit('cart:added', { items, added });
+            return { ...result, added };
+        },
+
         /** Mua ngay: khong render vi dang nao cung chuyen trang */
         async buyNow(variantId, quantity = 1, properties = null) {
             busy(1);
@@ -220,15 +241,15 @@
         refresh: () => mutate('refresh', async () => {}),
     };
 
-    /* Tuong thich nguoc: script-global.js.liquid con goi FOX.cartAction.addToCart */
+    /* Tuong thich nguoc: API cu FOX.cartAction  (addToCart/buyNow) cho code ngoai theme co the con goi */
     FOX.cartAction = {
         addToCart: ({ variantId, quantity = 1 }) => FOX.cart.add(variantId, quantity),
         buyNow: ({ variantId, quantity = 1 }) => FOX.cart.buyNow(variantId, quantity),
     };
 
-    /* Badge so luong tren header — truoc day khong bao gio tu cap nhat */
+    /* Badge so luong gio tren header (bo qua badge yeu thich, do wishlist.js tu cap nhat) */
     document.addEventListener('cart:changed', ({ detail }) => {
-        document.querySelectorAll('.fox-header-action__badge').forEach((el) => {
+        document.querySelectorAll('.fox-header-action__badge:not(.fox-header-action__badge--wishlist)').forEach((el) => {
             el.textContent = detail.itemCount;
             el.toggleAttribute('hidden', detail.itemCount === 0);
         });

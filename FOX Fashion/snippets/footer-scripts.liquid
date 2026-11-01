@@ -25,9 +25,8 @@
 <script type="text/javascript" src="{{ 'countdown.js' | asset_url }}" defer></script>
 <script type="text/javascript" src="{{ 'image-compare.js' | asset_url }}" defer></script>
 <script type="text/javascript" src="{{ 'product-tabs.js' | asset_url }}" defer></script>
-<script type="text/javascript" src="{{ 'script-index.js'  | asset_url }}" defer></script>
 
-{%- elsif template contains 'collection' -%} 
+{%- elsif template contains 'collection' or template contains 'search' -%} 
 <script type="text/javascript" src="{{ 'core-commerce-collection.js'  | asset_url }}" defer></script>
 {%- endif -%} 
 
@@ -42,6 +41,12 @@
 <script defer type="text/javascript" src="{{ 'core-component-image-zoom.js' | asset_url }}"></script>
 <script defer type="text/javascript" src="{{ 'core-commerce-product.js' | asset_url }}"></script>
 <script defer type="text/javascript" src="{{ 'core-commerce-quick-view.js' | asset_url }}"></script>
+{%- if settings.size_guide_show or template contains 'page.size-guide' -%}
+<script defer type="text/javascript" src="{{ 'size-guide.js' | asset_url }}"></script>
+{%- endif -%}
+{%- if settings.float_contact_show or settings.float_btt_show -%}
+<script defer type="text/javascript" src="{{ 'floating-contact.js' | asset_url }}"></script> 
+{%- endif -%}
 {%- if template contains 'index' -%}
 <script defer type="text/javascript" src="{{ 'lookbook.js' | asset_url }}"></script>
 <script defer type="text/javascript" src="{{ 'product-story.js' | asset_url }}"></script>
@@ -52,8 +57,34 @@
 <script defer fetchpriority="low" type="text/javascript" src="{{ 'scroll-viewport.js' | asset_url }}"></script>
 <script defer fetchpriority="low" type="text/javascript" src="{{ 'effect-cursor.js' | asset_url }}"></script>
 <script defer type="text/javascript" src="{{ 'product-card.js' | asset_url }}"></script>
+{%- if template contains 'product' or template contains 'collection' -%}
+<script defer type="text/javascript" src="{{ 'recently-viewed.js' | asset_url }}"></script>{% comment %}Needs FOX.loadProductFragment from core-commerce-product.js.{% endcomment %}
+{%- endif -%}
+{%- if settings.wishlist_show != false -%}
+<script defer type="text/javascript" src="{{ 'wishlist.js' | asset_url }}"></script>{% comment %}Wishlist page needs FOX.loadProductFragment from core-commerce-product.js.{% endcomment %}
+{%- endif -%}
+{%- if template contains 'product' and settings.sticky_buy_show -%}
+<script defer type="text/javascript" src="{{ 'product-sticky-buy.js' | asset_url }}"></script>
+{%- endif -%}
+{%- if template contains 'product' and settings.store_stock_show != false -%}
+<script defer type="text/javascript" src="{{ 'product-store-stock.js' | asset_url }}"></script>
+{%- endif -%}
+{%- if template contains 'product' or template contains 'article' -%}
+<script defer type="text/javascript" src="{{ 'share-links.js' | asset_url }}"></script>
+{%- endif -%}
+{%- if template contains 'article' -%}
+<script defer type="text/javascript" src="{{ 'blog-article.js' | asset_url }}"></script>
+{%- endif -%}
+{%- if template contains 'page.faq' -%}
+<script defer type="text/javascript" src="{{ 'page-faq.js' | asset_url }}"></script>
+{%- endif -%}
 {%- if template contains 'index' -%}
 <script defer type="text/javascript" src="{{ 'featured-product.js' | asset_url }}"></script>
 {%- endif -%}
 <script defer type="text/javascript" src="{{ 'tabs.js' | asset_url }}"></script>
 <script defer type="text/javascript" src="{{ 'accordion.js' | asset_url }}"></script>
+<script defer type="text/javascript" src="{{ 'expand-content.js' | asset_url }}"></script>
+<script defer type="text/javascript" src="{{ 'search-panel.js' | asset_url }}"></script>
+{%- if template contains 'search' -%}
+<script defer type="text/javascript" src="{{ 'search-page.js' | asset_url }}"></script>{% comment %}Needs FOX.search from search-panel.js.{% endcomment %}
+{%- endif -%}

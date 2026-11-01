@@ -1,0 +1,108 @@
+/* Reusable multi-level menu accordion (snippets/component-menu-accordion.liquid, behavior: accordion.js).
+   Colors follow currentColor so the menu fits light or dark (glass) surfaces. Tune with --fox-menu-accordion-*. */
+.fox-menu-accordion {
+  --fox-menu-accordion-line: color-mix(in srgb, currentColor 12%, transparent);
+  --fox-menu-accordion-muted: color-mix(in srgb, currentColor 78%, transparent);
+  --fox-menu-accordion-indent: 1.4rem;
+  display: block;
+}
+
+.fox-menu-accordion__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-menu-accordion__list:not([data-level="1"]) {
+  margin-inline-start: 0.4rem;
+  padding-inline-start: var(--fox-menu-accordion-indent);
+  border-inline-start: 1px solid var(--fox-menu-accordion-line);
+}
+
+.fox-menu-accordion__list[data-level="1"] > .fox-menu-accordion__item + .fox-menu-accordion__item {
+  border-top: 1px solid var(--fox-menu-accordion-line);
+}
+
+.fox-menu-accordion__row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.fox-menu-accordion__link {
+  flex: 1;
+  min-width: 0;
+  padding: 0.9rem 0;
+  color: var(--fox-menu-accordion-muted);
+  font-size: 1.4rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.fox-menu-accordion__list:not([data-level="1"]) .fox-menu-accordion__link {
+  padding: 0.6rem 0;
+  font-size: 1.3rem;
+}
+
+.fox-menu-accordion__link:hover,
+.fox-menu-accordion__link.is-active {
+  color: inherit;
+}
+
+.fox-menu-accordion__link.is-active {
+  font-weight: 600;
+}
+
+.fox-menu-accordion__toggle {
+  display: grid;
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: 0;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 180ms ease;
+}
+
+.fox-menu-accordion__toggle:hover,
+.fox-menu-accordion__toggle[aria-expanded="true"] {
+  opacity: 1;
+}
+
+/* Plus / minus: the vertical stroke collapses when the branch is open. */
+.fox-menu-accordion__icon-v {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform 220ms ease;
+}
+
+.fox-menu-accordion__toggle[aria-expanded="true"] .fox-menu-accordion__icon-v {
+  transform: scaleY(0);
+}
+
+.fox-menu-accordion__panel {
+  padding-bottom: 0.4rem;
+}
+
+.fox-menu-accordion__panel[hidden] {
+  display: none;
+}
+
+.fox-menu-accordion__link:focus-visible,
+.fox-menu-accordion__toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-menu-accordion__link,
+  .fox-menu-accordion__toggle,
+  .fox-menu-accordion__icon-v {
+    transition: none;
+  }
+}

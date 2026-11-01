@@ -21,7 +21,7 @@
 {%- assign label2 = '' -%}
 {%- assign variant_in_detail = false -%}
 {% comment %}Callers set the concise product_card_context contract.{% endcomment %}
-{%- if product_card_context == 'product-tabs' or product_card_context == 'lookbook' or product_card_context == 'product-story' or product_card_context == 'header-mega' or product_card_context == 'collection' -%}
+{%- if product_card_context == 'product-tabs' or product_card_context == 'lookbook' or product_card_context == 'product-story' or product_card_context == 'header-mega' or product_card_context == 'collection' or product_card_context == 'search' -%}
   {%- assign variant_in_detail = true -%}
 {%- endif -%}
 {%- for tag in product.tags -%}
@@ -58,6 +58,16 @@
 				{%- if sold_out -%}<span class="tag-item soldout">{{settings.product_soldout}}</span>{%- endif -%}
 			</div>
 			{%- endif -%}
+			<div class="proloop--actions">
+			{%- if settings.wishlist_show != false -%}
+			<div class="proloop--wishlist">
+				{%- assign wishlist_handle = product.handle -%}
+				{%- assign wishlist_product_id = product.id -%}
+				{%- assign wishlist_title = product.title -%}
+				{%- assign wishlist_style = 'card' -%}
+				{%- include 'wishlist-button' -%}
+			</div>
+			{%- endif -%}
 			<div class="proloop--action">
 				<add-to-cart data-variant-id="{{ product.variants.first.id }}" data-product-id="{{ product.id }}"
 										 data-handle="{{ product.handle }}" data-quantity="1" data-mode="cart" data-state="idle"
@@ -84,9 +94,10 @@
 					<span data-btn-effect-span aria-hidden="true"></span>
 				</button>
 			</div>
+			</div>
 			{%- if product.available and product.variants.size > 1 and variant_in_detail == false -%}
 			<div class="proloop--variant">
-				{%- include 'product-swatch' -%}
+				{%- include 'product-loop-swatch' -%} 
 			</div>
 			{%- endif -%}
 		</div>
@@ -109,7 +120,7 @@
 			</div>
 			{%- if product.available and product.variants.size > 1 and variant_in_detail -%}
 			<div class="proloop--variant proloop--variant-detail">
-				{%- include 'product-swatch' -%}
+				{%- include 'product-loop-swatch' -%} 
 			</div>
 			{%- endif -%}
 		</div>

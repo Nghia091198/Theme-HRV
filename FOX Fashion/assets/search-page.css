@@ -1,0 +1,744 @@
+/* Search page (templates/search.liquid, search-page.js). Grid, toolbar, chips and filter controls come from
+   collection.css (shared collection engine); this file adds the Aurora head, the horizontal filter row, articles and
+   the empty state. */
+.fox-search-page {
+  --fox-sp-ink: var(--color-text-theme, #1b2631);
+  --fox-sp-muted: color-mix(in srgb, var(--fox-sp-ink) 65%, transparent);
+  --fox-sp-line: color-mix(in srgb, var(--fox-sp-ink) 12%, transparent);
+  --fox-sp-glass:
+    radial-gradient(circle at 88% 115%, rgb(122 58 22 / 58%), transparent 46%),
+    linear-gradient(145deg, rgb(120 116 116 / 95%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  padding-bottom: clamp(4.8rem, 6vw, 7.2rem);
+}
+
+.fox-search-page__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Aurora head (palette and drift of page.size-guide) */
+.fox-search-page__hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #f6f1ea;
+  text-align: center;
+}
+
+.fox-search-page__orbs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.fox-search-page__orbs span {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(60px);
+}
+
+.fox-search-page__orbs span:nth-child(1) {
+  top: -30%;
+  left: -6%;
+  width: 46rem;
+  height: 32rem;
+  background: #c9a7bd;
+  animation: fox-sp-drift-a 22s ease-in-out infinite alternate;
+}
+
+.fox-search-page__orbs span:nth-child(2) {
+  top: -20%;
+  right: -6%;
+  width: 46rem;
+  height: 32rem;
+  background: #f2c38f;
+  animation: fox-sp-drift-b 26s ease-in-out infinite alternate;
+}
+
+.fox-search-page__orbs span:nth-child(3) {
+  bottom: -60%;
+  left: 36%;
+  width: 40rem;
+  height: 28rem;
+  background: #b7c6ad;
+  animation: fox-sp-drift-a 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fox-sp-drift-a {
+  to { transform: translate(8vw, 4vh) scale(1.1); }
+}
+
+@keyframes fox-sp-drift-b {
+  to { transform: translate(-8vw, 6vh) scale(0.94); }
+}
+
+.fox-search-page__hero-inner {
+  padding-top: clamp(3.2rem, 4vw, 4.8rem);
+}
+
+.fox-search-page__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0.6rem 1.4rem;
+  background: rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.fox-search-page__eyebrow .icon-svg,
+.fox-search-page__form .icon-svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+}
+
+.fox-search-page__form {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 76rem;
+  min-height: 6.2rem;
+  margin: 1.6rem auto 1.2rem;
+  padding: 0.8rem 0.8rem 0.8rem 2.4rem;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  box-shadow: 0 1.4rem 3.6rem rgb(27 38 49 / 12%);
+  transition: border-color 180ms ease;
+}
+
+.fox-search-page__form:focus-within {
+  border-color: var(--fox-sp-ink);
+}
+
+.fox-search-page__form-icon {
+  flex: 0 0 auto;
+  width: 2rem !important;
+  height: 2rem !important;
+  opacity: 0.6;
+}
+
+.fox-search-page__input {
+  flex: 1;
+  min-width: 0;
+  height: 4.6rem;
+  padding: 0;
+  color: var(--fox-sp-ink);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.fox-search-page__input:focus,
+.fox-search-page__input:focus-visible {
+  outline: 0;
+}
+
+.fox-search-page__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.fox-search-page__clear {
+  display: grid;
+  flex: 0 0 auto;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  color: var(--fox-sp-muted);
+  background: #f3eee8;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-search-page__clear[hidden] {
+  display: none;
+}
+
+.fox-search-page__clear .icon-svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.fox-search-page__submit {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.6rem;
+  height: 4.6rem;
+  padding: 0 2.2rem;
+  color: var(--color-btn-text-primary, #fff);
+  background: var(--color-btn-bg-primary, #1b2631);
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fox-search-page__summary {
+  margin: 0;
+  color: #3a434b;
+  font-size: 1.5rem;
+}
+
+.fox-search-page__summary strong {
+  color: var(--fox-sp-ink);
+}
+
+.fox-search-page__popular {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1.4rem 0 0;
+  color: var(--fox-sp-muted);
+  font-size: 1.25rem;
+}
+
+.fox-search-page__popular a {
+  padding: 0.5rem 1.2rem;
+  color: var(--fox-sp-ink);
+  background: rgb(255 255 255 / 75%);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.fox-search-page__popular a:hover {
+  background: #fff;
+}
+
+/* Tabs: theme buttons, current = primary, other = secondary (button.css + button-effect). */
+.fox-search-page__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2.2rem;
+  padding-bottom: 2.6rem;
+}
+
+.fox-search-page__tab {
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0 1.8rem 0 2.2rem;
+  font-size: 1.45rem;
+  text-decoration: none;
+}
+
+.fox-search-page__tab.btn-secondary {
+  --btn-color: var(--color-btn-text-secondary, #1b2631);
+}
+
+.fox-search-page__count {
+  position: relative;
+  z-index: 1;
+  min-width: 2.4rem;
+  padding: 0 0.8rem;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2.2rem;
+  text-align: center;
+  transition: color 300ms ease, background-color 300ms ease;
+}
+
+.fox-search-page__tab.btn-primary .fox-search-page__count {
+  color: var(--color-btn-text-primary, #fff);
+  background: rgb(255 255 255 / 20%);
+}
+
+.fox-search-page__tab.btn-secondary .fox-search-page__count {
+  color: var(--color-btn-bg-secondary, #fff);
+  background: var(--color-btn-text-secondary, #1b2631);
+}
+
+/* Secondary hover fills dark (button-effect): the count turns light so it stays readable. */
+.fox-search-page__tab.btn-secondary:is(:hover, :focus-visible) .fox-search-page__count {
+  color: var(--color-btn-text-secondary, #1b2631);
+  background: #fff;
+}
+
+.fox-search-page :is(a, button):focus-visible {
+  outline: 2px solid var(--fox-sp-ink);
+  outline-offset: 2px;
+}
+
+/* Products: collection engine, full-width grid */
+.fox-search-page__collection {
+  padding-top: 1.6rem;
+}
+
+/* Mobile: collection.css shows the filters inline until its JS is ready (no-JS fallback); on the search page that
+   flashes the whole list before it moves into the sheet, so the block stays hidden until the engine is ready. */
+@media (max-width: 767px) {
+  .fox-search-page [data-collection-root]:not([data-collection-ready="true"]) .fox-search-page__filters {
+    display: none;
+  }
+}
+
+.fox-search-page__toolbar {
+  margin-bottom: 1.2rem;
+}
+
+@media (min-width: 768px) {
+  /* Filter column → one row of pills above the grid, each group opening a glass popover. */
+  .fox-search-page__layout {
+    display: block;
+  }
+
+  .fox-search-page__filters,
+  .fox-search-page__filters .fox-collection__filter-column,
+  .fox-search-page__filters .fox-collection__filters {
+    position: static;
+    width: auto;
+    max-width: none;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+    contain: none;
+    will-change: auto;
+  }
+
+  /* The row (and its popovers) sits above the product grid that follows it. */
+  .fox-search-page .fox-search-page__filters {
+    position: relative;
+    z-index: 30;
+  }
+
+  .fox-search-page__filters {
+    margin-bottom: 1.8rem;
+  }
+
+  /* core-offcanvas__content is a column flexbox (core-component-offcanvas.css): turn it into a wrapping row. */
+  .fox-search-page .fox-search-page__filters .fox-collection__filter-column[data-position='left'] .fox-collection__filters-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .fox-search-page__filters .fox-collection__filters-heading {
+    display: none;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group,
+  .fox-search-page__filters .fox-collection__availability {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group > summary,
+  .fox-search-page__filters .fox-collection__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 3.8rem;
+    padding: 0 1.4rem;
+    border: 1px solid var(--fox-sp-line);
+    border-radius: 999px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group > summary::after {
+    content: '';
+    width: 0.7rem;
+    height: 0.7rem;
+    margin: -0.3rem 0 0 0.2rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 200ms ease;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group[open] > summary {
+    border-color: var(--fox-sp-ink);
+    box-shadow: inset 0 0 0 1px var(--fox-sp-ink);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group[open] > summary::after {
+    margin-top: 0.3rem;
+    transform: rotate(-135deg);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group:has(input:checked) > summary {
+    border-color: var(--fox-sp-ink);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group > .fox-collection__filter-options {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.8rem);
+    left: 0;
+    width: max-content;
+    min-width: 22rem;
+    max-width: 32rem;
+    max-height: 32rem;
+    margin: 0;
+    padding: 1.4rem 1.6rem;
+    overflow-y: auto;
+    color: #fff;
+    background: var(--fox-sp-glass);
+    border: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 1.8rem;
+    box-shadow: 0 2rem 4rem rgb(0 0 0 / 25%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-group > .fox-collection__filter-options-toggle {
+    display: none;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options [data-filter-extra] {
+    display: list-item;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-option {
+    color: inherit;
+  }
+
+  /* Controls on the glass popover: light versions (as the dark mobile filter sheet in collection.css). */
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option {
+    color: rgb(255 255 255 / 82%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option:hover {
+    color: #fff;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option input:is([type="checkbox"], [type="radio"]) {
+    border-color: rgb(255 255 255 / 70%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option:hover input:not(:checked)::before {
+    background: rgb(255 255 255 / 25%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option input:checked {
+    border-color: #fff;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option input:checked::before {
+    background: #fff;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option input:checked ~ span:last-child {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options--color input:checked + .fox-collection__filter-swatch,
+  .fox-search-page__filters .fox-collection__filter-options--color input:focus-visible + .fox-collection__filter-swatch {
+    outline-color: #fff;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options--color .fox-collection__filter-swatch {
+    border-color: rgb(255 255 255 / 30%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options--size .fox-collection__filter-option > span {
+    color: #fff;
+    border-color: rgb(255 255 255 / 38%);
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options--size .fox-collection__filter-option input:checked + span {
+    color: var(--fox-sp-ink);
+    background: #fff;
+    border-color: #fff;
+  }
+
+  .fox-search-page__filters .fox-collection__filter-options input:focus-visible,
+  .fox-search-page__filters .fox-collection__filter-options--size input:focus-visible + span {
+    outline-color: #fff;
+  }
+
+  /* Native scrollbar on the glass list. */
+  .fox-search-page__filters .fox-collection__filter-group > .fox-collection__filter-options {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 28%) transparent;
+  }
+}
+
+/* Full-width grid: 4 / 3 / 2 columns */
+.fox-search-page .fox-collection__grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1199px) {
+  .fox-search-page .fox-collection__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .fox-search-page .fox-collection__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Articles tab */
+.fox-search-page__articles {
+  padding-top: 2.4rem;
+}
+
+.fox-search-page__article-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem;
+  margin: 0 0 2.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-search-page__article {
+  display: grid;
+  grid-template-columns: 20rem minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+  height: 100%;
+  padding: 1.2rem;
+  color: var(--fox-sp-ink);
+  border: 1px solid var(--fox-sp-line);
+  border-radius: 1.6rem;
+  text-decoration: none;
+  transition: box-shadow 200ms ease;
+}
+
+.fox-search-page__article:hover {
+  box-shadow: 0 1.2rem 3rem rgb(27 38 49 / 10%);
+}
+
+.fox-search-page__article-media {
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #f3eee8;
+  border-radius: 1.2rem;
+}
+
+.fox-search-page__article-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fox-search-page__article-text {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.fox-search-page__article-text small,
+.fox-search-page__article-text > span {
+  color: var(--fox-sp-muted);
+  font-size: 1.3rem;
+}
+
+.fox-search-page__article-text strong {
+  font-family: var(--base-font-title);
+  font-size: 1.7rem;
+  line-height: 1.35;
+}
+
+/* Empty state */
+.fox-search-page__empty {
+  display: grid;
+  justify-items: center;
+  padding-top: 4rem;
+  text-align: center;
+}
+
+.fox-search-page__empty-icon {
+  display: grid;
+  width: 8.4rem;
+  height: 8.4rem;
+  margin-bottom: 1.4rem;
+  color: #fff;
+  background: var(--fox-sp-glass);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.fox-search-page__empty-icon .icon-svg {
+  width: 3.2rem;
+  height: 3.2rem;
+  fill: none;
+  stroke: currentColor;
+}
+
+.fox-search-page__empty-title {
+  margin: 0 0 0.6rem;
+  color: inherit;
+  font-size: clamp(2.2rem, 2.8vw, 2.8rem);
+  overflow-wrap: anywhere;
+}
+
+.fox-search-page__empty-text {
+  max-width: 52rem;
+  margin: 0 0 1.8rem;
+  color: var(--fox-sp-muted);
+}
+
+.fox-search-page__tips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 0 1.8rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-search-page__tips li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1.4rem;
+  color: #4a525a;
+  background: #f3eee8;
+  border-radius: 1.6rem;
+  font-size: 1.25rem;
+  text-align: left;
+}
+
+.fox-search-page__tips strong {
+  color: var(--fox-sp-ink);
+  font-size: 1.35rem;
+}
+
+.fox-search-page__other[hidden] {
+  display: none;
+}
+
+.fox-search-page__other a {
+  color: var(--fox-sp-ink);
+  font-weight: 600;
+}
+
+/* Recommended rail on the light page (rail styles come from search-panel.css) */
+.fox-search-page__recommend {
+  margin-top: 3.2rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid var(--fox-sp-line);
+}
+
+.fox-search--light product-card .pro--title a,
+.fox-search--light product-card .block-proloop-price {
+  color: var(--fox-sp-ink);
+}
+
+.fox-search--light product-card .pro--price-original {
+  color: var(--fox-sp-muted);
+}
+
+@media (max-width: 767px) {
+  .fox-search-page__hero-inner {
+    padding-top: 2rem;
+  }
+
+  .fox-search-page__form {
+    min-height: 5rem;
+    margin: 1.2rem 0 1rem;
+    padding: 0.4rem 0.6rem 0.4rem 1.6rem;
+  }
+
+  .fox-search-page__input {
+    height: 4rem;
+    font-size: 1.6rem;
+  }
+
+  .fox-search-page__submit {
+    display: none;
+  }
+
+  .fox-search-page__summary {
+    font-size: 1.35rem;
+  }
+
+  .fox-search-page__popular {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-inline: calc(var(--container-padding, 15px) * -1);
+    padding-inline: var(--container-padding, 15px);
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+
+  .fox-search-page__tabs {
+    gap: 0.8rem;
+    padding-bottom: 2rem;
+  }
+
+  .fox-search-page__tab {
+    min-height: 4rem;
+    padding: 0 1.4rem 0 1.8rem;
+    font-size: 1.35rem;
+  }
+
+  .fox-search-page__article-list,
+  .fox-search-page__tips {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fox-search-page__article {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1.2rem;
+    padding: 0.8rem;
+  }
+
+  .fox-search-page__article-text strong {
+    font-size: 1.45rem;
+  }
+
+  .fox-search-page__article-text > span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-search-page__orbs span {
+    animation: none;
+  }
+
+  .fox-search-page__form,
+  .fox-search-page__popular a,
+  .fox-search-page__article,
+  .fox-search-page__count {
+    transition: none;
+  }
+}

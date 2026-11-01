@@ -1,0 +1,70 @@
+{%- comment -%}
+  Size guide content shared by the modal (size-guide-modal.liquid) and the page (page.size-guide.liquid).
+  Input: size_guide_id (id prefix, unique per instance), size_guide_page_url, size_guide_sheet_url.
+{%- endcomment -%}
+{%- assign size_guide_id = size_guide_id | default: 'fox-size-guide' -%}
+<tabs-component class="fox-size-guide__tabs" data-state="idle">
+  <div class="fox-size-guide__tablist" role="tablist" aria-label="{{ settings.size_guide_title | default: 'Hướng dẫn chọn size' | escape }}">
+    {%- if size_guide_page_url != blank -%}
+    <button type="button" role="tab" class="fox-size-guide__tab" data-target="{{ size_guide_id }}-table">
+      <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-size-guide-table"></use></svg>
+      <span>{{ settings.size_guide_table_label | default: 'Bảng size' | escape }}</span>
+    </button>
+    {%- endif -%}
+    {%- if size_guide_sheet_url != blank -%}
+    <button type="button" role="tab" class="fox-size-guide__tab" data-target="{{ size_guide_id }}-finder">
+      <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-size-guide-finder"></use></svg>
+      <span>{{ settings.size_guide_finder_label | default: 'Tìm size phù hợp' | escape }}</span>
+    </button>
+    {%- endif -%}
+  </div>
+
+  {%- if size_guide_page_url != blank -%}
+  <div id="{{ size_guide_id }}-table" role="tabpanel" class="fox-size-guide__panel" data-role="table-panel">
+    <div class="fox-size-guide__status" data-role="table-status" aria-live="polite">Đang tải bảng size…</div>
+    <div class="fox-size-guide__field" data-role="table-picker" hidden>
+      <label for="{{ size_guide_id }}-table-category">Loại sản phẩm</label>
+      <div class="fox-size-guide__select">
+        <select id="{{ size_guide_id }}-table-category" data-role="table-category"></select>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+    <div class="fox-size-guide__content rte" data-role="table-content" aria-live="polite" hidden></div>
+  </div>
+  {%- endif -%}
+
+  {%- if size_guide_sheet_url != blank -%}
+  <div id="{{ size_guide_id }}-finder" role="tabpanel" class="fox-size-guide__panel" data-role="finder-panel">
+    <div class="fox-size-guide__status" data-role="finder-status" aria-live="polite">Đang tải dữ liệu size…</div>
+    <form class="fox-size-guide__form" data-role="finder-form" novalidate hidden>
+      <div class="fox-size-guide__field">
+        <label for="{{ size_guide_id }}-category">Loại sản phẩm</label>
+        <div class="fox-size-guide__select">
+          <select id="{{ size_guide_id }}-category" data-role="category"></select>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="fox-size-guide__fields" data-role="fields"></div>
+      <div class="fox-size-guide__systems" data-role="systems" role="radiogroup" aria-label="Hệ size" hidden></div>
+      <div class="fox-size-guide__result" data-role="result" aria-live="polite" hidden>
+        <p class="fox-size-guide__result-label" data-role="result-label">Size phù hợp</p>
+        <p class="fox-size-guide__result-size"><span data-role="result-size"></span> <em data-role="result-system"></em></p>
+        <p class="fox-size-guide__result-alt" data-role="result-alt" hidden></p>
+        <p class="fox-size-guide__result-hint" data-role="result-hint" hidden></p>
+      </div>
+      <p class="fox-size-guide__empty" data-role="result-empty">Nhập số đo để xem size phù hợp.</p>
+      {%- if settings.size_guide_finder_note != blank -%}<p class="fox-size-guide__note">{{ settings.size_guide_finder_note | escape }}</p>{%- endif -%}
+    </form>
+  </div>
+  {%- endif -%}
+</tabs-component>
+
+<template data-role="field-template">
+  <div class="fox-size-guide__field">
+    <label data-role="field-label"></label>
+    <input class="fox-size-guide__input" type="text" inputmode="decimal" autocomplete="off" data-role="field-input">
+  </div>
+</template>
+<template data-role="system-template">
+  <button type="button" class="fox-size-guide__system" role="radio" aria-checked="false" data-role="system"></button>
+</template>

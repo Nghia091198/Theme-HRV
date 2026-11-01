@@ -142,7 +142,7 @@ class FoxLookbook extends HTMLElement {
     if (typeof window.FOX?.loadProductFragment !== 'function') {
       throw new Error('product-fragment-loader-unavailable');
     }
-    return window.FOX.loadProductFragment(handle, 'lookbook-card');
+    return window.FOX.loadProductFragment(handle, 'product-loop-data'); 
   }
 
   #productHandle(value) {

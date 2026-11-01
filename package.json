@@ -1,0 +1,11 @@
+{
+  "name": "haravan-theme-core",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "node tests/collection-page.test.cjs && node tests/product-card.test.cjs && node tests/product-component.test.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}

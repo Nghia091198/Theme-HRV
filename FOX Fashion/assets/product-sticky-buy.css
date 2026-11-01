@@ -1,0 +1,597 @@
+.fox-sticky-buy {
+  --fox-sticky-buy-glass:
+    radial-gradient(circle at 85% 120%, rgb(122 58 22 / 60%), transparent 45%),
+    linear-gradient(145deg, rgb(120 116 116 / 94%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  --fox-sticky-buy-line: rgb(255 255 255 / 22%);
+  --fox-sticky-buy-ink: var(--color-text-theme, #1b2631);
+  display: contents;
+}
+
+.fox-sticky-buy__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Bar (shared) */
+.fox-sticky-buy__bar {
+  position: fixed;
+  z-index: 55;
+  left: 50%;
+  bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+  display: none;
+  align-items: center;
+  gap: 1.2rem;
+  color: #fff;
+  background: var(--fox-sticky-buy-glass);
+  border: 1px solid rgb(255 255 255 / 28%);
+  box-shadow: 0 1.8rem 4.4rem rgb(0 0 0 / 30%);
+  transform: translate(-50%, 0);
+  transition: opacity 260ms ease, transform 260ms ease, visibility 260ms;
+}
+
+.fox-sticky-buy[data-visible="false"] .fox-sticky-buy__bar {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 130%);
+  pointer-events: none;
+}
+
+html:has(dialog[open]) .fox-sticky-buy__bar {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.fox-footer::after {
+  content: '';
+  display: block;
+  height: calc(var(--fox-sticky-buy-offset, 0px));
+}
+
+.fox-sticky-buy__thumb {
+  flex: 0 0 auto;
+  width: 5.2rem;
+  height: 5.2rem;
+  overflow: hidden;
+  background: rgb(255 255 255 / 90%);
+  border-radius: 50%;
+}
+
+.fox-sticky-buy__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fox-sticky-buy__meta {
+  min-width: 0;
+}
+
+.fox-sticky-buy__name {
+  max-width: 24rem;
+  margin: 0;
+  overflow: hidden;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fox-sticky-buy__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.fox-sticky-buy__price del {
+  color: rgb(255 255 255 / 55%);
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.fox-sticky-buy__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  max-width: 100%;
+  padding: 0;
+  overflow: hidden;
+  color: rgb(255 255 255 / 75%);
+  background: none;
+  border: 0;
+  font-size: 1.2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Options (desktop): pill trigger + glass menu opening upward. Menu items are [data-option-value],
+   so product-component selects the variant and syncs is-active / disabled / option-name.
+   The option group takes the space left and shrinks (values truncate) so the pill never overflows. */
+.fox-sticky-buy__options {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.fox-sticky-buy__option {
+  position: relative;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.fox-sticky-buy__option-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+  height: 4.4rem;
+  padding: 0 1.2rem 0 1.6rem;
+  color: #fff;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid var(--fox-sticky-buy-line);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.fox-sticky-buy__option-trigger:hover,
+.fox-sticky-buy__option-trigger[aria-expanded="true"] {
+  background: rgb(255 255 255 / 14%);
+  border-color: rgb(255 255 255 / 50%);
+}
+
+.fox-sticky-buy__option-name {
+  flex: 0 0 auto;
+  opacity: 0.7;
+}
+
+.fox-sticky-buy__option-value {
+  min-width: 0;
+  max-width: 14rem;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+
+/* 3+ options: show values only (names stay for screen readers) and drop the product name. */
+.fox-sticky-buy__options:has(> .fox-sticky-buy__option:nth-child(3)) .fox-sticky-buy__option-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fox-sticky-buy__bar:has(.fox-sticky-buy__option:nth-child(3)) .fox-sticky-buy__name {
+  display: none;
+}
+
+.fox-sticky-buy__bar > .fox-sticky-buy__thumb,
+.fox-sticky-buy__bar > .fox-sticky-buy__meta,
+.fox-sticky-buy__bar > .fox-sticky-buy__qty,
+.fox-sticky-buy__bar > .fox-sticky-buy__actions {
+  flex-shrink: 0;
+}
+
+.fox-sticky-buy__option-trigger svg {
+  flex: 0 0 auto;
+  transition: transform 180ms ease;
+}
+
+.fox-sticky-buy__option-trigger[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.fox-sticky-buy__menu {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: calc(100% + 1.4rem);
+  display: grid;
+  gap: 0.2rem;
+  min-width: max(100%, 20rem);
+  max-height: min(32rem, 50vh);
+  padding: 0.6rem;
+  overflow-y: auto;
+  color: #fff;
+  background: var(--fox-sticky-buy-glass);
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 1.6rem;
+  box-shadow: 0 1.6rem 4rem rgb(0 0 0 / 35%);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.fox-sticky-buy__menu[hidden] {
+  display: none;
+}
+
+.fox-sticky-buy__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4.2rem;
+  padding: 0 1.2rem;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 1rem;
+  font: inherit;
+  font-size: 1.4rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fox-sticky-buy__menu-item:hover,
+.fox-sticky-buy__menu-item:focus-visible {
+  background: rgb(255 255 255 / 12%);
+  outline: 0;
+}
+
+.fox-sticky-buy__menu-item.is-active {
+  font-weight: 600;
+  background: rgb(255 255 255 / 16%);
+}
+
+.fox-sticky-buy__menu-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.fox-sticky-buy__menu-item:disabled .fox-sticky-buy__menu-label {
+  text-decoration: line-through;
+}
+
+.fox-sticky-buy__menu-dot {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  height: 1.8rem;
+  /* --fox-swatch-color comes from .fox-color--<handle> (swatch-colors.css). */
+  background: var(--fox-swatch-color, #dedede);
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+}
+
+.fox-sticky-buy__menu-label {
+  flex: 1;
+}
+
+.fox-sticky-buy__menu-check {
+  flex: 0 0 auto;
+  opacity: 0;
+}
+
+.fox-sticky-buy__menu-item.is-active .fox-sticky-buy__menu-check {
+  opacity: 1;
+}
+
+/* Quantity */
+.fox-sticky-buy__qty {
+  display: grid;
+  grid-template-columns: 3.6rem 3rem 3.6rem;
+  align-items: center;
+  height: 4.4rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--fox-sticky-buy-line);
+  border-radius: 999px;
+}
+
+.fox-sticky-buy__qty button {
+  display: grid;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  color: inherit;
+  background: rgb(255 255 255 / 12%);
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-sticky-buy__qty button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.fox-sticky-buy__qty output {
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Buttons */
+.fox-sticky-buy__actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-left: auto;
+}
+
+.fox-sticky-buy__btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 4.6rem;
+  padding: 0 2.2rem;
+  border-radius: 999px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fox-sticky-buy__btn > :not([data-btn-effect-span]) {
+  position: relative;
+  z-index: 1;
+}
+
+.fox-sticky-buy__btn .icon-svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.fox-sticky-buy__btn--solid {
+  color: var(--fox-sticky-buy-ink);
+  background: #fff;
+  border: 1px solid #fff;
+}
+
+.fox-sticky-buy__btn--solid [data-btn-effect-span] {
+  background: var(--color-btn-bg-primary, #1b2631);
+}
+
+.fox-sticky-buy__btn--solid:not(:disabled):is(:hover, :focus-visible) {
+  color: var(--color-btn-text-primary, #fff);
+}
+
+.fox-sticky-buy__btn--outline {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 70%);
+}
+
+.fox-sticky-buy__btn--outline [data-btn-effect-span] {
+  background: #fff;
+}
+
+.fox-sticky-buy__btn--outline:not(:disabled):is(:hover, :focus-visible) {
+  color: var(--fox-sticky-buy-ink);
+}
+
+.fox-sticky-buy__btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.fox-sticky-buy__plus {
+  display: none;
+  flex: 0 0 auto;
+  width: 4.6rem;
+  height: 4.6rem;
+  margin-left: auto;
+  padding: 0;
+  color: var(--fox-sticky-buy-ink);
+  background: #fff;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-sticky-buy button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Mobile sheet (modal-component) */
+.fox-sticky-buy__sheet-modal {
+  --modal-width: 100vw;
+  --modal-max-height: 88dvh;
+  --modal-radius: 2.4rem 2.4rem 0 0;
+  --modal-backdrop-color: rgb(9 9 11 / 45%);
+}
+
+.fox-sticky-buy__sheet-modal dialog {
+  max-width: 100vw;
+  margin: auto 0 0;
+  color: #fff;
+  background: var(--fox-sticky-buy-glass);
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-bottom: 0;
+}
+
+.fox-sticky-buy__sheet-modal[data-modal-suspended="true"] dialog {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fox-sticky-buy__sheet {
+  position: relative;
+  padding: 1.2rem 1.8rem calc(2.4rem + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.fox-sticky-buy__grab {
+  display: block;
+  width: 4rem;
+  height: 0.5rem;
+  margin: 0 auto 1.4rem;
+  background: rgb(255 255 255 / 35%);
+  border-radius: 1rem;
+}
+
+.fox-sticky-buy__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.4rem;
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  color: #fff;
+  background: rgb(255 255 255 / 14%);
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-sticky-buy__close .icon-svg {
+  --ic-size: 2rem;
+  width: var(--ic-size);
+  height: var(--ic-size);
+}
+
+.fox-sticky-buy__sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 0 5.2rem 1.6rem 0;
+}
+
+.fox-sticky-buy__thumb--large {
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 1.2rem;
+}
+
+.fox-sticky-buy__sheet-title {
+  margin: 0 0 0.2rem;
+  color: inherit;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Variant picker inside the dark sheet (the page skin targets a light surface). */
+.fox-product--page .fox-sticky-buy__sheet .fox-product__option {
+  margin: 0 0 1.6rem;
+}
+
+.fox-product--page .fox-sticky-buy__sheet .fox-product__swatch--button {
+  color: #fff;
+  border-color: rgb(255 255 255 / 24%);
+}
+
+.fox-product--page .fox-sticky-buy__sheet .fox-product__swatch--button.is-active {
+  border-color: #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+
+.fox-product--page .fox-sticky-buy__sheet .fox-product__swatch-color {
+  border-color: rgb(255 255 255 / 24%);
+}
+
+.fox-sticky-buy__sheet-actions {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.fox-sticky-buy__sheet-actions add-to-cart,
+.fox-sticky-buy__sheet-actions .fox-sticky-buy__btn {
+  width: 100%;
+}
+
+/* Desktop pill: centered with side gutters so the contact dock / back-to-top corners stay free. */
+@media (min-width: 768px) {
+  .fox-sticky-buy.has-desktop .fox-sticky-buy__bar {
+    display: flex;
+    width: min(100rem, calc(100vw - 20rem));
+    padding: 0.8rem 0.8rem 0.8rem 1rem;
+    border-radius: 999px;
+  }
+
+  .fox-sticky-buy__summary {
+    display: none;
+  }
+}
+
+/* Narrower pills keep image, price, quantity and add to cart; full controls stay in the purchase block. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .fox-sticky-buy__name,
+  .fox-sticky-buy__actions add-to-cart[data-mode="buy-now"] {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .fox-sticky-buy__bar > .fox-sticky-buy__options {
+    display: none;
+  }
+}
+
+/* Mobile compact pill */
+@media (max-width: 767px) {
+  .fox-sticky-buy.has-mobile .fox-sticky-buy__bar {
+    display: flex;
+    gap: 1.2rem;
+    width: calc(100vw - 2.4rem);
+    min-height: 7.6rem;
+    padding: 1rem 1.2rem 1rem 1rem;
+    border-radius: 3.2rem;
+  }
+
+  .fox-sticky-buy__bar > .fox-sticky-buy__options,
+  .fox-sticky-buy__bar > .fox-sticky-buy__qty,
+  .fox-sticky-buy__bar > .fox-sticky-buy__actions,
+  .fox-sticky-buy__name {
+    display: none;
+  }
+
+  .fox-sticky-buy__bar > .fox-sticky-buy__thumb {
+    width: 5.6rem;
+    height: 5.6rem;
+  }
+
+  .fox-sticky-buy__bar .fox-sticky-buy__meta {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .fox-sticky-buy__bar .fox-sticky-buy__price {
+    font-size: 1.8rem;
+  }
+
+  .fox-sticky-buy__bar .fox-sticky-buy__price del {
+    font-size: 1.35rem;
+  }
+
+  .fox-sticky-buy__bar .fox-sticky-buy__summary {
+    min-height: 2.4rem;
+    font-size: 1.35rem;
+  }
+
+  .fox-sticky-buy__plus {
+    display: grid;
+    width: 5.6rem;
+    height: 5.6rem;
+  }
+  .fox-footer::after {
+    height: calc(var(--fox-sticky-buy-offset, 0px) + 80px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-sticky-buy__bar {
+    transition: none;
+  }
+}

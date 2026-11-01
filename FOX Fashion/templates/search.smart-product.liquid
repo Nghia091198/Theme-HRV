@@ -1,0 +1,101 @@
+{% layout none %}
+{%- comment -%}
+  Search panel results, products (assets/search-panel.js): /search?q=<q>&type=product&view=smart-product
+  data-total feeds the tab count. 4 products per row (2 on tablet/mobile), smartsearch_result_rows rows (2 or 3):
+  up to 4 × rows loaded is a static grid; more becomes a slider whose slides stack `rows` cards (column order).
+  "Xem thêm {rest}" links to the full search page when the total is larger than smartsearch_result_limit.
+  Cards are the shared product card (product-loop, context 'search').
+{%- endcomment -%}
+{%- assign smart_limit = settings.smartsearch_result_limit | default: 12 | plus: 0 -%}
+{%- if smart_limit < 1 -%}{%- assign smart_limit = 12 -%}{%- endif -%}
+{%- assign smart_rows = settings.smartsearch_result_rows | default: 2 | plus: 0 -%}
+{%- if smart_rows < 2 or smart_rows > 3 -%}{%- assign smart_rows = 2 -%}{%- endif -%}
+{%- assign smart_per_page = smart_rows | times: 4 -%}
+{%- paginate search.results by smart_limit -%}
+{%- assign smart_loaded = 0 -%}
+{%- for smart_item in search.results -%}
+  {%- if smart_item.variants != blank -%}{%- assign smart_loaded = smart_loaded | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- assign smart_total = search.results_count | default: paginate.items | default: smart_loaded -%}
+{%- capture smart_title -%}{{ smart_loaded }} / {{ smart_total }} sản phẩm{%- endcapture -%}
+<div data-role="smart-result" data-type="product" data-total="{{ smart_total }}">
+  <ul data-role="smart-suggest">
+    {%- assign smart_suggest_count = 0 -%}
+    {%- for smart_item in search.results -%}
+      {%- if smart_item.variants != blank and smart_suggest_count < 4 -%}
+        {%- assign smart_suggest_count = smart_suggest_count | plus: 1 -%}
+        <li><a class="fox-search__suggest-link" href="{{ smart_item.url }}" data-role="highlight">{{ smart_item.title | escape }}</a></li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+
+  {%- if smart_loaded > 0 -%}
+  <div class="fox-search__rail" data-role="rail">
+    {%- if smart_loaded > smart_per_page -%}
+    <slider-component
+      class="fox-search__slider"
+      data-state="idle"
+      data-preset="product"
+      data-autoplay="false"
+      data-loop="false"
+      data-pagination="false"
+      data-navigation="true"
+      data-slides-mobile="2"
+      data-slides-tablet="2"
+      data-slides-desktop="4"
+      data-space-mobile="10"
+      data-space-tablet="14"
+      data-space-desktop="14">
+      <div class="fox-search__rail-head">
+        <p class="fox-search__heading" data-role="rail-title">{{ smart_title }}</p>
+        {%- assign slider_controls_vertical = false -%}
+        {%- assign slider_controls_floating = false -%}
+        {%- assign slider_controls_label = smart_title -%}
+        {%- assign slider_controls_item_count = smart_loaded -%}
+        {%- include 'component-slider-controls' -%}
+      </div>
+      <div class="swiper fox-search__viewport" data-role="viewport" id="fox-search-result-products">
+        <div class="swiper-wrapper">
+          {%- assign smart_index = 0 -%}
+          {%- for smart_item in search.results -%}
+            {%- if smart_item.variants != blank -%}
+              {%- assign smart_index = smart_index | plus: 1 -%}
+              {%- assign smart_row = smart_index | modulo: smart_rows -%}
+              {%- if smart_row == 1 -%}<div class="swiper-slide fox-search__slide fox-search__slide--stack">{%- endif -%}
+              {%- assign product = smart_item -%}
+              {%- assign product_card_context = 'search' -%}
+              {%- include 'product-loop' with grid: '' -%}
+              {%- if smart_row == 0 or smart_index == smart_loaded -%}</div>{%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </slider-component>
+    {%- else -%}
+    <div class="fox-search__rail-head">
+      <p class="fox-search__heading" data-role="rail-title">{{ smart_title }}</p>
+    </div>
+    <div class="fox-search__grid fox-search__grid--results" id="fox-search-result-products">
+      {%- for smart_item in search.results -%}
+        {%- if smart_item.variants != blank -%}
+          {%- assign product = smart_item -%}
+          {%- assign product_card_context = 'search' -%}
+          {%- include 'product-loop' with grid: '' -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+  </div>
+
+  {%- if smart_total > smart_loaded -%}
+  <div class="fox-search__more-wrap">
+    <a class="fox-search__more btn btn-secondary" button-effect data-role="more" href="/search?q={{ search.terms | url_encode }}&amp;type=product">
+      <span class="btn__label">Xem thêm {{ smart_total | minus: smart_loaded }} sản phẩm</span>
+      <span class="btn--icon" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg></span>
+      <span data-btn-effect-span aria-hidden="true"></span>
+    </a>
+  </div>
+  {%- endif -%}
+  {%- endif -%}
+</div>
+{%- endpaginate -%}

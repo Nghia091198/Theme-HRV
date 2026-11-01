@@ -1,12 +1,21 @@
 {%- assign fox_product_context = 'page' -%}
-<section class="product-wrapper">
+<section class="product-wrapper fox-product-page">
   <div class="container">
+    {%- include 'component-breadcrumb' with container: false -%}
     {%- include 'product-main' -%}
-
-    {%- if product.description != blank -%}
-    <div class="product-description rte">
-      {{ product.description }}
-    </div>
-    {%- endif -%}
   </div>
 </section>
+<section class="fox-product-policy-strip">
+  <div class="container">
+    {%- comment -%}Full container width: 4 rounds per group keep the strip filled on wide screens.{%- endcomment -%}
+    {%- assign policy_marquee_repeat = 4 -%}
+    {%- include 'product-policy-marquee' -%}
+    {%- assign policy_marquee_repeat = 1 -%}
+  </div>
+</section>
+{%- include 'product-info-tabs' -%} 
+{%- include 'product-related' -%}
+{%- include 'recently-viewed' -%}
+<div class="container fox-product-policy">
+  {%- include 'collection-policy' -%}
+</div>

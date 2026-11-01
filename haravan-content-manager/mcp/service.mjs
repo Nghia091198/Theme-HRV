@@ -6,7 +6,7 @@ import {
   isAuthError,
   toSafeError,
 } from "./errors.mjs";
-import { prepareArticlePayload, prepareProductPayload } from "./content.mjs";
+import { canonicalProductOptionName, prepareArticlePayload, prepareProductPayload } from "./content.mjs";
 import { validateArticleImage, validateProductImages } from "./images.mjs";
 import { HaravanClient } from "./haravan-client.mjs";
 
@@ -305,17 +305,17 @@ export class HaravanContentService {
     }
   }
 
-  variantIdsForImages(product) {
+  variantIdsForImages(product, optionValues) {
     const groups = new Map();
     for (const variant of product?.variants ?? []) {
       const optionValue = String(variant.option1 ?? "").toLowerCase();
       if (!groups.has(optionValue)) groups.set(optionValue, []);
       if (variant.id !== undefined && variant.id !== null) groups.get(optionValue).push(variant.id);
     }
-    return [...groups.values()].slice(0, 3);
+    return optionValues.map((value) => groups.get(value.toLowerCase()) ?? []);
   }
 
-  async verifyProduct(productId, expected) {
+  async verifyProduct(productId, expected, expectedImageCount = 3) {
     const endpoint = `/com/products/${encodeURIComponent(productId)}.json`;
     const { data } = await this.client.get(endpoint);
     const product = unwrap(data, "product");
@@ -324,7 +324,7 @@ export class HaravanContentService {
     const options = Array.isArray(product.options) ? product.options : [];
     const variants = Array.isArray(product.variants) ? product.variants : [];
     let images = Array.isArray(product.images) ? product.images : [];
-    if (images.length < 3) {
+    if (images.length < expectedImageCount) {
       const imageResponse = await this.client.get(`/com/products/${encodeURIComponent(productId)}/images.json`);
       images = asArray(imageResponse.data, "images");
     }
@@ -332,10 +332,15 @@ export class HaravanContentService {
     if (options.length !== expected.options.length) {
       throw new HaravanApiError("Product option verification failed.", { code: "PRODUCT_OPTIONS_VERIFY_FAILED" });
     }
+    if (options.some((option, index) => canonicalProductOptionName(option.name) !== expected.options[index].name)) {
+      throw new HaravanApiError("Product option names do not match the requested names.", {
+        code: "PRODUCT_OPTION_NAMES_VERIFY_FAILED",
+      });
+    }
     if (variants.length !== expected.variants.length) {
       throw new HaravanApiError("Product variant verification failed.", { code: "PRODUCT_VARIANTS_VERIFY_FAILED" });
     }
-    if (images.length < 3) {
+    if (images.length !== expectedImageCount) {
       throw new HaravanApiError("Product image verification failed.", { code: "PRODUCT_IMAGES_VERIFY_FAILED" });
     }
     if (isPublished(product)) {
@@ -361,13 +366,15 @@ export class HaravanContentService {
 
     let uploadedImageCount = 0;
     try {
-      const variantGroups = this.variantIdsForImages(draft);
+      const imageOptionValues = [...new Set(product.variants.map((variant) => variant.option1))];
+      const canMapVariants = images.length === 3;
+      const variantGroups = canMapVariants ? this.variantIdsForImages(draft, imageOptionValues) : [];
       for (let index = 0; index < images.length; index += 1) {
         const image = images[index];
         const imagePayload = {
           attachment: image.attachment,
           filename: image.filename,
-          alt: `${product.title} - ${draft?.variants?.[index]?.option1 ?? `image ${index + 1}`}`,
+          alt: `${product.title} - ảnh ${index + 1}`,
           position: index + 1,
         };
         if (variantGroups[index]?.length) imagePayload.variant_ids = variantGroups[index];
@@ -378,7 +385,7 @@ export class HaravanContentService {
         uploadedImageCount += 1;
       }
 
-      const verification = await this.verifyProduct(draftId, product);
+      const verification = await this.verifyProduct(draftId, product, images.length);
       const publishedAt = this.now().toISOString();
       const productEndpoint = `/com/products/${encodeURIComponent(draftId)}.json`;
       await this.client.put(productEndpoint, {

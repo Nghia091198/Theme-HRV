@@ -1,0 +1,31 @@
+{% layout none %}
+{%- comment -%}
+  "Bảng size" tab data for the size guide modal (fetched as <page-url>?view=size-guide-data).
+  The page content is split into sections by <hr>; each section's <h3> becomes the selector label:
+    <h3>Loại 1</h3> table + optional content <hr> <h3>Loại 2</h3> table + optional content
+  Each section is output as <template data-size-guide-section> for size-guide.js to append.
+{%- endcomment -%}
+{%- assign size_guide_content = page.content | replace: '<hr />', '<hr>' | replace: '<hr/>', '<hr>' | replace: '<HR>', '<hr>' -%}
+{%- assign size_guide_sections = size_guide_content | split: '<hr>' -%}
+{%- assign size_guide_index = 0 -%} 
+<div data-size-guide-sections>
+{%- for section in size_guide_sections -%}
+  {%- assign section_check = section | strip_html | remove: '&nbsp;' | strip -%}
+  {%- if section_check != blank -%}
+    {%- assign size_guide_index = size_guide_index | plus: 1 -%}
+    {%- assign section_title = '' -%}
+    {%- assign section_body = section -%}
+    {%- if section contains '</h3>' -%}
+      {%- assign section_parts = section | split: '</h3>' -%}
+      {%- assign section_head = section_parts.first -%}
+      {%- comment -%}Haravan split drops empty items, so a marker keeps the "before <h3>" part from collapsing into the title.{%- endcomment -%}
+      {%- assign section_before = section_head | prepend: '[[fox-sg]]' | split: '<h3' | first | remove: '[[fox-sg]]' -%}
+      {%- assign section_title = section_head | split: '<h3' | last | prepend: '<h3' | strip_html | strip -%}
+      {%- if section_head contains '<h3' -%}{%- else -%}{%- assign section_before = section_head -%}{%- assign section_title = '' -%}{%- endif -%}
+      {%- capture section_body -%}{{ section_before }}{%- for part in section_parts -%}{%- unless forloop.first -%}{{ part }}{%- unless forloop.last -%}</h3>{%- endunless -%}{%- endunless -%}{%- endfor -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if section_title == blank -%}{%- capture section_title -%}Loại {{ size_guide_index }}{%- endcapture -%}{%- endif -%}
+  <template data-size-guide-section data-title="{{ section_title | escape }}" data-code="{{ section_title | handleize }}">{{ section_body }}</template>
+  {%- endif -%}
+{%- endfor -%}
+</div>

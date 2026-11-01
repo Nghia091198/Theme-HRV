@@ -1,0 +1,24 @@
+{%- comment -%}
+  Product results of a search (shared card grid + pagination), returned by templates/search.data.liquid for the
+  collection engine (core-commerce-collection.js): collection filtering / sorting and the search page, which loads
+  its results through the same view on first paint.
+  Must be rendered inside a paginate block over search.results (page size: fox_collection_limit).
+{%- endcomment -%}
+<div class="fox-collection__results-content" data-role="results-content" data-result-count="{{ search.results_count | default: paginate.items | default: search.results.size }}" data-result-page="{{ paginate.current_page | default: 1 }}">
+  <div class="fox-collection__grid" data-role="product-grid">
+    {%- assign fox_search_products_rendered = 0 -%}
+    {%- for result in search.results -%}
+      {%- if result.variants != blank -%}
+        {%- assign product = result -%}
+        {%- assign product_card_context = 'collection' -%}
+        {%- include 'product-loop' with grid: '' -%}
+        {%- assign product_card_context = blank -%}
+        {%- assign fox_search_products_rendered = fox_search_products_rendered | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if fox_search_products_rendered == 0 -%}
+      <p class="fox-collection__empty" data-role="empty">Không tìm thấy sản phẩm phù hợp.</p>
+    {%- endif -%}
+  </div>
+  {%- include 'pagination' with pagination_page_size: fox_collection_limit, pagination_item_label: 'sản phẩm', pagination_show_progress: true, pagination_progress_hidden: true, pagination_aria_label: 'Phân trang sản phẩm' -%}
+</div>

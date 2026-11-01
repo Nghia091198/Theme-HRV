@@ -1,0 +1,18 @@
+{%- comment -%}
+  Floating-contact channels, declared once (order = display order). Social links come from the footer social
+  settings (footer_*_url), direct contacts from float_*_url. Each line renders through floating-contact-item, which
+  shows the channel only when its URL is not blank. Caller sets float_item_variant (count / stack / dock / tile).
+{%- endcomment -%}
+{%- include 'floating-contact-item' with float_channel: 'zalo', float_label: 'Zalo', float_icon: 'ic-zalo', float_url: settings.footer_zalo_url, float_show: settings.float_zalo_show, float_desc: settings.float_zalo_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'messenger', float_label: 'Messenger', float_icon: 'ic-fox-messenger', float_url: settings.float_messenger_url, float_show: settings.float_messenger_show, float_desc: settings.float_messenger_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'phone', float_label: 'Gọi hotline', float_icon: 'ic-fox-support-call', float_url: settings.float_phone_url, float_show: settings.float_phone_show, float_desc: settings.float_phone_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'email', float_label: 'Email', float_icon: 'ic-mail', float_url: settings.float_email_url, float_show: settings.float_email_show, float_desc: settings.float_email_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'facebook', float_label: 'Facebook', float_icon: 'ic-facebook', float_url: settings.footer_facebook_url, float_show: settings.float_facebook_show, float_desc: settings.float_facebook_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'instagram', float_label: 'Instagram', float_icon: 'ic-instagram-bi', float_url: settings.footer_instagram_url, float_show: settings.float_instagram_show, float_desc: settings.float_instagram_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'tiktok', float_label: 'TikTok', float_icon: 'ic-tiktok-square', float_url: settings.footer_tiktok_url, float_show: settings.float_tiktok_show, float_desc: settings.float_tiktok_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'youtube', float_label: 'YouTube', float_icon: 'ic-youtube', float_url: settings.footer_youtube_url, float_show: settings.float_youtube_show, float_desc: settings.float_youtube_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'shopee', float_label: 'Shopee', float_icon: 'ic-shopee', float_url: settings.footer_shopee_url, float_show: settings.float_shopee_show, float_desc: settings.float_shopee_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'lazada', float_label: 'Lazada', float_icon: 'ic-lazada', float_url: settings.footer_lazada_url, float_show: settings.float_lazada_show, float_desc: settings.float_lazada_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'x', float_label: 'X', float_icon: 'ic-x', float_url: settings.footer_x_url, float_show: settings.float_x_show, float_desc: settings.float_x_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'linkedin', float_label: 'LinkedIn', float_icon: 'ic-linkedin', float_url: settings.footer_linkedin_url, float_show: settings.float_linkedin_show, float_desc: settings.float_linkedin_desc -%}
+{%- include 'floating-contact-item' with float_channel: 'map', float_label: 'Cửa hàng', float_icon: 'ic-map', float_url: settings.float_map_url, float_show: settings.float_map_show, float_desc: settings.float_map_desc -%}

@@ -1,0 +1,887 @@
+/* Search panel (snippets/mini-search.liquid + search-panel.js). Glass, drops from the header edge
+   (--fox-search-top = header bottom, measured on open). Sits under the header (z-index below .fox-header). */
+search-panel {
+  --fox-search-glass:
+    radial-gradient(circle at 88% 115%, rgb(122 58 22 / 58%), transparent 46%),
+    linear-gradient(145deg, rgb(120 116 116 / 95%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  --fox-search-line: rgb(255 255 255 / 14%);
+  --fox-search-soft: rgb(255 255 255 / 8%);
+  display: block;
+}
+
+search-panel[hidden] {
+  display: none;
+}
+
+html.fox-search-open {
+  overflow: hidden;
+}
+
+.fox-search__sr,
+.fox-search__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fox-search__backdrop {
+  position: fixed;
+  z-index: 98;
+  inset: var(--fox-search-top, 0px) 0 0;
+  background: rgb(9 9 11 / 45%);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.fox-search__panel {
+  position: fixed;
+  z-index: 99;
+  top: var(--fox-search-top, 0px);
+  left: 0;
+  right: 0;
+  height: calc(100dvh - var(--fox-search-top, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: #fff;
+  background: var(--fox-search-glass);
+  box-shadow: 0 3rem 7rem rgb(0 0 0 / 45%);
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(-2.4rem);
+  opacity: 0;
+  transition: clip-path 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 260ms ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 24%) transparent;
+}
+
+search-panel[data-state="open"] .fox-search__backdrop {
+  opacity: 1;
+}
+
+search-panel[data-state="open"] .fox-search__panel {
+  clip-path: inset(0 0 0 0);
+  transform: none;
+  opacity: 1;
+}
+
+/* Home page (desktop): floats like the header pill, same left/right edges, 10px below it and above the screen
+   bottom, 24px radius (positions from search-panel.js #place). */
+search-panel[data-floating] .fox-search__backdrop {
+  inset: 0;
+}
+
+search-panel[data-floating] .fox-search__panel {
+  left: var(--fox-search-left, 10px);
+  right: var(--fox-search-right, 10px);
+  height: calc(100dvh - var(--fox-search-top, 0px) - 10px);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 24px;
+  clip-path: inset(0 0 100% 0 round 24px);
+}
+
+search-panel[data-floating][data-state="open"] .fox-search__panel {
+  clip-path: inset(0 0 0 0 round 24px);
+}
+
+search-panel[data-state="closing"] .fox-search__panel {
+  transition-duration: 300ms, 300ms, 240ms;
+}
+
+.fox-search__inner {
+  padding-block: 2.2rem 3rem;
+}
+
+/* Top row: title · input pill · close */
+.fox-search__top {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  margin-bottom: 2.4rem;
+}
+
+.fox-search__title {
+  flex: 0 0 auto;
+  margin: 0;
+  font-family: var(--base-font-title);
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.fox-search__form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  min-height: 5.6rem;
+  padding: 0.6rem 0.6rem 0.6rem 2rem;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 999px;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.fox-search__form:focus-within {
+  background: rgb(255 255 255 / 14%);
+  border-color: rgb(255 255 255 / 60%);
+}
+
+.fox-search__form-icon {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  opacity: 0.7;
+}
+
+.fox-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 4.4rem;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 1.6rem;
+}
+
+.fox-search__input::placeholder {
+  color: rgb(255 255 255 / 55%);
+}
+
+.fox-search__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* ic-search / ic-close are line icons (stroke), like in the header: never filled. */
+.fox-search__form-icon,
+.fox-search__submit .icon-svg,
+.fox-search__empty-icon .icon-svg,
+.fox-search__clear .icon-svg,
+.fox-search__recent-remove .icon-svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+/* The pill shows focus (border + fill), so the input itself has no outline box. */
+.fox-search .fox-search__input:focus,
+.fox-search .fox-search__input:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.fox-search__clear,
+.fox-search__close {
+  display: grid;
+  flex: 0 0 auto;
+  padding: 0;
+  color: #fff;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-search__clear {
+  width: 3rem;
+  height: 3rem;
+  background: rgb(255 255 255 / 16%);
+  border: 0;
+}
+
+.fox-search__clear[hidden] {
+  display: none;
+}
+
+.fox-search__clear .icon-svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Close: the modal close button (ring progress on hover, quick-view.css), placed in the top row instead of a corner. */
+.fox-search__close.fox-quick-view__close {
+  position: relative;
+  top: auto;
+  right: auto;
+  flex: 0 0 auto;
+  width: 4.6rem;
+  height: 4.6rem;
+  background: rgb(255 255 255 / 6%);
+}
+
+.fox-search__close .fox-quick-view__close-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.fox-search__submit {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.6rem;
+  height: 4.4rem;
+  padding: 0 2rem;
+  color: var(--color-text-theme, #1b2631);
+  background: #fff;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fox-search__submit .icon-svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* Two columns: left (suggest · recent · popular) + zone */
+.fox-search__body {
+  display: grid;
+  grid-template-columns: 28rem minmax(0, 1fr);
+  gap: 3.2rem;
+}
+
+.fox-search__left {
+  min-width: 0;
+  padding-right: 2.6rem;
+  border-right: 1px solid var(--fox-search-line);
+}
+
+.fox-search__zone {
+  position: relative;
+  min-width: 0;
+}
+
+.fox-search__block + .fox-search__block {
+  margin-top: 2.2rem;
+}
+
+.fox-search__block[hidden] {
+  display: none;
+}
+
+.fox-search__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.fox-search__heading {
+  margin: 0 0 1.2rem;
+  font-family: var(--base-font-title);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.fox-search__heading-row .fox-search__heading {
+  margin: 0;
+}
+
+.fox-search__heading-row {
+  margin-bottom: 1.2rem;
+}
+
+.fox-search__text-btn,
+.fox-search__link {
+  padding: 0;
+  color: rgb(255 255 255 / 65%);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 1.2rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fox-search__text-btn:hover,
+.fox-search__link:hover {
+  color: #fff;
+}
+
+.fox-search__chips,
+.fox-search__suggest,
+.fox-search__articles {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-search__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.fox-search__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.6rem;
+  padding: 0 1.4rem;
+  color: #fff;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.3rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.fox-search__chip:hover {
+  background: rgb(255 255 255 / 14%);
+  border-color: rgb(255 255 255 / 45%);
+}
+
+.fox-search__chip .icon-svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  opacity: 0.75;
+}
+
+.fox-search__recent-item {
+  display: inline-flex;
+  align-items: center;
+  background: rgb(255 255 255 / 12%);
+  border-radius: 999px;
+}
+
+.fox-search__chip--recent {
+  padding-right: 0.6rem;
+  background: transparent;
+  border: 0;
+}
+
+.fox-search__recent-remove {
+  display: grid;
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-right: 0.4rem;
+  padding: 0;
+  color: rgb(255 255 255 / 70%);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+}
+
+.fox-search__recent-remove:hover {
+  color: #fff;
+  background: rgb(255 255 255 / 14%);
+}
+
+.fox-search__recent-remove .icon-svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fox-search__suggest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.2rem;
+}
+
+.fox-search__suggest li {
+  min-width: 0;
+}
+
+.fox-search__suggest-link {
+  display: block;
+  padding: 0.7rem 1rem;
+  overflow: hidden;
+  color: rgb(255 255 255 / 86%);
+  border-radius: 1rem;
+  font-size: 1.35rem;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fox-search__suggest-link:hover,
+.fox-search__suggest-link:focus-visible {
+  color: #fff;
+  background: rgb(255 255 255 / 12%);
+}
+
+.fox-search mark {
+  padding: 0 0.15em;
+  color: var(--color-text-theme, #1b2631);
+  background: rgb(246 227 161 / 92%);
+  border-radius: 0.3rem;
+}
+
+/* Tabs */
+.fox-search__results[hidden],
+.fox-search__empty[hidden],
+.fox-search__recommend[hidden],
+.fox-search__tab-panel[hidden] {
+  display: none;
+}
+
+.fox-search__tabs {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--fox-search-line);
+}
+
+.fox-search__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4rem;
+  padding: 0 1.8rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.35rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fox-search__count {
+  min-width: 2.4rem;
+  padding: 0 0.7rem;
+  background: rgb(255 255 255 / 14%);
+  border-radius: 999px;
+  font-size: 1.15rem;
+  line-height: 2.2rem;
+  text-align: center;
+}
+
+.fox-search__tab[aria-selected="true"] {
+  color: var(--color-text-theme, #1b2631);
+  background: #fff;
+  border-color: #fff;
+}
+
+.fox-search__tab[aria-selected="true"] .fox-search__count {
+  color: #fff;
+  background: var(--color-text-theme, #1b2631);
+}
+
+search-panel[data-loading="true"] .fox-search__zone {
+  opacity: 0.55;
+  transition: opacity 160ms ease;
+}
+
+/* Product rail (snippets/search-product-rail.liquid): grid in one row, slider when more */
+.fox-search__rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.fox-search__rail-head .fox-search__heading {
+  margin: 0;
+}
+
+.fox-search__rail-head .fox-slider-controls {
+  margin-left: auto;
+}
+
+.fox-search__rail-head .fox-search__link + .fox-slider-controls {
+  margin-left: 1.2rem;
+}
+
+.fox-search__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.fox-search__slide {
+  width: calc((100% - 4 * 14px) / 5);
+  height: auto;
+}
+
+/* Results: two rows. Static grid of 4 columns, or slider slides that stack 2 cards (column order). */
+.fox-search__grid.fox-search__grid--results {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.fox-search__slide--stack {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+@media (max-width: 991px) {
+  .fox-search__grid.fox-search__grid--results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fox-search__slide--stack {
+    gap: 10px;
+  }
+}
+
+.fox-search__recommend {
+  margin-top: 0;
+}
+
+.fox-search__empty + .fox-search__recommend,
+.fox-search__results + .fox-search__empty {
+  margin-top: 0;
+}
+
+/* Shared product card: same framed card as the collection grid (mirrors .fox-collection__grid .product-card--collection).
+   Mobile uses the shared unframed card (product-card.css, design C). */
+@media (min-width: 768px) {
+  .fox-search product-card,
+  .fox-search product-card .product-loop {
+    height: 100%;
+  }
+
+  .fox-search product-card .product-inner {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    overflow: hidden;
+    color: var(--color-text-theme, #1b2631);
+    background: #fff;
+    border: 1px solid rgb(255 255 255 / 30%);
+    border-radius: 12px;
+  }
+
+  .fox-search product-card .proloop--image {
+    background: #f2f1f1;
+    border-radius: 0;
+  }
+
+  .fox-search product-card .proloop--image .ratio-image {
+    padding-top: 124%;
+  }
+
+  .fox-search product-card .proloop--detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .fox-search product-card .pro--type {
+    margin: 0 0 6px;
+    color: color-mix(in srgb, var(--color-text-theme, #1b2631) 85%, transparent);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .fox-search product-card .pro--title {
+    display: -webkit-box;
+    margin: 0 0 8px;
+    overflow: hidden;
+    color: var(--color-text-theme, #1b2631);
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .fox-search product-card .pro--title a {
+    color: inherit;
+  }
+
+  .fox-search product-card .block-proloop-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 5px 8px;
+    margin: 0;
+    color: var(--color-text-theme, #1b2631);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .fox-search product-card .pro--price-original {
+    color: color-mix(in srgb, var(--color-text-theme, #1b2631) 55%, transparent);
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+/* Mobile cards sit on the glass: light text. */
+@media (max-width: 767px) {
+  .fox-search product-card .pro--title a,
+  .fox-search product-card .block-proloop-price {
+    color: #fff;
+  }
+
+  .fox-search product-card .pro--price-original {
+    color: rgb(255 255 255 / 55%);
+  }
+}
+
+/* More link */
+.fox-search__more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+/* "Xem tất cả" / "Xem thêm {rest}": theme secondary button (.btn.btn-secondary + button-effect), centered below the list. */
+.fox-search__more {
+  --btn-color: var(--color-btn-text-secondary, #1b2631);
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0 2.2rem;
+  font-size: 1.35rem;
+  text-decoration: none;
+}
+
+.fox-search__more .btn--icon {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fox-search__more .icon-svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.fox-search__more:is(:hover, :focus-visible) .btn--icon {
+  transform: translateX(0.3rem);
+}
+
+.fox-search__more:focus-visible {
+  color: var(--color-btn-text-secondary-hover, #fff);
+}
+
+/* Articles */
+.fox-search__articles {
+  display: grid;
+  gap: 1rem;
+}
+
+.fox-search__article {
+  display: grid;
+  grid-template-columns: 8.6rem minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: center;
+  padding: 0.8rem;
+  color: #fff;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid var(--fox-search-line);
+  border-radius: 1.4rem;
+  text-decoration: none;
+}
+
+.fox-search__article:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.fox-search__article-media {
+  display: block;
+  height: 6.4rem;
+  overflow: hidden;
+  background: rgb(255 255 255 / 12%);
+  border-radius: 1rem;
+}
+
+.fox-search__article-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fox-search__article-text {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.fox-search__article-text strong {
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+
+.fox-search__article-text small {
+  color: rgb(255 255 255 / 60%);
+  font-size: 1.2rem;
+}
+
+/* Empty (inside the right zone) */
+.fox-search__empty {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+  margin-bottom: 2.2rem;
+  padding: 1.8rem 2rem;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid var(--fox-search-line);
+  border-radius: 1.8rem;
+}
+
+.fox-search__empty-icon {
+  display: grid;
+  width: 6.4rem;
+  height: 6.4rem;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.fox-search__empty-icon .icon-svg {
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+.fox-search__empty-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--base-font-title);
+  font-size: 1.9rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.fox-search__empty-text {
+  margin: 0 0 0.8rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 1.3rem;
+}
+
+.fox-search__tips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-search__tips li {
+  padding: 0.4rem 1.2rem;
+  background: rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  font-size: 1.2rem;
+}
+
+.fox-search :is(a, button):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1199px) {
+  .fox-search__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .fox-search__slide {
+    width: calc((100% - 3 * 14px) / 4);
+  }
+}
+
+@media (max-width: 991px) {
+  .fox-search__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.4rem;
+  }
+
+  .fox-search__left {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  search-panel:is([data-view="results"], [data-view="empty"]) .fox-search__left {
+    order: 2;
+  }
+
+  .fox-search__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fox-search__slide {
+    width: calc((100% - 2 * 14px) / 3.2);
+  }
+}
+
+@media (max-width: 767px) {
+  .fox-search__inner {
+    padding-block: 1.4rem 3rem;
+  }
+
+  .fox-search__top {
+    gap: 0.8rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .fox-search__title,
+  .fox-search__submit {
+    display: none;
+  }
+
+  .fox-search__form {
+    min-height: 4.6rem;
+    padding: 0.4rem 0.6rem 0.4rem 1.4rem;
+  }
+
+  .fox-search__input {
+    height: 3.8rem;
+    font-size: 1.5rem;
+  }
+
+  .fox-search__close.fox-quick-view__close {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .fox-search__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .fox-search__slide {
+    width: calc((100% - 10px) / 2.15);
+  }
+
+  .fox-search__empty {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .fox-search__tips {
+    justify-content: center;
+  }
+
+  .fox-search__article {
+    grid-template-columns: 7.2rem minmax(0, 1fr);
+  }
+
+  .fox-search__article-media {
+    height: 5.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-search__backdrop,
+  .fox-search__panel,
+  .fox-search__form,
+  .fox-search__chip,
+  .fox-search__more .btn--icon {
+    transition: none;
+  }
+}

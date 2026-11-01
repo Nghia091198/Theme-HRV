@@ -274,7 +274,10 @@ html.fox-cursor-enabled:has(.fox-product-story__modal dialog.is-cursor-active) f
 .fox-product-story .product-card--story .proloop--image-back,
 .fox-product-story .product-card--story .pro--price-percent,
 .fox-product-story .product-card--story .proloop--action,
+.fox-product-story .product-card--story .proloop--wishlist,
 .fox-product-story .product-card--story .proloop--variant { display: none; }
+/* No box for the actions wrapper: quick view keeps positioning against the round 52px image. */
+.fox-product-story .product-card--story .proloop--actions { display: contents; }
 .fox-product-story .product-card--story .proloop--quickview {
   position: absolute; top: 11px; left: 62px; display: block; width: max-content; opacity: 1; pointer-events: auto; transform: none;
 }

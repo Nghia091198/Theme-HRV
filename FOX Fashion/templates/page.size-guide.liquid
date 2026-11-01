@@ -1,0 +1,94 @@
+{%- comment -%}
+  Alternate page template "size-guide" (Aurora). Content from settings group "Trang hướng dẫn chọn size";
+  size data reuses the size guide sources (size_guide_page_url, size_guide_sheet_url).
+  Layout: desktop intro + steps | card; mobile intro → steps → card (grid areas in page-size-guide.css).
+{%- endcomment -%}
+{%- assign size_guide_page_url = settings.size_guide_page_url | strip -%}
+{%- assign size_guide_sheet_url = settings.size_guide_sheet_url | strip -%}
+{%- assign sgp_title = settings.sgp_title | default: page.title -%}
+
+<div class="fox-sgp{% if settings.sgp_animate != false %} is-animated{% endif %}">
+  <div class="fox-sgp__bg" aria-hidden="true">
+    <span class="fox-sgp__blob fox-sgp__blob--1"></span>
+    <span class="fox-sgp__blob fox-sgp__blob--2"></span>
+    <span class="fox-sgp__blob fox-sgp__blob--3"></span>
+    <span class="fox-sgp__blob fox-sgp__blob--4"></span>
+    <span class="fox-sgp__grain"></span>
+  </div>
+
+  <div class="container fox-sgp__inner">
+    {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
+
+    <section class="fox-sgp__hero" aria-labelledby="fox-sgp-title">
+      <div class="fox-sgp__intro">
+        {%- if settings.sgp_eyebrow != blank -%}
+        <p class="fox-sgp__eyebrow">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-size"></use></svg>
+          {{ settings.sgp_eyebrow | escape }}
+        </p>
+        {%- endif -%}
+        <h1 id="fox-sgp-title" class="fox-sgp__title">{{ sgp_title | escape }}</h1>
+        {%- if settings.sgp_desc != blank -%}<p class="fox-sgp__desc">{{ settings.sgp_desc | escape }}</p>{%- endif -%}
+      </div>
+
+      {%- if settings.sgp_steps_show != false -%}
+      <ol class="fox-sgp__steps">
+        {%- for step_index in (1..3) -%}
+          {%- capture step_title_key -%}sgp_step_{{ step_index }}_title{%- endcapture -%}
+          {%- capture step_desc_key -%}sgp_step_{{ step_index }}_desc{%- endcapture -%}
+          {%- if settings[step_title_key] != blank -%}
+          <li class="fox-sgp__step">
+            <span class="fox-sgp__step-number" aria-hidden="true">{{ step_index }}</span>
+            <span class="fox-sgp__step-text">
+              <strong>{{ settings[step_title_key] | escape }}</strong>
+              {%- if settings[step_desc_key] != blank -%}<span>{{ settings[step_desc_key] | escape }}</span>{%- endif -%}
+            </span>
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ol>
+      {%- endif -%}
+
+      <div class="fox-sgp__card-wrap">
+        {%- if size_guide_page_url != blank or size_guide_sheet_url != blank -%}
+        <size-guide
+          class="fox-size-guide fox-size-guide__card"
+          data-state="idle"
+          data-id-prefix="fox-size-guide-page"
+          data-page-url="{{ size_guide_page_url | escape }}"
+          data-sheet-url="{{ size_guide_sheet_url | escape }}">
+          {%- assign size_guide_id = 'fox-size-guide-page' -%}
+          {%- include 'size-guide-panel' -%}
+        </size-guide>
+        {%- else -%}
+        <div class="fox-size-guide__card">
+          <p class="fox-size-guide__status">Chưa có dữ liệu bảng size. Vui lòng cấu hình nguồn dữ liệu trong mục "Hướng dẫn chọn size".</p>
+        </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+    {%- if settings.sgp_tips_show != false -%}
+    <ul class="fox-sgp__tips">
+      {%- for tip_index in (1..3) -%}
+        {%- capture tip_title_key -%}sgp_tip_{{ tip_index }}_title{%- endcapture -%}
+        {%- capture tip_desc_key -%}sgp_tip_{{ tip_index }}_desc{%- endcapture -%}
+        {%- capture tip_url_key -%}sgp_tip_{{ tip_index }}_url{%- endcapture -%}
+        {%- assign tip_icon = 'ic-fox-support-size' -%}
+        {%- if tip_index == 2 -%}{%- assign tip_icon = 'ic-fox-size-guide-finder' -%}{%- endif -%}
+        {%- if tip_index == 3 -%}{%- assign tip_icon = 'ic-fox-support-chat' -%}{%- endif -%}
+        {%- if settings[tip_title_key] != blank -%}
+        <li class="fox-sgp__tip">
+          <span class="fox-sgp__tip-icon" aria-hidden="true"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#{{ tip_icon }}"></use></svg></span>
+          <h2 class="fox-sgp__tip-title">{{ settings[tip_title_key] | escape }}</h2>
+          {%- if settings[tip_desc_key] != blank -%}<p class="fox-sgp__tip-desc">{{ settings[tip_desc_key] | escape }}</p>{%- endif -%}
+          {%- if settings[tip_url_key] != blank -%}
+          <a class="fox-sgp__tip-link" href="{{ settings[tip_url_key] | escape }}">{{ settings.sgp_tip_link_label | default: 'Liên hệ tư vấn' | escape }}</a>
+          {%- endif -%}
+        </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- endif -%}
+  </div>
+</div>

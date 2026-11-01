@@ -1,0 +1,43 @@
+{%- comment -%}
+  One floating-contact channel (included by snippets/floating-contact-channels.liquid).
+  Shown only when its URL is not blank and its show setting is not off.
+  Variant (float_item_variant): count (counts visible channels), stack (mobile pill, first 3), dock (desktop),
+  tile (mobile card). Input: float_channel, float_label, float_icon, float_url, float_show, float_desc.
+{%- endcomment -%}
+{%- assign float_href = float_url | strip -%}
+{%- if float_href != blank and float_show != false -%}
+  {%- assign float_external = true -%}
+  {%- if float_channel == 'phone' -%}
+    {%- assign float_external = false -%}
+    {%- unless float_href contains 'tel:' -%}{%- assign float_href = float_href | remove: ' ' | remove: '.' | prepend: 'tel:' -%}{%- endunless -%}
+  {%- elsif float_channel == 'email' -%}
+    {%- assign float_external = false -%}
+    {%- unless float_href contains 'mailto:' -%}{%- assign float_href = float_href | prepend: 'mailto:' -%}{%- endunless -%}
+  {%- endif -%}
+  {%- assign float_note = float_desc | strip -%}
+
+  {%- case float_item_variant -%}
+    {%- when 'count' -%}
+      {%- assign float_contact_count = float_contact_count | plus: 1 -%}
+    {%- when 'stack' -%}
+      {%- if float_stack_count < 3 -%}
+        {%- assign float_stack_count = float_stack_count | plus: 1 -%}
+        <span class="fox-float__stack-item fox-float__channel--{{ float_channel }}"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#{{ float_icon }}"></use></svg></span>
+      {%- endif -%}
+    {%- when 'dock' -%}
+      <li>
+        <a class="fox-float__dock-item fox-float__channel--{{ float_channel }}{% if float_channel == float_primary %} is-primary{% endif %}" href="{{ float_href | escape }}"{% if float_external %} target="_blank" rel="nofollow noopener noreferrer"{% endif %} data-channel="{{ float_channel }}" aria-label="{{ float_label }}{% if float_note != blank %}: {{ float_note | escape }}{% endif %}">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#{{ float_icon }}"></use></svg>
+          <span class="fox-float__tip" aria-hidden="true"><strong>{{ float_label }}</strong>{% if float_note != blank %}<small>{{ float_note | escape }}</small>{% endif %}</span>
+        </a>
+      </li>
+    {%- when 'tile' -%}
+      <li>
+        <a class="fox-float__tile fox-float__channel--{{ float_channel }}{% if float_channel == float_primary %} is-primary{% endif %}" href="{{ float_href | escape }}"{% if float_external %} target="_blank" rel="nofollow noopener noreferrer"{% endif %} data-channel="{{ float_channel }}">
+          <span class="fox-float__tile-icon"><svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#{{ float_icon }}"></use></svg></span>
+          <span class="fox-float__tile-label">{{ float_label }}</span>
+          {%- if float_note != blank -%}<span class="fox-float__tile-desc">{{ float_note | escape }}</span>{%- endif -%}
+        </a>
+      </li>
+  {%- endcase -%}
+{%- endif -%}
