@@ -65,7 +65,6 @@
             </div>
           {%- endif -%}
 
-          {% comment %}Capture prevents an empty social wrapper when every URL is blank.{% endcomment %}
           {%- capture fox_footer_socials -%}{%- include 'list-socials' with style:'social--basic',link_style:true -%}{%- endcapture -%}
           {%- assign fox_footer_socials = fox_footer_socials | strip -%}
           {%- if fox_footer_socials != blank -%}<div class="fox-footer__socials">{{ fox_footer_socials }}</div>{%- endif -%}
@@ -104,7 +103,7 @@
           </div>
         {%- endif -%}
 
-        {%- if settings.footer_help_menu != blank and linklists[settings.footer_help_menu].links != blank -%}
+        {%- if settings.footer_help_show -%}
           <fox-footer-menu class="fox-footer-menu" data-state="idle">
             <details class="fox-footer__menu-group" open>
               <summary class="fox-footer__menu-summary">
@@ -122,7 +121,7 @@
           </fox-footer-menu>
         {%- endif -%}
 
-        {%- if settings.footer_about_menu != blank and linklists[settings.footer_about_menu].links != blank -%}
+        {%- if settings.footer_about_show -%}
           <fox-footer-menu class="fox-footer-menu" data-state="idle">
             <details class="fox-footer__menu-group" open>
               <summary class="fox-footer__menu-summary">
@@ -143,22 +142,18 @@
 
       <div class="fox-footer__bottom">
         <p class="fox-footer__copyright">
-          {%- if settings.footer_copyright != blank -%}
-            {{ settings.footer_copyright | escape }}
-          {%- else -%}
-            Copyright &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}
+          {%- if settings.footer_copyright_show -%}
+            {%- if settings.footer_copyright != blank -%}
+              {{ settings.footer_copyright | escape }}
+            {%- else -%}
+              Copyright &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}
+            {%- endif -%}
           {%- endif -%}
         </p>
 
-        {%- if settings['footer_payment_image.png'] != blank -%}
-          <img
-            class="fox-footer__payment-image"
-            src="{%- if settings['footer_payment_image.png'] contains '//' -%}{{ settings['footer_payment_image.png'] | escape }}{%- else -%}{{ settings['footer_payment_image.png'] | asset_url | escape }}{%- endif -%}"
-            width="360"
-            height="48"
-            alt="{{ settings.footer_payment_alt | default: 'Các phương thức thanh toán được chấp nhận' | escape }}"
-            loading="lazy"
-            decoding="async">
+        {%- if settings.footer_payment_show -%}
+          {%assign payment_alt = settings.footer_payment_alt | default: 'Các phương thức thanh toán được chấp nhận' | escape %}
+          {%- include 'render-img' with src: 'footer_payment_image.png', alt: payment_alt, w: '360', h: '48', class: 'fox-footer__payment-image' -%}
         {%- endif -%}
       </div>
     </div>
