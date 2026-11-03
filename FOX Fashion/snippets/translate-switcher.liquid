@@ -1,0 +1,36 @@
+{%- comment -%}
+  Language switcher (design C): flag-only glass bubble, bottom-left corner, opens a glass menu upward.
+  Translation: free Google Translate element (hidden), driven by window.doTranslate('vi|en') in translate-switcher.js;
+  the choice is kept in the googtrans cookie. Settings: translate_* (config/settings.html, "Dịch ngôn ngữ").
+{%- endcomment -%}
+{%- if settings.translate_show -%}
+{%- assign translate_source = settings.translate_source | default: 'vi' | strip -%}
+{%- assign translate_codes = settings.translate_languages | default: 'vi,en,ja,ko,zh-CN,th,fr' | remove: ' ' | split: ',' -%}
+{%- comment -%}Display language for first-time visitors; must be one of the listed languages, otherwise the source.{%- endcomment -%}
+{%- assign translate_default = settings.translate_default | default: translate_source | strip -%}
+{%- unless translate_codes contains translate_default -%}{%- assign translate_default = translate_source -%}{%- endunless -%}
+<translate-switcher class="fox-translate notranslate" translate="no" data-state="idle" data-source="{{ translate_source }}" data-default="{{ translate_default }}" data-languages="{{ translate_codes | join: ',' }}">
+  <button type="button" class="fox-translate__toggle" data-action="toggle" aria-expanded="false" aria-controls="fox-translate-menu" aria-haspopup="true" aria-label="{{ settings.translate_title | default: 'Ngôn ngữ' | escape }}">
+    <span class="fox-translate__current" data-role="current">
+      {%- assign flag_code = translate_default -%}{%- assign flag_part = 'flag' -%}{%- include 'translate-flag' -%}
+    </span>
+  </button>
+  <div class="fox-translate__menu" id="fox-translate-menu" data-role="menu" hidden>
+    <p class="fox-translate__title">{{ settings.translate_title | default: 'Ngôn ngữ' | escape }}</p>
+    <ul class="fox-translate__list" role="menu">
+      {%- for translate_code in translate_codes -%}
+      <li role="none">
+        <button type="button" class="fox-translate__option" role="menuitemradio" aria-checked="{% if translate_code == translate_default %}true{% else %}false{% endif %}" data-lang="{{ translate_code }}">
+          {%- assign flag_code = translate_code -%}{%- assign flag_part = 'flag' -%}{%- include 'translate-flag' -%}
+          <span class="fox-translate__name">{%- assign flag_part = 'name' -%}{%- include 'translate-flag' -%}</span>
+          <small class="fox-translate__code">{{ translate_code | split: '-' | first | upcase }}</small>
+          <svg class="fox-translate__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>
+        </button>
+      </li>
+      {%- endfor -%}
+    </ul>
+    <p class="fox-translate__credit">{{ settings.translate_credit | default: 'Dịch tự động bởi Google Translate' | escape }}</p>
+  </div>
+  <div id="fox-translate-element" class="fox-translate__engine" aria-hidden="true"></div>
+</translate-switcher>
+{%- endif -%}

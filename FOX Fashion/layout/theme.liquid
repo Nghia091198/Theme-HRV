@@ -49,19 +49,13 @@
 		{%- include 'mini-search' -%}
 		{%- unless template contains 'cart' -%}{%- include 'mini-cart' -%}{%- endunless -%}
 		{%- include 'quick-view-modal' -%}
-{%- include 'size-guide-modal' -%}
-{%- include 'floating-contact' -%} 
+		{%- include 'size-guide-modal' -%}
+		{%- include 'floating-contact' -%}
+		{%- include 'translate-switcher' -%} 
 		{%- include 'shop-config' -%}
 		{%- include 'shop-optimize' -%}
 		{%- include 'svg-cache' -%}
 		{%- include 'footer-scripts' -%}
-    <fox-cursor aria-hidden="true">
-      <span class="fox-cursor__dot"></span>
-      <span class="fox-cursor__bubble">
-        <svg class="fox-cursor__icon icon-svg" aria-hidden="true" focusable="false">
-          <use href=""></use>
-        </svg>
-      </span>
-    </fox-cursor>
+		{%- include 'cursor-effect' -%}
   </body>
 </html>

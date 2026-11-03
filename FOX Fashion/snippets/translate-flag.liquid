@@ -1,0 +1,31 @@
+{%- if flag_part == 'name' -%}
+  {%- case flag_code -%}
+    {%- when 'vi' -%}Tiếng Việt
+    {%- when 'en' -%}English
+    {%- when 'ja' -%}日本語
+    {%- when 'ko' -%}한국어
+    {%- when 'zh-CN' -%}中文
+    {%- when 'th' -%}ไทย
+    {%- when 'fr' -%}Français
+    {%- when 'de' -%}Deutsch
+    {%- when 'es' -%}Español
+    {%- when 'id' -%}Bahasa Indonesia
+    {%- else -%}{{ flag_code | upcase }}
+  {%- endcase -%}
+{%- else -%}
+<svg class="fox-translate__flag" viewBox="0 0 30 20" aria-hidden="true" focusable="false">
+  {%- case flag_code -%}
+    {%- when 'vi' -%}<rect width="30" height="20" fill="#da251d"/><polygon points="15,4 16.8,9.4 22.5,9.4 17.9,12.7 19.6,18 15,14.7 10.4,18 12.1,12.7 7.5,9.4 13.2,9.4" fill="#ffcd00"/>
+    {%- when 'en' -%}<rect width="30" height="20" fill="#012169"/><path d="M0 0 30 20M30 0 0 20" stroke="#fff" stroke-width="4"/><path d="M0 0 30 20M30 0 0 20" stroke="#c8102e" stroke-width="1.6"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="3.4"/>
+    {%- when 'ja' -%}<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/>
+    {%- when 'ko' -%}<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5.4" fill="#cd2e3a"/><path d="M9.6 10a5.4 5.4 0 0 0 10.8 0 2.7 2.7 0 0 1-5.4 0 2.7 2.7 0 0 0-5.4 0" fill="#0047a0"/>
+    {%- when 'zh-CN' -%}<rect width="30" height="20" fill="#de2910"/><polygon points="6,3 7.2,6.6 11,6.6 8,8.8 9.1,12.4 6,10.2 2.9,12.4 4,8.8 1,6.6 4.8,6.6" fill="#ffde00"/>
+    {%- when 'th' -%}<rect width="30" height="20" fill="#a51931"/><rect y="3.3" width="30" height="13.4" fill="#f4f5f8"/><rect y="6.7" width="30" height="6.6" fill="#2d2a4a"/>
+    {%- when 'fr' -%}<rect width="10" height="20" fill="#0055a4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ef4135"/>
+    {%- when 'de' -%}<rect width="30" height="6.7" fill="#000"/><rect y="6.7" width="30" height="6.6" fill="#dd0000"/><rect y="13.3" width="30" height="6.7" fill="#ffce00"/>
+    {%- when 'es' -%}<rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/>
+    {%- when 'id' -%}<rect width="30" height="10" fill="#ce1126"/><rect y="10" width="30" height="10" fill="#fff"/>
+    {%- else -%}<rect width="30" height="20" fill="#5c3d50"/><text x="15" y="13.5" fill="#fff" font-size="8" font-weight="700" text-anchor="middle">{{ flag_code | upcase | slice: 0, 2 }}</text>
+  {%- endcase -%}
+</svg>
+{%- endif -%}
