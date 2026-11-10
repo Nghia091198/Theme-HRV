@@ -1,9 +1,3 @@
-{%- comment -%}
-  Floating contact: desktop dock (or grouped toggle), mobile "Hỗ trợ" pill + glass card, back-to-top.
-  Channels are declared once in floating-contact-channels (each shown only when its URL is not blank) and rendered
-  in place for each spot through float_item_variant. Styles: floating-contact.css, behavior: floating-contact.js.
-{%- endcomment -%}
-{%- assign float_primary = settings.float_contact_primary | default: 'zalo' -%}
 {%- assign float_contact_count = 0 -%}
 {%- if settings.float_contact_show -%}
   {%- assign float_item_variant = 'count' -%}
@@ -18,11 +12,20 @@
 {%- if settings.float_btt_show -%}{%- assign float_show_btt = true -%}{%- endif -%}
 
 {%- assign float_grouped = false -%}
-{%- if settings.float_contact_group -%}{%- assign float_grouped = true -%}{%- endif -%}
+{%- if settings.float_contact_group == 'group' or settings.float_contact_group == true -%}
+  {%- assign float_grouped = true -%}
+{%- endif -%}
 
-{%- if float_show_dock or float_show_fab or float_show_btt -%}
+{%- comment -%}More than 6 channels: the desktop dock (full or grouped) gets too tall, so desktop uses the mobile pill + 2-column glass card.{%- endcomment -%}
+{%- assign float_desktop_card = false -%}
+{%- if float_show_dock and float_contact_count > 6 -%}
+  {%- assign float_desktop_card = true -%}
+  {%- assign float_show_dock = false -%}
+{%- endif -%}
+
+{%- if float_show_dock or float_show_fab or float_desktop_card or float_show_btt -%}
 <floating-contact
-  class="fox-float{% if float_show_dock %} has-dock{% endif %}{% if float_grouped %} is-grouped{% endif %}{% if float_show_fab %} has-fab{% endif %}{% if float_show_btt %} has-btt{% endif %}{% if settings.float_btt_mobile == false %} is-btt-desktop-only{% endif %}"
+  class="fox-float{% if float_show_dock %} has-dock{% endif %}{% if float_grouped %} is-grouped{% endif %}{% if float_show_fab %} has-fab{% endif %}{% if float_desktop_card %} has-desktop-card{% endif %}{% if float_show_btt %} has-btt{% endif %}{% if settings.float_btt_mobile == false %} is-btt-desktop-only{% endif %}"
   data-state="idle"
   data-dock-open="false">
   {%- if float_show_dock -%}
@@ -40,7 +43,7 @@
   </nav>
   {%- endif -%}
 
-  {%- if float_show_fab -%}
+  {%- if float_show_fab or float_desktop_card -%}
   {%- assign float_mobile_label = settings.float_mobile_label | default: 'Hỗ trợ' -%}
   {%- assign float_mobile_status = settings.float_mobile_status | default: 'Đang online' -%}
   <button type="button" class="fox-float__fab" data-action="open-sheet" aria-controls="fox-float-sheet" aria-haspopup="dialog">

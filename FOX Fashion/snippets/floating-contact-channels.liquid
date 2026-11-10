@@ -1,8 +1,3 @@
-{%- comment -%}
-  Floating-contact channels, declared once (order = display order). Social links come from the footer social
-  settings (footer_*_url), direct contacts from float_*_url. Each line renders through floating-contact-item, which
-  shows the channel only when its URL is not blank. Caller sets float_item_variant (count / stack / dock / tile).
-{%- endcomment -%}
 {%- include 'floating-contact-item' with float_channel: 'zalo', float_label: 'Zalo', float_icon: 'ic-zalo', float_url: settings.footer_zalo_url, float_show: settings.float_zalo_show, float_desc: settings.float_zalo_desc -%}
 {%- include 'floating-contact-item' with float_channel: 'messenger', float_label: 'Messenger', float_icon: 'ic-fox-messenger', float_url: settings.float_messenger_url, float_show: settings.float_messenger_show, float_desc: settings.float_messenger_desc -%}
 {%- include 'floating-contact-item' with float_channel: 'phone', float_label: 'Gọi hotline', float_icon: 'ic-fox-support-call', float_url: settings.float_phone_url, float_show: settings.float_phone_show, float_desc: settings.float_phone_desc -%}
