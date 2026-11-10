@@ -1,0 +1,14 @@
+{%- comment -%}
+  Order address card body: name, then only the filled lines. Input: order_address (billing or shipping address).
+{%- endcomment -%}
+<address class="fox-account-order-card__address">
+  {%- if order_address.name != blank -%}<strong>{{ order_address.name }}</strong>{%- endif -%}
+  {%- if order_address.company != blank -%}<span>{{ order_address.company }}</span>{%- endif -%}
+  {%- if order_address.address1 != blank -%}<span>{{ order_address.address1 }}</span>{%- endif -%}
+  {%- if order_address.address2 != blank -%}<span>{{ order_address.address2 }}</span>{%- endif -%}
+  {%- capture order_address_area -%}{{ order_address.city }} {{ order_address.province }}{%- endcapture -%}
+  {%- assign order_address_area = order_address_area | strip -%}
+  {%- if order_address_area != blank -%}<span>{{ order_address_area }}</span>{%- endif -%}
+  {%- if order_address.country != blank -%}<span>{{ order_address.country }}</span>{%- endif -%}
+  {%- if order_address.phone != blank -%}<span>{{ order_address.phone }}</span>{%- endif -%}
+</address>

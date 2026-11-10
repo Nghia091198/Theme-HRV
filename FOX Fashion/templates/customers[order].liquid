@@ -20,7 +20,7 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<a href="/account" id='return_to_store' class="order_backhome">Quay lại trang tài khoản </a>
+							<a href="/account" id='return_to_store' class="order_backhome"><svg class="icon-svg order_backhome__icon" aria-hidden="true" focusable="false"><use xlink:href="#ic-arrow-left-s"></use></svg>Quay lại trang tài khoản</a>
 						</div>				
 						<div class="col-12 content-page ">
 							<div class="customer-table-wrap">
@@ -62,10 +62,10 @@
 														</div>
 														{% endif %}
 													</td>
-													<td class="sku text-center">{{ line_item.sku }}</td>
-													<td class="money text-center">{{ line_item.price | money }}</td>
-													<td class="quantity center text-center">{{ line_item.quantity }}</td>
-													<td class="total money text-right">{{ line_item.quantity | times: line_item.price | money }}</td>
+													<td class="sku text-center" data-label="Mã sản phẩm">{{ line_item.sku }}</td>
+													<td class="money text-center" data-label="Đơn giá">{{ line_item.price | money }}</td>
+													<td class="quantity center text-center" data-label="Số lượng">{{ line_item.quantity }}</td>
+													<td class="total money text-right" data-label="Thành tiền">{{ line_item.quantity | times: line_item.price | money }}</td>
 												</tr>
 												{% endfor %}
 											</table>
@@ -98,57 +98,6 @@
 									</div>	
 								</div>
 							</div>
-							<div class="customer-status-order">
-								<div class="row">
-									<div id="order_payment" class="col-lg-6 col-6 order-payment">
-										<h3 class="order_section_title">Địa chỉ nhận thanh toán</h3>
-										<div class="alert alert-info">
-											<span class="text_status">Tình trạng thanh toán:</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status  | replace : 'pending', 'Chờ xử lý' | replace : 'paid', 'Đã hoàn tất'}}</span>
-										</div>
-										<div class="box-address">
-											<p class="adressName ">{{ order.billing_address.name }}</p>
-											<p>{{ order.billing_address.company }}</p>
-											<p>{{ order.billing_address.address1 }}</p>
-											<p>{{ order.billing_address.address2 }}</p>
-											<p>{{ order.billing_address.city }} {{ order.billing_address.province }}</p>
-											<p>{{ order.billing_address.country }}</p>
-											<p>{{ order.billing_address.phone }}</p>
-										</div>
-									</div>
-									{% if order.shipping_address %}
-									<div id="order_shipping" class="col-lg-6 col-6 order-shipping">
-										<h3 class="order_section_title">Địa chỉ gửi hàng</h3>
-										<div class="alert alert-info">
-											<span class="text_status">Vận chuyển:</span> 
-											<span class="status_{{ order.fulfillment_status }}">
-												{% if order.shipment_status == 'readytopick' or order.shipment_status == 'picking' %}
-												Đang xử lý
-												{%elsif order.shipment_status == 'delivering' or order.shipment_status == 'notmeetcustomer' %}
-												Đang giao hàng
-												{%elsif order.shipment_status == 'delivered'%}
-												Đã giao hàng
-												{%elsif order.shipment_status == 'cancel'%}
-												Đã hủy
-												{%elsif order.shipment_status == 'return' or order.shipment_status == 'waitingforreturn'%}
-												Giao không thành công
-												{%elsif order.shipment_status == 'pending'%}
-												Chờ xử lý
-												{%endif%}
-											</span>
-										</div>
-										<div class="box-address">
-											<p class="adressName ">{{ order.shipping_address.name }}</p>
-											<p>{{ order.shipping_address.company }}</p>
-											<p>{{ order.shipping_address.address1 }}</p>
-											<p>{{ order.shipping_address.address2 }}</p>
-											<p>{{ order.shipping_address.city }} {{ order.shipping_address.province }}</p>
-											<p>{{ order.shipping_address.country }} </p>
-											<p>{{ order.shipping_address.phone }}</p>
-										</div>
-									</div>
-									{% endif %}
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -159,4 +108,34 @@
 </div>
 
 {% endcapture %}
+{%- capture fox_account_sidebar_extra -%}
+<section class="fox-account-panel fox-account-order-card" aria-labelledby="fox-order-payment-title">
+	<h2 id="fox-order-payment-title">Địa chỉ nhận thanh toán</h2>
+	<p class="fox-account-order-card__status">
+		<span>Thanh toán</span>
+		<strong class="status_{{ order.financial_status }}">{{ order.financial_status | replace: 'pending', 'Chờ xử lý' | replace: 'paid', 'Đã thanh toán' }}</strong>
+	</p>
+	{%- assign order_address = order.billing_address -%}
+	{%- include 'customer-order-address' -%}
+</section>
+{%- if order.shipping_address -%}
+<section class="fox-account-panel fox-account-order-card" aria-labelledby="fox-order-shipping-title">
+	<h2 id="fox-order-shipping-title">Địa chỉ gửi hàng</h2>
+	<p class="fox-account-order-card__status">
+		<span>Vận chuyển</span>
+		<strong class="status_{{ order.fulfillment_status }}">
+			{%- if order.shipment_status == 'readytopick' or order.shipment_status == 'picking' -%}Đang xử lý
+			{%- elsif order.shipment_status == 'delivering' or order.shipment_status == 'notmeetcustomer' -%}Đang giao hàng
+			{%- elsif order.shipment_status == 'delivered' -%}Đã giao hàng
+			{%- elsif order.shipment_status == 'cancel' -%}Đã hủy
+			{%- elsif order.shipment_status == 'return' or order.shipment_status == 'waitingforreturn' -%}Giao không thành công
+			{%- elsif order.shipment_status == 'pending' -%}Chờ xử lý
+			{%- endif -%}
+		</strong>
+	</p>
+	{%- assign order_address = order.shipping_address -%}
+	{%- include 'customer-order-address' -%}
+</section>
+{%- endif -%}
+{%- endcapture -%}
 {% include 'account-hero' %}

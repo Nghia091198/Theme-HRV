@@ -4,9 +4,9 @@
 .fox-account .breadcrumb-shop a { color: inherit; }
 .fox-account-page #MainContent { padding: 0; }
 .fox-account { position: relative; min-height: 100svh; overflow: hidden; color: var(--fox-account-text); color-scheme: dark; }
-.fox-account__backdrop { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(9 18 25 / .7), rgb(9 18 25 / .25)), var(--fox-account-banner-desktop) center / cover no-repeat; }
+.fox-account__backdrop { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(9 18 25 / .7), rgb(9 18 25 / .25)), var(--fox-account-banner-desktop, none) center / cover no-repeat; }
 .fox-account__backdrop::after { content: ''; position: absolute; inset: 0; background: rgb(0 0 0 / var(--fox-account-overlay)); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-.fox-account__stage { position: relative; z-index: 1; padding-top: 74px; padding-bottom: 80px; }
+.fox-account__stage { position: relative; z-index: 1; padding-top: 30px;padding-bottom: 30px;}
 .fox-account__layout { display: grid; grid-template-columns: minmax(250px, 280px) minmax(0, 1fr); gap: 16px; align-items: start; }
 .fox-account__sidebar, .fox-account-panel { border: 1px solid var(--fox-account-border); border-radius: 20px; background: var(--fox-account-panel); box-shadow: 0 22px 70px rgb(0 0 0 / .22), inset 0 1px 0 rgb(255 255 255 / .08); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .fox-account__sidebar { padding: 20px 16px; }
@@ -28,7 +28,17 @@
 .fox-account-legacy .row { margin-right: -8px; margin-left: -8px; }
 .fox-account-legacy [class*="col-"] { padding-right: 8px; padding-left: 8px; }
 .fox-account-legacy .wrap_content_address { row-gap: 16px; }
-.fox-account-legacy .address_item, .fox-account-legacy .wrap_addAddress, .fox-account-legacy .customer-table-bg, .fox-account-legacy .customer-status-order > .row > div { margin-bottom: 16px; padding: 20px; border: 1px solid var(--fox-account-border); border-radius: 16px; background: var(--fox-account-panel); box-shadow: 0 18px 50px rgb(0 0 0 / .18); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+/* Addresses page: cards in two equal columns across the full width, "Tạo địa chỉ mới" centred below them.
+   Centred with flex, not text-align: the new-address modal lives in that column and would inherit it. */
+.fox-account-legacy--addresses .wrap_content_address > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+.fox-account-legacy--addresses #address_tables { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.fox-account-legacy--addresses #address_tables .address_item { margin-bottom: 0; }
+.fox-account-legacy--addresses .wrap_addAddress { display: flex; justify-content: center; }
+.fox-account-legacy--addresses .wrap_addAddress .add-new-address { margin: 8px 0 0; }
+@media (max-width: 767px) { .fox-account-legacy--addresses #address_tables { grid-template-columns: minmax(0, 1fr); } }
+/* Glass card on the new-address form itself (not its column): while the form is hidden only the "Tạo địa chỉ mới"
+   button shows, no empty card. */
+.fox-account-legacy .address_item, .fox-account-legacy .add_address_table, .fox-account-legacy .customer-table-bg { margin-bottom: 16px; padding: 20px; border: 1px solid var(--fox-account-border); border-radius: 16px; background: var(--fox-account-panel); box-shadow: 0 18px 50px rgb(0 0 0 / .18); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
 .fox-account-legacy .address_title { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
 .fox-account-legacy .address_title h3, .fox-account-legacy .title-detail, .fox-account-legacy .order_section_title, .fox-account-legacy .order_name { color: #fff; }
 .fox-account-legacy .address_title h3 { margin: 0; font-size: 18px; }
@@ -38,23 +48,71 @@
 .fox-account-legacy .address_actions a, .fox-account-legacy a { color: #fff; }
 .fox-account-legacy .view_address p, .fox-account-legacy .box-address p { margin-bottom: 6px; }
 .fox-account-legacy .lb-left { color: #fff; }
-.fox-account-legacy .add-new-address { display: inline-flex; min-height: 44px; align-items: center; margin-bottom: 14px; padding: 9px 18px; border: 1px solid #fff; border-radius: 999px; text-decoration: none; }
+.fox-account-legacy .add-new-address { display: inline-flex; min-height: 44px; gap: 8px; align-items: center; margin-bottom: 14px; padding: 9px 18px; border: 1px solid #fff; border-radius: 999px; background: transparent; color: #fff; font: inherit; text-decoration: none; cursor: pointer; }
+.fox-account-legacy .add-new-address .icon-svg { width: 12px; height: 12px; }
+
+/* New-address form in a modal (modal-component, opened by [data-modal-open]): glass panel like the account cards. */
+.fox-address-modal dialog { width: min(56rem, calc(100vw - 2rem)); max-width: none; max-height: none; padding: 0; overflow: visible; border: 0; background: transparent; color: #fff; opacity: 0; transform: translateY(12px) scale(.98); transition: opacity 280ms ease, transform 280ms cubic-bezier(.22, 1, .36, 1); }
+.fox-address-modal[data-state="opening"] dialog, .fox-address-modal[data-state="open"] dialog { opacity: 1; transform: none; }
+.fox-address-modal dialog::backdrop { background: rgb(9 18 25 / .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.fox-address-modal__panel { max-height: calc(100dvh - 4rem); padding: 22px 24px 24px; overflow-y: auto; border: 1px solid var(--fox-account-border); border-radius: 20px; background: var(--fox-account-panel), #1c262e; box-shadow: 0 28px 80px rgb(0 0 0 / .4); overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .28) transparent; }
+.fox-address-modal__head { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 18px; }
+.fox-address-modal__title { margin: 0; color: #fff; font-size: 22px; }
+.fox-address-modal__close.fox-quick-view__close { position: relative; top: auto; right: auto; flex: 0 0 auto; width: 42px; height: 42px; }
+@media (prefers-reduced-motion: reduce) { .fox-address-modal dialog { transition: none; } }
 .fox-account-legacy .input-group { position: relative; display: block; margin-bottom: 12px; }
-.fox-account-legacy .input-ico { position: absolute; z-index: 1; top: 50%; left: 14px; color: var(--fox-account-muted); transform: translateY(-50%); }
-.fox-account-legacy .input-textbox { box-sizing: border-box; width: 100%; min-height: 48px; padding: 11px 14px 11px 42px; border: 1px solid var(--fox-account-border); border-radius: 9px; outline: none; background: rgb(255 255 255 / .08); color: #fff; }
+/* The legacy form keeps Font Awesome icon slots (<span class="input-ico">), but Font Awesome is not loaded: no slot,
+   normal text inset. */
+.fox-account-legacy .input-ico { display: none; }
+.fox-account-legacy .input-textbox { box-sizing: border-box; width: 100%; min-height: 48px; padding: 11px 14px; border: 1px solid var(--fox-account-border); border-radius: 9px; outline: none; background: rgb(255 255 255 / .08); color: #fff; }
 .fox-account-legacy select.input-textbox option { color: #111; }
 .fox-account-legacy .input-textbox:focus { border-color: #fff; box-shadow: 0 0 0 3px rgb(255 255 255 / .13); }
 .fox-account-legacy .action_bottom { display: flex; gap: 12px; align-items: center; }
-.fox-account-legacy .action_bottom input.btn { min-height: 44px; background: var(--color-btn-bg-primary); color: var(--color-btn-text-primary); }
+.fox-account-legacy .action_bottom .btn { min-height: 44px; padding: 0 22px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; }
+.fox-account-legacy .action_bottom input.btn { background: var(--color-btn-bg-primary); color: var(--color-btn-text-primary); border: 0; }
+/* Cancel: secondary action on the dark glass (outline, transparent). */
+.fox-account-legacy .action_bottom .btn-secondary { border: 1px solid rgb(255 255 255 / .6); background: transparent; color: #fff; transition: background-color 180ms ease, border-color 180ms ease; }
+.fox-account-legacy .action_bottom .btn-secondary:hover, .fox-account-legacy .action_bottom .btn-secondary:focus-visible { border-color: #fff; background: rgb(255 255 255 / .1); }
 .fox-account-legacy table { width: 100%; border-collapse: collapse; color: #fff; }
 .fox-account-legacy th, .fox-account-legacy td { padding: 12px 10px; border-bottom: 1px solid rgb(255 255 255 / .12); }
 .fox-account-legacy .table-responsive-overflow { overflow-x: auto; }
-.fox-account-legacy .order_backhome { display: inline-block; margin-bottom: 14px; }
+.fox-account-legacy .order_backhome { display: inline-flex; gap: 8px; align-items: center; margin-bottom: 14px; text-decoration: none; }
+.fox-account-legacy .order_backhome__icon { flex: 0 0 auto; width: 12px; height: 10px; transition: transform .2s ease; }
+.fox-account-legacy .order_backhome:hover .order_backhome__icon, .fox-account-legacy .order_backhome:focus-visible .order_backhome__icon { transform: translateX(-3px); }
 .fox-account-legacy .alert-info { border-color: rgb(255 255 255 / .16); background: rgb(255 255 255 / .08); color: #fff; }
 .fox-account-field--gender .fox-form-control { --core-form-control-size: 22px; }
 .fox-account-field--gender .fox-form-control__indicator::after { inset: 5px; }
 .fox-account-field--gender .fox-form-control { --core-form-control-primary: #fff; display: inline-flex; min-height: 44px; margin: 0; gap: 8px; }
 .fox-account-field--gender .fox-form-control > input[type="radio"] { width: var(--core-form-control-size); height: var(--core-form-control-size); min-height: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; }
-@media (max-width: 991px) { .fox-account__stage { padding-top: 54px; }.fox-account__heading { margin-left: 0; }.fox-account__layout { grid-template-columns: minmax(0, 1fr); }.fox-account__sidebar { order: 0; }.fox-account-nav__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }.fox-account-nav__support { margin-top: 12px; }.fox-account-panel { padding: 22px; } }
-@media (max-width: 767px) { .fox-account { min-height: auto; }.fox-account__backdrop { background-image: linear-gradient(180deg, rgb(9 18 25 / .55), rgb(9 18 25 / .82)), var(--fox-account-banner-mobile); }.fox-account__stage { padding-top: 32px; padding-bottom: 48px; }.fox-account__heading h1 { font-size: 36px; }.fox-account__layout { gap: 12px; }.fox-account__sidebar, .fox-account-panel { border-radius: 16px; }.fox-account__sidebar { padding: 12px; }.fox-account-nav__list { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 3px; }.fox-account-nav__item { flex: 0 0 auto; min-height: 44px; padding: 9px 11px; font-size: 12px; }.fox-account-nav__item svg { width: 18px; height: 18px; }.fox-account-nav__support { grid-template-columns: 38px 1fr 18px; }.fox-account-panel { padding: 18px 16px; }.fox-account-panel__heading { display: block; }.fox-account-panel__heading > p { margin-top: 10px; }.fox-account-panel h2 { font-size: 22px; }.fox-account-form { grid-template-columns: 1fr; gap: 15px; }.fox-account-form__footer { display: grid; gap: 14px; }.fox-account-form__submit { width: 100%; }.fox-account-orders th, .fox-account-orders td { padding: 11px 8px; }.fox-account-orders table { min-width: 0; }.fox-account-orders thead { display: none; }.fox-account-orders tr { display: block; padding: 9px 0; }.fox-account-orders td { display: flex; justify-content: space-between; gap: 18px; padding: 8px 2px; border: 0; }.fox-account-orders td::before { content: attr(data-label); flex: 0 0 42%; color: var(--fox-account-muted); }.fox-account-orders td > * { text-align: right; }.fox-account-orders__scroll { overflow: visible; }.fox-account-orders__detail { white-space: normal; } .fox-account__heading { padding-bottom: 16px; }}
+@media (max-width: 991px) { .fox-account__heading { margin-left: 0; }.fox-account__layout { grid-template-columns: minmax(0, 1fr); }.fox-account__sidebar { order: 0; }.fox-account-nav__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }.fox-account-nav__support { margin-top: 12px; }.fox-account-panel { padding: 22px; } }
+@media (max-width: 767px) { .fox-account { min-height: auto; }.fox-account__backdrop { background-image: linear-gradient(180deg, rgb(9 18 25 / .55), rgb(9 18 25 / .82)), var(--fox-account-banner-mobile, none); }.fox-account__stage { padding-top: 32px; padding-bottom: 48px; }.fox-account__heading h1 { font-size: 36px; }.fox-account__layout { gap: 12px; }.fox-account__sidebar, .fox-account-panel { border-radius: 16px; }.fox-account__sidebar { padding: 12px; }.fox-account-nav__list { display: flex; overflow-x: auto; gap: 6px; padding-bottom: 3px; }.fox-account-nav__item { flex: 0 0 auto; min-height: 44px; padding: 9px 11px; font-size: 12px; }.fox-account-nav__item svg { width: 18px; height: 18px; }.fox-account-nav__support { grid-template-columns: 38px 1fr 18px; }.fox-account-panel { padding: 18px 16px; }.fox-account-panel__heading { display: block; }.fox-account-panel__heading > p { margin-top: 10px; }.fox-account-panel h2 { font-size: 22px; }.fox-account-form { grid-template-columns: 1fr; gap: 15px; }.fox-account-form__footer { display: grid; gap: 14px; }.fox-account-form__submit { width: 100%; }.fox-account-orders th, .fox-account-orders td { padding: 11px 8px; }.fox-account-orders table { min-width: 0; }.fox-account-orders thead { display: none; }.fox-account-orders tr { display: block; padding: 9px 0; }.fox-account-orders td { display: flex; justify-content: space-between; gap: 18px; padding: 8px 2px; border: 0; }.fox-account-orders td::before { content: attr(data-label); flex: 0 0 42%; color: var(--fox-account-muted); }.fox-account-orders td > * { text-align: right; }.fox-account-orders__scroll { overflow: visible; }.fox-account-orders__detail { white-space: normal; } .fox-account__heading { padding-bottom: 16px; }}
+/* Left column: navigation + optional cards below it (fox_account_sidebar_extra, e.g. order payment / shipping). */
+.fox-account__side { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.fox-account-order-card { padding: 20px; }
+.fox-account-order-card h2 { margin: 0 0 12px; color: #fff; font-size: 17px; }
+.fox-account-order-card__status { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin: 0 0 14px; padding: 10px 12px; border-radius: 12px; background: rgb(255 255 255 / .08); font-size: 13px; }
+.fox-account-order-card__status span { color: var(--fox-account-muted); }
+.fox-account-order-card__status strong { padding: 3px 10px; border-radius: 999px; background: rgb(255 255 255 / .14); color: #fff; font-size: 12px; font-weight: 600; }
+.fox-account-order-card__address { display: grid; gap: 4px; margin: 0; color: rgb(255 255 255 / .82); font-size: 14px; font-style: normal; line-height: 1.5; }
+.fox-account-order-card__address strong { color: #fff; font-size: 15px; }
+/* One column: navigation, then the page content, then the cards. */
+@media (max-width: 991px) { .fox-account__side { display: contents; } .fox-account__content { order: 1; } .fox-account-order-card { order: 2; } }
+/* Order lines on mobile: one card per product (image left; name, then label · value rows from data-label). */
+@media (max-width: 767px) {
+  .fox-account-legacy--order #order_details,
+  .fox-account-legacy--order #order_details tbody,
+  .fox-account-legacy--order #order_details td { display: block; }
+  .fox-account-legacy--order #order_details thead { display: none; }
+  .fox-account-legacy--order #order_details tr.line-order { display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 14px; padding: 14px 0; border-bottom: 1px solid rgb(255 255 255 / .12); }
+  .fox-account-legacy--order #order_details tr.line-order:last-child { border-bottom: 0; }
+  .fox-account-legacy--order #order_details td { padding: 0; border: 0; text-align: left; }
+  .fox-account-legacy--order #order_details .order-image { grid-row: 1 / span 5; }
+  .fox-account-legacy--order #order_details .order-image img { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 10px; }
+  /* The template sets style="max-width:300px" on this cell: an inline style only yields to !important. */
+  .fox-account-legacy--order #order_details .name { max-width: none !important; margin-bottom: 8px; font-weight: 600; line-height: 1.4; }
+  .fox-account-legacy--order #order_details .variant_acc { color: var(--fox-account-muted); font-size: 12px; font-weight: 400; }
+  .fox-account-legacy--order #order_details td[data-label] { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; font-size: 13px; text-align: right!important; overflow-wrap: anywhere; }
+  .fox-account-legacy--order #order_details td[data-label]::before { flex: 0 0 auto; color: var(--fox-account-muted); text-align: left; content: attr(data-label); }
+  .fox-account-legacy--order #order_details td.total[data-label] { font-weight: 700; }
+}
 @media (prefers-reduced-motion: reduce) { .fox-account *, .fox-account *::before, .fox-account *::after { animation: none !important; transition: none !important; } }

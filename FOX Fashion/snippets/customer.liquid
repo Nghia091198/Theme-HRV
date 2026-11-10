@@ -1,29 +1,14 @@
-{% assign fox_customer_text_list = 'Đăng nhập;Đăng ký;Email;Mật khẩu;Họ và tên;Xác nhận mật khẩu;Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật.;Bạn chưa có tài khoản?;Bạn đã có tài khoản?;Quên mật khẩu;Khôi phục mật khẩu;Trở về đăng nhập;Gửi email;Tạo tài khoản;Đăng nhập bằng số điện thoại;Đăng ký bằng số điện thoại;Nhập số điện thoại;Nhập mã OTP;Gửi mã xác nhận;Xác thực mã OTP;Tiếp tục với;Trang chủ;Chào mừng bạn trở lại.;Ghi nhớ đăng nhập;Hiện mật khẩu;Ẩn mật khẩu;Mật khẩu mới sẽ được gửi về email của bạn.;Tạo không gian riêng cho phong cách của bạn.;Đăng ký bằng email;Đăng nhập bằng email;Google;Apple;Số điện thoại;Tài khoản khách hàng' | split: ';' %}
-{% assign fox_customer_text = fox_customer_text_list %}
 {% assign fox_customer_mode = auth_mode | default: 'login' %}
-{% assign fox_customer_banner_desktop = settings['customer_auth_banner_desktop.jpg'] %}
-{% assign fox_customer_banner_mobile = settings['customer_auth_banner_mobile.jpg'] %}
-
-{% if fox_customer_banner_desktop == blank %}
-  {% assign fox_customer_banner_desktop_url = 'slide_1_d_image.png' | asset_url %}
-{% elsif fox_customer_banner_desktop contains '//' %}
-  {% assign fox_customer_banner_desktop_url = fox_customer_banner_desktop %}
-{% else %}
-  {% assign fox_customer_banner_desktop_url = fox_customer_banner_desktop | asset_url %}
-{% endif %}
-{% if fox_customer_banner_mobile == blank %}
-  {% assign fox_customer_banner_mobile_url = 'slide_1_m_image.png' | asset_url %}
-{% elsif fox_customer_banner_mobile contains '//' %}
-  {% assign fox_customer_banner_mobile_url = fox_customer_banner_mobile %}
-{% else %}
-  {% assign fox_customer_banner_mobile_url = fox_customer_banner_mobile | asset_url %}
-{% endif %}
+{%- assign fox_customer_banner_style = '' -%}
+{%- if settings.customer_auth_banner_show -%}
+  {%- capture fox_customer_banner_style -%}--fox-customer-banner-desktop: url('{{ 'customer_auth_banner_desktop.jpg' | asset_url }}'); --fox-customer-banner-mobile: url('{{ 'customer_auth_banner_mobile.jpg' | asset_url }}'); {% endcapture -%}
+{%- endif -%}
 
 <div
   class="fox-customer"
   data-customer-mode="{{ fox_customer_mode }}"
   data-customer-otp="{{ settings.header_account_use_otp_template | default: false }}"
-  style="--fox-customer-banner-desktop: url('{{ fox_customer_banner_desktop_url }}'); --fox-customer-banner-mobile: url('{{ fox_customer_banner_mobile_url }}'); --fox-customer-overlay: {{ settings.customer_auth_overlay_opacity | default: 42 }}%;"
+  style="{{ fox_customer_banner_style }}--fox-customer-overlay: {{ settings.customer_auth_overlay_opacity | default: 42 }}%;"
 >
   <div class="fox-customer__backdrop" aria-hidden="true">
     <svg class="fox-customer__paths" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
@@ -38,7 +23,7 @@
 
   <div class="fox-customer__layout">
     <section class="fox-customer__editorial" aria-labelledby="fox-customer-editorial-title">
-      <p class="fox-customer__eyebrow">{{ settings.customer_auth_eyebrow | default: 'MODA / MEMBERS' }}</p>
+      {%- include 'component-breadcrumb' with container: false, center: false, bgColor: 'transparent', textColor: '#fff' -%}
       <h1 id="fox-customer-editorial-title">
         {% if fox_customer_mode == 'register' %}
           {{ settings.customer_auth_register_title | default: 'Phong cách của bạn bắt đầu tại đây.' }}
@@ -63,13 +48,13 @@
       </p>
     </section>
 
-    <section class="fox-customer__card" aria-label="{{ fox_customer_text[33] }}">
+    <section class="fox-customer__card" aria-label="Tài khoản khách hàng">
       {% if fox_customer_mode == 'reset' or fox_customer_mode == 'activate' %}
         {{ fox_customer_password_content }}
       {% else %}
         <nav class="fox-customer__switch" aria-label="Tài khoản">
-          <a class="{% if fox_customer_mode == 'login' %}is-active{% endif %}" href="/account/login">{{ fox_customer_text[0] }}</a>
-          <a class="{% if fox_customer_mode == 'register' %}is-active{% endif %}" href="/account/register">{{ fox_customer_text[1] }}</a>
+          <a class="{% if fox_customer_mode == 'login' %}is-active{% endif %}" href="/account/login">Đăng nhập</a>
+          <a class="{% if fox_customer_mode == 'register' %}is-active{% endif %}" href="/account/register">Đăng ký</a>
         </nav>
         {% if fox_customer_mode == 'register' %}
           {% include 'customer-register' %}
@@ -80,3 +65,4 @@
     </section>
   </div>
 </div>
+ 

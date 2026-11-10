@@ -4,7 +4,6 @@
 <div class="fox-account-legacy fox-account-legacy--addresses">
 <div class="layout-account">
 	<div class="container">
-
 		<div class="wrapbox-content-account">
 			<div class="row">
 				<div class="col-12" >	
@@ -45,7 +44,8 @@
 											<div class="col-md-12 col-md-12 large_view">
 												<div class="lb-left"><b>Địa chỉ:</b></div>
 												<div class="lb-right">
-													<p>{{ address.address1 }}, {{ address.ward }}, {{ address.district }}, {{ address.province }}</p>
+													{%- assign address_line_source = address -%}
+													{%- include 'customer-address-line' -%}
 												</div>
 											</div>
 										
@@ -107,8 +107,8 @@
 											{{ form.set_as_default_checkbox }}  Đặt làm địa chỉ mặc định.
 										</div> 
 										<div class="action_bottom">
-											<input class="btn bt-primary" type="submit" value="Cập nhật" />
-											<span class="">hoặc <a href="/" onclick="Haravan.CustomerAddress.toggleForm({{form.id}}); return false;">Hủy</a></span>
+											<input class="btn btn-primary" type="submit" value="Cập nhật" />
+											<button type="button" class="btn btn-secondary" onclick="Haravan.CustomerAddress.toggleForm({{form.id}});">Hủy</button>
 										</div>        
 										{% endform %}
 									</div>
@@ -143,9 +143,8 @@
 											<div class="col-md-12 col-md-12 large_view">
 												<div class="lb-left"><b>Địa chỉ:</b></div>
 												<div class="lb-right">
-													<p>{{ address.address1 }}</p>
-													<p>{{ address.address2 }}</p>
-													<p>{{ address.province }}, {{ address.country }} </p>
+													{%- assign address_line_source = address -%}
+													{%- include 'customer-address-line' -%}
 												</div>
 											</div>									
 											<div class="col-md-12 col-md-12 large_view">
@@ -203,8 +202,8 @@
 											{{ form.set_as_default_checkbox }}  Đặt làm địa chỉ mặc định.
 										</div> 
 										<div class="action_bottom">
-											<input class="btn bt-primary" type="submit" value="Cập nhật" />
-											<span class="">hoặc <a href="/" onclick="Haravan.CustomerAddress.toggleForm({{form.id}}); return false;">Hủy</a></span>
+											<input class="btn btn-primary" type="submit" value="Cập nhật" />
+											<button type="button" class="btn btn-secondary" onclick="Haravan.CustomerAddress.toggleForm({{form.id}});">Hủy</button>
 										</div>        
 										{% endform %}
 									</div>
@@ -215,8 +214,26 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-12 col-xs-12 wrap_addAddress">
-							<a href="#" onclick="Haravan.CustomerAddress.toggleNewForm(); return false;" class="add-new-address"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Tạo địa chỉ mới</a>
-							<div id="add_address" class="customer_address add_address add_address_table" style="display:none;">
+							<button type="button" class="add-new-address" data-modal-open="fox-address-modal" aria-haspopup="dialog" aria-controls="fox-address-modal">
+								<svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-plus"></use></svg>
+								Tạo địa chỉ mới
+							</button>
+							<modal-component id="fox-address-modal" class="fox-address-modal" data-state="closed">
+							<dialog data-role="dialog" aria-labelledby="fox-address-modal-title">
+							<div class="fox-address-modal__panel">
+							<header class="fox-address-modal__head">
+								<h2 id="fox-address-modal-title" class="fox-address-modal__title">Tạo địa chỉ mới</h2>
+								<button type="button" class="fox-quick-view__close fox-address-modal__close" data-action="close" aria-label="Đóng">
+									<svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+										<circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+										<circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+									</svg>
+									<svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+										<path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+									</svg>
+								</button>
+							</header>
+							<div id="add_address" class="customer_address add_address">
 								{% form 'customer_address', customer.new_address %}
 								
 								<div class="input-group">
@@ -268,10 +285,13 @@
 								</div>
 								<div class="action_bottom">
 									<input class="btn btn-primary" type="submit" value="Thêm mới" />
-									<span class="">hoặc <a href="#" onclick="Haravan.CustomerAddress.toggleNewForm(); return false;">Hủy</a></span>
+									<button type="button" class="btn btn-secondary" data-action="close">Hủy</button>
 								</div>
 								{% endform %}
 							</div>
+							</div>
+							</dialog>
+							</modal-component>
 						</div>
 					</div>		 					
 				</div>
@@ -282,6 +302,7 @@
 
     
 <script type="text/javascript" charset="utf-8">
+  let addressDataReady = false;
   var AddressChange = function(id) {
     
     const $provinceContainer = $(`#address_province_container_${id}`)
@@ -290,6 +311,7 @@
     const $province = $(`#address_province_${id}`);
     const $district = $(`#address_district_${id}`);
     const $ward = $(`#address_ward_${id}`);
+    if (!addressDataReady) return;
       $districtContainer.show();
     $wardContainer.show();
   
@@ -314,23 +336,26 @@
   }
     let districthtml="";
    let wardhtml="";
-  function filterOptions($select, filterKey, filterValue) {
+  // Names compared without diacritics or case ("Hoà Bình" in the data vs "Hòa Bình" from Haravan).
+  const addressKey = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().trim();
 
-    if(filterKey=='province')
-    {
-       $select.html(districthtml)
-    }
-   if(filterKey=='district')
-    {
-      $select.html(wardhtml)
-    }    
-   
+  // Districts: path "Ba Đình, Hà Nội" → kept when its last part is the province.
+  // Wards: path_with_type "Phường Phúc Xá, Quận Ba Đình, Thành phố Hà Nội" → kept when the middle part is the district
+  // and the last part ends with the province (8 district names exist in two provinces, e.g. Huyện Chợ Mới).
+  function filterOptions($select, filterKey, filterValue, provinceValue) {
+    $select.html(filterKey == 'province' ? districthtml : wardhtml);
+    const value = addressKey(filterValue);
+    const province = addressKey(provinceValue);
+
     $select.find('option').each(function() {
-      if (!$(this).data(filterKey) || ( $(this).data(filterKey).includes(filterValue) && filterKey=='province') || ( $(this).data(filterKey).includes(filterValue+",") && filterKey=='district')) {
-       
-      } else {
-        $(this).remove()
-      }
+      const path = $(this).data(filterKey);
+      if (!path) return;
+      const parts = addressKey(path).split(',').map((part) => part.trim());
+      const last = parts[parts.length - 1];
+      const keep = filterKey == 'province'
+        ? last === value
+        : parts[1] === value && (!province || last.endsWith(province));
+      if (!keep) $(this).remove();
     });
     $select.val($select.data('default'));
   }
@@ -338,8 +363,8 @@
   async function getDistrictsWards() {
     try {
       const [districts, wards] = await Promise.all([
-       $.getJSON("//theme.hstatic.net/1000343028/1001270212/14/districts.js?v=38"),
-        $.getJSON("//theme.hstatic.net/1000343028/1001270212/14/wards.js?v=38")
+        $.getJSON("{{ 'address-districts.js' | asset_url }}"),
+        $.getJSON("{{ 'address-wards.js' | asset_url }}")
       ]);
       
       const html_district = districts.map(({ name_with_type, path }) => `<option value="${name_with_type}" data-province="${path}" >${name_with_type}</option>`);
@@ -349,8 +374,12 @@
       districthtml= $('[name="address[district]"]').html();
       $('[name="address[ward]"]').append(html_ward.join(''));
       wardhtml=$('[name="address[ward]"]').html();
+      addressDataReady = true;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // Without the district / ward data the two selects cannot be filled: hide them and drop "required" so the
+      // address (country, province, street, phone) can still be saved.
+      $('[name="address[district]"], [name="address[ward]"]').prop('required', false).closest('.input-group').hide();
+      console.warn('[Addresses] District / ward data could not be loaded.', error?.status || error);
     }
   }
 
@@ -377,7 +406,7 @@
     $('[name="address[district]"]').on('change', function() {
         const $val = $(this).val();
         const $parents = $(this).parents('form');
-        filterOptions($parents.find('[name="address[ward]"]'), 'district', $val);
+        filterOptions($parents.find('[name="address[ward]"]'), 'district', $val, $parents.find('[name="address[province]"]').val());
     });
 
     

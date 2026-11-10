@@ -31,6 +31,8 @@ html.fox-overlay-lock { scrollbar-gutter: stable; scrollbar-color: transparent t
 .fox-mini-account__view .button { border: 0; border-radius: 999px; background: var(--color-btn-bg-primary, #fff); color: var(--color-btn-text-primary, #171718); font-weight: 700; transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
 .fox-mini-account__view .button:hover, .fox-mini-account__view .button:focus-visible { background: var(--color-btn-bg-primary-hover, #fff); box-shadow: 0 10px 24px rgb(0 0 0 / 20%); transform: translateY(-1px); }
 .fox-mini-account__view[data-account-view="account"] { display: grid; gap: 10px; }
+/* Grid items stretch to the full row: the links keep their text width so the hover underline stays under the words. */
+.fox-mini-account__view[data-account-view="account"] > a { justify-self: start; }
 .fox-mini-account__view .fox-mini-account__name { font-size: 1.6rem;margin: 0 0 4px; font-weight: 700; }
 .fox-mini-account__view .fox-mini-account__name-label { font-size:1.6rem; font-weight: 400; }
 @media (prefers-reduced-motion: reduce) { .fox-mini-account__panel { transition: none; clip-path: none; transform: none; } }

@@ -1,13 +1,17 @@
-/**
- * <add-to-cart> — nut them vao gio.
- * Thay the phan custom element cua cart-action.js.
- *
- * Chi con 4 viec: tim variantId, doc quantity, quan trang thai busy, chon mode.
- * Bo CartError / FOXCreateCartError / errorText map / #normalizeError /
- * #publicError / FOXHandleCartActionError — loi gio la Error thuong, catch tai cho.
- */
-(() => { 
+(() => {
     const FOX = (window.FOX = window.FOX || {});
+
+    const CART_EVENTS = {
+        added: 'cart:added',
+    };
+
+    const MODE_BUY_NOW = 'buy-now';
+
+    const MESSAGES = {
+        chooseVariant: 'Vui lòng chọn phân loại sản phẩm',
+        added: 'Đã thêm vào giỏ hàng',
+        addFailed: 'Không thể thêm sản phẩm vào giỏ hàng',
+    };
 
     class AddToCart extends HTMLElement {
         #trigger = null;
@@ -45,11 +49,11 @@
 
             const variantId = this.variantId;
             if (!variantId) {
-                FOX.toast.error('Vui lòng chọn phân loại sản phẩm');
+                FOX.toast.error(MESSAGES.chooseVariant);
                 return;
             }
 
-            const buyNow = this.dataset.mode === 'buy-now';
+            const buyNow = this.dataset.mode === MODE_BUY_NOW;
             this.#setBusy(true);
 
             try {
@@ -58,11 +62,11 @@
                 } else {
                     await FOX.cart.add(variantId, this.quantity);
                     this.dataset.state = 'idle';
-                    FOX.toast.success('Đã thêm vào giỏ hàng');
+                    FOX.toast.success(MESSAGES.added);
                 }
             } catch (error) {
                 this.dataset.state = 'error';
-                FOX.toast.error(error.message || 'Không thể thêm sản phẩm vào giỏ hàng');
+                FOX.toast.error(error.message || MESSAGES.addFailed);
             } finally {
                 this.#setBusy(false);
             }
@@ -79,8 +83,7 @@
 
     if (!customElements.get('add-to-cart')) customElements.define('add-to-cart', AddToCart);
 
-    /* Mo drawer sau khi them hang. Buy-now khong mo vi se chuyen trang. */
-    document.addEventListener('cart:added', () => {
+    document.addEventListener(CART_EVENTS.added, () => {
         document.querySelector('mini-cart')?.open();
     });
 })();

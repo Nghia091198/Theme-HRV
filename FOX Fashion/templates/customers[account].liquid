@@ -2,7 +2,6 @@
 {% assign fox_account_description = 'Quản lý thông tin cá nhân và theo dõi đơn hàng của bạn.' %}
 {% assign fox_account_default_address = customer.default_address %}
 {% assign address = customer.default_address %}
-
 {% capture fox_account_content %}
   <section class="fox-account-panel fox-account-profile" aria-labelledby="fox-account-profile-title" data-account-profile data-account-dashboard>
     <div class="fox-account-panel__heading">
@@ -15,7 +14,6 @@
         <div class="fox-account-field fox-account-field--locked">
           <label for="fox-account-email">Email</label>
           <div class="fox-account-field__control"><input id="fox-account-email" type="email" value="{{ customer.email | escape }}" autocomplete="email" disabled aria-describedby="fox-account-email-note"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></div>
-          <small id="fox-account-email-note">Email đăng nhập không thể chỉnh sửa.</small>
         </div>
         <div class="fox-account-field"><label for="fox-account-phone">Số điện thoại</label><input id="fox-account-phone" type="tel" name="customer[phone]" value="{{ customer.phone | default: customer.default_address.phone | escape }}" autocomplete="tel" inputmode="tel" required></div>
         <div class="fox-account-field"><label for="fox-account-last-name">Họ và tên đệm</label><input id="fox-account-last-name" type="text" name="customer[last_name]" value="{{ customer.last_name | escape }}" autocomplete="family-name" required></div>
@@ -76,7 +74,7 @@
               {% capture fox_payment_label %}
                 {% case order.financial_status %}
                     {% when 'pending' %}Chờ xử lý
-                    {% when 'paid' %}Đã hoàn tất
+                    {% when 'paid' %}Đã thanh toán
                     {% when 'refunded' %}Đã hoàn tiền
                     {% when 'partially_refunded' %}Hoàn tiền một phần
                     {% when 'voided' %}Đã hủy thanh toán
