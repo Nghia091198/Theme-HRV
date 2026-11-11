@@ -1,0 +1,163 @@
+{%- assign contact_address = settings.contact_address | strip -%}
+{%- assign contact_phone = settings.contact_phone | default: settings.float_phone_url | strip -%}
+{%- assign contact_email = settings.contact_email | default: settings.float_email_url | default: shop.email | strip -%}
+{%- assign contact_phone_href = contact_phone | remove: ' ' | remove: '.' | prepend: 'tel:' -%}
+{%- assign contact_map_href = settings.contact_directions_url -%}
+{%- assign contact_topics = settings.contact_topics | default: 'Đơn hàng,Tư vấn size,Đổi trả,Hợp tác,Khác' | split: ',' -%}
+
+<div class="fox-contact" data-contact-page>
+  <section class="fox-contact__hero">
+    <div class="fox-contact__orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="container fox-contact__hero-inner">
+      {%- include 'component-breadcrumb' with container: false -%}
+      <p class="fox-contact__eyebrow">{{ settings.contact_eyebrow | default: 'Liên hệ' | escape }}</p>
+      <h1 class="fox-contact__title">{{ settings.contact_title | default: page.title | escape }}</h1>
+      {%- if settings.contact_desc != blank -%}<p class="fox-contact__desc">{{ settings.contact_desc | escape }}</p>{%- endif -%}
+    </div>
+  </section>
+
+  <div class="container fox-contact__body">
+    <div class="fox-contact__cards">
+      {%- if settings.contact_address_title -%}
+      <article class="fox-contact__card fox-contact__card--address">
+        <div class="fox-contact__card-head">
+          <span class="fox-contact__bubble" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-map"></use></svg></span>
+          {%- if settings.contact_address_note != blank -%}<span class="fox-contact__badge">{{ settings.contact_address_note | escape }}</span>{%- endif -%}
+        </div>
+        <h2 class="fox-contact__card-title">{{ settings.contact_address_title | default: 'Địa chỉ' | escape }}</h2>
+        <p class="fox-contact__card-value">{{ contact_address | escape }}</p>
+        <a class="fox-contact__card-link" href="{{ contact_map_href }}" target="_blank" rel="noopener noreferrer">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+          <span class="fox-link-effect"><span class="fox-link-effect__label">
+            {{ settings.contact_stores_cta | default: 'Xem cửa hàng' | escape }}
+          </span><svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg></span>
+        </a>
+      </article>
+      {%- endif -%}
+
+      {%- if settings.contact_phone_show -%}
+      <article class="fox-contact__card fox-contact__card--phone">
+        {%- assign contact_phone_note = settings.contact_phone_note | default: settings.float_phone_desc -%}
+        <div class="fox-contact__card-head">
+          <span class="fox-contact__bubble" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-fox-support-call"></use></svg></span>
+          {%- if contact_phone_note != blank -%}<span class="fox-contact__badge">{{ contact_phone_note | escape }}</span>{%- endif -%}
+        </div>
+        <h2 class="fox-contact__card-title">{{ settings.contact_phone_title | default: 'Hotline' | escape }}</h2>
+        <p class="fox-contact__card-value">{{ contact_phone | escape }}</p>
+        <a class="fox-contact__card-link" href="{{ contact_phone_href | escape }}">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-call"></use></svg>
+          <span class="fox-link-effect"><span class="fox-link-effect__label">Gọi ngay</span><svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg></span>
+        </a>
+      </article>
+      {%- endif -%}
+
+      {%- if settings.contact_email_show -%}
+      <article class="fox-contact__card fox-contact__card--email">
+        <div class="fox-contact__card-head">
+          <span class="fox-contact__bubble" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-mail"></use></svg></span>
+          {%- if settings.contact_email_note != blank -%}<span class="fox-contact__badge">{{ settings.contact_email_note | escape }}</span>{%- endif -%}
+        </div>
+        <h2 class="fox-contact__card-title">{{ settings.contact_email_title | default: 'Email' | escape }}</h2>
+        <p class="fox-contact__card-value">{{ contact_email | remove: 'mailto:' | escape }}</p>
+        <a class="fox-contact__card-link" href="mailto:{{ contact_email | remove: 'mailto:' | escape }}">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-mail"></use></svg>
+          <span class="fox-link-effect"><span class="fox-link-effect__label">Gửi email</span><svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg></span>
+        </a>
+      </article>
+      {%- endif -%}
+
+      {%- if settings.contact_stores_show == true -%}
+      <a class="fox-contact__card fox-contact__card--stores" href="{{ settings.contact_stores_url | escape }}">
+        <div class="fox-contact__card-head">
+          <span class="fox-contact__bubble" aria-hidden="true"><svg class="icon-svg" focusable="false"><use xlink:href="#ic-store"></use></svg></span>
+          {%- if settings.contact_stores_note != blank -%}<span class="fox-contact__badge">{{ settings.contact_stores_note | escape }}</span>{%- endif -%}
+        </div>
+        <h2 class="fox-contact__card-title">{{ settings.contact_stores_title | default: 'Hệ thống cửa hàng' | escape }}</h2>
+        <p class="fox-contact__card-value">{{ settings.contact_stores_value | default: 'Xem tất cả cửa hàng' | escape }}</p>
+        <span class="fox-contact__card-link">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+          <span class="fox-link-effect"><span class="fox-link-effect__label">{{ settings.contact_stores_cta | default: 'Xem cửa hàng' | escape }}</span><svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path></svg></span>
+        </span>
+      </a>
+      {%- endif -%}
+
+      {%- if settings.contact_hours_show == true -%}
+      <div class="fox-contact__hours">
+        <p class="fox-contact__hours-title">
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-blog-clock"></use></svg>
+          {{ settings.contact_hours_title | default: 'Giờ làm việc' | escape }}
+        </p>
+        {%- if settings.contact_hours_1_label != blank -%}<p>{{ settings.contact_hours_1_label | escape }} <strong>{{ settings.contact_hours_1_value | escape }}</strong></p>{%- endif -%}
+        {%- if settings.contact_hours_2_label != blank -%}<p>{{ settings.contact_hours_2_label | escape }} <strong>{{ settings.contact_hours_2_value | escape }}</strong></p>{%- endif -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    {% if settings.contact_form_show == true %}
+    <section class="fox-contact__form-card" aria-labelledby="fox-contact-form-title">
+      <h2 id="fox-contact-form-title" class="fox-contact__form-title">{{ settings.contact_form_title | default: 'Gửi lời nhắn cho chúng tôi' | escape }}</h2>
+      {%- if settings.contact_form_desc != blank -%}<p class="fox-contact__form-desc">{{ settings.contact_form_desc | escape }}</p>{%- endif -%}
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+        <p class="fox-contact__notice fox-contact__notice--success" role="status">{{ settings.contact_success | default: 'Cảm ơn bạn! Chúng tôi đã nhận được lời nhắn và sẽ phản hồi sớm nhất.' | escape }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+        <div class="fox-contact__notice fox-contact__notice--error" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+        {%- if settings.contact_topics != blank -%}
+        <fieldset class="fox-contact__topics" data-role="topics">
+          <legend class="fox-contact__label">{{ settings.contact_topics_label | default: 'Bạn cần hỗ trợ về' | escape }}</legend>
+          {%- for topic in contact_topics -%}
+          {%- assign topic_label = topic | strip -%}
+          <label class="fox-contact__topic">
+            <input type="radio" name="fox_contact_topic" value="{{ topic_label | escape }}"{% if forloop.first %} checked{% endif %}>
+            <span>{{ topic_label | escape }}</span>
+          </label>
+          {%- endfor -%}
+        </fieldset>
+        {%- endif -%}
+        <div class="fox-contact__fields">
+          <label class="fox-contact__field">
+            <span class="fox-contact__sr">Họ và tên</span>
+            <input type="text" name="contact[name]" autocomplete="name" placeholder="Họ và tên" required>
+          </label>
+          <label class="fox-contact__field">
+            <span class="fox-contact__sr">Số điện thoại</span>
+            <input type="tel" name="contact[phone]" autocomplete="tel" placeholder="Số điện thoại" required>
+          </label>
+          <label class="fox-contact__field fox-contact__field--full">
+            <span class="fox-contact__sr">Email</span>
+            <input type="email" name="contact[email]" autocomplete="email" placeholder="Email" required>
+          </label>
+          <label class="fox-contact__field fox-contact__field--full">
+            <span class="fox-contact__sr">Nội dung</span>
+            <textarea name="contact[body]" rows="5" placeholder="Nội dung cần hỗ trợ…" required data-role="body"></textarea>
+          </label>
+        </div>
+        <button type="submit" class="fox-contact__submit btn btn-secondary" button-effect>
+          <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-sending"></use></svg>
+          <span class="btn__label">{{ settings.contact_submit_label | default: 'Gửi lời nhắn' | escape }}</span>
+          <span data-btn-effect-span aria-hidden="true"></span>
+        </button>
+      {%- endform -%}
+      {%- if page.content != blank -%}<div class="fox-contact__content reset-style">{{ page.content }}</div>{%- endif -%}
+    </section>
+    {% endif %}
+  </div>
+  
+  {%- if settings.contact_map_show == true -%}
+  <section class="container fox-contact__map-section" aria-labelledby="fox-contact-map-title">
+    <div class="fox-contact__map-head">
+      <h2 id="fox-contact-map-title" class="fox-contact__map-title">{{ settings.contact_map_title | default: 'Tìm đường đến cửa hàng' | escape }}</h2>
+      <a class="fox-contact__map-link btn btn-secondary" button-effect href="{{ settings.contact_map_url | escape }}" target="_blank" rel="noopener noreferrer">
+        <span class="btn__label">{{ settings.contact_map_cta | default: 'Xem bản đồ' | escape }}</span>
+        <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-fox-support-arrow"></use></svg>
+        <span data-btn-effect-span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="fox-contact__map">
+      {{ settings.contact_map_embed}}
+    </div>
+  </section>
+  {%- endif -%}
+</div>
