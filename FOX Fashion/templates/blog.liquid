@@ -1,25 +1,17 @@
-{%- comment -%}
-  Blog listing (template blog). Page 1: first article is the featured card, the rest form a grid.
-  Mobile grid uses settings.blog_mobile_columns (1 | 2). Sidebar sits outside paginate so
-  "Bài mới" always lists the latest articles. Styles: assets/blog.css.
-{%- endcomment -%}
 {%- assign blog_page_size = settings.blog_page_size | default: 9 | plus: 0 -%}
 {%- if blog_page_size < 2 -%}{%- assign blog_page_size = 9 -%}{%- endif -%}
 {%- assign blog_mobile_columns = settings.blog_mobile_columns | default: '2' -%}
+{%- assign blog_has_sidebar = true -%}
+{%- if settings.blog_show_sidebar == false -%}{%- assign blog_has_sidebar = false -%}{%- endif -%}
 
 <div class="fox-blog">
   <div class="container">
     {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
 
-    <div class="fox-blog__layout">
+    <div class="fox-blog__layout{% unless blog_has_sidebar %} fox-blog__layout--full{% endunless %}">
       <main class="fox-blog__main">
         <header class="fox-blog__header">
           <h1 class="fox-blog__title">{{ blog.title | escape }}</h1>
-          {%- if current_tags != blank -%}
-          <p class="fox-blog__subtitle">Chuyên mục: <strong>{{ current_tags | join: ', ' | escape }}</strong></p>
-          {%- elsif settings.blog_description != blank -%}
-          <p class="fox-blog__subtitle">{{ settings.blog_description | escape }}</p>
-          {%- endif -%}
         </header>
 
         {%- paginate blog.articles by blog_page_size -%}
@@ -35,7 +27,7 @@
               {%- include 'blog-article-card' -%}
             {%- endif -%}
 
-            <div class="fox-blog__grid fox-blog__grid--mobile-{{ blog_mobile_columns }}">
+            <div class="fox-blog__grid fox-blog__grid--mobile-{{ blog_mobile_columns }}{% unless blog_has_sidebar %} fox-blog__grid--wide{% endunless %}">
               {%- for blog_article in blog.articles -%}
                 {%- assign blog_skip_card = false -%}
                 {%- if blog_has_featured and forloop.first -%}{%- assign blog_skip_card = true -%}{%- endif -%}
@@ -52,7 +44,7 @@
         {%- endpaginate -%}
       </main>
 
-      {%- include 'blog-sidebar' -%}
+      {%- if blog_has_sidebar -%}{%- include 'blog-sidebar' -%}{%- endif -%}
     </div>
   </div>
 </div>

@@ -45,7 +45,6 @@
   line-height: 1.1;
 }
 
-.fox-blog__subtitle,
 .fox-blog__empty {
   margin: 0;
   color: var(--fox-blog-muted);
@@ -233,7 +232,7 @@
 }
 
 .fox-blog-card--featured .fox-blog-card__title {
-  font-size: clamp(2.2rem, 2.6vw, 2.8rem);
+  font-size: clamp(1.8rem, 2.6vw, 2.8rem);
 }
 
 .fox-blog__grid {
@@ -397,6 +396,11 @@
   font-size: clamp(2.2rem, 2.4vw, 2.6rem);
 }
 
+/* Every heading level is a table-of-contents target: keep it clear of the sticky header when jumped to. */
+.fox-article__content :is(h1, h4, h5, h6) {
+  scroll-margin-top: calc(var(--fox-header-height, 64px) + 2rem);
+}
+
 .fox-article__content img {
   max-width: 100%;
   height: auto;
@@ -443,6 +447,161 @@
   height: auto;
 }
 
+/* Equal cards: each card fills its slide (all slides take the tallest one's height), the button stays pinned to
+   the bottom, titles stop at 2 lines so the summaries start on the same line. */
+.fox-article__related-slide > .fox-blog-card {
+  height: 100%;
+}
+
+.fox-article__related-slide .fox-blog-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.fox-toc-anchor {
+  --fox-toc-glass:
+    radial-gradient(circle at 80% 115%, rgb(122 58 22 / 58%), transparent 45%),
+    linear-gradient(160deg, rgb(120 116 116 / 92%), rgb(50 49 49 / 96%) 55%, rgb(8 8 9));
+  position: fixed;
+  z-index: 55;
+  top: 50%;
+  left: 2.4rem;
+  display: grid;
+  width: 4.8rem;
+  height: 4.8rem;
+  padding: 0;
+  place-items: center;
+  color: #fff;
+  background: var(--fox-toc-glass);
+  border: 1px solid rgb(255 255 255 / 26%);
+  border-radius: 50%;
+  box-shadow: 0 1.4rem 3.2rem rgb(0 0 0 / 28%);
+  cursor: pointer;
+  transform: translateY(-50%);
+  animation: fox-toc-anchor-in 360ms cubic-bezier(0.34, 1.45, 0.64, 1) backwards;
+  transition: transform 200ms ease;
+}
+
+.fox-toc-anchor[hidden] {
+  display: none;
+}
+
+.fox-toc-anchor:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
+.fox-toc-anchor .icon-svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+@keyframes fox-toc-anchor-in {
+  from { opacity: 0; transform: translate(-1.2rem, -50%); }
+  to { opacity: 1; transform: translateY(-50%); }
+}
+
+.fox-toc-drawer__overlay {
+  background: rgb(19 22 27 / 40%);
+  backdrop-filter: blur(3px);
+}
+
+.fox-toc-drawer__panel {
+  display: flex;
+  width: min(38rem, calc(100vw - 20px));
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 115%, rgb(122 58 22 / 58%), transparent 46%),
+    linear-gradient(145deg, rgb(120 116 116 / 95%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 22px;
+  box-shadow: 20px 0 60px rgb(0 0 0 / 35%);
+  outline: none;
+}
+
+.fox-toc-drawer .fox-toc-drawer__panel {
+  top: 50%;
+  bottom: auto;
+  height: auto;
+  max-height: min(70dvh, 60rem);
+  transform: translateY(-50%);
+}
+
+.fox-toc-drawer__content {
+  padding: 1.8rem 2rem 2rem;
+}
+
+.fox-toc-drawer__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid rgb(255 255 255 / 14%);
+}
+
+.fox-toc-drawer__head > .icon-svg {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+}
+
+.fox-toc-drawer__title {
+  flex: 1;
+  margin: 0;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.fox-toc-drawer__count {
+  font-size: 1.2rem;
+  opacity: 0.6;
+}
+
+.fox-toc-drawer__close.fox-quick-view__close {
+  position: relative;
+  top: auto;
+  right: auto;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  background: rgb(255 255 255 / 6%);
+}
+
+.fox-toc-drawer .fox-toc-drawer__list {
+  min-height: 0;
+  flex: 1 1 auto;
+  margin: 0;
+  padding-right: 0.4rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 28%) transparent;
+}
+
+.fox-toc-drawer .fox-toc-drawer__list a {
+  color: rgb(255 255 255 / 82%);
+}
+
+.fox-toc-drawer .fox-toc-drawer__list a:hover,
+.fox-toc-drawer .fox-toc-drawer__list a.is-active {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .fox-toc-anchor {
+    left: 1.2rem;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-toc-anchor { animation: none; transition: none; }
+}
+
 /* Room for the card shadow inside the clipped slider viewport. */
 .fox-article__related-viewport {
   margin: -1.2rem -1.2rem -3.2rem;
@@ -462,14 +621,23 @@
   counter-reset: fox-toc;
 }
 
+/* One rhythm for every level (blog-article.js nests headings by level): same row padding and bottom rule on every
+   entry, last one included; sublists only indent. Numbers "1." · "2.1." · "2.1.1." from one nested counter. */
+.fox-blog-toc__sublist {
+  margin: 0;
+  padding: 0 0 0 1.6rem;
+  list-style: none;
+  counter-reset: fox-toc;
+}
+
 .fox-blog-toc__list li {
   counter-increment: fox-toc;
 }
 
 .fox-blog-toc__list a {
   display: grid;
-  grid-template-columns: 2.4rem minmax(0, 1fr);
-  gap: 0.4rem;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.8rem;
   padding: 0.8rem 0;
   color: rgb(255 255 255 / 72%);
   border-bottom: 1px solid rgb(255 255 255 / 10%);
@@ -479,12 +647,12 @@
 }
 
 .fox-blog-toc__list a::before {
-  content: counter(fox-toc, decimal-leading-zero);
+  content: counters(fox-toc, ".") ".";
   opacity: 0.6;
 }
 
-.fox-blog-toc__list li:last-child a {
-  border-bottom: 0;
+.fox-blog-toc__list .fox-blog-toc__sublist a {
+  font-size: 1.25rem;
 }
 
 .fox-blog-toc__list a:hover,
@@ -550,6 +718,11 @@
   }
 }
 
+@media (max-width: 992px) {
+  .fox-blog-card__title {font-size: 1.6rem;}
+  .fox-blog-card__summary {font-size: 1.2rem;}
+}
+
 @media (min-width: 768px) {
   .fox-blog-card--featured {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -577,6 +750,24 @@
 
   .fox-article__related-slide {
     width: calc((100% - 2.2rem * 3) / 4);
+  }
+
+  /* Sidebar off (blog_show_sidebar / article_show_sidebar): list goes full width with 3 columns; the article reads in
+     a centred 80rem column (header + body), cover and related posts stay full width. */
+  .fox-blog__layout--full,
+  .fox-article--no-sidebar .fox-blog__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fox-blog__grid--wide {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fox-article--no-sidebar .fox-article__header,
+  .fox-article--no-sidebar .fox-article__main {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
   }
 }
 
@@ -630,6 +821,9 @@
 
   .fox-article__content {
     font-size: 1.5rem;
+  }
+  .fox-blog-card--featured {
+    margin-bottom: 1.5rem;
   }
 }
 

@@ -1,14 +1,26 @@
+{%- if template contains 'article' -%}
+  {%- assign sidebar_menu = settings.article_menu -%}
+  {%- assign sidebar_menu_title = settings.article_menu_title | default: 'Danh mục' -%}
+  {%- assign sidebar_show_recent = settings.article_show_recent -%}
+  {%- assign sidebar_recent_title = settings.article_recent_title | default: 'Bài mới' -%}
+{%- else -%}
+  {%- assign sidebar_menu = settings.blog_menu -%}
+  {%- assign sidebar_menu_title = settings.blog_menu_title | default: 'Danh mục' -%}
+  {%- assign sidebar_show_recent = settings.blog_show_recent -%}
+  {%- assign sidebar_recent_title = settings.blog_recent_title | default: 'Bài mới' -%}
+{%- endif -%}
+
 <aside class="fox-blog-sidebar" aria-label="Thanh bên blog">
-  {%- if settings.blog_menu != blank and linklists[settings.blog_menu].links.size > 0 -%}
-  <nav class="fox-blog-glass" aria-label="{{ settings.blog_menu_title | default: 'Danh mục' | escape }}">
-    <p class="fox-blog-glass__title">{{ settings.blog_menu_title | default: 'Danh mục' | escape }}</p>
-    {%- assign menu_accordion_handle = settings.blog_menu -%}
+  {%- if sidebar_menu != blank and linklists[sidebar_menu].links.size > 0 -%}
+  <nav class="fox-blog-glass" aria-label="{{ sidebar_menu_title | escape }}">
+    <p class="fox-blog-glass__title">{{ sidebar_menu_title | escape }}</p>
+    {%- assign menu_accordion_handle = sidebar_menu -%}
     {%- assign menu_accordion_id = 'fox-blog-menu' -%}
     {%- include 'component-menu-accordion' -%}
   </nav>
   {%- endif -%} 
 
-  {%- if settings.blog_show_recent != false -%}
+  {%- if sidebar_show_recent != false -%}
     {%- assign recent_count = 0 -%}
     {%- capture recent_html -%}
       {%- for recent_article in blog.articles -%}
@@ -32,7 +44,7 @@
     {%- endcapture -%}
     {%- if recent_count > 0 -%}
     <div class="fox-blog-glass">
-      <p class="fox-blog-glass__title">{{ settings.blog_recent_title | default: 'Bài mới' | escape }}</p>
+      <p class="fox-blog-glass__title">{{ sidebar_recent_title | escape }}</p>
       <ul class="fox-blog-recent">{{ recent_html }}</ul>
     </div>
     {%- endif -%}

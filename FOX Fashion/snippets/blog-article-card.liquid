@@ -1,12 +1,7 @@
-{%- comment -%}
-  Blog article card. Input: blog_card_article (article), blog_card_featured (true = large first card).
-  The publish date sits as a framed badge on the top-left corner of the image.
-{%- endcomment -%}
 {%- assign card_article = blog_card_article -%}
 {%- assign card_title = card_article.title | strip -%}
 {%- assign card_summary = card_article.excerpt | default: card_article.content | strip_html | strip_newlines | strip | truncate: 160 -%}
 {%- assign card_tag = card_article.tags.first -%}
-
 <article class="fox-blog-card{% if blog_card_featured %} fox-blog-card--featured{% endif %}">
   <div class="fox-blog-card__media-wrap">
     <a class="fox-blog-card__media" href="{{ card_article.url | escape }}" tabindex="-1" aria-hidden="true">
@@ -33,7 +28,11 @@
     {%- if card_tag != blank -%}<span class="fox-blog-chip">{{ card_tag | escape }}</span>{%- endif -%}
     <h2 class="fox-blog-card__title"><a class="fox-text-link" href="{{ card_article.url | escape }}">{{ card_title | escape }}</a></h2>
     {%- if card_summary != blank -%}<p class="fox-blog-card__summary">{{ card_summary | escape }}</p>{%- endif -%}
-    {%- assign card_read_more = settings.blog_read_more_label | default: 'Đọc thêm' -%}
+    {%- if template contains 'article' -%}
+  {%- assign card_read_more = settings.article_read_more_label | default: 'Đọc thêm' -%}
+{%- else -%}
+  {%- assign card_read_more = settings.blog_read_more_label | default: 'Đọc thêm' -%}
+{%- endif -%}
     <a class="fox-blog-card__more btn btn-secondary" button-effect href="{{ card_article.url | escape }}">
       <span class="btn__label">
         {{ card_read_more | escape }}
