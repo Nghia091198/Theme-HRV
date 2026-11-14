@@ -1,0 +1,119 @@
+<div class="fox-lab">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false -%}
+
+    {%- if settings.fabric_hero_show -%}
+    <section class="fox-lab-hero" aria-labelledby="fox-lab-title">
+      <div class="fox-lab-hero__copy">
+        {%- if settings.fabric_hero_eyebrow != blank -%}<p class="fox-lab__eyebrow">{{ settings.fabric_hero_eyebrow | escape }}</p>{%- endif -%}
+        <h1 id="fox-lab-title" class="fox-lab-hero__title">{{ settings.fabric_hero_title | default: page.title | escape }}</h1>
+        {%- if settings.fabric_hero_desc != blank -%}<p class="fox-lab-hero__desc">{{ settings.fabric_hero_desc | escape }}</p>{%- endif -%}
+        <div class="fox-lab-hero__stats">
+          {%- for stat_index in (1..3) -%}
+            {%- capture stat_value_key -%}fabric_stat_{{ stat_index }}_value{%- endcapture -%}
+            {%- capture stat_label_key -%}fabric_stat_{{ stat_index }}_label{%- endcapture -%}
+            {%- if settings[stat_value_key] != blank -%}
+            <div class="fox-lab-hero__stat"><strong>{{ settings[stat_value_key] | escape }}</strong><span>{{ settings[stat_label_key] | escape }}</span></div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      {%- assign hero_alt = settings.fabric_hero_image_alt | default: 'Cận cảnh chất vải đồ tập màu mận và navy đang được kéo giãn' | strip | escape -%}
+      <div class="fox-page-media fox-lab-hero__media">{%- include 'render-img' with src: 'fabric_hero_image.jpg', alt: hero_alt, w: '1000', h: '760', loading: 'eager', sizes: '(min-width: 992px) 46vw, 100vw' -%}</div>
+    </section>
+    {%- else -%}
+    <h1 class="fox-lab__sr-only">{{ page.title | escape }}</h1>
+    {%- endif -%}
+
+    {%- if settings.fabric_tech_show -%}
+    <section class="fox-lab-section" aria-labelledby="fox-lab-tech">
+      {%- if settings.fabric_tech_eyebrow != blank -%}<p class="fox-lab__eyebrow">{{ settings.fabric_tech_eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="fox-lab-tech" class="fox-lab__title">{{ settings.fabric_tech_title | escape }}</h2>
+      <div class="fox-lab-tech">
+        {%- for tech_index in (1..4) -%}
+          {%- capture tech_show_key -%}fabric_tech_{{ tech_index }}_show{%- endcapture -%}
+          {%- capture tech_title_key -%}fabric_tech_{{ tech_index }}_title{%- endcapture -%}
+          {%- capture tech_desc_key -%}fabric_tech_{{ tech_index }}_desc{%- endcapture -%}
+          {%- capture tech_level_key -%}fabric_tech_{{ tech_index }}_level{%- endcapture -%}
+          {%- if settings[tech_show_key] and settings[tech_title_key] != blank -%}
+          {%- assign tech_level = settings[tech_level_key] | default: 0 | plus: 0 -%}
+          <article class="fox-lab-tech__card">
+            {%- capture tech_image_key -%}fabric_tech_{{ tech_index }}_image.png{%- endcapture -%}
+            {%- assign tech_image_alt = settings[tech_title_key] | strip | escape -%}
+            <span class="fox-lab-tech__icon">{%- include 'render-img' with src: tech_image_key, alt: tech_image_alt, w: '160', h: '160', sizes: '46px' -%}</span>
+            <h3>{{ settings[tech_title_key] | escape }}</h3>
+            <p>{{ settings[tech_desc_key] | escape }}</p>
+            {%- if tech_level > 0 -%}<span class="fox-lab-tech__meter" role="img" aria-label="Mức {{ tech_level }}/100"><i style="width: {{ tech_level }}%"></i></span>{%- endif -%}
+          </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.fabric_compare_show -%}
+    <section class="fox-lab-section" aria-labelledby="fox-lab-compare">
+      {%- if settings.fabric_compare_eyebrow != blank -%}<p class="fox-lab__eyebrow">{{ settings.fabric_compare_eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="fox-lab-compare" class="fox-lab__title">{{ settings.fabric_compare_title | escape }}</h2>
+      <div class="fox-lab-compare" role="table" aria-labelledby="fox-lab-compare">
+        <div class="fox-lab-compare__row fox-lab-compare__row--head" role="row">
+          <span role="columnheader">Dòng vải</span><span role="columnheader">Cảm giác</span><span role="columnheader">Co giãn</span><span role="columnheader">Thoáng khí</span><span role="columnheader">Hợp với</span>
+        </div>
+        {%- for fabric_index in (1..10) -%}
+          {%- capture fabric_show_key -%}fabric_line_{{ fabric_index }}_show{%- endcapture -%}
+          {%- capture fabric_name_key -%}fabric_line_{{ fabric_index }}_name{%- endcapture -%}
+          {%- capture fabric_feel_key -%}fabric_line_{{ fabric_index }}_feel{%- endcapture -%}
+          {%- capture fabric_stretch_key -%}fabric_line_{{ fabric_index }}_stretch{%- endcapture -%}
+          {%- capture fabric_air_key -%}fabric_line_{{ fabric_index }}_air{%- endcapture -%}
+          {%- capture fabric_use_key -%}fabric_line_{{ fabric_index }}_use{%- endcapture -%}
+          {%- if settings[fabric_show_key] -%}
+          {%- assign fabric_stretch = settings[fabric_stretch_key] | default: 0 | plus: 0 -%}
+          {%- assign fabric_air = settings[fabric_air_key] | default: 0 | plus: 0 -%}
+          <div class="fox-lab-compare__row" role="row">
+            <strong role="cell" data-label="Dòng vải">{{ settings[fabric_name_key] | escape }}</strong>
+            <span role="cell" data-label="Cảm giác">{{ settings[fabric_feel_key] | escape }}</span>
+            <span role="cell" data-label="Co giãn" class="fox-lab-compare__dots" aria-label="{{ fabric_stretch }}/5">{%- for dot in (1..5) -%}<i{% if dot <= fabric_stretch %} class="is-on"{% endif %}></i>{%- endfor -%}</span>
+            <span role="cell" data-label="Thoáng khí" class="fox-lab-compare__dots" aria-label="{{ fabric_air }}/5">{%- for dot in (1..5) -%}<i{% if dot <= fabric_air %} class="is-on"{% endif %}></i>{%- endfor -%}</span>
+            <span role="cell" data-label="Hợp với"><span class="fox-lab__chip">{{ settings[fabric_use_key] | escape }}</span></span>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+    {%- endif -%}
+
+    {%- if settings.fabric_yoga_show -%}
+      {%- assign look_key = 'yoga' -%}{%- assign look_flip = false -%}
+      {%- include 'fabric-lab-look' -%}
+    {%- endif -%}
+
+    {%- if settings.fabric_pilates_show -%}
+      {%- assign look_key = 'pilates' -%}{%- assign look_flip = true -%}
+      {%- include 'fabric-lab-look' -%}
+    {%- endif -%}
+
+    {%- if settings.fabric_care_show -%}
+    <section class="fox-lab-care" aria-labelledby="fox-lab-care">
+      {%- assign care_alt = settings.fabric_care_image_alt | default: 'Quần legging và áo tập được phơi trên giá gỗ cạnh cửa sổ' | strip | escape -%}
+      <div class="fox-page-media fox-lab-care__media">{%- include 'render-img' with src: 'fabric_care_image.jpg', alt: care_alt, w: '900', h: '700', sizes: '(min-width: 992px) 46vw, 100vw' -%}</div>
+      <div>
+        {%- if settings.fabric_care_eyebrow != blank -%}<p class="fox-lab__eyebrow">{{ settings.fabric_care_eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="fox-lab-care" class="fox-lab__title">{{ settings.fabric_care_title | escape }}</h2>
+        {%- if settings.fabric_care_desc != blank -%}<p class="fox-lab__desc">{{ settings.fabric_care_desc | escape }}</p>{%- endif -%}
+        <ul class="fox-lab-care__list">
+          {%- for care_index in (1..4) -%}
+            {%- capture care_show_key -%}fabric_care_{{ care_index }}_show{%- endcapture -%}
+            {%- capture care_text_key -%}fabric_care_{{ care_index }}_text{%- endcapture -%}
+            {%- if settings[care_show_key] -%}
+            <li>{%- capture care_image_key -%}fabric_care_{{ care_index }}_image.png{%- endcapture -%}{%- assign care_image_alt = settings[care_text_key] | strip | escape -%}<span class="fox-lab-care__icon">{%- include 'render-img' with src: care_image_key, alt: care_image_alt, w: '160', h: '160', sizes: '44px' -%}</span><span>{{ settings[care_text_key] | escape }}</span></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </section>
+    {%- endif -%}
+  </div>
+
+  {%- assign story_prefix = 'fabric_story' -%}
+  {%- include 'home-product-story' -%}
+</div>

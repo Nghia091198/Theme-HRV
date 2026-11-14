@@ -1,0 +1,556 @@
+/* Fabric lab page (templates/page.fabric-lab.liquid): glass hero, technologies, fabric comparison, suggested outfits,
+   care and products. 1rem = 10px. */
+.fox-lab {
+  --fox-lab-ink: var(--color-text-theme, #1b2631);
+  --fox-lab-plum: #5c3d50;
+  --fox-lab-accent: #ff7a45;
+  --fox-lab-sand: #f3eee8;
+  --fox-lab-line: #ecebe8;
+  --fox-lab-muted: #6b7279;
+  --fox-lab-glass:
+    radial-gradient(circle at 85% 115%, rgb(233 138 58 / 55%), transparent 48%),
+    linear-gradient(145deg, #787474 0%, #323131 52%, #080809 100%);
+  color: var(--fox-lab-ink);
+}
+
+/* Bottom room on the content column; the material story section that follows runs to the footer on its own background. */
+.fox-lab > .container {
+  padding-bottom: 6rem;
+}
+
+.fox-lab__eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--fox-lab-plum);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.fox-lab__title {
+  margin: 0 0 2.4rem;
+  font-family: var(--base-font-title);
+  font-size: clamp(2.4rem, 3vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.fox-lab__desc {
+  margin: -1.2rem 0 2rem;
+  color: var(--fox-lab-muted);
+}
+
+.fox-lab__chip {
+  display: inline-flex;
+  padding: 0.5rem 1.2rem;
+  color: var(--fox-lab-plum);
+  background: var(--fox-lab-sand);
+  border-radius: 999px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.fox-lab__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fox-lab-section,
+.fox-lab-look,
+.fox-lab-care {
+  margin-top: clamp(4rem, 6vw, 6rem);
+}
+
+.fox-lab .fox-page-media {
+  overflow: hidden;
+  border-radius: 1.8rem;
+  background: var(--fox-lab-sand);
+}
+
+.fox-lab .fox-page-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero */
+.fox-lab-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 3rem;
+  align-items: center;
+  padding: clamp(2.2rem, 4vw, 4.6rem);
+  color: #fff;
+  background: var(--fox-lab-glass);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 2.8rem;
+  margin-top: 3rem;
+}
+
+.fox-lab-hero .fox-lab__eyebrow {
+  color: #f6c9b0;
+}
+
+.fox-lab-hero__title {
+  margin: 0 0 1.4rem;
+  color: #fff;
+  font-family: var(--base-font-title);
+  font-size: clamp(3rem, 4.4vw, 5rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.fox-lab-hero__desc {
+  max-width: 44rem;
+  margin: 0;
+  color: rgb(255 255 255 / 75%);
+}
+
+.fox-lab-hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 2.6rem;
+}
+
+.fox-lab-hero__stat {
+  display: grid;
+  padding: 1.4rem 1.8rem;
+  background: rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1.6rem;
+}
+
+.fox-lab-hero__stat strong {
+  font-family: var(--base-font-title);
+  font-size: 2.6rem;
+  line-height: 1.2;
+}
+
+.fox-lab-hero__stat span {
+  color: rgb(255 255 255 / 70%);
+  font-size: 1.4rem;
+}
+
+.fox-lab-hero__media {
+  aspect-ratio: 4 / 3;
+}
+
+/* Technologies */
+/* Visible technologies share the row equally (each card has its own "Hiển thị?"). */
+.fox-lab-tech {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 1.8rem;
+}
+
+.fox-lab-tech__card {
+  padding: 2.2rem;
+  background: #fff;
+  border: 1px solid var(--fox-lab-line);
+  border-radius: 2rem;
+  box-shadow: 0 1.4rem 3.4rem rgb(27 38 49 / 7%);
+}
+
+/* Technology image (settings fabric_tech_N_image.png, 160x160 with its own background). */
+.fox-lab-tech__icon {
+  display: block;
+  width: 4.6rem;
+  height: 4.6rem;
+  overflow: hidden;
+  border-radius: 1.4rem;
+}
+
+.fox-lab-tech__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fox-lab-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  flex: 0 0 auto;
+}
+
+.fox-lab-tech__card h3 {
+  margin: 1.6rem 0 0.6rem;
+  font-family: var(--base-font-title);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.fox-lab-tech__card p {
+  margin: 0;
+  color: var(--fox-lab-muted);
+  font-size: 1.3rem;
+}
+
+.fox-lab-tech__meter {
+  display: block;
+  height: 0.6rem;
+  margin-top: 1.4rem;
+  overflow: hidden;
+  background: #efece7;
+  border-radius: 999px;
+}
+
+.fox-lab-tech__meter i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--fox-lab-plum), var(--fox-lab-accent));
+  border-radius: inherit;
+}
+
+/* Fabric comparison */
+.fox-lab-compare {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--fox-lab-line);
+  border-radius: 2rem;
+  box-shadow: 0 1.4rem 3.4rem rgb(27 38 49 / 7%);
+}
+
+.fox-lab-compare__row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1fr 1fr 1.3fr;
+  gap: 1.2rem;
+  align-items: center;
+  padding: 1.8rem 2.4rem;
+  border-top: 1px solid #efece7;
+}
+
+.fox-lab-compare__row strong {
+  font-family: var(--base-font-title);
+  font-size: 1.6rem;
+}
+
+.fox-lab-compare__row > span {
+  color: var(--fox-lab-muted);
+}
+
+.fox-lab-compare__row--head {
+  color: var(--fox-lab-plum);
+  background: var(--fox-lab-sand);
+  border-top: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fox-lab-compare__row--head > span {
+  color: inherit;
+}
+
+.fox-lab-compare__dots {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.fox-lab-compare__dots i {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1.5px solid var(--fox-lab-accent);
+  border-radius: 50%;
+}
+
+.fox-lab-compare__dots i.is-on {
+  background: var(--fox-lab-accent);
+}
+
+/* Suggested outfit */
+.fox-lab-look {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: start;
+}
+
+.fox-lab-look--flip .fox-lab-look__media {
+  order: 2;
+}
+
+.fox-lab-look__media {
+  aspect-ratio: 9 / 11;
+}
+
+.fox-lab-look__list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-lab-look__item {
+  display: grid;
+  grid-template-columns: 6.8rem minmax(0, 1fr) auto;
+  gap: 1.2rem;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid var(--fox-lab-line);
+  border-radius: 1.4rem;
+}
+
+.fox-lab-look__thumb {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--fox-lab-sand);
+}
+
+.fox-lab-look__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fox-lab-look__info {
+  display: grid;
+  min-width: 0;
+}
+
+.fox-lab-look__name {
+  overflow: hidden;
+  color: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fox-lab-look__price {
+  color: var(--fox-lab-plum);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.fox-lab-look__add {
+  display: grid;
+  width: 3.4rem;
+  height: 3.4rem;
+  padding: 0;
+  color: #fff;
+  background: var(--fox-lab-ink);
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 200ms ease;
+}
+
+.fox-lab-look__add:hover {
+  transform: scale(1.08);
+}
+
+.fox-lab-look__bundle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.6rem 0 2rem;
+}
+
+.fox-lab-look__total {
+  color: var(--fox-lab-muted);
+  font-size: 1.4rem;
+}
+
+.fox-lab-look__total strong {
+  color: var(--fox-lab-ink);
+}
+
+.fox-lab-look__tips {
+  padding: 1.8rem;
+  background: var(--fox-lab-sand);
+  border-radius: 1.6rem;
+}
+
+.fox-lab-look__tips-title {
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.fox-lab-look__tips ul {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-lab-look__tips li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  font-size: 1.35rem;
+}
+
+.fox-lab-look__tips .fox-lab-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--fox-lab-accent);
+}
+
+/* Care */
+.fox-lab-care {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3.6rem;
+  align-items: center;
+}
+
+.fox-lab-care__media {
+  aspect-ratio: 9 / 7;
+}
+
+.fox-lab-care__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fox-lab-care__list li {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  padding: 1.4rem;
+  color: var(--fox-lab-ink);
+  background: var(--fox-lab-sand);
+  border-radius: 1.4rem;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+/* Care image (settings fabric_care_N_image.png, 160x160 with its own coloured background). */
+.fox-lab-care__icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 4.4rem;
+  height: 4.4rem;
+  overflow: hidden;
+  border-radius: 1.2rem;
+}
+
+.fox-lab-care__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+@media (max-width: 991px) {
+  .fox-lab-hero,
+  .fox-lab-look,
+  .fox-lab-care {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fox-lab-look--flip .fox-lab-look__media {
+    order: 0;
+  }
+
+  .fox-lab-tech {
+    display: flex;
+    margin-inline: -15px;
+    padding: 0.4rem 15px 1.6rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .fox-lab-tech::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fox-lab-tech__card {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+}
+
+/* Comparison as one card per fabric on phones (labels from data-label). */
+@media (max-width: 767px) {
+  .fox-lab-hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .fox-lab-hero__stat {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .fox-lab-hero__stat strong {
+    font-size: 1.8rem;
+  }
+
+  .fox-lab-compare {
+    display: grid;
+    gap: 1rem;
+    overflow: visible;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .fox-lab-compare__row--head {
+    display: none;
+  }
+
+  .fox-lab-compare__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 1.6rem;
+    background: #fff;
+    border: 1px solid var(--fox-lab-line);
+    border-radius: 1.6rem;
+  }
+
+  .fox-lab-compare__row > [data-label]:not(strong) {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 1.3rem;
+  }
+
+  .fox-lab-compare__row > [data-label]:not(strong)::before {
+    margin-right: auto;
+    padding-right: 1rem;
+    color: var(--fox-lab-muted);
+    content: attr(data-label);
+  }
+
+  .fox-lab-care__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-lab-look__add {
+    transition: none;
+  }
+}

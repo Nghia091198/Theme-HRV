@@ -157,12 +157,18 @@
       </header>
       <div class="fox-brand__imagery">
         {%- for item_index in (1..5) -%}
-          {%- capture media_key -%}brand_image_{{ item_index }}.jpg{%- endcapture -%}
+          {%- capture image_key -%}brand_image_{{ item_index }}.jpg{%- endcapture -%}
           {%- capture alt_key -%}brand_image_{{ item_index }}_alt{%- endcapture -%}
           {%- capture caption_key -%}brand_image_{{ item_index }}_caption{%- endcapture -%}
           <figure class="fox-brand__image fox-brand__image--{{ item_index }}">
-            {%- assign media_alt = settings[alt_key] -%}{%- assign media_w = '800' -%}{%- assign media_h = '800' -%}{%- assign media_sizes = '(min-width: 992px) 33vw, 50vw' -%}
-            {%- include 'page-media' -%}
+            {%- assign image_alt = settings[alt_key] | strip | escape -%}
+            <div class="fox-page-media">
+              {%- if item_index == 1 -%}
+                {%- include 'render-img' with src: image_key, alt: image_alt, w: '1200', h: '900', sizes: '(min-width: 992px) 33vw, 100vw' -%}
+              {%- else -%}
+                {%- include 'render-img' with src: image_key, alt: image_alt, w: '800', h: '800', sizes: '(min-width: 992px) 33vw, 50vw' -%}
+              {%- endif -%}
+            </div>
             {%- if settings[caption_key] != blank -%}<figcaption class="fox-brand__chip">{{ settings[caption_key] | escape }}</figcaption>{%- endif -%}
           </figure>
         {%- endfor -%}
@@ -216,11 +222,11 @@
       </header>
       <div class="fox-brand__apps">
         {%- for item_index in (1..3) -%}
-          {%- capture media_key -%}brand_app_{{ item_index }}_image.jpg{%- endcapture -%}
+          {%- capture image_key -%}brand_app_{{ item_index }}_image.jpg{%- endcapture -%}
           {%- capture caption_key -%}brand_app_{{ item_index }}_caption{%- endcapture -%}
           <figure class="fox-brand__app">
-            {%- assign media_alt = settings[caption_key] -%}{%- assign media_w = '800' -%}{%- assign media_h = '1000' -%}{%- assign media_sizes = '(min-width: 992px) 33vw, 100vw' -%}
-            {%- include 'page-media' -%}
+            {%- assign image_alt = settings[caption_key] | strip | escape -%}
+            <div class="fox-page-media">{%- include 'render-img' with src: image_key, alt: image_alt, w: '800', h: '1000', sizes: '(min-width: 992px) 33vw, 100vw' -%}</div>
             {%- if settings[caption_key] != blank -%}<figcaption class="fox-brand__chip">{{ settings[caption_key] | escape }}</figcaption>{%- endif -%}
           </figure>
         {%- endfor -%}

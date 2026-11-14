@@ -46,7 +46,46 @@ class FoxProductStory extends HTMLElement {
     });
     this.#hydrateProducts();
     this.#observeMedia();
+    this.#bindDismissFollow(signal);
     this.dataset.state = 'ready';
+  }
+
+  // The backdrop close button follows the pointer (composited transform, one write per frame) and parks back in its
+  // corner over the story surface, where the regular cursor is needed. Mouse devices only.
+  #bindDismissFollow(signal) {
+    const dismiss = this.querySelector('.fox-product-story__dismiss');
+    const dialog = dismiss?.closest('dialog');
+    if (!dismiss || !dialog || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    let frame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+    const park = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      dismiss.removeAttribute('data-follow');
+      dismiss.style.removeProperty('transform');
+    };
+
+    dialog.addEventListener('pointermove', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      if (event.target.closest('[data-role="surface"]')) {
+        // Over the story: fade out where it is (like a custom cursor) instead of jumping back to the corner.
+        if (dismiss.dataset.follow === 'true') dismiss.dataset.follow = 'idle';
+        return;
+      }
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      dismiss.dataset.follow = 'true';
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const half = dismiss.offsetWidth / 2;
+        dismiss.style.transform = `translate3d(${pointerX - half}px, ${pointerY - half}px, 0)`;
+      });
+    }, { signal, passive: true });
+    dialog.addEventListener('pointerleave', park, { signal });
+    this.addEventListener('modal:closed', park, { signal });
   }
 
   disconnectedCallback() { this.destroy(); }
@@ -176,7 +215,10 @@ class FoxProductStory extends HTMLElement {
     const video = card?.querySelector('video');
     if (!video) return;
     video.pause();
-    if (reset) try { video.currentTime = 0; } catch (error) {}
+    // Without a poster image the paused video is the cover: back to 0.1s (same as the #t=0.1 preload), past a
+    // possible black first frame.
+    const coverTime = card.querySelector('.fox-product-story__media > img') ? 0 : 0.1;
+    if (reset) try { video.currentTime = coverTime; } catch (error) {}
     card.removeAttribute('data-previewing');
   }
 
@@ -197,7 +239,8 @@ class FoxProductStory extends HTMLElement {
   #pauseAll(reset) {
     this.querySelectorAll('video').forEach((video) => {
       video.pause();
-      if (reset) try { video.currentTime = 0; } catch (error) {}
+      const isCover = video.matches('.fox-product-story__media > video') && !video.parentElement.querySelector(':scope > img');
+      if (reset) try { video.currentTime = isCover ? 0.1 : 0; } catch (error) {}
     });
     this.#cards.forEach((card) => card.removeAttribute('data-previewing'));
   }
@@ -329,13 +372,6 @@ class FoxProductStory extends HTMLElement {
         if (!product) throw new Error('missing-product-markup');
         product.classList.add('product-card--story');
         const storyProduct = product.cloneNode(true);
-        const quickView = storyProduct.querySelector('[data-action="quickview"]');
-        if (quickView && !quickView.querySelector('.fox-product-story__quickview-label')) {
-          const label = document.createElement('span');
-          label.className = 'fox-product-story__quickview-label';
-          label.textContent = 'Xem nhanh';
-          quickView.prepend(label);
-        }
         target.replaceChildren(storyProduct);
         target.dataset.state = 'ready';
         this.#syncThumbnail(handle, product);
