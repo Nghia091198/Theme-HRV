@@ -1,0 +1,64 @@
+newsletter-popup { display: block; }
+
+.fox-np {
+  --np-glass:
+    radial-gradient(circle at 88% 115%, rgb(122 58 22 / 58%), transparent 46%),
+    linear-gradient(145deg, rgb(120 116 116 / 95%) 0%, rgb(50 49 49 / 97%) 50%, rgb(8 8 9) 100%);
+  --np-line: rgb(255 255 255 / 24%);
+  --np-accent: #ff7a45;
+}
+.fox-np__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.fox-np__dialog { width: min(88rem, calc(100vw - 2.4rem)); max-width: none; max-height: calc(100dvh - 2.4rem); margin: auto; padding: 0; overflow: visible; color: #fff; background: transparent; border: 0; }
+.fox-np--banner .fox-np__dialog { width: min(76rem, calc(100vw - 2.4rem)); }
+.fox-np__dialog::backdrop { background: rgb(19 22 27 / 45%); backdrop-filter: blur(4px); }
+
+.fox-np__close.fox-quick-view__close { position: absolute; top: 16px; right: 16px; z-index: 3; width: 42px; height: 42px; color: #fff; background: rgb(255 255 255 / 10%); }
+.fox-np__close .fox-quick-view__close-icon { width: 11px; height: 11px; }
+
+.fox-np__banner { position: relative; overflow: hidden; border-radius: 26px; box-shadow: 0 30px 80px rgb(0 0 0 / 40%); }
+.fox-np__banner-link { display: block; }
+.fox-np__banner-img { display: block; width: 100%; height: auto; }
+
+.fox-np__panel { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); max-height: calc(100dvh - 2.4rem); overflow: hidden; background: var(--np-glass); border: 1px solid var(--np-line); border-radius: 26px; box-shadow: 0 30px 80px rgb(0 0 0 / 40%); }
+.fox-np__media { position: relative; min-height: 100%; overflow: hidden; }
+.fox-np__media-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.fox-np__badge { position: absolute; left: 24px; bottom: 24px; display: inline-flex; align-items: center; height: 30px; padding: 0 14px; color: #fff; background: var(--np-accent); border-radius: 999px; font-size: 13px; font-weight: 700; }
+.fox-np__body { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 52rem; padding: 52px 44px 44px; overflow-y: auto; overscroll-behavior: contain; }
+.fox-np__view { display: grid; gap: 16px; }
+.fox-np__view[hidden] { display: none; }
+.fox-np__eyebrow { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; opacity: .75; }
+.fox-np__title { margin: 0; padding-right: 48px; color: inherit; font-size: clamp(2.8rem, 3.4vw, 3.8rem); font-weight: 800; line-height: 1.12; letter-spacing: -.02em; }
+.fox-np__title:focus { outline: 0; }
+.fox-np__desc { margin: 0; font-size: 15px; line-height: 1.55; opacity: .8; }
+.fox-np__form { margin: 4px 0 0; }
+.fox-np__field { display: flex; gap: 10px; }
+.fox-np__input { flex: 1 1 auto; min-width: 0; height: 52px; padding: 0 18px; color: #fff; background: rgb(255 255 255 / 9%); border: 1px solid rgb(255 255 255 / 24%); border-radius: 14px; font: inherit; font-size: 15px; transition: border-color .2s ease, box-shadow .2s ease; }
+.fox-np__input::placeholder { color: rgb(255 255 255 / 60%); }
+.fox-np__input:focus { border-color: rgb(255 255 255 / 75%); box-shadow: 0 0 0 3px rgb(255 255 255 / 14%); }
+
+.fox-np__submit.btn { flex: 0 0 auto; min-height: 52px; padding: 0 26px; white-space: nowrap; }
+.fox-np__submit.btn:disabled { cursor: progress; opacity: .7; }
+.fox-np__error { margin: 10px 0 0; color: #ffb59a; font-size: 13px; }
+.fox-np__error[hidden] { display: none; }
+
+.fox-np__view--success { justify-items: start; }
+.fox-np__success-mark { position: relative; width: 60px; height: 60px; background: #7ee2a8; border-radius: 50%; }
+.fox-np__success-mark::after { position: absolute; top: 16px; left: 23px; width: 12px; height: 22px; border: solid #1b2631; border-width: 0 3px 3px 0; transform: rotate(45deg); content: ''; }
+.fox-np__done.btn { min-height: 50px; padding: 0 28px; }
+
+@media (max-width: 767px) {
+  .fox-np__panel { grid-template-columns: minmax(0, 1fr); grid-template-rows: 180px minmax(0, 1fr); border-radius: 22px; }
+  .fox-np__media-img { object-position: center 12%; }
+  .fox-np__body { min-height: 0; padding: 24px 20px 22px; }
+  .fox-np__badge { left: 16px; bottom: 14px; }
+  .fox-np__close.fox-quick-view__close { top: 12px; right: 12px; width: 38px; height: 38px; }
+  .fox-np__title { padding-right: 0; font-size: 2.4rem; }
+  .fox-np__field { flex-direction: column; }
+  .fox-np__submit.btn { width: 100%; min-height: 48px; }
+  .fox-np__banner { border-radius: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fox-np__input { transition: none; }
+}

@@ -22,13 +22,13 @@
 .fox-mega-card { color: inherit; }
 .fox-header-action__badge { position: absolute; top: 4px; right: 0; display: block; box-sizing: border-box; min-width: 18px; height: 18px; padding-inline: 4px; border-radius: 999px; background: var(--color-btn-bg-primary); color: var(--color-btn-text-primary); font-size: 11px; line-height: 18px; text-align: center; }
 .fox-header__actions .fox-header-action .icon-svg { color: var(--fox-header-text); fill: none; stroke: currentColor; }
-/* The heart is a filled glyph that reaches its box edges; slightly smaller to match the line icons. */
+
 .fox-header__actions .fox-header-action--wishlist .icon-svg { width: 21px; height: 21px; }
 @media (min-width: 992px) { .fox-header__actions .fox-header-action { min-width: 34px; } }
 .fox-menu-drawer__panel { background: #fff; color: var(--color-text-theme); }
 .fox-menu-drawer__header { position: sticky; top: 0; z-index: 2; min-height: 66px; padding: 10px 18px; border-bottom: 1px solid rgba(18,18,18,.1); background: #fff; }
 .fox-menu-drawer__content { padding: 12px 18px 40px; }
-/* Athora-inspired visual skin stays isolated from the basic drawer. */
+
 .fox-menu-drawer[data-style="drilldown"] .fox-menu-drawer__overlay { background: rgba(19,31,48,.76); background: color-mix(in srgb, var(--fox-menu-color, #1B2631) 76%, transparent); backdrop-filter: blur(8px); }
 .fox-menu-drawer[data-style="drilldown"] .fox-menu-drawer__panel { isolation: isolate; width: calc(100vw - 20px); max-width: none; border: 1px solid rgba(255,255,255,.42); border-radius: 12px; background: var(--fox-menu-color, #1B2631); background: linear-gradient(180deg, color-mix(in srgb, var(--fox-menu-color, #1B2631) 88%, white), var(--fox-menu-color, #1B2631)); color: #fff; box-shadow: 0 18px 48px rgba(10,17,27,.28), inset 0 0 28px rgba(255,255,255,.06); backdrop-filter: blur(18px); }
 .fox-menu-drawer[data-style="drilldown"] .fox-menu-drawer__header { position: relative; min-height: 58px; padding: 10px 7px 10px 14px; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .42); background: transparent; }
@@ -50,12 +50,12 @@
 .fox-mobile-drilldown__opener .icon-svg { width: 15px; height: 11px; }
 .fox-mobile-drilldown__empty { padding: 20px 14px; color: rgba(255,255,255,.72); }
 .fox-menu-drawer__footer { min-height: 58px; padding: 12px 14px; border-top: 1px solid rgba(255,255,255,.08); }
-/* The shared basic social list has no circle or container border. */
+
 .fox-menu-drawer__footer:not(:has(.block-list-social)) { display: none; }
 .fox-menu-drawer__footer .list-social { align-items: center; gap: 18px; }
 .fox-menu-drawer__footer .block-list-social,
 .fox-menu-drawer__footer .list-social,
-/* Keep the drawer skin white even when the shared stylesheet loads later. */
+
 .fox-menu-drawer__footer .list-social a { color: #fff; }
 .fox-menu-drawer__footer .list-social a:focus-visible, .fox-mobile-drilldown__product-cta:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .fox-mobile-drilldown__mega { padding: 14px; }
@@ -109,14 +109,15 @@
   .fox-mega--type-2 .fox-mega-card { position: relative; isolation: isolate; display: flex; min-height: 160px; height: 100%; padding: 88px 20px 22px; flex-direction: column; align-items: center; justify-content: flex-start; border: 1px solid rgba(86,60,73,.12); border-radius: 20px; background: #f8f6f7; color: inherit; text-align: center; transition: color 280ms ease, border-color 280ms ease, box-shadow 280ms ease; }
   .fox-mega--type-2 .fox-mega-card__effect { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: inherit; pointer-events: auto; }
   .fox-mega--type-2 .fox-mega-card__effect [data-btn-effect-span] { background: var(--color-btn-bg-primary); transition-duration: .48s; }
-  .fox-mega--type-2 .fox-mega-card:focus-visible .fox-mega-card__effect [data-btn-effect-span] { transform: translate(-50%, -50%) scale(20); }
+
+.fox-mega--type-2 .fox-mega-card:is(:hover, :focus-visible) .fox-mega-card__effect [data-btn-effect-span] { transform: translate(-50%, -50%) scale(var(--bf-scale, 60)); }
   .fox-mega--type-2 .fox-mega-card__title, .fox-mega--type-2 .fox-mega-card__cta { position: relative; z-index: 1; pointer-events: none; }
   .fox-mega--type-2 .fox-mega-card__media { position: absolute; top: -64px; left: 50%; width: 128px; height: 128px; margin: 0; overflow: hidden; border: 2px solid #fff; border-radius: 50%; background: #f1edef; box-shadow: 0 8px 24px rgba(22,18,20,.1); transform: translateX(-50%); transition: border-color 280ms ease, box-shadow 280ms ease; }
   .fox-mega--type-2 .fox-mega-card:hover, .fox-mega--type-2 .fox-mega-card:focus-visible { border-color: var(--color-btn-bg-primary); color: var(--color-btn-text-primary); box-shadow: 0 14px 30px rgba(22,18,20,.16); }
   .fox-mega--type-2 .fox-mega-card:hover .fox-mega-card__media, .fox-mega--type-2 .fox-mega-card:focus-visible .fox-mega-card__media { border-color: var(--color-btn-bg-primary); box-shadow: 0 10px 28px rgba(22,18,20,.18); }
   .fox-mega--type-2 .fox-mega-card__title { font-size: 18px; line-height: 1.3; }
   .fox-mega--type-2 .fox-mega-card__cta { display: inline-block; margin-top: 6px; border-bottom: 1px solid currentColor; font-size: 14px; line-height: 1.35; }
-  /* Keep slider controls and the collection CTA in one stable footer row. */
+
   .fox-mega-type-2__navigation { position: relative; z-index: 3; display: flex; width: max-content; max-width: 100%; margin: 26px auto 0; align-items: center; justify-content: center; gap: 10px; }
   .fox-mega-type-2__navigation .swiper-nav { position: relative; top: auto; right: auto; bottom: auto; left: auto; display: inline-flex; width: 38px; height: 38px; min-width: 38px; min-height: 38px; margin: 0; padding: 0; align-items: center; justify-content: center; border: 1px solid rgba(86,60,73,.14); border-radius: 50%; background: var(--color-btn-bg-secondary); color: var(--color-btn-text-secondary); box-shadow: 0 8px 22px rgba(22,18,20,.12); transition: color 240ms ease, background-color 240ms ease, border-color 240ms ease, box-shadow 240ms ease, transform 240ms cubic-bezier(.22,1,.36,1); }
   .fox-mega-type-2__navigation .swiper-nav > :not([data-btn-effect-span]) { position: relative; z-index: 1; }
@@ -147,9 +148,8 @@
   .fox-mega-type-1__navigation .swiper-nav:disabled [data-btn-effect-span] { transform: translate(-50%, -50%) scale(0); }
   .fox-mega-type-1__navigation .swiper-nav .icon-svg { width: 11px; height: 11px; }
   .fox-mega-type-1__navigation .swiper-nav > :not([data-btn-effect-span]) { position: relative; z-index: 1; }
-  .fox-mega--type-1 product-card:not(.product-card--story) { --proloop-action-size: 34px; --proloop-action-gap: 6px; --proloop-action-bottom: 8px; } 
-  
-  
+  .fox-mega--type-1 product-card:not(.product-card--story) { --proloop-action-size: 34px; --proloop-action-gap: 6px; --proloop-action-bottom: 8px; }
+
   .fox-mega--type-1 .btn-addtocart, .fox-mega--type-1 .btn-quickview { box-sizing: border-box; width: 34px; height: 34px; min-width: 34px; min-height: 34px; flex-basis: 34px; }
   .fox-mega--type-1 .btn-addtocart .icon-svg, .fox-mega--type-1 .btn-quickview .icon-svg { width: 15px; height: 15px; }
   .fox-mega--type-1 .product-card--header-mega .proloop--detail { padding-top: 10px; }
@@ -178,15 +178,14 @@
   .fox-header__nav .fox-submenu__item--parent::after { content: ''; position: absolute; top: 0; left: 100%; width: 23px; height: 100%; }
 }
 @media (max-width: 991px) {
-  /* Logo centered on the screen (absolute). Every action has a fixed slot so turning any of them off in settings
-     never reorders the bar: left = menu · search · language, right = account · wishlist · cart (max 3 per side). */
+
   .fox-header__inner { position: relative; display: flex; align-items: center; }
   .fox-header__brand, .fox-header__actions { display: contents; }
   .fox-header__menu-toggle { order: 1; }
   .fox-header__actions .js-open-search { display: inline-flex; order: 2; }
   .fox-header__actions .fox-header-action--translation { order: 3; }
   .fox-header__inner::after { content: ''; order: 4; flex: 1 1 auto; }
-  /* mini-account is display: contents (mini-account.css), so its trigger is the flex item that needs the slot. */
+
   .fox-header__actions .fox-mini-account,
   .fox-header__actions .fox-mini-account__trigger { order: 5; }
   .fox-header__actions .fox-header-action--wishlist { order: 6; }

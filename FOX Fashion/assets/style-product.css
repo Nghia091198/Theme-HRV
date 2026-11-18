@@ -1,4 +1,4 @@
-.fox-product-page { 
+.fox-product-page {
   padding-bottom: 2.4rem;
 }
 
@@ -38,7 +38,7 @@
 
 .fox-product--page .fox-product__thumbnail.is-active {
   border-color: var(--color-text-theme, #1b2631);
-  box-shadow: 0 0 0 2px var(--color-text-theme, #1b2631);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-text-theme, #1b2631) 25%, transparent);
 }
 
 .fox-product--page .fox-product__gallery slider-component[data-role="gallery-main"] .fox-slider-controls {
@@ -69,7 +69,6 @@
   font-weight: 500;
   --fox-section-title-size: clamp(2rem, 3vw, 2.5rem);
 }
-
 
 .fox-product--page .fox-product__title {
   margin-bottom: 1.4rem;
@@ -483,7 +482,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Underline motion comes from .fox-link-effect (link-effect.css). */
 .fox-product-faq__link {
   align-items: center;
   gap: 0.8rem;
@@ -783,7 +781,7 @@
     gap: 0.6rem;
   }
   .fox-product--page .fox-product__meta:has(> .fox-product__sku:not([hidden]):not(:empty)):has(> .fox-product__status:not(:empty))::before {content:none;}
-  .fox-product-related .fox-section__title, 
+  .fox-product-related .fox-section__title,
   .fox-recently-viewed .fox-section__title {font-size: 1.8rem;}
   .fox-product-info__layout {gap: 2.5rem;}
   .fox-product--page .fox-product__title {margin-bottom: 1rem;}

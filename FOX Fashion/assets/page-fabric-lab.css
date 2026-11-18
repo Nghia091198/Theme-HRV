@@ -1,5 +1,3 @@
-/* Fabric lab page (templates/page.fabric-lab.liquid): glass hero, technologies, fabric comparison, suggested outfits,
-   care and products. 1rem = 10px. */
 .fox-lab {
   --fox-lab-ink: var(--color-text-theme, #1b2631);
   --fox-lab-plum: #5c3d50;
@@ -13,7 +11,6 @@
   color: var(--fox-lab-ink);
 }
 
-/* Bottom room on the content column; the material story section that follows runs to the footer on its own background. */
 .fox-lab > .container {
   padding-bottom: 6rem;
 }
@@ -79,7 +76,6 @@
   object-fit: cover;
 }
 
-/* Hero */
 .fox-lab-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -143,8 +139,6 @@
   aspect-ratio: 4 / 3;
 }
 
-/* Technologies */
-/* Visible technologies share the row equally (each card has its own "Hiển thị?"). */
 .fox-lab-tech {
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
@@ -160,7 +154,6 @@
   box-shadow: 0 1.4rem 3.4rem rgb(27 38 49 / 7%);
 }
 
-/* Technology image (settings fabric_tech_N_image.png, 160x160 with its own background). */
 .fox-lab-tech__icon {
   display: block;
   width: 4.6rem;
@@ -211,7 +204,6 @@
   border-radius: inherit;
 }
 
-/* Fabric comparison */
 .fox-lab-compare {
   overflow: hidden;
   background: #fff;
@@ -268,7 +260,6 @@
   background: var(--fox-lab-accent);
 }
 
-/* Suggested outfit */
 .fox-lab-look {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -408,7 +399,6 @@
   color: var(--fox-lab-accent);
 }
 
-/* Care */
 .fox-lab-care {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -441,7 +431,6 @@
   font-weight: 500;
 }
 
-/* Care image (settings fabric_care_N_image.png, 160x160 with its own coloured background). */
 .fox-lab-care__icon {
   display: block;
   flex: 0 0 auto;
@@ -457,7 +446,6 @@
   height: 100%;
   object-fit: cover;
 }
-
 
 @media (max-width: 991px) {
   .fox-lab-hero,
@@ -490,7 +478,6 @@
 
 }
 
-/* Comparison as one card per fabric on phones (labels from data-label). */
 @media (max-width: 767px) {
   .fox-lab-hero__stats {
     display: grid;

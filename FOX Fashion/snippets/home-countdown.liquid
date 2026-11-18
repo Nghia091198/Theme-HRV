@@ -1,20 +1,6 @@
-{%- comment -%}Homepage countdown markup is rendered before countdown.js enhances its timer.{%- endcomment -%}
 {%- if settings.countdown_show -%}
-  {%- capture countdown_d_key -%}countdown_d_image.png{%- endcapture -%}
-  {%- capture countdown_m_key -%}countdown_m_image.png{%- endcapture -%}
-  {%- assign countdown_image_desktop = settings[countdown_d_key] | default: 'countdown_d_image.png' -%}
-  {%- assign countdown_image_mobile = settings[countdown_m_key] | default: 'countdown_m_image.png' -%}
-  {%- if countdown_image_mobile == blank -%}
-    {%- assign countdown_image_mobile = countdown_image_desktop -%}
-  {%- endif -%}
-  {%- assign countdown_image_desktop_url = countdown_image_desktop | asset_url -%}
-  {%- assign countdown_image_mobile_url = countdown_image_mobile | asset_url -%}
-  {%- if countdown_image_desktop contains '//' -%}
-    {%- assign countdown_image_desktop_url = countdown_image_desktop -%}
-  {%- endif -%}
-  {%- if countdown_image_mobile contains '//' -%}
-    {%- assign countdown_image_mobile_url = countdown_image_mobile -%}
-  {%- endif -%}
+  {%- assign countdown_image_desktop_url = 'countdown_d_image.png' | asset_url -%}
+  {%- assign countdown_image_mobile_url = 'countdown_m_image.png' | asset_url -%}
 
   <section
     class="fox-countdown-section"

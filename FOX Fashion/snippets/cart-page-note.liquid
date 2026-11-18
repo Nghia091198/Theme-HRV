@@ -1,0 +1,70 @@
+{%- assign invoice_saved = false -%}
+{%- if cart.attributes.invoice == 'yes' and cart.attributes.bill_order_company != blank -%}{%- assign invoice_saved = true -%}{%- endif -%}
+<section class="fox-cart-page__glass fox-cart-note" aria-labelledby="fox-cart-note-title">
+  <h2 id="fox-cart-note-title" class="fox-cart-page__title">{{ settings.cart_page_note_title | default: 'Ghi chú đơn hàng' | escape }}</h2>
+  <label class="fox-mini-cart__sr" for="fox-cart-page-note">{{ settings.cart_page_note_title | default: 'Ghi chú đơn hàng' | escape }}</label>
+  <textarea id="fox-cart-page-note" class="fox-cart-field__control fox-cart-note__input" data-role="note-input" rows="3" maxlength="500" placeholder="{{ settings.cart_page_note_placeholder | default: 'Ví dụ: giao giờ hành chính, gói quà…' | escape }}">{{ cart.note }}</textarea>
+
+  {%- if settings.cart_page_invoice_show -%}
+  <cart-invoice class="fox-cart-invoice" data-saved="{{ invoice_saved }}">
+    <div class="fox-cart-invoice__row">
+      <label class="fox-cart-check">
+        <input type="checkbox" data-role="invoice-toggle" aria-haspopup="dialog" aria-controls="fox-cart-invoice-modal"{% if invoice_saved %} checked{% endif %}>
+        <span class="fox-cart-check__mark" aria-hidden="true"></span>
+        <span class="fox-cart-check__label">Xuất hoá đơn cho đơn hàng</span>
+      </label>
+      <button type="button" class="fox-cart-invoice__edit" data-role="invoice-edit"{% unless invoice_saved %} hidden{% endunless %}>Sửa thông tin</button>
+    </div>
+    <p class="fox-cart-invoice__summary" data-role="invoice-summary"{% unless invoice_saved %} hidden{% endunless %}>
+      {%- if invoice_saved -%}{{ cart.attributes.bill_order_company | escape }} · MST {{ cart.attributes.bill_order_tax_code | escape }}{%- endif -%}
+    </p>
+    <p class="fox-cart-invoice__status" data-role="invoice-status" aria-live="polite"></p>
+
+    <modal-component id="fox-cart-invoice-modal" class="fox-cart-invoice__modal" data-state="closed">
+      <dialog data-role="dialog" aria-labelledby="fox-cart-invoice-title">
+        <div class="fox-cart-invoice__dialog">
+          <header class="fox-cart-invoice__dialog-head">
+            <div>
+              <h3 id="fox-cart-invoice-title">Thông tin xuất hoá đơn</h3>
+            </div>
+            <button type="button" class="fox-quick-view__close fox-cart-invoice__close" data-action="close" aria-label="Đóng">
+              <svg class="fox-quick-view__close-progress" width="90" height="90" viewBox="0 0 90 90" fill="none" aria-hidden="true" focusable="false">
+                <circle class="fox-quick-view__close-track" cx="45" cy="45" r="43.5"></circle>
+                <circle class="fox-quick-view__close-value" cx="45" cy="45" r="43.5" pathLength="1"></circle>
+              </svg>
+              <svg class="fox-quick-view__close-icon" aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path fill="currentColor" d="M6.17839 5L9.75586 1.42253C10.0814 1.09701 10.0814 0.569661 9.75586 0.244141C9.43034 -0.0813802 8.90299 -0.0813802 8.57747 0.244141L5 3.82161L1.42253 0.244141C1.09701 -0.0813802 0.569661 -0.0813802 0.244141 0.244141C-0.0813802 0.569661 -0.0813802 1.09701 0.244141 1.42253L3.82161 5L0.244141 8.57747C-0.0813802 8.90299 -0.0813802 9.43034 0.244141 9.75586C0.406901 9.91862 0.620117 10 0.833333 10C1.04655 10 1.25977 9.91862 1.42253 9.75586L5 6.17839L8.57747 9.75586C8.74023 9.91862 8.95345 10 9.16667 10C9.37988 10 9.5931 9.91862 9.75586 9.75586C10.0814 9.43034 10.0814 8.90299 9.75586 8.57747L6.17839 5Z"></path>
+              </svg>
+            </button>
+          </header>
+          <div class="fox-cart-invoice__form">
+            <label class="fox-cart-field">
+              <span class="fox-cart-field__label">Tên công ty</span>
+              <input type="text" class="fox-cart-field__control" data-invoice="bill_order_company" placeholder="Tên công ty…" autocomplete="organization" value="{{ cart.attributes.bill_order_company | escape }}" required>
+            </label>
+            <label class="fox-cart-field">
+              <span class="fox-cart-field__label">Mã số thuế</span>
+              <input type="text" class="fox-cart-field__control" data-invoice="bill_order_tax_code" placeholder="Mã số thuế…" inputmode="numeric" pattern="[0-9]{10}([0-9]{3})?|[0-9]{10}-[0-9]{3}" title="Mã số thuế gồm 10 hoặc 13 chữ số" value="{{ cart.attributes.bill_order_tax_code | escape }}" required>
+            </label>
+            <label class="fox-cart-field">
+              <span class="fox-cart-field__label">Email nhận hoá đơn</span>
+              <input type="email" class="fox-cart-field__control" data-invoice="bill_email" placeholder="Email…" autocomplete="email" value="{{ cart.attributes.bill_email | escape }}" required>
+            </label>
+            <label class="fox-cart-field fox-cart-field--wide">
+              <span class="fox-cart-field__label">Địa chỉ công ty</span>
+              <input type="text" class="fox-cart-field__control" data-invoice="bill_order_address" placeholder="Địa chỉ công ty…" autocomplete="street-address" value="{{ cart.attributes.bill_order_address | escape }}" required>
+            </label>
+          </div>
+          <div class="fox-cart-invoice__dialog-actions">
+            <button type="button" class="btn btn-secondary" data-action="close">Huỷ</button>
+            <button type="button" class="btn btn-primary" data-role="invoice-confirm" button-effect>
+              <span class="btn__label">Xác nhận</span>
+              <span data-btn-effect-span aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </modal-component>
+  </cart-invoice>
+  {%- endif -%}
+</section>

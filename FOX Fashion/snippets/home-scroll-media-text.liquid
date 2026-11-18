@@ -1,12 +1,7 @@
 {%- if settings.scroll_media_text_show -%}
-  {%- capture smt_image_key -%}scroll_media_text_image.jpg{%- endcapture -%}
-  {%- assign smt_image = settings[smt_image_key] | default: 'scroll_media_text_image.jpg' -%}
-  {%- assign smt_image_url = smt_image | asset_url -%}
-  {%- if smt_image contains '//' -%}
-    {%- assign smt_image_url = smt_image -%}
-  {%- endif -%}
   {%- assign smt_title = settings.scroll_media_text_title -%}
   {%- assign smt_button_title = settings.scroll_media_text_btn_title -%}
+  {%- assign smt_image_alt = settings.scroll_media_text_alt | default: smt_title | default: shop.name | escape -%}
 
   {%- capture smt_marquee_item -%}
     <div class="fox-marquee__item fox-smt__marquee-item">
@@ -74,15 +69,7 @@
         data-fox-scroll-media
         style="--fox-scroll-media-radius: var(--fox-smt-media-radius);"
       >
-        <img
-          class="fox-smt__image"
-          src="{{ smt_image_url | escape }}"
-          alt="{{ settings.scroll_media_text_alt | default: smt_title | default: 'FOX Fashion activewear' | escape }}"
-          width="1600"
-          height="1200"
-          sizes="100vw"
-          loading="lazy"
-          decoding="async">
+        {%- include 'render-img' with src: 'scroll_media_text_image.jpg', class: 'fox-smt__image', alt: smt_image_alt, w: '1600', h: '1200', sizes: '100vw' -%}
       </div>
 
       <div class="fox-smt__content" data-fox-scroll-content>

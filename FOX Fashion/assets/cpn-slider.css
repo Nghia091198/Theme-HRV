@@ -1,0 +1,133 @@
+slider-component {
+  display: block;
+  position: relative;
+}
+
+slider-component [hidden] {
+  display: none;
+}
+
+slider-component [data-action="previous"]:focus-visible,
+slider-component [data-action="next"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.fox-slider-controls {
+  --fox-slider-control-size: 2.4rem;
+  --fox-slider-control-color: currentColor;
+  --fox-slider-control-background: transparent;
+  --fox-slider-control-border: color-mix(in srgb, currentColor 10%, transparent);
+  --fox-slider-control-hover-color: var(--color-btn-text-primary, #fff);
+  --fox-slider-control-hover-background: var(--color-btn-bg-primary, #1b2631);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.4rem;
+  color: var(--fox-slider-control-color);
+  background: var(--fox-slider-control-background);
+  border: 1px solid var(--fox-slider-control-border);
+  border-radius: var(--fox-slider-control-radius, 999px);
+  gap: 0.8rem;
+}
+
+.fox-slider-controls > button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--fox-slider-control-size);
+  height: var(--fox-slider-control-size);
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--fox-slider-control-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 300ms ease, border-color 300ms ease;
+}
+
+.fox-slider-controls > button > svg {
+  position: relative;
+  z-index: 1;
+}
+
+.fox-slider-controls > button [data-btn-effect-span] {
+  background-color: var(--fox-slider-control-hover-background);
+}
+
+.fox-slider-controls > button:disabled [data-btn-effect-span] {
+  display: none;
+}
+
+.fox-slider-controls > button:not(:disabled):hover,
+.fox-slider-controls > button:not(:disabled):focus-visible {
+  color: var(--fox-slider-control-hover-color);
+  border-color: var(--fox-slider-control-hover-background);
+}
+
+.fox-slider-controls > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.fox-slider-controls--floating {
+  --fox-slider-control-color: var(--color-text-theme, #1b2631);
+  --fox-slider-control-background: #fff;
+  --fox-slider-control-border: color-mix(in srgb, var(--fox-slider-control-color) 10%, transparent);
+  box-shadow: 0 0.35rem 1.25rem rgb(0 0 0 / 10%);
+}
+
+.fox-slider-progress {
+  display: grid;
+  width: 4.4rem;
+  height: 0.25rem;
+  overflow: hidden;
+  background: var(--fox-slider-control-border);
+  border-radius: 999px;
+}
+
+.fox-slider-progress__bar {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  border-radius: inherit;
+  transform: scaleX(var(--fox-slider-progress, 0));
+  transform-origin: left;
+  transition: transform 250ms ease;
+}
+
+.fox-slider-controls--vertical {
+  flex-direction: column;
+}
+
+.fox-slider-controls--vertical > button > svg {
+  transform: rotate(90deg);
+}
+
+.fox-slider-controls--vertical .fox-slider-progress {
+  width: 0.25rem;
+  height: 4.4rem;
+}
+
+.fox-slider-controls--vertical .fox-slider-progress__bar {
+  transform: scaleY(var(--fox-slider-progress, 0));
+  transform-origin: top;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  slider-component .swiper-wrapper {
+    transition-duration: 1ms;
+  }
+
+  .fox-slider-progress__bar {
+    transition: none;
+  }
+
+  .fox-slider-controls > button [data-btn-effect-span] {
+    transition: none;
+  }
+}

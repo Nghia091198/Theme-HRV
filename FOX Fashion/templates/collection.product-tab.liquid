@@ -4,7 +4,7 @@
 {%- if limit > 12 -%}{%- assign limit = 12 -%}{%- endif -%}
 {%- for product in collection.products limit: limit -%}
 <div class="fox-product-tabs__slide">
-  {%- assign product_card_context = 'product-tabs' -%}{% comment %}Shared product card context.{% endcomment %}
+  {%- assign product_card_context = 'product-tabs' -%}
   {%- include 'product-loop' with grid: '' -%}
   {%- assign product_card_context = blank -%}
 </div>

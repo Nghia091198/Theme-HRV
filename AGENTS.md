@@ -155,28 +155,30 @@ Theme/assets/
 Quy ước tên file mới:
 
 ```text
-core-foundation-*.js
-core-component-*.js
-core-commerce-*.js
+cpn-*.js        thành phần / nền tảng dùng chung, không gắn thương hiệu (slider, modal, popover, overlay, header…)
+<tính-năng>.js  thương mại và tính năng (product.js, collection.js, quick-view.js, cart.js…)
+http.js, toast.js  tiện ích lõi
 vendor-*.js
 ```
 
 Ví dụ:
 
 ```text
-core-foundation-dom.js
-core-foundation-events.js
-core-component-slider.js
-core-component-tabs.js
-core-component-drawer.js
-core-commerce-cart.js
+cpn-slider.js
+cpn-modal.js
+cpn-overlay.js
+cpn-tabs.js
+http.js
+product.js
+cart.js
 scroll-viewport.js
 home.js
 ```
 
 Feature behavior riêng của theme dùng tên tính năng ngắn, không thêm prefix
-`commerce-`, `fox-` hoặc `theme-`. Chỉ dùng `core-*` khi module brand-agnostic
-và có mục tiêu tái sử dụng giữa nhiều theme.
+`commerce-`, `fox-` hoặc `theme-`. Chỉ dùng `cpn-*` khi module brand-agnostic
+và có mục tiêu tái sử dụng giữa nhiều theme. Không tạo lại tên cũ `core-component-*`,
+`core-foundation-*`, `core-commerce-*` (đã đổi sang hệ tên trên).
 
 Không thêm logic mới vào `components.js` nếu component có thể tách độc lập.
 
@@ -193,15 +195,13 @@ Theme/assets/
 Quy ước:
 
 ```text
-core-foundation-*.css
-core-component-*.css
-core-commerce-*.css
+cpn-*.css        thành phần / nền tảng dùng chung (structure + state, không branding)
+<tính-năng>.css  thương mại, tính năng, skin của theme (product.css, cart-page.css, media-progress.css…)
 template-*.css
 ```
 
 Feature hoặc skin riêng của FOX dùng tên tính năng ngắn, ví dụ
-`media-progress.css`. Không dùng tên dài như
-`core-component-media-progress.css` cho feature thuộc FOX.
+`media-progress.css`. Không dùng tên dài kiểu `cpn-media-progress.css`.
 
 ### 5.3. Liquid
 
@@ -255,7 +255,7 @@ Prefix thương hiệu/project cũ `tyt` hoặc `TYT` đã bị deprecate.
 
 Trong mọi code mới và code được migration:
 
-- Dùng tên tính năng không prefix cho file riêng của theme; giữ `core-*` cho module dùng chung và `component-*` cho snippet component dùng chung.
+- Dùng tên tính năng không prefix cho file riêng của theme; dùng `cpn-*` cho asset thành phần dùng chung và `component-*` cho snippet component dùng chung.
 - Dùng `fox` cho CSS class, custom element modifier, data attribute, ID, key setting và namespace không phải function.
 - Dùng `FOX` làm prefix cho function thuộc namespace/theme API.
 - Không tạo thêm identifier mới bắt đầu bằng `tyt`, `TYT`, `Tyt`.
@@ -849,6 +849,11 @@ AGENTS.md này giữ các invariant chi tiết ở trên. Các quy tắc v2 dư�
 ### Routing
 
 Đọc `docs/AGENT-ROUTING.md` để chọn global workflow, project skill, tài liệu chuyên môn và agent role phù hợp. Chỉ load tài liệu liên quan đến task.
+
+Khi user yêu cầu **dựng một theme mới** ("làm cho tôi một theme"), đọc `docs/THEME-BUILD-PLAYBOOK.md` trước tiên và đi
+tuần tự các giai đoạn (brief → thương hiệu & logo → hướng thiết kế → khung & settings → dựng trang → nội dung demo → QA →
+bàn giao), dừng ở mọi điểm chờ duyệt. Logo / favicon theo `docs/brand-logo-guide.md`; cấu trúc settings theo
+`docs/settings-structure.md`.
 
 ### Pattern Discovery gate
 

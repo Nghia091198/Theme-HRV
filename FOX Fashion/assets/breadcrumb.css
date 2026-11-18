@@ -5,7 +5,7 @@
     font-size: 1.3rem;
     list-style: none;
     justify-content: flex-start;
-    padding: 10px 0;
+    padding: 16px 0 10px;
     background: transparent;
     border-radius: 0;
     margin: 0;
@@ -18,7 +18,7 @@
     color: var(--text-color,#000000);
 }
 
-.breadcrumb__separator { 
+.breadcrumb__separator {
     flex: 0 0 auto;
     width: 1.6rem;
     height: 1.6rem;
@@ -27,8 +27,8 @@
     opacity: 0.6;
 }
 @media (max-width: 992px) {
-    .breadcrumb.breadcrumb-arrows { 
-        font-size: 1.2rem; 
+    .breadcrumb.breadcrumb-arrows {
+        font-size: 1.2rem;
         flex-wrap: nowrap;
         width: max-content;
     }

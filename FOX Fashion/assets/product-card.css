@@ -47,12 +47,12 @@ product-card[data-variant-image='true'] .proloop--image-back {
 	left: 10px;
 	top: 10px;
 	z-index: 2;
-	background: var(--percent-bg, #e73737);
+	background: var(--percent-bg, #d32f2f);
 	color: var(--percent-text, #ffffff);
-	font-size: 12px;
+	font-size: 11px;
 	line-height: 1.25;
-	padding: 5px 8px;
-	border-radius: var(--radius-sm);
+	padding: 4px 8px;
+	border-radius: 999px;
 	pointer-events: none;
 }
 
@@ -72,6 +72,10 @@ product-card[data-variant-image='true'] .proloop--image-back {
 
 .pro--price-percent ~ .pro--list-tags {
 	max-width: calc(100% - 80px);
+}
+
+.pro--price-badge {
+	display: none;
 }
 
 .pro--list-tags .tag-item {
@@ -474,7 +478,7 @@ product-card:focus-within .proloop--variant {
 .pro--type {
 	margin: 0 0 2px;
 	font-size: 12px;
-	color: var(--color-border, #767676);
+	color: #6b7279;
 }
 
 @media (hover: none) {
@@ -505,4 +509,3 @@ product-card:focus-within .proloop--variant {
 @media (max-width: 992px) {
 	.product-card--detail-variants .proloop--variant-detail {margin-top: 4px;}
 }
-	    

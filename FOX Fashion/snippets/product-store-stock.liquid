@@ -1,12 +1,3 @@
-{%- comment -%}
-  Store availability for the selected variant (product page, under the buy buttons).
-  Stores: shop.addresses where is_shipping_add, rendered here grouped province → district;
-  each row carries data-location-id = address.id.
-  Stock: product-store-stock.js calls /inventory_location.js?variant_id=<id>&quantity=1 on load and on every
-  swatch change; listed location_ids are in stock, the rest out of stock. Variants without inventory management
-  count as in stock everywhere. Glass card shows the first in-stock stores; "Xem tất cả" opens a modal (desktop) /
-  bottom sheet (mobile) with province tabs and an in-stock toggle.
-{%- endcomment -%}
 {%- assign store_provinces = '' -%}
 {%- assign store_province_count = 0 -%}
 {%- assign store_total = 0 -%}
@@ -124,5 +115,4 @@
   </modal-component>
 </store-stock>
 {%- else -%}
-<!-- store-stock hidden: store_stock_show={{ settings.store_stock_show }}, shop.addresses={{ shop.addresses.size }}, shipping addresses={{ store_total }} -->
 {%- endif -%}

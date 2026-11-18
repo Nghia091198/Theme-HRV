@@ -1,8 +1,3 @@
-{%- comment -%}
-  Wishlist heart (behavior: <wishlist-button> in assets/wishlist.js, saved in localStorage).
-  Input: wishlist_handle, wishlist_product_id, wishlist_title, wishlist_style ('card' = product card action, 'inline' = product page price row).
-  State is read on connect, so hearts inside AJAX-loaded cards (quick view, lookbook, recently viewed) stay correct.
-{%- endcomment -%}
 {%- assign wishlist_style = wishlist_style | default: 'card' -%}
 {%- capture wishlist_label_add -%}Thêm {{ wishlist_title | strip }} vào yêu thích{%- endcapture -%}
 {%- capture wishlist_label_remove -%}Xóa {{ wishlist_title | strip }} khỏi yêu thích{%- endcapture -%}

@@ -1,7 +1,3 @@
-{%- comment -%}
-  Alternate page template "faq". Questions come from a blog: article title = question,
-  article content = answer, first article tag = topic.
-{%- endcomment -%}
 {%- assign faq_blog_handle = settings.faq_blog_handle | default: 'faq' | strip -%}
 {%- assign faq_blog = blogs[faq_blog_handle] -%}
 {%- assign faq_title = settings.faq_title | default: page.title -%}

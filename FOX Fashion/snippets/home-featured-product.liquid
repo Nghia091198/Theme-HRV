@@ -3,7 +3,7 @@
 {%- assign x1_zoom_scale = settings.x1_featured_product_zoom_scale | default: 2 -%}
 <section
   class="fox-featured-product"
-  style="--x1-featured-pt-mobile: {{ settings.x1_featured_product_padding_top_mobile | default: 60 }}px; --x1-featured-pb-mobile: {{ settings.x1_featured_product_padding_bottom_mobile | default: 60 }}px; --x1-featured-pt-desktop: {{ settings.x1_featured_product_padding_top_desktop | default: 88 }}px; --x1-featured-pb-desktop: {{ settings.x1_featured_product_padding_bottom_desktop | default: 88 }}px;">
+  style="--x1-featured-pt-mobile: {{ settings.x1_featured_product_padding_top_mobile | default: 15 }}px; --x1-featured-pb-mobile: {{ settings.x1_featured_product_padding_bottom_mobile | default: 0 }}px; --x1-featured-pt-desktop: {{ settings.x1_featured_product_padding_top_desktop | default: 88 }}px; --x1-featured-pb-desktop: {{ settings.x1_featured_product_padding_bottom_desktop | default: 88 }}px;">
   <fox-featured-product
     data-fox-featured-product
     data-product-handle="{{ x1_featured_handle | strip | escape }}"

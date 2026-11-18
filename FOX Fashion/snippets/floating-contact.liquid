@@ -16,7 +16,6 @@
   {%- assign float_grouped = true -%}
 {%- endif -%}
 
-{%- comment -%}More than 6 channels: the desktop dock (full or grouped) gets too tall, so desktop uses the mobile pill + 2-column glass card.{%- endcomment -%}
 {%- assign float_desktop_card = false -%}
 {%- if float_show_dock and float_contact_count > 6 -%}
   {%- assign float_desktop_card = true -%}

@@ -1,0 +1,2473 @@
+{
+ "file": "FOX Fashion/config/settings.html",
+ "flexible": [
+  "1. Trang chủ"
+ ],
+ "tree": [
+  {
+   "separator": "Thiết lập tổng quát"
+  },
+  {
+   "legend": "**** Tính năng mua hàng ****",
+   "keys": [
+    "shop_buying"
+   ],
+   "children": []
+  },
+  {
+   "legend": "1. Thiết lập chung",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Logo và Favicon",
+     "keys": [
+      "use_logo",
+      "logo.png",
+      "favicon.png",
+      "ico_favicon"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Kiểu chữ",
+     "keys": [
+      "base_font",
+      "base_font_title"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Màu sắc",
+     "keys": [
+      "theme_bg_color",
+      "theme_text_color",
+      "theme_btn_bgcolor",
+      "theme_btn_textcolor",
+      "theme_btn_bgcolor_hover",
+      "theme_btn_textcolor_hover",
+      "theme_btn_bgcolor_2",
+      "theme_btn_textcolor_2",
+      "theme_btn_bgcolor_2_hover",
+      "theme_btn_textcolor_2_hover"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Mạng xã hội",
+     "keys": [
+      "footer_facebook_url",
+      "footer_zalo_url",
+      "footer_instagram_url",
+      "footer_youtube_url",
+      "footer_tiktok_url",
+      "footer_x_url",
+      "footer_linkedin_url",
+      "footer_shopee_url",
+      "footer_lazada_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Popup đăng ký nhận tin",
+     "keys": [
+      "newsletter_popup_show",
+      "newsletter_popup_mode",
+      "newsletter_popup_delay",
+      "newsletter_popup_days",
+      "newsletter_popup_banner.jpg",
+      "newsletter_popup_banner_mobile.jpg",
+      "newsletter_popup_banner_alt",
+      "newsletter_popup_banner_url",
+      "newsletter_popup_form_image.jpg",
+      "newsletter_popup_badge",
+      "newsletter_popup_eyebrow",
+      "newsletter_popup_title",
+      "newsletter_popup_desc",
+      "newsletter_popup_placeholder",
+      "newsletter_popup_button",
+      "newsletter_popup_success_title",
+      "newsletter_popup_success_desc"
+     ],
+     "children": []
+    },
+    {
+     "legend": "6. Thông báo đơn hàng gần đây",
+     "keys": [
+      "recent_orders_show",
+      "recent_orders_delay",
+      "recent_orders_duration",
+      "recent_orders_gap",
+      "recent_orders_max_days",
+      "recent_orders_mobile",
+      "recent_order_1_show",
+      "recent_order_1_name",
+      "recent_order_1_place",
+      "recent_order_1_time",
+      "recent_order_1_handle",
+      "recent_order_2_show",
+      "recent_order_2_name",
+      "recent_order_2_place",
+      "recent_order_2_time",
+      "recent_order_2_handle",
+      "recent_order_3_show",
+      "recent_order_3_name",
+      "recent_order_3_place",
+      "recent_order_3_time",
+      "recent_order_3_handle",
+      "recent_order_4_show",
+      "recent_order_4_name",
+      "recent_order_4_place",
+      "recent_order_4_time",
+      "recent_order_4_handle",
+      "recent_order_5_show",
+      "recent_order_5_name",
+      "recent_order_5_place",
+      "recent_order_5_time",
+      "recent_order_5_handle",
+      "recent_order_6_show",
+      "recent_order_6_name",
+      "recent_order_6_place",
+      "recent_order_6_time",
+      "recent_order_6_handle"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "2. Các neo icon",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Ngôn ngữ",
+     "keys": [
+      "translate_show",
+      "translate_title",
+      "translate_default",
+      "translate_languages"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Nút Back to top",
+     "keys": [
+      "float_btt_show",
+      "float_btt_mobile"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Nhóm icons",
+     "keys": [],
+     "children": [
+      {
+       "legend": ". Cấu hình chung",
+       "keys": [
+        "float_contact_show",
+        "float_contact_desktop",
+        "float_contact_mobile",
+        "float_contact_group",
+        "float_mobile_label",
+        "float_mobile_status",
+        "float_contact_title",
+        "float_contact_subtitle"
+       ],
+       "children": []
+      },
+      {
+       "legend": ". Cấu hình các icon",
+       "keys": [
+        "float_phone_show",
+        "float_phone_url",
+        "float_phone_desc",
+        "float_email_show",
+        "float_email_url",
+        "float_email_desc",
+        "float_zalo_show",
+        "float_zalo_desc",
+        "float_facebook_show",
+        "float_facebook_desc",
+        "float_messenger_show",
+        "float_messenger_desc",
+        "float_instagram_show",
+        "float_instagram_desc",
+        "float_tiktok_show",
+        "float_tiktok_desc",
+        "float_youtube_show",
+        "float_youtube_desc",
+        "float_shopee_show",
+        "float_shopee_desc",
+        "float_lazada_show",
+        "float_lazada_desc",
+        "float_x_show",
+        "float_x_desc",
+        "float_linkedin_show",
+        "float_linkedin_desc",
+        "float_map_show",
+        "float_map_url",
+        "float_map_desc"
+       ],
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "legend": "3. Đầu trang",
+   "keys": [],
+   "children": [
+    {
+     "legend": "Cấu hình chung",
+     "keys": [
+      "header_sticky_enabled",
+      "header_search_show",
+      "header_account_show",
+      "header_account_use_otp_template"
+     ],
+     "children": []
+    },
+    {
+     "legend": "1. Topbar trang chủ",
+     "keys": [],
+     "children": [
+      {
+       "legend": ".Thiết lập chung",
+       "keys": [
+        "use_topbar",
+        "topbar_bg",
+        "topbar_text",
+        "topbar_text_hover"
+       ],
+       "children": []
+      },
+      {
+       "legend": ".Nội dung thông báo",
+       "keys": [
+        "useContent_topbar_1",
+        "textContent_topbar_1",
+        "urlContent_topbar_1",
+        "useContent_topbar_2",
+        "textContent_topbar_2",
+        "urlContent_topbar_2",
+        "useContent_topbar_3",
+        "textContent_topbar_3",
+        "urlContent_topbar_3"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "2. Menu chính",
+     "keys": [
+      "header_main_menu",
+      "header_mobile_menu_style"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Mega menu kiểu 1",
+     "keys": [
+      "header_mega_1_enabled",
+      "header_mega_1_menu_title",
+      "header_mega_1_collection_show",
+      "header_mega_1_collection_title",
+      "header_mega_1_collection",
+      "header_mega_1_product_limit",
+      "header_mega_1_collection_more_label",
+      "header_mega_1_collection_more_url",
+      "header_mega_1_all_label",
+      "header_mega_1_all_url",
+      "header_mega_1_category_1_show",
+      "header_mega_1_category_1_image.png",
+      "header_mega_1_category_1_alt",
+      "header_mega_1_category_1_title",
+      "header_mega_1_category_1_url",
+      "header_mega_1_category_2_show",
+      "header_mega_1_category_2_image.png",
+      "header_mega_1_category_2_alt",
+      "header_mega_1_category_2_title",
+      "header_mega_1_category_2_url",
+      "header_mega_1_category_3_show",
+      "header_mega_1_category_3_image.png",
+      "header_mega_1_category_3_alt",
+      "header_mega_1_category_3_title",
+      "header_mega_1_category_3_url",
+      "header_mega_1_category_4_show",
+      "header_mega_1_category_4_image.png",
+      "header_mega_1_category_4_alt",
+      "header_mega_1_category_4_title",
+      "header_mega_1_category_4_url",
+      "header_mega_1_links_1_show",
+      "header_mega_1_links_1_title",
+      "header_mega_1_links_1_menu",
+      "header_mega_1_links_2_show",
+      "header_mega_1_links_2_title",
+      "header_mega_1_links_2_menu"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Mega menu kiểu 2",
+     "keys": [
+      "header_mega_2_enabled",
+      "header_mega_2_menu_title",
+      "header_mega_2_more_label",
+      "header_mega_2_more_url",
+      "header_mega_2_category_1_show",
+      "header_mega_2_category_1_image.png",
+      "header_mega_2_category_1_alt",
+      "header_mega_2_category_1_title",
+      "header_mega_2_category_1_url",
+      "header_mega_2_category_2_show",
+      "header_mega_2_category_2_image.png",
+      "header_mega_2_category_2_alt",
+      "header_mega_2_category_2_title",
+      "header_mega_2_category_2_url",
+      "header_mega_2_category_3_show",
+      "header_mega_2_category_3_image.png",
+      "header_mega_2_category_3_alt",
+      "header_mega_2_category_3_title",
+      "header_mega_2_category_3_url",
+      "header_mega_2_category_4_show",
+      "header_mega_2_category_4_image.png",
+      "header_mega_2_category_4_alt",
+      "header_mega_2_category_4_title",
+      "header_mega_2_category_4_url",
+      "header_mega_2_category_5_show",
+      "header_mega_2_category_5_image.png",
+      "header_mega_2_category_5_alt",
+      "header_mega_2_category_5_title",
+      "header_mega_2_category_5_url",
+      "header_mega_2_category_6_show",
+      "header_mega_2_category_6_image.png",
+      "header_mega_2_category_6_alt",
+      "header_mega_2_category_6_title",
+      "header_mega_2_category_6_url",
+      "header_mega_2_category_7_show",
+      "header_mega_2_category_7_image.png",
+      "header_mega_2_category_7_alt",
+      "header_mega_2_category_7_title",
+      "header_mega_2_category_7_url",
+      "header_mega_2_category_8_show",
+      "header_mega_2_category_8_image.png",
+      "header_mega_2_category_8_alt",
+      "header_mega_2_category_8_title",
+      "header_mega_2_category_8_url"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "4. Chân trang",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Cột 1",
+     "keys": [
+      "footer_show",
+      "footer_logo_show",
+      "footer_logo.png",
+      "footer_newsletter_show",
+      "footer_newsletter_title",
+      "footer_newsletter_description",
+      "footer_newsletter_placeholder",
+      "footer_newsletter_button_label"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Cột 2 - Thông tin liên lạc",
+     "keys": [
+      "footer_contact_show",
+      "footer_contact_title",
+      "footer_contact_address",
+      "footer_contact_phone",
+      "footer_contact_email",
+      "footer_contact_extra"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Cột 3",
+     "keys": [
+      "footer_help_show",
+      "footer_help_title",
+      "footer_help_menu"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Cột 4",
+     "keys": [
+      "footer_about_show",
+      "footer_about_title",
+      "footer_about_menu"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Bản quyền và thanh toán",
+     "keys": [
+      "footer_bottom_show",
+      "footer_copyright_show",
+      "footer_copyright",
+      "footer_payment_show",
+      "footer_payment_image.png",
+      "footer_payment_alt"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "5. Haravan App",
+   "keys": [],
+   "children": []
+  },
+  {
+   "legend": "***** Ecommerce Solutions App *****",
+   "keys": [],
+   "children": [
+    {
+     "legend": "App Review",
+     "keys": [
+      "app_review_show",
+      "app_review_app"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "separator": "Thiết lập các trang"
+  },
+  {
+   "legend": "1. Trang chủ",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Slider banner",
+     "keys": [
+      "slide_container",
+      "slide_interval",
+      "slide_text_color",
+      "slide_btn_textcolor",
+      "slide_btn_bgcolor",
+      "slide_btn_textcolor_hover",
+      "slide_btn_bgcolor_hover"
+     ],
+     "children": [
+      {
+       "legend": "1. Trang trình chiếu 1 [Mặc định hiển thị]",
+       "keys": [
+        "slide_1_type",
+        "slide_1_content_position",
+        "slide_1_title",
+        "slide_1_desc",
+        "slide_1_btntitle",
+        "slide_1_btnurl",
+        "slide_1_d_image.png",
+        "slide_1_m_image.png",
+        "slide_1_alt",
+        "slide_1_youtube_url",
+        "slide_1_youtube_content_show",
+        "slide_1_mp4_url",
+        "slide_1_mp4_content_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2. Trang trình chiếu 2",
+       "keys": [
+        "slide_2_show",
+        "slide_2_type",
+        "slide_2_content_position",
+        "slide_2_title",
+        "slide_2_desc",
+        "slide_2_btntitle",
+        "slide_2_btnurl",
+        "slide_2_d_image.png",
+        "slide_2_m_image.png",
+        "slide_2_alt",
+        "slide_2_youtube_url",
+        "slide_2_youtube_content_show",
+        "slide_2_mp4_url",
+        "slide_2_mp4_content_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "3. Trang trình chiếu 3",
+       "keys": [
+        "slide_3_show",
+        "slide_3_type",
+        "slide_3_content_position",
+        "slide_3_title",
+        "slide_3_desc",
+        "slide_3_btntitle",
+        "slide_3_btnurl",
+        "slide_3_d_image.png",
+        "slide_3_m_image.png",
+        "slide_3_alt",
+        "slide_3_youtube_url",
+        "slide_3_youtube_content_show",
+        "slide_3_mp4_url",
+        "slide_3_mp4_content_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "4. Trang trình chiếu 4",
+       "keys": [
+        "slide_4_show",
+        "slide_4_type",
+        "slide_4_content_position",
+        "slide_4_title",
+        "slide_4_desc",
+        "slide_4_btntitle",
+        "slide_4_btnurl",
+        "slide_4_d_image.png",
+        "slide_4_m_image.png",
+        "slide_4_alt",
+        "slide_4_youtube_url",
+        "slide_4_youtube_content_show",
+        "slide_4_mp4_url",
+        "slide_4_mp4_content_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "5. Trang trình chiếu 5",
+       "keys": [
+        "slide_5_show",
+        "slide_5_type",
+        "slide_5_content_position",
+        "slide_5_title",
+        "slide_5_desc",
+        "slide_5_btntitle",
+        "slide_5_btnurl",
+        "slide_5_d_image.png",
+        "slide_5_m_image.png",
+        "slide_5_alt",
+        "slide_5_youtube_url",
+        "slide_5_youtube_content_show",
+        "slide_5_mp4_url",
+        "slide_5_mp4_content_show"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "2. Danh mục nhóm sản phẩm",
+     "keys": [
+      "hcs_show",
+      "hcs_title",
+      "hcs_desc",
+      "hcs_btn_title",
+      "hcs_btn_url"
+     ],
+     "children": [
+      {
+       "legend": "1. Danh mục 1",
+       "keys": [
+        "hcs_1_show",
+        "hcs_1_image.png",
+        "hcs_1_alt",
+        "hcs_1_url",
+        "hcs_1_label"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2. Danh mục 2",
+       "keys": [
+        "hcs_2_show",
+        "hcs_2_image.png",
+        "hcs_2_alt",
+        "hcs_2_url",
+        "hcs_2_label"
+       ],
+       "children": []
+      },
+      {
+       "legend": "3. Danh mục 3",
+       "keys": [
+        "hcs_3_show",
+        "hcs_3_image.png",
+        "hcs_3_alt",
+        "hcs_3_url",
+        "hcs_3_label"
+       ],
+       "children": []
+      },
+      {
+       "legend": "4. Danh mục 4",
+       "keys": [
+        "hcs_4_show",
+        "hcs_4_image.png",
+        "hcs_4_alt",
+        "hcs_4_url",
+        "hcs_4_label"
+       ],
+       "children": []
+      },
+      {
+       "legend": "5. Danh mục 5",
+       "keys": [
+        "hcs_5_show",
+        "hcs_5_image.png",
+        "hcs_5_alt",
+        "hcs_5_url",
+        "hcs_5_label"
+       ],
+       "children": []
+      },
+      {
+       "legend": "6. Danh mục 6",
+       "keys": [
+        "hcs_6_show",
+        "hcs_6_image.png",
+        "hcs_6_alt",
+        "hcs_6_url",
+        "hcs_6_label"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "3. Banner đa phương tiện",
+     "keys": [
+      "hmb_show",
+      "hmb_media_type",
+      "hmb_d_image.png",
+      "hmb_m_image.png",
+      "hmb_alt",
+      "hmb_mp4_url",
+      "hmb_youtube_url",
+      "hmb_content_position",
+      "hmb_title",
+      "hmb_desc",
+      "hmb_btn_title",
+      "hmb_btn_url",
+      "hmb_text_color",
+      "hmb_overlay_opacity"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Chữ chạy",
+     "keys": [
+      "home_marquee_show",
+      "home_marquee_background",
+      "home_marquee_color",
+      "home_marquee_label",
+      "home_marquee_text_1",
+      "home_marquee_image_1.png",
+      "home_marquee_text_2",
+      "home_marquee_image_2.png",
+      "home_marquee_text_3",
+      "home_marquee_direction",
+      "home_marquee_speed",
+      "home_marquee_pausable"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Bộ phối đồ",
+     "keys": [
+      "fox_lookbook_show",
+      "fox_lookbook_eyebrow",
+      "fox_lookbook_title",
+      "fox_lookbook_bg",
+      "fox_lookbook_text",
+      "fox_lookbook_padding_top",
+      "fox_lookbook_padding_bottom",
+      "fox_lookbook_padding_top_mobile",
+      "fox_lookbook_padding_bottom_mobile"
+     ],
+     "children": [
+      {
+       "legend": "Bộ phối đồ 1",
+       "keys": [
+        "fox_lookbook_1_product_handle",
+        "fox_lookbook_1_pin_1_product_handle",
+        "fox_lookbook_1_pin_2_product_handle",
+        "fox_lookbook_1_pin_3_product_handle",
+        "fox_lookbook_1_show",
+        "fox_lookbook_1_image.png",
+        "fox_lookbook_1_alt"
+       ],
+       "children": [
+        {
+         "legend": "Điểm ghim 1",
+         "keys": [
+          "fox_lookbook_1_pin_1_show",
+          "fox_lookbook_1_pin_1_product_url",
+          "fox_lookbook_1_pin_1_x",
+          "fox_lookbook_1_pin_1_y",
+          "fox_lookbook_1_pin_1_x_mobile",
+          "fox_lookbook_1_pin_1_y_mobile"
+         ],
+         "children": []
+        },
+        {
+         "legend": "Điểm ghim 2",
+         "keys": [
+          "fox_lookbook_1_pin_2_show",
+          "fox_lookbook_1_pin_2_product_url",
+          "fox_lookbook_1_pin_2_x",
+          "fox_lookbook_1_pin_2_y",
+          "fox_lookbook_1_pin_2_x_mobile",
+          "fox_lookbook_1_pin_2_y_mobile"
+         ],
+         "children": []
+        },
+        {
+         "legend": "Điểm ghim 3",
+         "keys": [
+          "fox_lookbook_1_pin_3_show",
+          "fox_lookbook_1_pin_3_product_url",
+          "fox_lookbook_1_pin_3_x",
+          "fox_lookbook_1_pin_3_y",
+          "fox_lookbook_1_pin_3_x_mobile",
+          "fox_lookbook_1_pin_3_y_mobile"
+         ],
+         "children": []
+        }
+       ]
+      },
+      {
+       "legend": "Bộ phối đồ 2",
+       "keys": [
+        "fox_lookbook_2_product_handle",
+        "fox_lookbook_2_pin_1_product_handle",
+        "fox_lookbook_2_pin_2_product_handle",
+        "fox_lookbook_2_pin_3_product_handle",
+        "fox_lookbook_2_show",
+        "fox_lookbook_2_image.png",
+        "fox_lookbook_2_alt"
+       ],
+       "children": [
+        {
+         "legend": "Điểm ghim 1",
+         "keys": [
+          "fox_lookbook_2_pin_1_show",
+          "fox_lookbook_2_pin_1_product_url",
+          "fox_lookbook_2_pin_1_x",
+          "fox_lookbook_2_pin_1_y",
+          "fox_lookbook_2_pin_1_x_mobile",
+          "fox_lookbook_2_pin_1_y_mobile"
+         ],
+         "children": []
+        },
+        {
+         "legend": "Điểm ghim 2",
+         "keys": [
+          "fox_lookbook_2_pin_2_show",
+          "fox_lookbook_2_pin_2_product_url",
+          "fox_lookbook_2_pin_2_x",
+          "fox_lookbook_2_pin_2_y",
+          "fox_lookbook_2_pin_2_x_mobile",
+          "fox_lookbook_2_pin_2_y_mobile"
+         ],
+         "children": []
+        },
+        {
+         "legend": "Điểm ghim 3",
+         "keys": [
+          "fox_lookbook_2_pin_3_show",
+          "fox_lookbook_2_pin_3_product_url",
+          "fox_lookbook_2_pin_3_x",
+          "fox_lookbook_2_pin_3_y",
+          "fox_lookbook_2_pin_3_x_mobile",
+          "fox_lookbook_2_pin_3_y_mobile"
+         ],
+         "children": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "legend": "6. Câu chuyện sản phẩm",
+     "keys": [
+      "fox_product_story_show",
+      "fox_product_story_title",
+      "fox_product_story_desc",
+      "fox_product_story_avatar.png",
+      "fox_product_story_bg",
+      "fox_product_story_text",
+      "fox_product_story_padding_top",
+      "fox_product_story_padding_bottom",
+      "fox_product_story_padding_top_mobile",
+      "fox_product_story_padding_bottom_mobile",
+      "fox_product_story_autoplay",
+      "fox_product_story_pause_on_hover",
+      "fox_product_story_hover_preview",
+      "fox_product_story_mobile_preview",
+      "fox_product_story_autoplay_delay",
+      "fox_product_story_transition_duration"
+     ],
+     "children": [
+      {
+       "legend": "Câu chuyện 1",
+       "keys": [
+        "fox_product_story_1_show",
+        "fox_product_story_1_media_type",
+        "fox_product_story_1_poster.jpg",
+        "fox_product_story_1_alt",
+        "fox_product_story_1_youtube_url",
+        "fox_product_story_1_mp4_url",
+        "fox_product_story_1_cta_label",
+        "fox_product_story_1_product_1_handle",
+        "fox_product_story_1_product_2_handle",
+        "fox_product_story_1_product_3_handle",
+        "fox_product_story_1_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 2",
+       "keys": [
+        "fox_product_story_2_show",
+        "fox_product_story_2_media_type",
+        "fox_product_story_2_poster.jpg",
+        "fox_product_story_2_alt",
+        "fox_product_story_2_youtube_url",
+        "fox_product_story_2_mp4_url",
+        "fox_product_story_2_cta_label",
+        "fox_product_story_2_product_1_handle",
+        "fox_product_story_2_product_2_handle",
+        "fox_product_story_2_product_3_handle",
+        "fox_product_story_2_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 3",
+       "keys": [
+        "fox_product_story_3_show",
+        "fox_product_story_3_media_type",
+        "fox_product_story_3_poster.jpg",
+        "fox_product_story_3_alt",
+        "fox_product_story_3_youtube_url",
+        "fox_product_story_3_mp4_url",
+        "fox_product_story_3_cta_label",
+        "fox_product_story_3_product_1_handle",
+        "fox_product_story_3_product_2_handle",
+        "fox_product_story_3_product_3_handle",
+        "fox_product_story_3_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 4",
+       "keys": [
+        "fox_product_story_4_show",
+        "fox_product_story_4_media_type",
+        "fox_product_story_4_poster.jpg",
+        "fox_product_story_4_alt",
+        "fox_product_story_4_youtube_url",
+        "fox_product_story_4_mp4_url",
+        "fox_product_story_4_cta_label",
+        "fox_product_story_4_product_1_handle",
+        "fox_product_story_4_product_2_handle",
+        "fox_product_story_4_product_3_handle",
+        "fox_product_story_4_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 5",
+       "keys": [
+        "fox_product_story_5_show",
+        "fox_product_story_5_media_type",
+        "fox_product_story_5_poster.jpg",
+        "fox_product_story_5_alt",
+        "fox_product_story_5_youtube_url",
+        "fox_product_story_5_mp4_url",
+        "fox_product_story_5_cta_label",
+        "fox_product_story_5_product_1_handle",
+        "fox_product_story_5_product_2_handle",
+        "fox_product_story_5_product_3_handle",
+        "fox_product_story_5_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 6",
+       "keys": [
+        "fox_product_story_6_show",
+        "fox_product_story_6_media_type",
+        "fox_product_story_6_poster.jpg",
+        "fox_product_story_6_alt",
+        "fox_product_story_6_youtube_url",
+        "fox_product_story_6_mp4_url",
+        "fox_product_story_6_cta_label",
+        "fox_product_story_6_product_1_handle",
+        "fox_product_story_6_product_2_handle",
+        "fox_product_story_6_product_3_handle",
+        "fox_product_story_6_product_4_handle"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "7. Đánh giá sản phẩm",
+     "keys": [
+      "fox_testimonial_product_show",
+      "fox_testimonial_product_title",
+      "fox_testimonial_product_desc",
+      "fox_testimonial_product_bg",
+      "fox_testimonial_product_text",
+      "fox_testimonial_product_rating",
+      "fox_testimonial_product_autoplay_delay",
+      "fox_testimonial_product_padding_top",
+      "fox_testimonial_product_padding_bottom",
+      "fox_testimonial_product_1_show",
+      "fox_testimonial_product_1_title",
+      "fox_testimonial_product_1_quote",
+      "fox_testimonial_product_1_name",
+      "fox_testimonial_product_1_product_handle",
+      "fox_testimonial_product_2_show",
+      "fox_testimonial_product_2_title",
+      "fox_testimonial_product_2_quote",
+      "fox_testimonial_product_2_name",
+      "fox_testimonial_product_2_product_handle",
+      "fox_testimonial_product_3_show",
+      "fox_testimonial_product_3_title",
+      "fox_testimonial_product_3_quote",
+      "fox_testimonial_product_3_name",
+      "fox_testimonial_product_3_product_handle",
+      "fox_testimonial_product_4_show",
+      "fox_testimonial_product_4_title",
+      "fox_testimonial_product_4_quote",
+      "fox_testimonial_product_4_name",
+      "fox_testimonial_product_4_product_handle",
+      "fox_testimonial_product_5_show",
+      "fox_testimonial_product_5_title",
+      "fox_testimonial_product_5_quote",
+      "fox_testimonial_product_5_name",
+      "fox_testimonial_product_5_product_handle",
+      "fox_testimonial_product_6_show",
+      "fox_testimonial_product_6_title",
+      "fox_testimonial_product_6_quote",
+      "fox_testimonial_product_6_name",
+      "fox_testimonial_product_6_product_handle"
+     ],
+     "children": []
+    },
+    {
+     "legend": "8. Tab sản phẩm",
+     "keys": [
+      "product_tabs_show",
+      "product_tabs_show_icon",
+      "product_tabs_title",
+      "product_tabs_desc",
+      "product_tabs_cta_label",
+      "product_tabs_cta_url",
+      "product_tabs_limit"
+     ],
+     "children": [
+      {
+       "legend": "Nhóm sản phẩm 1",
+       "keys": [
+        "product_tabs_1_show",
+        "product_tabs_1_label",
+        "product_tabs_1_image.png",
+        "product_tabs_1_collection"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Nhóm sản phẩm 2",
+       "keys": [
+        "product_tabs_2_show",
+        "product_tabs_2_label",
+        "product_tabs_2_image.png",
+        "product_tabs_2_collection"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Nhóm sản phẩm 3",
+       "keys": [
+        "product_tabs_3_show",
+        "product_tabs_3_label",
+        "product_tabs_3_image.png",
+        "product_tabs_3_collection"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Nhóm sản phẩm 4",
+       "keys": [
+        "product_tabs_4_show",
+        "product_tabs_4_label",
+        "product_tabs_4_image.png",
+        "product_tabs_4_collection"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Nhóm sản phẩm 5",
+       "keys": [
+        "product_tabs_5_show",
+        "product_tabs_5_label",
+        "product_tabs_5_image.png",
+        "product_tabs_5_collection"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "9. Ưu đãi đếm ngược",
+     "keys": [
+      "countdown_show",
+      "countdown_d_image.png",
+      "countdown_m_image.png",
+      "countdown_alt",
+      "countdown_badge",
+      "countdown_title",
+      "countdown_desc",
+      "countdown_btn_title",
+      "countdown_btn_url",
+      "countdown_type",
+      "countdown_year",
+      "countdown_month",
+      "countdown_day",
+      "countdown_time",
+      "countdown_text_color",
+      "countdown_overlay_opacity"
+     ],
+     "children": []
+    },
+    {
+     "legend": "10. Hình ảnh phủ nội dung",
+     "keys": [
+      "iwto_show",
+      "iwto_title",
+      "iwto_overlay_opacity"
+     ],
+     "children": [
+      {
+       "legend": "Hình ảnh 1",
+       "keys": [
+        "iwto_1_show",
+        "iwto_1_image.jpg",
+        "iwto_1_alt",
+        "iwto_1_title",
+        "iwto_1_desc",
+        "iwto_1_btn_title",
+        "iwto_1_url"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Hình ảnh 2",
+       "keys": [
+        "iwto_2_show",
+        "iwto_2_image.jpg",
+        "iwto_2_alt",
+        "iwto_2_title",
+        "iwto_2_desc",
+        "iwto_2_btn_title",
+        "iwto_2_url"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Hình ảnh 3",
+       "keys": [
+        "iwto_3_show",
+        "iwto_3_image.jpg",
+        "iwto_3_alt",
+        "iwto_3_title",
+        "iwto_3_desc",
+        "iwto_3_btn_title",
+        "iwto_3_url"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Hình ảnh 4",
+       "keys": [
+        "iwto_4_show",
+        "iwto_4_image.jpg",
+        "iwto_4_alt",
+        "iwto_4_title",
+        "iwto_4_desc",
+        "iwto_4_btn_title",
+        "iwto_4_url"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Hình ảnh 5",
+       "keys": [
+        "iwto_5_show",
+        "iwto_5_image.jpg",
+        "iwto_5_alt",
+        "iwto_5_title",
+        "iwto_5_desc",
+        "iwto_5_btn_title",
+        "iwto_5_url"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "11. Featured product X1",
+     "keys": [],
+     "children": [
+      {
+       "legend": "Cấu hình section",
+       "keys": [
+        "x1_featured_product_show",
+        "x1_featured_product_handle",
+        "x1_featured_product_padding_top_mobile",
+        "x1_featured_product_padding_bottom_mobile",
+        "x1_featured_product_padding_top_desktop",
+        "x1_featured_product_padding_bottom_desktop",
+        "x1_featured_product_show_vendor",
+        "x1_featured_product_show_description",
+        "x1_featured_product_show_inventory",
+        "x1_featured_product_show_buy_now",
+        "x1_featured_product_zoom_show",
+        "x1_featured_product_zoom_scale",
+        "x1_featured_product_coupon_show",
+        "x1_featured_product_coupon_title",
+        "x1_featured_product_coupon_code"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "12. Nội dung cuộn theo hình ảnh",
+     "keys": [
+      "scroll_media_text_show",
+      "scroll_media_text_image.jpg",
+      "scroll_media_text_alt",
+      "scroll_media_text_text_1",
+      "scroll_media_text_text_2",
+      "scroll_media_text_text_3",
+      "scroll_media_text_title",
+      "scroll_media_text_desc",
+      "scroll_media_text_btn_title",
+      "scroll_media_text_btn_url",
+      "scroll_media_text_marquee_color",
+      "scroll_media_text_content_color",
+      "scroll_media_text_overlay_opacity"
+     ],
+     "children": []
+    },
+    {
+     "legend": "13. So sánh hình ảnh",
+     "keys": [
+      "image_compare_show",
+      "image_compare_title",
+      "image_compare_desc",
+      "image_compare_position",
+      "image_compare_left_image.jpg",
+      "image_compare_left_alt",
+      "image_compare_left_label",
+      "image_compare_right_image.jpg",
+      "image_compare_right_alt",
+      "image_compare_right_label"
+     ],
+     "children": []
+    },
+    {
+     "legend": "14. Câu chuyện mới nhất",
+     "keys": [
+      "latest_stories_show",
+      "latest_stories_blog_handle",
+      "latest_stories_title",
+      "latest_stories_desc",
+      "latest_stories_limit",
+      "latest_stories_cta_label"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "2. Trang Nhóm sản phẩm",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Banner header",
+     "keys": [
+      "collection_image_show",
+      "collection_banner.jpg",
+      "collection_banner_mb.jpg",
+      "collection_bgColor",
+      "collection_textColor"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Danh mục đầu trang",
+     "keys": [
+      "col_nav_show",
+      "col_nav_1_show",
+      "col_nav_1_image_show",
+      "col_nav_1_image.png",
+      "col_nav_1_title",
+      "col_nav_1_url",
+      "col_nav_2_show",
+      "col_nav_2_image_show",
+      "col_nav_2_image.png",
+      "col_nav_2_title",
+      "col_nav_2_url",
+      "col_nav_3_show",
+      "col_nav_3_image_show",
+      "col_nav_3_image.png",
+      "col_nav_3_title",
+      "col_nav_3_url",
+      "col_nav_4_show",
+      "col_nav_4_image_show",
+      "col_nav_4_image.png",
+      "col_nav_4_title",
+      "col_nav_4_url",
+      "col_nav_5_show",
+      "col_nav_5_image_show",
+      "col_nav_5_image.png",
+      "col_nav_5_title",
+      "col_nav_5_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Bộ lọc sản phẩm",
+     "keys": [
+      "show_collection_filter",
+      "use_available_filter"
+     ],
+     "children": [
+      {
+       "legend": "3.1. Bộ lọc loại sản phẩm",
+       "keys": [
+        "title_type_filter"
+       ],
+       "children": []
+      },
+      {
+       "legend": "3.2. Bộ lọc nhà cung cấp",
+       "keys": [
+        "title_vendor_filter"
+       ],
+       "children": []
+      },
+      {
+       "legend": "3.3. Bộ lọc giá",
+       "keys": [
+        "title_price_filter",
+        "1_price_to",
+        "2_price_from",
+        "2_price_to",
+        "3_price_from",
+        "3_price_to",
+        "4_price_from",
+        "4_price_to",
+        "5_price_from"
+       ],
+       "children": []
+      },
+      {
+       "legend": "3.4. Bộ lọc màu",
+       "keys": [
+        "title_color_filter",
+        "name_color_filter_1",
+        "code_color_filter_1",
+        "name_color_filter_2",
+        "code_color_filter_2",
+        "name_color_filter_3",
+        "code_color_filter_3",
+        "name_color_filter_4",
+        "code_color_filter_4",
+        "name_color_filter_5",
+        "code_color_filter_5",
+        "name_color_filter_6",
+        "code_color_filter_6",
+        "name_color_filter_7",
+        "code_color_filter_7",
+        "name_color_filter_8",
+        "code_color_filter_8",
+        "name_color_filter_9",
+        "code_color_filter_9",
+        "name_color_filter_10",
+        "code_color_filter_10",
+        "name_color_filter_11",
+        "code_color_filter_11",
+        "name_color_filter_12",
+        "code_color_filter_12",
+        "name_color_filter_13",
+        "code_color_filter_13",
+        "name_color_filter_14",
+        "code_color_filter_14",
+        "name_color_filter_15",
+        "code_color_filter_15",
+        "name_color_filter_16",
+        "code_color_filter_16",
+        "name_color_filter_17",
+        "code_color_filter_17",
+        "name_color_filter_18",
+        "code_color_filter_18",
+        "name_color_filter_19",
+        "code_color_filter_19",
+        "name_color_filter_20",
+        "code_color_filter_20",
+        "name_color_filter_21",
+        "code_color_filter_21"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.5. Bộ lọc kích thước (product variant)",
+       "keys": [
+        "use_size_filter",
+        "title_size_filter",
+        "values_size_filter"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.6. Bộ lọc theo tag 1 (product tag)",
+       "keys": [
+        "use_tag1_filter",
+        "title_tag1_filter",
+        "content_tag1_filter"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.7. Bộ lọc theo tag 2 (product tag)",
+       "keys": [
+        "use_tag2_filter",
+        "title_tag2_filter",
+        "content_tag2_filter"
+       ],
+       "children": []
+      }
+     ]
+    },
+    {
+     "legend": "4. Phân trang",
+     "keys": [
+      "pagination_limit",
+      "fox_collection_show_count"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Thẻ sản phẩm",
+     "keys": [
+      "product_show_type",
+      "product_label_prefix_1",
+      "label1_bg_color",
+      "label1_text_color",
+      "product_label_prefix_2",
+      "label2_bg_color",
+      "label2_text_color",
+      "product_soldout",
+      "swatch_limit"
+     ],
+     "children": []
+    },
+    {
+     "legend": "6. Cam kết mua sắm",
+     "keys": [
+      "collection_policy_show",
+      "collection_policy_1_title",
+      "collection_policy_1_desc",
+      "collection_policy_2_title",
+      "collection_policy_2_desc",
+      "collection_policy_3_title",
+      "collection_policy_3_desc",
+      "collection_policy_4_title",
+      "collection_policy_4_desc"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "3. Trang sản phẩm",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Có thể bạn cũng thích",
+     "keys": [
+      "product_related_show",
+      "product_related_title",
+      "product_related_collection",
+      "product_related_limit"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Sản phẩm đã xem",
+     "keys": [
+      "recently_viewed_show",
+      "recently_viewed_title",
+      "recently_viewed_limit"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Tab thông tin sản phẩm",
+     "keys": [
+      "product_info_tab_1_show",
+      "product_info_tab_1_title",
+      "product_info_tab_1_content",
+      "product_info_tab_2_show",
+      "product_info_tab_2_title",
+      "product_info_tab_2_content",
+      "product_review_tab_show",
+      "product_review_tab_title"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Câu hỏi thường gặp (bên cạnh mô tả)",
+     "keys": [
+      "product_faq_show",
+      "product_faq_eyebrow",
+      "product_faq_title",
+      "product_faq_desc",
+      "product_faq_1_question",
+      "product_faq_1_answer",
+      "product_faq_2_question",
+      "product_faq_2_answer",
+      "product_faq_3_question",
+      "product_faq_3_answer",
+      "product_faq_4_question",
+      "product_faq_4_answer",
+      "product_faq_5_question",
+      "product_faq_5_answer",
+      "product_faq_link_title",
+      "product_faq_link_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Hỗ trợ mua hàng (dưới câu hỏi thường gặp)",
+     "keys": [
+      "product_support_show",
+      "product_support_size_title",
+      "product_support_size_desc",
+      "product_support_size_url",
+      "product_support_chat_title",
+      "product_support_chat_url",
+      "product_support_call_title",
+      "product_support_call_url",
+      "product_support_note"
+     ],
+     "children": []
+    },
+    {
+     "legend": "6. Hướng dẫn chọn size",
+     "keys": [
+      "size_guide_show",
+      "size_guide_title",
+      "size_guide_subtitle",
+      "size_guide_button_label",
+      "size_guide_table_label",
+      "size_guide_page_url",
+      "size_guide_finder_label",
+      "size_guide_sheet_url",
+      "size_guide_finder_note"
+     ],
+     "children": []
+    },
+    {
+     "legend": "7. Thanh mua nhanh",
+     "keys": [
+      "sticky_buy_show",
+      "sticky_buy_desktop",
+      "sticky_buy_mobile"
+     ],
+     "children": []
+    },
+    {
+     "legend": "8. Còn hàng tại cửa hàng",
+     "keys": [
+      "store_stock_show",
+      "store_stock_title",
+      "store_stock_preview"
+     ],
+     "children": []
+    },
+    {
+     "legend": "9. Chia sẻ",
+     "keys": [
+      "product_show_share",
+      "share_facebook",
+      "share_messenger",
+      "share_x",
+      "share_email",
+      "share_copy",
+      "share_native"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "4. Trang tài khoản",
+   "keys": [
+    "customer_auth_banner_show",
+    "customer_auth_banner_desktop.jpg",
+    "customer_auth_banner_mobile.jpg",
+    "customer_auth_overlay_opacity",
+    "customer_auth_login_title",
+    "customer_auth_login_description",
+    "customer_auth_social_login",
+    "customer_auth_register_title",
+    "customer_auth_register_description"
+   ],
+   "children": []
+  },
+  {
+   "legend": "5. Trang danh sách bài viết",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Cấu hình chung",
+     "keys": [
+      "blog_page_size",
+      "blog_mobile_columns",
+      "blog_read_more_label"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Sidebar",
+     "keys": [
+      "blog_show_sidebar",
+      "blog_menu",
+      "blog_menu_title",
+      "blog_show_recent",
+      "blog_recent_title"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "6. Trang chi tiết bài viết",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Banner",
+     "keys": [
+      "article_banner_show",
+      "article_banner_desktop.jpg",
+      "article_banner_mobile.jpg",
+      "article_banner_overlay_opacity"
+     ],
+     "children": []
+    },
+    {
+     "legend": "1. Nội dung bài viết",
+     "keys": [
+      "article_show_share",
+      "article_show_toc",
+      "article_toc_title"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Sidebar",
+     "keys": [
+      "article_show_sidebar",
+      "article_menu",
+      "article_menu_title",
+      "article_show_recent",
+      "article_recent_title"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Bài viết liên quan",
+     "keys": [
+      "article_show_related",
+      "article_related_limit",
+      "article_related_title",
+      "article_read_more_label"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "7. Trang giỏ hàng &amp; Minicart",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Mini cart đầu trang",
+     "keys": [
+      "header_cart_show",
+      "cart_free_shipping_show",
+      "cart_free_shipping_threshold",
+      "cart_recommendation_show",
+      "cart_recommendation_title",
+      "cart_recommendation_collection",
+      "cart_recommendation_limit",
+      "cart_collection_tabs_show",
+      "cart_collection_tabs_title",
+      "cart_collection_tab_1_show",
+      "cart_collection_tab_1_title",
+      "cart_collection_tab_1_url",
+      "cart_collection_tab_2_show",
+      "cart_collection_tab_2_title",
+      "cart_collection_tab_2_url",
+      "cart_collection_tab_3_show",
+      "cart_collection_tab_3_title",
+      "cart_collection_tab_3_url",
+      "cart_collection_tab_4_show",
+      "cart_collection_tab_4_title",
+      "cart_collection_tab_4_url",
+      "cart_collection_tab_5_show",
+      "cart_collection_tab_5_title",
+      "cart_collection_tab_5_url",
+      "cart_note_label",
+      "cart_note_placeholder"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Trang giỏ hàng",
+     "keys": [],
+     "children": [
+      {
+       "legend": "2.1. Thời gian giao hàng",
+       "keys": [
+        "cart_page_delivery_show",
+        "cart_page_delivery_title",
+        "cart_page_delivery_start",
+        "cart_page_delivery_end",
+        "cart_page_delivery_tip"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.2. Khuyến mãi dành cho bạn",
+       "keys": [
+        "cart_page_coupons_show",
+        "cart_page_coupons_title",
+        "cart_page_coupon_1_show",
+        "cart_page_coupon_1_code",
+        "cart_page_coupon_1_title",
+        "cart_page_coupon_1_desc",
+        "cart_page_coupon_2_show",
+        "cart_page_coupon_2_code",
+        "cart_page_coupon_2_title",
+        "cart_page_coupon_2_desc",
+        "cart_page_coupon_3_show",
+        "cart_page_coupon_3_code",
+        "cart_page_coupon_3_title",
+        "cart_page_coupon_3_desc",
+        "cart_page_coupon_4_show",
+        "cart_page_coupon_4_code",
+        "cart_page_coupon_4_title",
+        "cart_page_coupon_4_desc",
+        "cart_page_coupon_5_show",
+        "cart_page_coupon_5_code",
+        "cart_page_coupon_5_title",
+        "cart_page_coupon_5_desc"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.3. Ghi chú &amp; xuất hoá đơn",
+       "keys": [
+        "cart_page_note_title",
+        "cart_page_note_placeholder",
+        "cart_page_invoice_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.4. Có thể bạn sẽ thích",
+       "keys": [
+        "cart_page_recommend_show",
+        "cart_page_recommend_title",
+        "cart_page_recommend_collection",
+        "cart_page_recommend_limit"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.5. Cam kết mua sắm",
+       "keys": [
+        "cart_page_policy_show"
+       ],
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "legend": "8. Trang Tìm kiếm & Dropdown Search",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Dropdown Search",
+     "keys": [
+      "smartsearch_title",
+      "smartsearch_placeholder",
+      "smartsearch_type",
+      "smartsearch_result_rows",
+      "smartsearch_result_limit",
+      "smartsearch_article_limit",
+      "smartsearch_empty_text",
+      "smartsearch_recent_show",
+      "smartsearch_recent_title",
+      "smartsearch_suggest_show",
+      "smartsearch_suggest_title",
+      "smartsearch_suggest_menu",
+      "smartsearch_product_show",
+      "smartsearch_product_title",
+      "smartsearch_empty_recommend_title",
+      "smartsearch_product_collection",
+      "smartsearch_product_limit"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Trang tìm kiếm",
+     "keys": [],
+     "children": [
+      {
+       "legend": "2.1. Bộ lọc sản phẩm",
+       "keys": [
+        "smartsearch_page_filter_show"
+       ],
+       "children": []
+      },
+      {
+       "legend": "2.2. Dòng tìm nhiều",
+       "keys": [
+        "smartsearch_page_popular_label"
+       ],
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "legend": "9. Trang nội dung",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Thanh bên",
+     "keys": [
+      "page_show_sidebar",
+      "page_menu",
+      "page_menu_title",
+      "page_show_recent",
+      "page_recent_blog",
+      "page_recent_title"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Cam kết mua sắm",
+     "keys": [
+      "page_policy_show"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "10. Trang liên hệ [page.contact]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Đầu trang",
+     "keys": [
+      "contact_eyebrow",
+      "contact_title",
+      "contact_desc"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Bốn thẻ liên hệ",
+     "keys": [
+      "contact_address_show",
+      "contact_address_title",
+      "contact_address",
+      "contact_address_note",
+      "contact_directions_url",
+      "contact_address_cta",
+      "contact_phone_show",
+      "contact_phone_title",
+      "contact_phone",
+      "contact_phone_note",
+      "contact_phone_cta",
+      "contact_email_show",
+      "contact_email_title",
+      "contact_email",
+      "contact_email_note",
+      "contact_email_cta",
+      "contact_stores_show",
+      "contact_stores_title",
+      "contact_stores_value",
+      "contact_stores_note",
+      "contact_stores_url",
+      "contact_stores_cta",
+      "contact_hours_show",
+      "contact_hours_title",
+      "contact_hours_1_label",
+      "contact_hours_1_value",
+      "contact_hours_2_label",
+      "contact_hours_2_value"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Form liên hệ",
+     "keys": [
+      "contact_form_show",
+      "contact_form_title",
+      "contact_form_desc",
+      "contact_topics_label",
+      "contact_topics",
+      "contact_submit_label",
+      "contact_success"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Google Map",
+     "keys": [
+      "contact_map_show",
+      "contact_map_title",
+      "contact_map_embed",
+      "contact_map_cta",
+      "contact_map_url"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "11. Trang Về chúng tôi [page.about]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Hero mở đầu",
+     "keys": [
+      "about_hero_show",
+      "about_hero_image.jpg",
+      "about_hero_alt",
+      "about_hero_eyebrow",
+      "about_hero_title",
+      "about_hero_desc",
+      "about_hero_btn_title",
+      "about_hero_btn_url",
+      "about_hero_btn2_title",
+      "about_hero_btn2_url",
+      "about_hero_side_1_image.jpg",
+      "about_hero_side_1_alt",
+      "about_hero_side_1_url",
+      "about_hero_side_2_image.jpg",
+      "about_hero_side_2_alt",
+      "about_hero_side_2_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Tuyên ngôn thương hiệu",
+     "keys": [
+      "about_statement_show",
+      "about_statement_label",
+      "about_statement_text_1",
+      "about_statement_image_1.jpg",
+      "about_statement_text_2",
+      "about_statement_image_2.jpg",
+      "about_statement_text_3"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Dải chữ chuyển động",
+     "keys": [
+      "about_marquee_show",
+      "about_marquee_text_1",
+      "about_marquee_image_1.jpg",
+      "about_marquee_text_2",
+      "about_marquee_image_2.jpg",
+      "about_marquee_text_3"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Hậu trường xưởng may",
+     "keys": [
+      "about_workshop_show",
+      "about_workshop_title",
+      "about_workshop_desc",
+      "about_workshop_1_image.jpg",
+      "about_workshop_1_caption",
+      "about_workshop_2_image.jpg",
+      "about_workshop_2_caption",
+      "about_workshop_3_image.jpg",
+      "about_workshop_3_caption",
+      "about_workshop_4_image.jpg",
+      "about_workshop_4_caption"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Hành trình sản phẩm",
+     "keys": [
+      "about_process_show",
+      "about_process_title",
+      "about_process_desc",
+      "about_process_1_image.jpg",
+      "about_process_1_title",
+      "about_process_1_desc",
+      "about_process_2_image.jpg",
+      "about_process_2_title",
+      "about_process_2_desc",
+      "about_process_3_image.jpg",
+      "about_process_3_title",
+      "about_process_3_desc",
+      "about_process_4_image.jpg",
+      "about_process_4_title",
+      "about_process_4_desc"
+     ],
+     "children": []
+    },
+    {
+     "legend": "6. Trích dẫn nổi bật",
+     "keys": [
+      "about_quote_show",
+      "about_quote_image.jpg",
+      "about_quote_text",
+      "about_quote_author"
+     ],
+     "children": []
+    },
+    {
+     "legend": "7. Hai phong cách",
+     "keys": [
+      "about_duo_show",
+      "about_duo_title",
+      "about_duo_desc",
+      "about_duo_1_image.jpg",
+      "about_duo_1_label",
+      "about_duo_1_title",
+      "about_duo_1_desc",
+      "about_duo_1_url",
+      "about_duo_2_image.jpg",
+      "about_duo_2_label",
+      "about_duo_2_title",
+      "about_duo_2_desc",
+      "about_duo_2_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "8. Giá trị cốt lõi",
+     "keys": [
+      "about_values_show",
+      "about_values_title",
+      "about_values_desc",
+      "about_value_1_image.jpg",
+      "about_value_1_title",
+      "about_value_1_desc",
+      "about_value_1_tag",
+      "about_value_2_image.jpg",
+      "about_value_2_title",
+      "about_value_2_desc",
+      "about_value_2_tag",
+      "about_value_3_image.jpg",
+      "about_value_3_title",
+      "about_value_3_desc",
+      "about_value_3_tag"
+     ],
+     "children": []
+    },
+    {
+     "legend": "9. Cộng đồng",
+     "keys": [
+      "about_community_show",
+      "about_community_title",
+      "about_community_desc",
+      "about_community_btn_title",
+      "about_community_btn_url",
+      "about_community_1_image.jpg",
+      "about_community_1_handle",
+      "about_community_2_image.jpg",
+      "about_community_2_handle",
+      "about_community_3_image.jpg",
+      "about_community_3_handle",
+      "about_community_4_image.jpg",
+      "about_community_4_handle",
+      "about_community_5_image.jpg",
+      "about_community_5_handle",
+      "about_community_6_image.jpg",
+      "about_community_6_handle",
+      "about_community_7_image.jpg",
+      "about_community_7_handle",
+      "about_community_8_image.jpg",
+      "about_community_8_handle",
+      "about_community_9_image.jpg",
+      "about_community_9_handle"
+     ],
+     "children": []
+    },
+    {
+     "legend": "10. Lời mời khép trang",
+     "keys": [
+      "about_cta_show",
+      "about_cta_image.jpg",
+      "about_cta_title",
+      "about_cta_desc",
+      "about_cta_btn_title",
+      "about_cta_btn_url",
+      "about_cta_btn2_title",
+      "about_cta_btn2_url"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "12. Trang công nghệ chất liệu [page.fabric-lab]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Hero mở đầu",
+     "keys": [
+      "fabric_hero_show",
+      "fabric_hero_image.jpg",
+      "fabric_hero_image_alt",
+      "fabric_hero_eyebrow",
+      "fabric_hero_title",
+      "fabric_hero_desc",
+      "fabric_stat_1_value",
+      "fabric_stat_1_label",
+      "fabric_stat_2_value",
+      "fabric_stat_2_label",
+      "fabric_stat_3_value",
+      "fabric_stat_3_label"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Công nghệ chất liệu",
+     "keys": [
+      "fabric_tech_show",
+      "fabric_tech_eyebrow",
+      "fabric_tech_title",
+      "fabric_tech_1_show",
+      "fabric_tech_1_image.png",
+      "fabric_tech_1_title",
+      "fabric_tech_1_desc",
+      "fabric_tech_1_level",
+      "fabric_tech_2_show",
+      "fabric_tech_2_image.png",
+      "fabric_tech_2_title",
+      "fabric_tech_2_desc",
+      "fabric_tech_2_level",
+      "fabric_tech_3_show",
+      "fabric_tech_3_image.png",
+      "fabric_tech_3_title",
+      "fabric_tech_3_desc",
+      "fabric_tech_3_level",
+      "fabric_tech_4_show",
+      "fabric_tech_4_image.png",
+      "fabric_tech_4_title",
+      "fabric_tech_4_desc",
+      "fabric_tech_4_level"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. So sánh dòng vải",
+     "keys": [
+      "fabric_compare_show",
+      "fabric_compare_eyebrow",
+      "fabric_compare_title",
+      "fabric_line_1_show",
+      "fabric_line_1_name",
+      "fabric_line_1_feel",
+      "fabric_line_1_stretch",
+      "fabric_line_1_air",
+      "fabric_line_1_use",
+      "fabric_line_2_show",
+      "fabric_line_2_name",
+      "fabric_line_2_feel",
+      "fabric_line_2_stretch",
+      "fabric_line_2_air",
+      "fabric_line_2_use",
+      "fabric_line_3_show",
+      "fabric_line_3_name",
+      "fabric_line_3_feel",
+      "fabric_line_3_stretch",
+      "fabric_line_3_air",
+      "fabric_line_3_use",
+      "fabric_line_4_show",
+      "fabric_line_4_name",
+      "fabric_line_4_feel",
+      "fabric_line_4_stretch",
+      "fabric_line_4_air",
+      "fabric_line_4_use",
+      "fabric_line_5_show",
+      "fabric_line_5_name",
+      "fabric_line_5_feel",
+      "fabric_line_5_stretch",
+      "fabric_line_5_air",
+      "fabric_line_5_use",
+      "fabric_line_6_show",
+      "fabric_line_6_name",
+      "fabric_line_6_feel",
+      "fabric_line_6_stretch",
+      "fabric_line_6_air",
+      "fabric_line_6_use",
+      "fabric_line_7_show",
+      "fabric_line_7_name",
+      "fabric_line_7_feel",
+      "fabric_line_7_stretch",
+      "fabric_line_7_air",
+      "fabric_line_7_use",
+      "fabric_line_8_show",
+      "fabric_line_8_name",
+      "fabric_line_8_feel",
+      "fabric_line_8_stretch",
+      "fabric_line_8_air",
+      "fabric_line_8_use",
+      "fabric_line_9_show",
+      "fabric_line_9_name",
+      "fabric_line_9_feel",
+      "fabric_line_9_stretch",
+      "fabric_line_9_air",
+      "fabric_line_9_use",
+      "fabric_line_10_show",
+      "fabric_line_10_name",
+      "fabric_line_10_feel",
+      "fabric_line_10_stretch",
+      "fabric_line_10_air",
+      "fabric_line_10_use"
+     ],
+     "children": []
+    },
+    {
+     "legend": "4. Bộ đồ gợi ý Yoga",
+     "keys": [
+      "fabric_yoga_show",
+      "fabric_yoga_image.jpg",
+      "fabric_yoga_image_alt",
+      "fabric_yoga_eyebrow",
+      "fabric_yoga_title",
+      "fabric_yoga_product_1",
+      "fabric_yoga_product_2",
+      "fabric_yoga_product_3",
+      "fabric_yoga_product_4",
+      "fabric_yoga_product_5",
+      "fabric_yoga_bundle_label",
+      "fabric_yoga_tips_title",
+      "fabric_yoga_tip_1",
+      "fabric_yoga_tip_2",
+      "fabric_yoga_tip_3"
+     ],
+     "children": []
+    },
+    {
+     "legend": "5. Bộ đồ gợi ý Pilates",
+     "keys": [
+      "fabric_pilates_show",
+      "fabric_pilates_image.jpg",
+      "fabric_pilates_image_alt",
+      "fabric_pilates_eyebrow",
+      "fabric_pilates_title",
+      "fabric_pilates_product_1",
+      "fabric_pilates_product_2",
+      "fabric_pilates_product_3",
+      "fabric_pilates_product_4",
+      "fabric_pilates_product_5",
+      "fabric_pilates_bundle_label",
+      "fabric_pilates_tips_title",
+      "fabric_pilates_tip_1",
+      "fabric_pilates_tip_2",
+      "fabric_pilates_tip_3"
+     ],
+     "children": []
+    },
+    {
+     "legend": "6. Bảo quản",
+     "keys": [
+      "fabric_care_show",
+      "fabric_care_image.jpg",
+      "fabric_care_image_alt",
+      "fabric_care_eyebrow",
+      "fabric_care_title",
+      "fabric_care_desc",
+      "fabric_care_1_show",
+      "fabric_care_1_image.png",
+      "fabric_care_1_text",
+      "fabric_care_2_show",
+      "fabric_care_2_image.png",
+      "fabric_care_2_text",
+      "fabric_care_3_show",
+      "fabric_care_3_image.png",
+      "fabric_care_3_text",
+      "fabric_care_4_show",
+      "fabric_care_4_image.png",
+      "fabric_care_4_text"
+     ],
+     "children": []
+    },
+    {
+     "legend": "7. Bộ sưu tập theo chất liệu",
+     "keys": [
+      "fabric_story_show",
+      "fabric_story_title",
+      "fabric_story_desc",
+      "fabric_story_avatar.png",
+      "fabric_story_bg",
+      "fabric_story_text",
+      "fabric_story_padding_top",
+      "fabric_story_padding_bottom",
+      "fabric_story_padding_top_mobile",
+      "fabric_story_padding_bottom_mobile",
+      "fabric_story_pause_on_hover",
+      "fabric_story_hover_preview",
+      "fabric_story_mobile_preview"
+     ],
+     "children": [
+      {
+       "legend": "Câu chuyện 1",
+       "keys": [
+        "fabric_story_1_show",
+        "fabric_story_1_media_type",
+        "fabric_story_1_poster.jpg",
+        "fabric_story_1_alt",
+        "fabric_story_1_mp4_url",
+        "fabric_story_1_cta_label",
+        "fabric_story_1_product_1_handle",
+        "fabric_story_1_product_2_handle",
+        "fabric_story_1_product_3_handle",
+        "fabric_story_1_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 2",
+       "keys": [
+        "fabric_story_2_show",
+        "fabric_story_2_media_type",
+        "fabric_story_2_poster.jpg",
+        "fabric_story_2_alt",
+        "fabric_story_2_mp4_url",
+        "fabric_story_2_cta_label",
+        "fabric_story_2_product_1_handle",
+        "fabric_story_2_product_2_handle",
+        "fabric_story_2_product_3_handle",
+        "fabric_story_2_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 3",
+       "keys": [
+        "fabric_story_3_show",
+        "fabric_story_3_media_type",
+        "fabric_story_3_poster.jpg",
+        "fabric_story_3_alt",
+        "fabric_story_3_mp4_url",
+        "fabric_story_3_cta_label",
+        "fabric_story_3_product_1_handle",
+        "fabric_story_3_product_2_handle",
+        "fabric_story_3_product_3_handle",
+        "fabric_story_3_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 4",
+       "keys": [
+        "fabric_story_4_show",
+        "fabric_story_4_media_type",
+        "fabric_story_4_poster.jpg",
+        "fabric_story_4_alt",
+        "fabric_story_4_mp4_url",
+        "fabric_story_4_cta_label",
+        "fabric_story_4_product_1_handle",
+        "fabric_story_4_product_2_handle",
+        "fabric_story_4_product_3_handle",
+        "fabric_story_4_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 5",
+       "keys": [
+        "fabric_story_5_show",
+        "fabric_story_5_media_type",
+        "fabric_story_5_poster.jpg",
+        "fabric_story_5_alt",
+        "fabric_story_5_mp4_url",
+        "fabric_story_5_cta_label",
+        "fabric_story_5_product_1_handle",
+        "fabric_story_5_product_2_handle",
+        "fabric_story_5_product_3_handle",
+        "fabric_story_5_product_4_handle"
+       ],
+       "children": []
+      },
+      {
+       "legend": "Câu chuyện 6",
+       "keys": [
+        "fabric_story_6_show",
+        "fabric_story_6_media_type",
+        "fabric_story_6_poster.jpg",
+        "fabric_story_6_alt",
+        "fabric_story_6_mp4_url",
+        "fabric_story_6_cta_label",
+        "fabric_story_6_product_1_handle",
+        "fabric_story_6_product_2_handle",
+        "fabric_story_6_product_3_handle",
+        "fabric_story_6_product_4_handle"
+       ],
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "legend": "13. Trang FAQ [page.faq]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Nội dung chung",
+     "keys": [
+      "faq_title",
+      "faq_desc",
+      "faq_search_placeholder",
+      "faq_blog_handle",
+      "faq_help_title",
+      "faq_help_desc"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Liên hệ hỗ trợ",
+     "keys": [
+      "faq_contact_show",
+      "faq_contact_title",
+      "faq_contact_desc",
+      "faq_contact_1_title",
+      "faq_contact_1_desc",
+      "faq_contact_1_url",
+      "faq_contact_2_title",
+      "faq_contact_2_desc",
+      "faq_contact_2_url",
+      "faq_contact_3_title",
+      "faq_contact_3_desc",
+      "faq_contact_3_url"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "14. Trang yêu thích [page.wishlist]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Cài đặt chung",
+     "keys": [
+      "wishlist_show",
+      "header_wishlist_show",
+      "wishlist_page_url"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Trang yêu thích",
+     "keys": [
+      "wishlist_title",
+      "wishlist_clear_label",
+      "wishlist_confirm_clear",
+      "wishlist_summary_title",
+      "wishlist_share_label",
+      "wishlist_shared_title",
+      "wishlist_save_shared_label",
+      "wishlist_view_own_label",
+      "wishlist_empty_title",
+      "wishlist_empty_text",
+      "wishlist_empty_cta",
+      "wishlist_empty_url"
+     ],
+     "children": []
+    }
+   ]
+  },
+  {
+   "legend": "15. Trang hướng dẫn chọn size [page.size-guide]",
+   "keys": [],
+   "children": [
+    {
+     "legend": "1. Đầu trang",
+     "keys": [
+      "sgp_eyebrow",
+      "sgp_title",
+      "sgp_desc",
+      "sgp_animate"
+     ],
+     "children": []
+    },
+    {
+     "legend": "2. Các bước",
+     "keys": [
+      "sgp_steps_show",
+      "sgp_step_1_title",
+      "sgp_step_1_desc",
+      "sgp_step_2_title",
+      "sgp_step_2_desc",
+      "sgp_step_3_title",
+      "sgp_step_3_desc"
+     ],
+     "children": []
+    },
+    {
+     "legend": "3. Mẹo chọn size",
+     "keys": [
+      "sgp_tips_show",
+      "sgp_tip_link_label",
+      "sgp_tip_1_title",
+      "sgp_tip_1_desc",
+      "sgp_tip_1_url",
+      "sgp_tip_2_title",
+      "sgp_tip_2_desc",
+      "sgp_tip_2_url",
+      "sgp_tip_3_title",
+      "sgp_tip_3_desc",
+      "sgp_tip_3_url"
+     ],
+     "children": []
+    }
+   ]
+  }
+ ]
+}

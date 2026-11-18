@@ -6,7 +6,7 @@
 {%- if search_rail_count > 0 -%}
 {%- assign search_rail_saved_product = product -%}
 {%- capture search_rail_head -%}
-  <p class="fox-search__heading" data-role="rail-title">{{ rail_title }}</p>
+  <p class="fox-search__heading{% if rail_title_class != blank %} {{ rail_title_class }}{% endif %}" data-role="rail-title">{{ rail_title }}</p>
 {%- endcapture -%}
 <div class="fox-search__rail" data-role="rail">
   {%- if search_rail_count > search_rail_per_page -%}
@@ -73,3 +73,4 @@
 {%- endif -%}
 {%- assign rail_link_url = blank -%}
 {%- assign rail_link_label = blank -%}
+{%- assign rail_title_class = blank -%}

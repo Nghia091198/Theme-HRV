@@ -103,21 +103,21 @@ file riêng của giao diện dùng tên tính năng không prefix.
 
 ```text
 Theme/assets/
-├── core-foundation-dom.js
-├── core-foundation-events.js
-├── core-foundation-focus.js
-├── core-component-slider.js
-├── core-component-tabs.js
-├── core-component-drawer.js
-├── core-component-modal.js
-├── core-commerce-cart.js
-├── core-commerce-product-form.js
-├── core-commerce-search.js
+├── cpn-dom.js
+├── cpn-events.js
+├── cpn-focus.js
+├── cpn-slider.js
+├── cpn-tabs.js
+├── cpn-drawer.js
+├── cpn-modal.js
+├── cart.js
+├── product-form.js
+├── search.js
 ├── core-foundation.css
-├── core-component-slider.css
-├── core-component-tabs.css
-├── core-component-drawer.css
-├── core-commerce-cart.css
+├── cpn-slider.css
+├── cpn-tabs.css
+├── cpn-drawer.css
+├── cart.css
 ├── section.css
 ├── media-progress.css
 ├── global.css

@@ -13,5 +13,30 @@
   "[liquid]": {
     "editor.defaultFormatter": "hookyqr.beautify",
     "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "files.trimTrailingWhitespace": false,
+    "files.eol": "\r\n"
+  },
+  "[json]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "files.trimTrailingWhitespace": false
+  },
+  "html.format.enable": false,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "config[\\\\/]settings\\.html$",
+        "isAsync": false,
+        "cmd": "node \"${workspaceFolder}/scripts/format-settings-html.mjs\" --write \"--file=${file}\" && node \"${workspaceFolder}/scripts/settings-lock.mjs\""
+      }
+    ]
   }
 }

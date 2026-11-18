@@ -1,0 +1,78 @@
+{%- capture look_prefix -%}fabric_{{ look_key }}_{%- endcapture -%}
+{%- capture look_eyebrow_key -%}{{ look_prefix }}eyebrow{%- endcapture -%}
+{%- capture look_title_key -%}{{ look_prefix }}title{%- endcapture -%}
+{%- capture look_image_key -%}{{ look_prefix }}image.jpg{%- endcapture -%}
+{%- capture look_alt_key -%}{{ look_prefix }}image_alt{%- endcapture -%}
+{%- capture look_tips_title_key -%}{{ look_prefix }}tips_title{%- endcapture -%}
+{%- capture look_bundle_key -%}{{ look_prefix }}bundle_label{%- endcapture -%}
+{%- assign look_image_alt = settings[look_alt_key] | default: settings[look_title_key] | strip | escape -%}
+{%- assign look_total = 0 -%}
+{%- assign look_variant_ids = '' -%}
+
+{%- capture look_products -%}
+  {%- for product_index in (1..5) -%}
+    {%- capture product_key -%}{{ look_prefix }}product_{{ product_index }}{%- endcapture -%}
+    {%- assign product_handle = settings[product_key] | split: '/products/' | last | split: '?' | first | split: '#' | first | remove: '/' | strip -%}
+    {%- if product_handle != blank -%}
+      {%- assign look_product = collections.all.products[product_handle] -%}
+      {%- if look_product.available -%}
+        {%- assign look_variant = look_product.variants.first -%}
+        {%- assign look_variant_found = false -%}
+        {%- for variant in look_product.variants -%}
+          {%- unless look_variant_found -%}{%- if variant.available -%}{%- assign look_variant = variant -%}{%- assign look_variant_found = true -%}{%- endif -%}{%- endunless -%}
+        {%- endfor -%}
+        {%- assign look_total = look_total | plus: look_variant.price -%}
+        {%- assign look_variant_ids = look_variant_ids | append: look_variant.id | append: ',' -%}
+        <li class="fox-lab-look__item">
+          <a class="fox-lab-look__thumb" href="{{ look_product.url }}">
+            <img src="{{ look_product.featured_image.src | product_img_url: 'medium' }}" alt="{{ look_product.title | escape }}" width="160" height="200" loading="lazy" decoding="async">
+          </a>
+          <div class="fox-lab-look__info">
+            <a class="fox-lab-look__name" href="{{ look_product.url }}">{{ look_product.title }}</a>
+            <span class="fox-lab-look__price">{{ look_variant.price | money }}</span>
+          </div>
+          <add-to-cart data-variant-id="{{ look_variant.id }}">
+            <button type="button" class="fox-lab-look__add" data-role="trigger" aria-label="Thêm {{ look_product.title | escape }} vào giỏ">+</button>
+          </add-to-cart>
+        </li>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<section class="fox-lab-look{% if look_flip %} fox-lab-look--flip{% endif %}" aria-labelledby="fox-lab-look-{{ look_key }}">
+  <div class="fox-page-media fox-lab-look__media">
+    {%- include 'render-img' with src: look_image_key, alt: look_image_alt, w: '900', h: '1100', sizes: '(min-width: 992px) 50vw, 100vw' -%}
+  </div>
+  <div class="fox-lab-look__body">
+    {%- if settings[look_eyebrow_key] != blank -%}<p class="fox-lab__eyebrow">{{ settings[look_eyebrow_key] | escape }}</p>{%- endif -%}
+    <h2 id="fox-lab-look-{{ look_key }}" class="fox-lab__title">{{ settings[look_title_key] | escape }}</h2>
+    {%- if look_products != blank -%}
+    <ul class="fox-lab-look__list">{{ look_products }}</ul>
+    <div class="fox-lab-look__bundle">
+      <span class="fox-lab-look__total">Cả bộ: <strong>{{ look_total | money }}</strong></span>
+      <button type="button" class="btn btn-primary fox-lab-look__bundle-btn" button-effect data-bundle-variants="{{ look_variant_ids }}">
+        <span class="btn__label">{{ settings[look_bundle_key] | default: 'Thêm cả bộ vào giỏ' | escape }}</span>
+        <span data-btn-effect-span aria-hidden="true"></span>
+      </button>
+    </div>
+    {%- endif -%}
+    <div class="fox-lab-look__tips">
+      <p class="fox-lab-look__tips-title">{{ settings[look_tips_title_key] | default: 'Mẹo chọn đồ' | escape }}</p>
+      <ul>
+        {%- for tip_index in (1..5) -%}
+          {%- capture tip_key -%}{{ look_prefix }}tip_{{ tip_index }}{%- endcapture -%}
+          {%- if settings[tip_key] != blank -%}
+          <li>
+            {%- assign icon_key = 'check' -%}
+            {%- include 'fabric-lab-icon' -%}
+            <span>
+              {{ settings[tip_key] | escape }}
+            </span>
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -122,9 +122,9 @@ Swiper chỉ được khởi tạo bên trong slider component.
 Implementation hiện tại của FOX Fashion:
 
 ```text
-FOX Fashion/assets/core-component-slider.js
-FOX Fashion/assets/core-component-slider.css
-FOX Fashion/assets/core-component-slider-media.js
+FOX Fashion/assets/cpn-slider.js
+FOX Fashion/assets/cpn-slider.css
+FOX Fashion/assets/cpn-slider-media.js
 ```
 
 Thứ tự load:
@@ -132,9 +132,9 @@ Thứ tự load:
 ```text
 Swiper 8.4.4
     ↓
-core-component-slider.js
+cpn-slider.js
     ↓
-core-component-slider-media.js
+cpn-slider-media.js
     ↓
 theme/page scripts
 ```
@@ -398,10 +398,10 @@ single/multiple item do markup caller quản lý.
 Dependencies:
 
 ```text
-FOX Fashion/assets/core-foundation-overlay.js
-FOX Fashion/assets/core-foundation-overlay.css
-FOX Fashion/assets/core-component-modal.js
-FOX Fashion/assets/core-component-modal.css
+FOX Fashion/assets/cpn-overlay.js
+FOX Fashion/assets/cpn-overlay.css
+FOX Fashion/assets/cpn-modal.js
+FOX Fashion/assets/cpn-modal.css
 ```
 
 ---
@@ -968,8 +968,8 @@ FOX Fashion/snippets/home-latest-stories.liquid
 FOX Fashion/snippets/article-card-overlay.liquid
 FOX Fashion/assets/latest-stories.css
 FOX Fashion/assets/link-effect.css
-FOX Fashion/assets/core-component-slider.js
-FOX Fashion/assets/core-component-slider.css
+FOX Fashion/assets/cpn-slider.js
+FOX Fashion/assets/cpn-slider.css
 ```
 
 ---
@@ -1079,8 +1079,8 @@ theme. Các dependency dự kiến khi triển khai:
 ```text
 FOX Fashion/snippets/home-policies.liquid
 FOX Fashion/assets/home-policies.css
-FOX Fashion/assets/core-component-slider.js
-FOX Fashion/assets/core-component-slider.css
+FOX Fashion/assets/cpn-slider.js
+FOX Fashion/assets/cpn-slider.css
 FOX Fashion/snippets/svg-cache.liquid
 ```
 
@@ -1171,11 +1171,11 @@ FOX Fashion/snippets/product-form.liquid
 FOX Fashion/snippets/product-swatch.liquid       (variant picker; card swatches: product-loop-swatch.liquid)
 FOX Fashion/snippets/quick-view-modal.liquid
 FOX Fashion/templates/product.quick-view.liquid
-FOX Fashion/assets/core-commerce-product.js
-FOX Fashion/assets/core-commerce-product.css
-FOX Fashion/assets/core-commerce-quick-view.js
+FOX Fashion/assets/product.js
+FOX Fashion/assets/product.css
+FOX Fashion/assets/quick-view.js
 FOX Fashion/assets/quick-view.css
-FOX Fashion/assets/core-component-modal.js
+FOX Fashion/assets/cpn-modal.js
 ```
 
 ---
@@ -1336,7 +1336,7 @@ FOX Fashion/snippets/svg-cache.liquid
 
 ## Slider Controls
 
-Reusable slider navigation is rendered with `{% include 'component-slider-controls' %}` inside `slider-component`. Set `slider_controls_vertical = true` before the include for the compact vertical previous/progress/next layout. `core-component-slider.js` updates the progressbar state and hides the complete control when the slider has zero or one item.
+Reusable slider navigation is rendered with `{% include 'component-slider-controls' %}` inside `slider-component`. Set `slider_controls_vertical = true` before the include for the compact vertical previous/progress/next layout. `cpn-slider.js` updates the progressbar state and hides the complete control when the slider has zero or one item.
 
 ---
 
@@ -1368,8 +1368,8 @@ FOX Fashion/snippets/home-product-story.liquid
 FOX Fashion/snippets/product-story-item.liquid
 FOX Fashion/assets/product-story.css
 FOX Fashion/assets/product-story.js
-FOX Fashion/assets/core-component-modal.js
-FOX Fashion/assets/core-component-slider.js
+FOX Fashion/assets/cpn-modal.js
+FOX Fashion/assets/cpn-slider.js
 ```
 
 ---
@@ -1420,7 +1420,7 @@ collection tags, and price requires configured ranges above zero.
 The policy block uses `collection-policy.liquid` and `collection_policy_*`
 settings for visibility and each item's title and description.
 
-`core-commerce-collection.js` owns filter selection, sort, requests, history,
+`collection.js` owns filter selection, sort, requests, history,
 mobile filter focus, and the `collection:updated` event. It emits that event with
 `detail.url`, `detail.query`, and `detail.append`. The root exposes
 `data-state="ready|loading|error"`; results expose `aria-busy`. Pagination links
@@ -1470,7 +1470,7 @@ FOX Fashion/snippets/collection-results.liquid
 FOX Fashion/snippets/pagination.liquid
 FOX Fashion/templates/collection.data.liquid
 FOX Fashion/templates/search.data.liquid
-FOX Fashion/assets/core-commerce-collection.js
+FOX Fashion/assets/collection.js
 FOX Fashion/assets/collection.css
 FOX Fashion/assets/style-global.scss.liquid
 ```
@@ -1584,7 +1584,7 @@ FOX Fashion/assets/size-guide.js
 FOX Fashion/assets/size-guide.css
 FOX Fashion/snippets/product-swatch.liquid
 FOX Fashion/snippets/product-info-tabs.liquid
-FOX Fashion/assets/core-component-modal.js
+FOX Fashion/assets/cpn-modal.js
 FOX Fashion/assets/tabs.js
 FOX Fashion/assets/quick-view.css
 FOX Fashion/snippets/svg-cache.liquid   (ic-fox-support-size, ic-fox-size-guide-table, ic-fox-size-guide-finder)

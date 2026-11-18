@@ -1,21 +1,28 @@
-/**
- * FOX.cart — lop ghi gio hang.
- * Thay the cart-api.js va toan bo facade FOX.cartAction trong cart-action.js.
- *
- * Nguyen tac:
- *  - MOT nguon su that duy nhat: HTML tu /cart?view=data. Khong giu JSON state song song.
- *  - Moi thao tac ghi di qua dung mot duong: mutate() -> POST -> render() -> cart:changed.
- *  - Thao tac doi/xoa theo line index cua cart-view vua render.
- *  - Chi 2 event: cart:changed (da xong) va cart:added. Khong co cap updating/updated.
- */
 (() => {
     const FOX = (window.FOX = window.FOX || {});
-    const http = FOX.http;
     const routes = FOX.config?.routes || {};
-    const VIEW = '[data-role="cart-view"]';
 
+    const CART_EVENTS = {
+        changed: 'cart:changed',
+        added: 'cart:added',
+    };
+
+    const CART_ROUTES = {
+        view: routes.cartView || '/cart?view=data',
+        add: routes.cartAdd || '/cart/add.js',
+        change: routes.cartChange || '/cart/change.js',
+        update: routes.cartUpdate || '/cart/update.js',
+        checkout: '/checkout',
+    };
+
+    const VIEW = '[data-role="cart-view"]';
+    const NOTE_INPUT = '[data-role="note-input"]';
+    const CART_COUNT = '.fox-header-action__badge:not(.fox-header-action__badge--wishlist), [data-role="cart-count"]';
+    const NOTE_SAVE_DELAY = 600;
+
+    const http = FOX.http;
     if (!http) {
-        console.warn('[FOX.cart] Thiếu FOX.http — nạp core-http.js trước cart.js.');
+        console.warn('[FOX.cart] Thiếu FOX.http — nạp http.js trước cart.js.');
         return;
     }
 
@@ -45,13 +52,12 @@
             : value;
     };
 
-    /** Lay HTML moi, thay MOI cart-view dang co tren trang (drawer + /cart) */
     async function render() {
         const token = ++version;
-        const doc = await http.html(routes.cartView || '/cart?view=data');
+        const doc = await http.html(CART_ROUTES.view);
         const next = doc.querySelector(VIEW);
         if (!next) throw new Error('Không thể tải giỏ hàng. Vui lòng thử lại.');
-        if (token !== version) return null; // da co ban render moi hon
+        if (token !== version) return null;
 
         document.querySelectorAll(VIEW).forEach((old) => {
             const fresh = next.cloneNode(true);
@@ -62,13 +68,16 @@
         return next;
     }
 
-    /* ── Khuyen mai buyXgetY ──────────────────────────────────────────────
-       Truoc day doan nay bi copy 3 lan (addToCart, buyNow, buyNowProdItem).
-       Gio nam dung mot cho, moi duong them hang deu di qua day.          */
     const hasPromoApp = () =>
         FOX.config?.app?.promotion !== 'none' && typeof window.buyXgetY !== 'undefined';
 
+    const BUYING_OFF_CLASS = 'fox-buying-off';
+    const BUYING_OFF_MESSAGE = 'Tính năng mua hàng đang tạm tắt.';
+
     function rawAdd(variantId, quantity, properties) {
+        if (document.body?.classList.contains(BUYING_OFF_CLASS)) {
+            return Promise.reject(new Error(BUYING_OFF_MESSAGE));
+        }
         if (hasPromoApp()) {
             return new Promise((resolve, reject) => {
                 try {
@@ -91,11 +100,11 @@
                 body[`properties[${key}]`] = value;
             });
         }
-        return http.json(routes.cartAdd || '/cart/add.js', { method: 'POST', body });
+        return http.json(CART_ROUTES.add, { method: 'POST', body });
     }
 
     const change = (line, quantity) =>
-        http.json(routes.cartChange || '/cart/change.js', {
+        http.json(CART_ROUTES.change, {
             method: 'POST',
             body: { line, quantity },
         });
@@ -104,6 +113,7 @@
         if (!view || typeof window.ShopMoney !== 'function') return;
 
         let total = Number(view.dataset.totalPrice) || 0;
+        let count = Number(view.dataset.itemCount) || 0;
         view.querySelectorAll('[data-role="item"]').forEach((item) => {
             const quantity = Number.parseInt(item.querySelector('[data-role="quantity"]')?.value, 10);
             const previous = Number(item.dataset.quantity);
@@ -111,14 +121,15 @@
             if (!Number.isFinite(quantity) || !Number.isFinite(previous) || !Number.isFinite(price)) return;
 
             total += (quantity - previous) * price;
+            count += quantity - previous;
             const sale = item.querySelector('.fox-mini-cart__price-sale');
             const original = item.querySelector('.fox-mini-cart__price-original');
             if (sale) sale.textContent = formatMoney(price);
             if (original) original.textContent = formatMoney(Number(item.dataset.compareAtPrice));
         });
 
-        const totalPrice = view.querySelector('[data-role="total-price"]');
-        if (totalPrice) totalPrice.textContent = formatMoney(total);
+        view.querySelectorAll('[data-role="total-price"]').forEach((node) => { node.textContent = formatMoney(total); });
+        view.querySelectorAll('[data-role="item-count"]').forEach((node) => { node.textContent = String(Math.max(0, count)); });
 
         const shipping = view.querySelector('[data-role="free-shipping"]');
         const { enabled, threshold: configuredThreshold } = FOX.config?.cart?.freeShipping || {};
@@ -162,7 +173,6 @@
         return views[0];
     }
 
-    /** Duong ghi duy nhat: chay cac thao tac, cap nhat view, bao mot lan */
     async function mutate(reason, run, sync = null) {
         busy(1);
         try {
@@ -170,7 +180,7 @@
             const view = (sync && sync(response)) || await render();
             if (!view) return null;
             const detail = { reason, ...readView(view) };
-            emit('cart:changed', detail);
+            emit(CART_EVENTS.changed, detail);
             return detail;
         } finally {
             busy(-1);
@@ -178,8 +188,10 @@
     }
 
     FOX.cart = {
+        events: CART_EVENTS,
+        routes: CART_ROUTES,
         preview,
-        /** So lieu doc tu DOM — thay cho FOX.cart.state cu */
+
         get snapshot() {
             return readView(document.querySelector(VIEW));
         },
@@ -190,11 +202,10 @@
 
         async add(variantId, quantity = 1, properties = null) {
             const result = await mutate('add', () => rawAdd(variantId, quantity, properties));
-            emit('cart:added', { variantId, quantity });
+            emit(CART_EVENTS.added, { variantId, quantity });
             return result;
         },
 
-        /** Them nhieu dong: de quy tung dong (giong addCombo cu), dong loi thi bo qua; render + bao mot lan */
         async addMany(items) {
             const addNext = async (index, added) => {
                 if (index >= items.length) return added;
@@ -211,16 +222,15 @@
             const result = await mutate('add', async () => {
                 added = await addNext(0, 0);
             });
-            if (added) emit('cart:added', { items, added });
+            if (added) emit(CART_EVENTS.added, { items, added });
             return { ...result, added };
         },
 
-        /** Mua ngay: khong render vi dang nao cung chuyen trang */
         async buyNow(variantId, quantity = 1, properties = null) {
             busy(1);
             try {
                 await rawAdd(variantId, quantity, properties);
-                window.location.assign('/checkout');
+                window.location.assign(CART_ROUTES.checkout);
             } finally {
                 busy(-1);
             }
@@ -231,7 +241,6 @@
 
         remove: (line) => mutate('remove', () => change(line, 0)),
 
-        /** Doi phan loai: bo dong cu, them dong moi, giu nguyen so luong */
         swapVariant: (fromLine, toId, quantity = 1) =>
             mutate('variant', async () => {
                 await change(fromLine, 0);
@@ -239,17 +248,44 @@
             }),
 
         refresh: () => mutate('refresh', async () => {}),
+
+        setNote: (note) =>
+            http.json(CART_ROUTES.update, { method: 'POST', body: { note: String(note || '') } }),
+
+        setAttributes: (attributes) =>
+            http.json(CART_ROUTES.update, {
+                method: 'POST',
+                body: Object.fromEntries(
+                    Object.entries(attributes).map(([key, value]) => [`attributes[${key}]`, String(value ?? '')])
+                ),
+            }),
+
+        formatMoney,
     };
 
-    /* Tuong thich nguoc: API cu FOX.cartAction  (addToCart/buyNow) cho code ngoai theme co the con goi */
+    let noteTimer = 0;
+    const saveNote = (input) => {
+        window.clearTimeout(noteTimer);
+        FOX.cart.setNote(input.value).catch((error) => console.warn('[FOX.cart] Không lưu được ghi chú.', error?.message));
+    };
+    document.addEventListener('input', (event) => {
+        const input = event.target.closest?.(NOTE_INPUT);
+        if (!input) return;
+        window.clearTimeout(noteTimer);
+        noteTimer = window.setTimeout(() => saveNote(input), NOTE_SAVE_DELAY);
+    });
+    document.addEventListener('change', (event) => {
+        const input = event.target.closest?.(NOTE_INPUT);
+        if (input) saveNote(input);
+    });
+
     FOX.cartAction = {
         addToCart: ({ variantId, quantity = 1 }) => FOX.cart.add(variantId, quantity),
         buyNow: ({ variantId, quantity = 1 }) => FOX.cart.buyNow(variantId, quantity),
     };
 
-    /* Badge so luong gio tren header (bo qua badge yeu thich, do wishlist.js tu cap nhat) */
-    document.addEventListener('cart:changed', ({ detail }) => {
-        document.querySelectorAll('.fox-header-action__badge:not(.fox-header-action__badge--wishlist)').forEach((el) => {
+    document.addEventListener(CART_EVENTS.changed, ({ detail }) => {
+        document.querySelectorAll(CART_COUNT).forEach((el) => {
             el.textContent = detail.itemCount;
             el.toggleAttribute('hidden', detail.itemCount === 0);
         });

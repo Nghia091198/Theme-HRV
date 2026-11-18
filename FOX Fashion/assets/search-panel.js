@@ -179,7 +179,7 @@
       else this.#closeTimer = window.setTimeout(finish, CLOSE_MS);
     }
 
-    // Shared overlay service (core-foundation-overlay.js): scroll lock and the scrollbar-gutter handling.
+    // Shared overlay service (cpn-overlay.js): scroll lock and the scrollbar-gutter handling.
     #lockPage(locked) {
       if (typeof window.FOX?.isOverlay === 'function') {
         window.FOX.isOverlay(locked, this, { lock: true });

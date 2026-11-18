@@ -2,6 +2,9 @@
 
 Tài liệu này chuẩn hóa cách tạo và sửa settings Haravan trong repo.
 
+**Cấu trúc file `settings.html`** (bản đồ nhóm, thụt lề, xuống dòng, khi nào dùng `<h3>` / fieldset con, khoá cấu trúc,
+VS Code): theo `docs/settings-structure.md`. Guide này quy định key, label, chú thích, media và upload.
+
 Thư viện control và ví dụ triển khai nằm ở
 `docs/FOXTHEME_Setting_Libs_Full_v3.md`; skill
 `.codex/skills/haravan-theme-settings/SKILL.md` yêu cầu đọc cả hai tài liệu
@@ -107,17 +110,18 @@ Không dùng `Ảnh poster 9:16`, `Ảnh tab` hoặc `Văn bản thay thế (alt
   4. Nội dung
   5. Link / CTA
   6. Logic thời gian hoặc behavior
-- Giữ style wrapper hiện có:
+- Giữ style wrapper hiện có. Thụt lề bằng **tab**, mỗi thẻ cấu trúc một dòng, mỗi hàng `<tr>` một dòng; khung đầy đủ của
+  từng loại nhóm và quy tắc `<h3>` / fieldset con: `docs/settings-structure.md`.
 
 ```html
-<fieldset>
-  <legend>4. FOX countdown offer</legend>
-  <div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
-    <table>
-      ...
-    </table>
-  </div>
-</fieldset>
+	<fieldset>
+		<legend>4. FOX countdown offer</legend>
+		<div style="border-left:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding:0 10px 10px 10px;margin-top:-10px">
+			<table>
+				<tr><td><strong>Hiển thị?</strong></td><td><input type="checkbox" name="countdown_show" value="1"/></td></tr>
+			</table>
+		</div>
+	</fieldset>
 ```
 
 ## Đặt Tên Setting Key

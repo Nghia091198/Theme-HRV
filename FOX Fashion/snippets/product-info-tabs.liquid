@@ -1,8 +1,3 @@
-{%- comment -%}
-  Product info: tabs (description + merchant tabs) and, beside them, a FAQ card.
-  Tab icons come from svg-cache: description, slot 1 (shipping), slot 2 (care).
-  FAQ questions/answers are plain text from settings (product_faq_*).
-{%- endcomment -%}
 {%- assign tab_count = 0 -%}
 {%- assign tabs_html = '' -%}
 {%- assign panels_html = '' -%}
@@ -32,7 +27,19 @@
   {%- endif -%}
 {%- endfor -%}
 
-{%- assign faq_count = 0 -%} 
+{%- assign review_tab_on = false -%}
+{%- if settings.product_review_tab_show and settings.app_review_show -%}
+  {%- if settings.app_review_app == 'easy_review' or settings.app_review_app == 'omni_review' -%}{%- assign review_tab_on = true -%}{%- endif -%}
+{%- endif -%}
+{%- if review_tab_on -%}
+  {%- assign tab_count = tab_count | plus: 1 -%}
+  {%- assign review_tab_title = settings.product_review_tab_title | strip | default: 'Đánh giá' -%}
+  {%- capture tabs_html -%}{{ tabs_html }}<button type="button" role="tab" class="btn btn-secondary fox-product-info__tab" button-effect data-target="fox-product-info-reviews"><svg class="icon-svg fox-product-info__tab-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M12 3.2l2.7 5.47 6.03.88-4.37 4.25 1.03 6.01L12 16.97l-5.39 2.84 1.03-6.01L3.27 9.55l6.03-.88L12 3.2z"/></svg><span class="btn__label">{{ review_tab_title | escape }}</span><span data-btn-effect-span aria-hidden="true"></span></button>{%- endcapture -%}
+  {%- capture review_widget_html -%}{%- include 'product-review-widget' -%}{%- endcapture -%}
+  {%- capture panels_html -%}{{ panels_html }}<div id="fox-product-info-reviews" role="tabpanel" class="fox-product-info__panel fox-product-info__panel--reviews">{{ review_widget_html }}</div>{%- endcapture -%}
+{%- endif -%}
+
+{%- assign faq_count = 0 -%}
 {%- assign faq_html = '' -%}
 {%- if settings.product_faq_show -%}
   {%- for faq_index in (1..5) -%}

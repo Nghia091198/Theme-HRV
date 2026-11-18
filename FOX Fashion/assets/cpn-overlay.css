@@ -1,0 +1,60 @@
+html.fox-overlay-lock,
+body.fox-overlay-lock {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html.fox-overlay-lock.fox-overlay-open {
+  scrollbar-gutter: auto;
+}
+
+html.fox-overlay-lock.fox-overlay-open body {
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header:not([data-fixed]):not(.fox-header--home) .fox-header__bar {
+  box-sizing: border-box;
+  width: calc(100% + var(--fox-overlay-gutter, 0px));
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header[data-fixed]:not(.fox-header--home) .fox-header__bar {
+  box-sizing: border-box;
+  padding-right: var(--fox-overlay-gutter, 0px);
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header--home:not([data-fixed]) .fox-header__bar {
+  right: calc(-1 * var(--fox-overlay-gutter, 0px));
+  padding-right: calc(12px + var(--fox-overlay-gutter, 0px));
+}
+
+html.fox-overlay-lock.fox-overlay-open .fox-header--home[data-fixed] .fox-header__bar {
+  padding-right: calc(12px + var(--fox-overlay-gutter, 0px));
+}
+
+.fox-page-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(19, 22, 27, .28);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .24s ease, visibility .24s ease;
+}
+
+.fox-overlay-visible .fox-page-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.fox-overlay-lock,
+  body.fox-overlay-lock {
+    scroll-behavior: auto;
+  }
+
+  .fox-page-overlay {
+    transition: none;
+  }
+}

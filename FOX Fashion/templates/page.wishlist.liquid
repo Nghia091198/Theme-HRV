@@ -1,10 +1,3 @@
-{%- comment -%}
-  Alternate page template "wishlist" (layout B: grid + sticky glass summary). Saved items live in localStorage
-  (assets/wishlist.js). <wishlist-page> loads each card from the product-loop-data view and one /search.js request
-  (by product id) for the summary (availability, total value, savings) and for "Thêm tất cả vào giỏ".
-  ?ids=<id>,<id> opens a shared list (read only): it never touches the visitor's own wishlist until they save it.
-  Styles: assets/wishlist.css.
-{%- endcomment -%}
 {%- assign wishlist_title = settings.wishlist_title | default: page.title -%}
 <div class="fox-wishlist">
   <div class="container">

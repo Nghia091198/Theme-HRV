@@ -1,10 +1,3 @@
-{%- comment -%}
-  Search page (design B): Aurora head (input, summary, popular chips, product / article tabs) + results.
-  Products tab reuses the collection engine (core-commerce-collection.js): filters from snippets/collection-filter
-  (collection filter settings), sort, chips, pagination, URL params; requests go to /search?view=data with the keyword
-  as base query. Tab counts, highlight and recent searches use FOX.search (search-panel.js) through search-page.js.
-  Styles: assets/search-page.css (+ collection.css for the shared grid, toolbar and filters).
-{%- endcomment -%}
 {%- assign fox_collection_limit = settings.pagination_limit | default: 12 | plus: 0 -%}
 {%- if fox_collection_limit < 1 -%}{%- assign fox_collection_limit = 12 -%}{%- endif -%}
 {%- assign search_q = search.terms | strip -%}
@@ -13,7 +6,6 @@
 {%- assign search_filter_on = true -%}
 {%- if settings.smartsearch_page_filter_show == false -%}{%- assign search_filter_on = false -%}{%- endif -%}
 
-{%- comment -%}Mode: articles when the results hold articles only (?type=article), products otherwise.{%- endcomment -%}
 {%- assign search_product_hits = 0 -%}
 {%- assign search_article_hits = 0 -%}
 {%- for result in search.results -%}
@@ -22,11 +14,7 @@
 {%- assign search_mode = 'product' -%}
 {%- if search_with_articles and search_article_hits > 0 and search_product_hits == 0 -%}{%- assign search_mode = 'article' -%}{%- endif -%}
 {%- assign search_total = search.results_count | default: 0 -%}
-{%- comment -%}
-  search.terms arrives HTML-encoded from Haravan (á → &#225;): it is printed as is (the browser decodes it in text,
-  attributes and links) and never escaped again. The keyword filter is built in JS from the decoded keyword
-  (data-keyword + data-keyword-query, core-commerce-collection.js).
-{%- endcomment -%}
+
 {%- assign search_terms_html = search.terms | strip -%}
 
 <div class="fox-search-page" data-search-page data-state="idle" data-terms="{{ search_terms_html }}" data-mode="{{ search_mode }}" data-articles="{{ search_with_articles }}" data-total="{{ search_total }}">
@@ -35,7 +23,7 @@
     <div class="container fox-search-page__hero-inner">
       <p class="fox-search-page__eyebrow" id="fox-search-page-title">
         <svg class="icon-svg" aria-hidden="true" focusable="false"><use xlink:href="#ic-search"></use></svg>
-        Kết quả tìm kiếm
+        {% if search_q != blank %}Kết quả tìm kiếm{% else %}Tìm kiếm{% endif %}
       </p>
       <form class="fox-search-page__form" action="/search" method="get" role="search">
         <input type="hidden" name="type" value="{% if search_mode == 'article' %}article{% else %}product{% endif %}">
@@ -124,7 +112,6 @@
         <div class="fox-collection__sidebar fox-search-page__filters">
           <div id="fox-collection-filters" class="core-offcanvas fox-collection__filter-column" data-position="left" data-state="ready" style="--fox-menu-color: {{ settings.theme_color | default: '#1B2631' | escape }};">
             <button type="button" class="core-offcanvas__overlay fox-collection__filter-overlay" data-filter-overlay data-filter-close aria-label="Đóng bộ lọc" hidden></button>
-            {%- comment -%}Filter options come from the store-wide collection (types, vendors, tags).{%- endcomment -%}
             {%- assign collection = collections.all -%}
             {%- assign filter_groups_collapsed = true -%}
             {%- include 'collection-filter' -%}
@@ -133,7 +120,6 @@
         </div>
         {%- endif -%}
         <div class="fox-collection__results" data-role="results" aria-busy="true">
-          {%- comment -%}Filled on load by core-commerce-collection.js (/search?view=data, same as filtering).{%- endcomment -%}
           <div class="fox-collection__results-content" data-role="results-content" data-result-count="0" data-result-page="1">
             <div class="fox-collection__grid" data-role="product-grid"></div>
           </div>
@@ -201,6 +187,7 @@
       {%- capture rail_link_url -%}/collections/{{ settings.smartsearch_product_collection }}{%- endcapture -%}
       {%- assign rail_link_label = 'Xem tất cả' -%}
       {%- assign rail_id = 'fox-search-page-recommend' -%}
+      {%- assign rail_title_class = 'fox-section__title' -%}
       {%- include 'search-product-rail' -%}
     </section>
     {%- endif -%}

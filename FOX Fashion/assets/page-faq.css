@@ -1,4 +1,3 @@
-/* Page template "faq". Behavior: faq-search (page-faq.js) + accordion-component. */ 
 .fox-faq {
   --fox-faq-ink: var(--color-text-theme, #1b2631);
   --fox-faq-muted: color-mix(in srgb, var(--fox-faq-ink) 70%, transparent);
@@ -10,7 +9,7 @@
 }
 
 .fox-faq [hidden] {
-  display: none !important; /* Search results must win over component display rules. */
+  display: none !important;
 }
 
 .fox-faq__sr-only {
@@ -22,7 +21,6 @@
   white-space: nowrap;
 }
 
-/* Hero */
 .fox-faq__hero {
   padding-bottom: 4.8rem;
   background: var(--fox-faq-surface);
@@ -119,7 +117,6 @@
   border-color: var(--fox-faq-ink);
 }
 
-/* Body */
 .fox-faq__body {
   display: grid;
   gap: 4rem;
@@ -234,7 +231,6 @@
   font-size: 1.5rem;
 }
 
-/* Contact */
 .fox-faq__contact {
   display: grid;
   gap: 2.8rem;

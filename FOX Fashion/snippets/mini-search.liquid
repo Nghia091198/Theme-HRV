@@ -1,10 +1,3 @@
-{%- comment -%}
-  Search panel (glass, drops right under the header). Behavior: assets/search-panel.js, styles: assets/search-panel.css.
-  Left column: keyword suggestions (while typing) · recent searches (localStorage) · popular searches (menu).
-  Right zone: results with product / article tabs (views search.smart-product / search.smart-article) ·
-  empty state · recommended products (initial and empty states).
-  Settings: smartsearch_* (config/settings.html, group "Tìm kiếm").
-{%- endcomment -%}
 {%- assign search_title = settings.smartsearch_title | default: 'Tìm kiếm' -%}
 {%- assign search_with_articles = false -%}
 {%- if settings.smartsearch_type contains 'article' -%}{%- assign search_with_articles = true -%}{%- endif -%}

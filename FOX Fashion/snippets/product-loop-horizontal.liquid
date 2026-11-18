@@ -3,7 +3,6 @@
 {% assign on_sale = true %}
 {% endif %}
 
-{% comment %}Tính giá khuyến mãi{% endcomment %}
 {% assign price_sale = 0 %}
 {% if product.variants.first.compare_at_price > product.variants.first.price %}
 {% assign price_sale = product.variants.first.compare_at_price | minus: product.variants.first.price | divided_by:product.variants.first.compare_at_price | times : 100 | round : 0 %}
@@ -26,7 +25,7 @@
 	<div class="product-inner">
 		<div class="proloop--image">
 			<a href="{{ product.url }}" class="ratio-image" title="{{ product.title | strip }}" aria-label="{{ product.title | strip }}">
-				<img fetchpriority="low" class="lazyload" loading="lazy" decoding="async" src="{%if product.images.size > 0%}{{ product.featured_image | product_img_url: 'master' }}{%else%}{{'no_image.jpg' | asset_url}}{%endif%}" width="300" height="300" alt="{{product.title}}">
+				<img fetchpriority="low" class="lazyload" loading="lazy" decoding="async" src="{%if product.images.size > 0%}{{ product.featured_image | product_img_url: 'large' }}{%else%}{{'no_image.jpg' | asset_url}}{%endif%}" width="300" height="300" alt="{{product.title}}">
 			</a>
 		</div>
 		<div class="proloop--detail">
@@ -56,7 +55,7 @@
 			{%- if quickview -%}
 			<div class="block-addcart">
 				<button type="button" class="js-loop-quickview btn-quickview button" data-action="quickview" data-product-handle="{{ product.handle }}" aria-controls="fox-quick-view-modal" aria-haspopup="dialog" aria-label="Xem nhanh {{ product.title | strip }}">
-					<svg class="no-translate icon-svg"><use xlink:href="#ic-cart-plus"></use></svg> Xem nhanh
+					<svg class="no-translate icon-svg"><use xlink:href="#ic-eye-show"></use></svg>
 				</button>
 			</div>
 			{%- endif -%}

@@ -22,11 +22,10 @@ export async function readHaravanTokenFromEnvironment(options = {}) {
   const processEnvironmentProvider = options.processEnvironmentProvider
     ?? (() => process.env.HARAVAN_ACCESS_TOKEN);
   const processToken = normalizeToken(processEnvironmentProvider());
-  if (processToken) return processToken;
 
   const platform = options.platform ?? process.platform;
   const execute = options.execute ?? execFileAsync;
-  if (platform !== "win32") return "";
+  if (platform !== "win32") return processToken;
 
   try {
     const { stdout } = await execute("reg.exe", [
@@ -41,9 +40,9 @@ export async function readHaravanTokenFromEnvironment(options = {}) {
       windowsHide: true,
     });
     const match = String(stdout ?? "").match(/HARAVAN_ACCESS_TOKEN\s+REG_\w+\s+(.+)/i);
-    return normalizeToken(match?.[1]);
+    return normalizeToken(match?.[1]) || processToken;
   } catch {
-    return "";
+    return processToken;
   }
 }
 

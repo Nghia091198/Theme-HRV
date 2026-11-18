@@ -1,19 +1,3 @@
-{%- comment -%}
-  component-skeleton
-  Reusable loading placeholder (shimmer). Brand-agnostic core component.
-
-  Params:
-    type     : 'default' (card dọc: ảnh trên, text dưới) | 'horizontal' (card ngang: ảnh trái, text phải). Default 'default'.
-    item     : số card mỗi hàng (grid columns). Default 4.
-    row      : số hàng. Default 1.
-    fallback : (optional) markup hiển thị khi rỗng/lỗi. Được nhúng vào <template data-role="fallback"> để JS lấy khi cần.
-
-  Tổng số card = item * row.
-
-  Usage:
-    {%- include 'component-skeleton' with type: 'default', item: 4, row: 1 -%}
-    {%- include 'component-skeleton' with type: 'horizontal', item: 1, row: 4, fallback: my_fallback_html -%}
-{%- endcomment -%} 
 {%- assign skeleton_type = type | default: 'default' -%}
 {%- assign skeleton_item = item | default: 4 | plus: 0 -%}
 {%- assign skeleton_row = row | default: 1 | plus: 0 -%}

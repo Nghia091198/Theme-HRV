@@ -1,5 +1,3 @@
-/* Search panel (snippets/mini-search.liquid + search-panel.js). Glass, drops from the header edge
-   (--fox-search-top = header bottom, measured on open). Sits under the header (z-index below .fox-header). */
 search-panel {
   --fox-search-glass:
     radial-gradient(circle at 88% 115%, rgb(122 58 22 / 58%), transparent 46%),
@@ -68,8 +66,6 @@ search-panel[data-state="open"] .fox-search__panel {
   opacity: 1;
 }
 
-/* Home page (desktop): floats like the header pill, same left/right edges, 10px below it and above the screen
-   bottom, 24px radius (positions from search-panel.js #place). */
 search-panel[data-floating] .fox-search__backdrop {
   inset: 0;
 }
@@ -95,7 +91,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   padding-block: 2.2rem 3rem;
 }
 
-/* Top row: title · input pill · close */
 .fox-search__top {
   display: flex;
   align-items: center;
@@ -158,7 +153,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   display: none;
 }
 
-/* ic-search / ic-close are line icons (stroke), like in the header: never filled. */
 .fox-search__form-icon,
 .fox-search__submit .icon-svg,
 .fox-search__empty-icon .icon-svg,
@@ -168,7 +162,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   stroke: currentColor;
 }
 
-/* The pill shows focus (border + fill), so the input itself has no outline box. */
 .fox-search .fox-search__input:focus,
 .fox-search .fox-search__input:focus-visible {
   outline: 0;
@@ -202,7 +195,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   height: 1.1rem;
 }
 
-/* Close: the modal close button (ring progress on hover, quick-view.css), placed in the top row instead of a corner. */
 .fox-search__close.fox-quick-view__close {
   position: relative;
   top: auto;
@@ -240,7 +232,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   height: 1.6rem;
 }
 
-/* Two columns: left (suggest · recent · popular) + zone */
 .fox-search__body {
   display: grid;
   grid-template-columns: 28rem minmax(0, 1fr);
@@ -419,7 +410,6 @@ search-panel[data-state="closing"] .fox-search__panel {
   border-radius: 0.3rem;
 }
 
-/* Tabs */
 .fox-search__results[hidden],
 .fox-search__empty[hidden],
 .fox-search__recommend[hidden],
@@ -477,7 +467,6 @@ search-panel[data-loading="true"] .fox-search__zone {
   transition: opacity 160ms ease;
 }
 
-/* Product rail (snippets/search-product-rail.liquid): grid in one row, slider when more */
 .fox-search__rail-head {
   display: flex;
   align-items: center;
@@ -509,7 +498,6 @@ search-panel[data-loading="true"] .fox-search__zone {
   height: auto;
 }
 
-/* Results: two rows. Static grid of 4 columns, or slider slides that stack 2 cards (column order). */
 .fox-search__grid.fox-search__grid--results {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -539,8 +527,6 @@ search-panel[data-loading="true"] .fox-search__zone {
   margin-top: 0;
 }
 
-/* Shared product card: same framed card as the collection grid (mirrors .fox-collection__grid .product-card--collection).
-   Mobile uses the shared unframed card (product-card.css, design C). */
 @media (min-width: 768px) {
   .fox-search product-card,
   .fox-search product-card .product-loop {
@@ -612,13 +598,12 @@ search-panel[data-loading="true"] .fox-search__zone {
   }
 
   .fox-search product-card .pro--price-original {
-    color: color-mix(in srgb, var(--color-text-theme, #1b2631) 55%, transparent);
+    color: color-mix(in srgb, var(--color-text-theme, #1b2631) 68%, transparent);
     font-size: 14px;
     font-weight: 400;
   }
 }
 
-/* Mobile cards sit on the glass: light text. */
 @media (max-width: 767px) {
   .fox-search product-card .pro--title a,
   .fox-search product-card .block-proloop-price {
@@ -630,14 +615,12 @@ search-panel[data-loading="true"] .fox-search__zone {
   }
 }
 
-/* More link */
 .fox-search__more-wrap {
   display: flex;
   justify-content: center;
   margin-top: 1.8rem;
 }
 
-/* "Xem tất cả" / "Xem thêm {rest}": theme secondary button (.btn.btn-secondary + button-effect), centered below the list. */
 .fox-search__more {
   --btn-color: var(--color-btn-text-secondary, #1b2631);
   gap: 0.8rem;
@@ -667,7 +650,6 @@ search-panel[data-loading="true"] .fox-search__zone {
   color: var(--color-btn-text-secondary-hover, #fff);
 }
 
-/* Articles */
 .fox-search__articles {
   display: grid;
   gap: 1rem;
@@ -721,7 +703,6 @@ search-panel[data-loading="true"] .fox-search__zone {
   font-size: 1.2rem;
 }
 
-/* Empty (inside the right zone) */
 .fox-search__empty {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);

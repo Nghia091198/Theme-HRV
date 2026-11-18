@@ -1,4 +1,3 @@
-<!-- SEO META DESCRIPTION -->
 {%- assign pageDes = '' -%}
 {%- if template contains 'search' -%}
 {%- assign sTerm = search.terms | split: 'titlespace:product contains' | last -%}
@@ -27,9 +26,7 @@ Mua ngay – Xem nhanh{%- endcapture -%}
 {%- endif -%}
 {%- endif -%}
 <meta name="description" content="{{ pageDes }}" />
-<!-- END SEO META DESCRIPTION -->
 
-<!-- SEO PAGI -->
 
 {%- if template contains 'collection' or template contains 'blog' or template contains 'search' -%}
 {%- assign pagiTem = collection.products -%}
@@ -69,4 +66,3 @@ Mua ngay – Xem nhanh{%- endcapture -%}
 {%- endif -%}
 {%- endpaginate -%}
 {%- endif -%}
-<!-- END SEO PAGI -->

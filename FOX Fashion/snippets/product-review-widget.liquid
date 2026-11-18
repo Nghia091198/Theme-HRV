@@ -1,0 +1,20 @@
+{%- if settings.app_review_show -%}
+  {%- case settings.app_review_app -%}
+    {%- when 'omni_review' -%}
+      <div class="bg-while fox-review-widget" id="review-product-detail">
+        <div class="onireviewapp-container">
+          {{ product.metafields.onistudio['reviewapp.detail'] }}
+          <h3 class="onirvapp-detail-title">Đánh giá, nhận xét khách hàng</h3>
+          <div id="onireviewapp" data-customer-email="{{ customer.email | escape }}" data-customer-name="{{ customer.name | escape }}" data-pid="{{ product.id }}"></div>
+        </div>
+      </div>
+    {%- when 'easy_review' -%}
+      <div class="wrapper-productreview fox-review-widget">
+        <div class="fox-review-widget__clear"></div>
+        <div id="startbap_product_reviews" class="starbap-widget starbap-review-widget" data-product-title="{{ product.title | escape }}" data-url="{{ product.url }}" data-img="{{ product.featured_image | escape }}" data-id="{{ product.id }}" data-customer="{{ customer.email | escape }}">
+          {{ product.metafields.starbap['starbaprv.widget'] }}
+          <div class="fox-review-widget__clear"></div>
+        </div>
+      </div>
+  {%- endcase -%}
+{%- endif -%}

@@ -37,7 +37,7 @@
 		{{ serverHead | remove: srcBuyXY2 | remove: srcBuyXY3 | remove: srcCombo2 | remove: srcCombo3  }}
 		{%-endif-%}
 	</head>
-	<body button-color class="mainBody-theme template-{{template}}{% if template contains 'login' or template contains 'register' or template contains 'reset_password' or template contains 'activate_account' %} fox-customer-page{% endif %}{% if template contains 'customers[account]' or template contains 'customers[addresses]' or template contains 'customers[order]' %} fox-account-page{% endif %}" itemscope itemtype="http://schema.org/Website">
+	<body button-color class="mainBody-theme template-{{template}}{% unless settings.shop_buying %} fox-buying-off{% endunless %}{% if template contains 'login' or template contains 'register' or template contains 'reset_password' or template contains 'activate_account' %} fox-customer-page{% endif %}{% if template contains 'customers[account]' or template contains 'customers[addresses]' or template contains 'customers[order]' %} fox-account-page{% endif %}" itemscope itemtype="http://schema.org/Website">
     <div class="fox-page-overlay" data-role="global-overlay" aria-hidden="true"></div>
     {%- if template contains 'index' -%}{%- include 'topbar' -%}{%- endif -%}
     {%- include 'header' -%}
@@ -47,10 +47,12 @@
     {%- unless template contains 'login' or template contains 'register' or template contains 'reset_password' or template contains 'activate_account' -%}{%- include 'footer' -%}{%- endunless -%}
 		{%- include 'menu-mobile' -%}
 		{%- include 'mini-search' -%}
-		{%- unless template contains 'cart' -%}{%- include 'mini-cart' -%}{%- endunless -%}
+		{%- if settings.shop_buying -%}{%- unless template contains 'cart' -%}{%- include 'mini-cart' -%}{%- endunless -%}{%- endif -%}
 		{%- include 'quick-view-modal' -%}
 		{%- include 'size-guide-modal' -%}
 		{%- include 'floating-contact' -%}
+{%- include 'newsletter-popup' -%}
+{%- include 'recent-orders' -%}
 		{%- include 'translate-switcher' -%} 
 		{%- include 'shop-config' -%}
 		{%- include 'shop-optimize' -%}

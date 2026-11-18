@@ -1,4 +1,3 @@
-{%- comment -%}Product page carousel; the merchant picks the source collection by handle.{%- endcomment -%}
 {%- assign related_handle = settings.product_related_collection | default: 'all' | strip -%}
 {%- assign related_collection = collections[related_handle] -%}
 {%- assign title = settings.product_related_title | default: 'Có thể bạn cũng thích' -%}

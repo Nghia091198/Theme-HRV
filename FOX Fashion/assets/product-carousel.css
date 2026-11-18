@@ -1,5 +1,3 @@
-/* Shared skin for product carousels  on product and collection pages
-   ("Có thể bạn cũng thích", "Sản phẩm đã xem"). Behavior: slider-component. */
 .fox-product-carousel {
   --fox-product-carousel-gap: 12px;
   --fox-product-carousel-ink: var(--color-text-theme, #1b2631);
@@ -38,7 +36,11 @@
   height: auto;
 }
 
-/* Before Swiper is ready (or without JS) the track stays usable as a native scroller. */
+.fox-product-carousel__viewport {
+  padding-block: 6px;
+  margin-block: -6px;
+}
+
 .fox-product-carousel__slider:not([data-state="ready"]) .fox-product-carousel__viewport {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -121,7 +123,7 @@
 }
 
 .fox-product-carousel .pro--price-original {
-  color: color-mix(in srgb, var(--fox-product-carousel-ink) 55%, transparent);
+  color: color-mix(in srgb, var(--fox-product-carousel-ink) 68%, transparent);
   font-size: 14px;
   font-weight: 400;
 }

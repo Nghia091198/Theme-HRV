@@ -1,12 +1,6 @@
-{%- comment -%}
-  Language switcher (design C): flag-only glass bubble, bottom-left corner, opens a glass menu upward.
-  Translation: free Google Translate element (hidden), driven by window.doTranslate('vi|en') in translate-switcher.js;
-  the choice is kept in the googtrans cookie. Settings: translate_* (config/settings.html, "Dịch ngôn ngữ").
-{%- endcomment -%}
 {%- if settings.translate_show -%}
-{%- assign translate_source = settings.translate_source | default: 'vi' | strip -%}
+{%- assign translate_source = 'vi' -%}
 {%- assign translate_codes = settings.translate_languages | default: 'vi,en,ja,ko,zh-CN,th,fr' | remove: ' ' | split: ',' -%}
-{%- comment -%}Display language for first-time visitors; must be one of the listed languages, otherwise the source.{%- endcomment -%}
 {%- assign translate_default = settings.translate_default | default: translate_source | strip -%}
 {%- unless translate_codes contains translate_default -%}{%- assign translate_default = translate_source -%}{%- endunless -%}
 <translate-switcher class="fox-translate notranslate" translate="no" data-state="idle" data-source="{{ translate_source }}" data-default="{{ translate_default }}" data-languages="{{ translate_codes | join: ',' }}">

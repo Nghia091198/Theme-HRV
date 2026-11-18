@@ -76,23 +76,22 @@
 {%- include 'link-css-preload' with css_file: 'button.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'link-effect.css', blocking: true -%}
 
-{%- include 'link-css-preload' with css_file: 'core-foundation-overlay.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-foundation-form-controls.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-component-modal.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-component-popover.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-commerce-product.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-overlay.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-form-controls.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-modal.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-popover.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'product.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'swatch-colors.css', blocking: true -%}
 {%- if settings.float_contact_show or settings.float_btt_show -%}
 {%- include 'link-css-preload' with css_file: 'floating-contact.css', blocking: false -%} 
 {%- endif -%}
 {%- include 'link-css-preload' with css_file: 'quick-view.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-component-slider.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-slider.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'media-progress.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'scroll-style.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'effect-cursor.css', blocking: true -%}
-{%- comment -%}Shared off-canvas motion loads before component skins.{%- endcomment -%}
-{%- include 'link-css-preload' with css_file: 'core-component-offcanvas.css', blocking: true -%}
-{%- include 'link-css-preload' with css_file: 'core-component-header.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-offcanvas.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'cpn-header.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'header.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'mini-account.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'footer.css', blocking: true -%}
@@ -102,13 +101,25 @@
 {%- include 'link-css-preload' with css_file: 'menu-accordion.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'expand-content.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'search-panel.css', blocking: true -%}
+{%- if settings.translate_show -%}
+{%- include 'link-css-preload' with css_file: 'translate-switcher.css', blocking: true -%}
+{%- endif -%}
 {%- if settings.wishlist_show != false -%}
 {%- include 'link-css-preload' with css_file: 'wishlist.css', blocking: true -%}
 {%- endif -%}
 {%- if template == '404' -%}
 {%- include 'link-css-preload' with css_file: 'page-404.css', blocking: true -%}
 {%- endif -%}
+{%- include 'link-css-preload' with css_file: 'cart-content.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'mini-cart.css', blocking: true -%}
+{%- if settings.newsletter_popup_show and template == 'index' -%}
+  {%- include 'link-css-preload' with css_file: 'newsletter-popup.css' -%}
+{%- endif -%}
+{%- if settings.recent_orders_show -%}
+  {%- unless template contains 'cart' or template contains 'customers' -%}
+    {%- include 'link-css-preload' with css_file: 'recent-orders.css' -%}
+  {%- endunless -%}
+{%- endif -%}
 {%- if template contains 'index' -%}
 {%- include 'link-css-preload' with css_file: 'topbar.css', blocking: true -%}
 {%- endif -%}
@@ -118,14 +129,19 @@
 {%- include 'link-css-preload' with css_file: 'countdown.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'home-images-overlay.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'featured-product.css', blocking: true -%}
+{%- if settings.x1_featured_product_show and settings.product_show_share != false -%}
+{%- include 'link-css-preload' with css_file: 'share-links.css', blocking: true -%}
+{%- endif -%}
 {%- include 'link-css-preload' with css_file: 'scroll-media-text.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'image-compare.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'latest-stories.css', blocking: true -%}
+{%- if settings.latest_stories_show -%}
+{%- include 'link-css-preload' with css_file: 'blog.css', blocking: true -%}
+{%- endif -%}
 {%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'product-tabs.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'lookbook.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'product-story.css', blocking: true -%}
-{%- comment -%}Homepage social proof section styles.{%- endcomment -%}
 {%- include 'link-css-preload' with css_file: 'testimonial-product.css', blocking: true -%}
 
 {%- elsif template contains 'collection' -%}
@@ -150,29 +166,35 @@
 {%- include 'link-css-preload' with css_file: 'blog.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'share-links.css', blocking: true -%}
 {%- elsif template contains 'search' -%}
-{%- comment -%}Search page reuses the collection grid, toolbar and filters.{%- endcomment -%}
 {%- include 'link-css-preload' with css_file: 'collection.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'component-skeleton.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'search-page.css', blocking: true -%}
 {%- elsif template contains 'page' -%}
-{%- if template contains 'page.about' -%}
+{%- if template == 'page.about-us' -%}
 {%- include 'link-css-preload' with css_file: 'page-about.css', blocking: true -%}
-{%- elsif template contains 'page.faq' -%}
+{%- elsif template == 'page.contact' -%}
+{%- include 'link-css-preload' with css_file: 'page-contact.css', blocking: true -%}
+{%- elsif template == 'page.faq' -%}
 {%- include 'link-css-preload' with css_file: 'page-faq.css', blocking: true -%}
-{%- elsif template contains 'page.brand' -%}
-{%- include 'link-css-preload' with css_file: 'page-brand.css', blocking: true -%}
-{%- elsif template contains 'page.size-guide' -%}
+{%- elsif template == 'page.fabric-lab' -%}
+{%- include 'link-css-preload' with css_file: 'page-fabric-lab.css', blocking: true -%}
+{%- if settings.fabric_story_show -%}{%- include 'link-css-preload' with css_file: 'product-story.css', blocking: true -%}{%- endif -%}
+{%- elsif template == 'page.size-guide' -%}
 {%- include 'link-css-preload' with css_file: 'size-guide.css', blocking: true -%}
 {%- include 'link-css-preload' with css_file: 'page-size-guide.css', blocking: true -%}
+{%- elsif template == 'page.wishlist' or template == 'page.size-guide-data' -%}
 {%- else -%}
 {%- include 'link-css-preload' with css_file: 'style-page.css', blocking: true -%}
+{%- include 'link-css-preload' with css_file: 'blog.css', blocking: true -%}
+{%- if settings.page_policy_show -%}{%- include 'link-css-preload' with css_file: 'policy.css', blocking: true -%}{%- endif -%}
 {%- endif -%}
 {%- elsif template contains 'cart' -%}
-{%- comment -%}Trang cart dung chung skin trong mini-cart.css (nap toan site).{%- endcomment -%}
+{%- include 'link-css-preload' with css_file: 'cart-page.css', blocking: true -%}
+{%- if settings.cart_page_recommend_show -%}{%- include 'link-css-preload' with css_file: 'product-carousel.css', blocking: true -%}{%- endif -%}
+{%- if settings.cart_page_policy_show -%}{%- include 'link-css-preload' with css_file: 'policy.css', blocking: true -%}{%- endif -%}
 {%- elsif template contains 'customers' -%}
 {%- if template contains 'login' or template contains 'register' or template contains 'reset_password' or template contains 'activate_account' -%}{%- include 'link-css-preload' with css_file: 'customer.css', blocking: true -%}{%- endif -%}
 {%- if template contains 'register' -%}{%- include 'link-css-preload' with css_file: 'flatpickr.min.css', blocking: true -%}{%- endif -%}
-{%- comment -%}Shared authenticated account shell.{%- endcomment -%}
 {%- if template contains 'customers[account]' or template contains 'customers[addresses]' or template contains 'customers[order]' -%}{%- include 'link-css-preload' with css_file: 'account.css', blocking: true -%}{%- endif -%}
 {%- if template contains 'customers[account]' -%}{%- include 'link-css-preload' with css_file: 'flatpickr.min.css', blocking: true -%}{%- endif -%}
 {%- endif -%}

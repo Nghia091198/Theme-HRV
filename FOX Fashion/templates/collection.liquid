@@ -12,11 +12,8 @@
 {%- if settings.collection_image_show -%}
   {%- if collection.image != blank -%}
     {%- assign fox_collection_banner = collection.image.src -%}
-  {%- elsif settings['collection_banner.jpg'] != blank -%}
-    {%- assign fox_collection_banner = settings['collection_banner.jpg'] -%}
-    {%- unless fox_collection_banner contains '//' -%}
-      {%- assign fox_collection_banner = fox_collection_banner | asset_url -%}
-    {%- endunless -%}
+  {%- else -%}
+    {%- assign fox_collection_banner = 'collection_banner.jpg' | asset_url -%}
   {%- endif -%}
 {%- endif -%}
 

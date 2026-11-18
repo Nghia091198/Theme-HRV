@@ -1,6 +1,3 @@
-/* Search page (templates/search.liquid, search-page.js). Grid, toolbar, chips and filter controls come from
-   collection.css (shared collection engine); this file adds the Aurora head, the horizontal filter row, articles and
-   the empty state. */
 .fox-search-page {
   --fox-sp-ink: var(--color-text-theme, #1b2631);
   --fox-sp-muted: color-mix(in srgb, var(--fox-sp-ink) 65%, transparent);
@@ -20,7 +17,6 @@
   white-space: nowrap;
 }
 
-/* Aurora head (palette and drift of page.size-guide) */
 .fox-search-page__hero {
   position: relative;
   isolation: isolate;
@@ -80,6 +76,7 @@
 
 .fox-search-page__hero-inner {
   padding-top: clamp(3.2rem, 4vw, 4.8rem);
+  padding-bottom: 2.6rem;
 }
 
 .fox-search-page__eyebrow {
@@ -226,13 +223,11 @@
   background: #fff;
 }
 
-/* Tabs: theme buttons, current = primary, other = secondary (button.css + button-effect). */
 .fox-search-page__tabs {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 2.2rem;
-  padding-bottom: 2.6rem;
 }
 
 .fox-search-page__tab {
@@ -270,7 +265,6 @@
   background: var(--color-btn-text-secondary, #1b2631);
 }
 
-/* Secondary hover fills dark (button-effect): the count turns light so it stays readable. */
 .fox-search-page__tab.btn-secondary:is(:hover, :focus-visible) .fox-search-page__count {
   color: var(--color-btn-text-secondary, #1b2631);
   background: #fff;
@@ -281,13 +275,10 @@
   outline-offset: 2px;
 }
 
-/* Products: collection engine, full-width grid */
 .fox-search-page__collection {
   padding-top: 1.6rem;
 }
 
-/* Mobile: collection.css shows the filters inline until its JS is ready (no-JS fallback); on the search page that
-   flashes the whole list before it moves into the sheet, so the block stays hidden until the engine is ready. */
 @media (max-width: 767px) {
   .fox-search-page [data-collection-root]:not([data-collection-ready="true"]) .fox-search-page__filters {
     display: none;
@@ -299,7 +290,7 @@
 }
 
 @media (min-width: 768px) {
-  /* Filter column → one row of pills above the grid, each group opening a glass popover. */
+
   .fox-search-page__layout {
     display: block;
   }
@@ -321,7 +312,6 @@
     will-change: auto;
   }
 
-  /* The row (and its popovers) sits above the product grid that follows it. */
   .fox-search-page .fox-search-page__filters {
     position: relative;
     z-index: 30;
@@ -331,7 +321,6 @@
     margin-bottom: 1.8rem;
   }
 
-  /* core-offcanvas__content is a column flexbox (core-component-offcanvas.css): turn it into a wrapping row. */
   .fox-search-page .fox-search-page__filters .fox-collection__filter-column[data-position='left'] .fox-collection__filters-content {
     display: flex;
     flex-direction: row;
@@ -418,19 +407,10 @@
     box-shadow: 0 2rem 4rem rgb(0 0 0 / 25%);
   }
 
-  .fox-search-page__filters .fox-collection__filter-group > .fox-collection__filter-options-toggle {
-    display: none;
-  }
-
-  .fox-search-page__filters .fox-collection__filter-options [data-filter-extra] {
-    display: list-item;
-  }
-
   .fox-search-page__filters .fox-collection__filter-option {
     color: inherit;
   }
 
-  /* Controls on the glass popover: light versions (as the dark mobile filter sheet in collection.css). */
   .fox-search-page__filters .fox-collection__filter-options .fox-collection__filter-option {
     color: rgb(255 255 255 / 82%);
   }
@@ -485,14 +465,12 @@
     outline-color: #fff;
   }
 
-  /* Native scrollbar on the glass list. */
   .fox-search-page__filters .fox-collection__filter-group > .fox-collection__filter-options {
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 28%) transparent;
   }
 }
 
-/* Full-width grid: 4 / 3 / 2 columns */
 .fox-search-page .fox-collection__grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -509,7 +487,6 @@
   }
 }
 
-/* Articles tab */
 .fox-search-page__articles {
   padding-top: 2.4rem;
 }
@@ -574,7 +551,6 @@
   line-height: 1.35;
 }
 
-/* Empty state */
 .fox-search-page__empty {
   display: grid;
   justify-items: center;
@@ -649,11 +625,32 @@
   font-weight: 600;
 }
 
-/* Recommended rail on the light page (rail styles come from search-panel.css) */
 .fox-search-page__recommend {
   margin-top: 3.2rem;
-  padding-top: 2.4rem;
-  border-top: 1px solid var(--fox-sp-line);
+}
+
+.fox-search-page__recommend::before {
+  display: block;
+  height: 1px;
+  margin-bottom: 2.4rem;
+  background: var(--fox-sp-line);
+  content: '';
+}
+
+.fox-search-page__recommend .fox-search__heading.fox-section__title {
+  --fox-section-title-size: clamp(2rem, 3vw, 2.5rem);
+  font-family: var(--fox-section-title-font, var(--base-font-title));
+  font-size: var(--fox-section-title-size);
+  font-weight: 500;
+  letter-spacing: var(--fox-section-title-spacing, -0.02em);
+  line-height: var(--fox-section-title-leading, 1.1);
+  color: var(--fox-section-title-color, var(--color-text-theme, #171718));
+}
+
+@media (max-width: 992px) {
+  .fox-search-page__recommend .fox-search__heading.fox-section__title {
+    font-size: 1.8rem;
+  }
 }
 
 .fox-search--light product-card .pro--title a,
@@ -668,6 +665,7 @@
 @media (max-width: 767px) {
   .fox-search-page__hero-inner {
     padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   .fox-search-page__form {
@@ -701,7 +699,6 @@
 
   .fox-search-page__tabs {
     gap: 0.8rem;
-    padding-bottom: 2rem;
   }
 
   .fox-search-page__tab {

@@ -1,4 +1,3 @@
-{%- comment -%}Client-side history: cards are hydrated by recently-viewed.js from the product?view=product-loop-data fragment.{%- endcomment -%}
 {%- assign limit = settings.recently_viewed_limit | default: 8 | plus: 0 -%}
 {%- if limit < 1 -%}
   {%- assign limit = 1 -%}

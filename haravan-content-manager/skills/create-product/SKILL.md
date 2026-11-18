@@ -39,6 +39,10 @@ Write a 250-450 word semantic description for each product using the same safe H
 
 Use `$image-skill` and its `imagegen` workflow to generate all product images before any Haravan write occurs.
 
+Before writing any image prompt, read `../IMAGE-ART-DIRECTION.md` and follow it: one brand-world table per batch,
+the 7-layer prompt formula, the shot roles (hero · on-model lifestyle · detail), the industry notes, the rejection
+checklist and the export settings.
+
 - Generate three original JPEGs per product by default at `1600x1600`. When the user explicitly requests a larger gallery, generate 5–10 distinct JPEGs per product and pass all of them to the existing `create_product` tool.
 - Keep each file below `512,000` bytes.
 - Do not include text, logos, watermarks, or identifiable brand marks.

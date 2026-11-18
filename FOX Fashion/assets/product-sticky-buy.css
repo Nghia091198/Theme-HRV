@@ -16,7 +16,6 @@
   white-space: nowrap;
 }
 
-/* Bar (shared) */
 .fox-sticky-buy__bar {
   position: fixed;
   z-index: 55;
@@ -114,9 +113,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   cursor: pointer;
 }
 
-/* Options (desktop): pill trigger + glass menu opening upward. Menu items are [data-option-value],
-   so product-component selects the variant and syncs is-active / disabled / option-name.
-   The option group takes the space left and shrinks (values truncate) so the pill never overflows. */
 .fox-sticky-buy__options {
   display: flex;
   flex: 1 1 auto;
@@ -167,7 +163,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   text-overflow: ellipsis;
 }
 
-/* 3+ options: show values only (names stay for screen readers) and drop the product name. */
 .fox-sticky-buy__options:has(> .fox-sticky-buy__option:nth-child(3)) .fox-sticky-buy__option-name {
   position: absolute;
   width: 1px;
@@ -253,15 +248,11 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   opacity: 0.4;
 }
 
-.fox-sticky-buy__menu-item:disabled .fox-sticky-buy__menu-label {
-  text-decoration: line-through;
-}
-
 .fox-sticky-buy__menu-dot {
   flex: 0 0 auto;
   width: 1.8rem;
   height: 1.8rem;
-  /* --fox-swatch-color comes from .fox-color--<handle> (swatch-colors.css). */
+
   background: var(--fox-swatch-color, #dedede);
   border: 1px solid rgb(255 255 255 / 30%);
   border-radius: 50%;
@@ -280,7 +271,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   opacity: 1;
 }
 
-/* Quantity */
 .fox-sticky-buy__qty {
   display: grid;
   grid-template-columns: 3.6rem 3rem 3.6rem;
@@ -314,7 +304,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   text-align: center;
 }
 
-/* Buttons */
 .fox-sticky-buy__actions {
   display: flex;
   gap: 0.8rem;
@@ -400,7 +389,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   outline-offset: 2px;
 }
 
-/* Mobile sheet (modal-component) */
 .fox-sticky-buy__sheet-modal {
   --modal-width: 100vw;
   --modal-max-height: 88dvh;
@@ -480,7 +468,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   line-height: 1.3;
 }
 
-/* Variant picker inside the dark sheet (the page skin targets a light surface). */
 .fox-product--page .fox-sticky-buy__sheet .fox-product__option {
   margin: 0 0 1.6rem;
 }
@@ -511,7 +498,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   width: 100%;
 }
 
-/* Desktop pill: centered with side gutters so the contact dock / back-to-top corners stay free. */
 @media (min-width: 768px) {
   .fox-sticky-buy.has-desktop .fox-sticky-buy__bar {
     display: flex;
@@ -525,7 +511,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   }
 }
 
-/* Narrower pills keep image, price, quantity and add to cart; full controls stay in the purchase block. */
 @media (min-width: 768px) and (max-width: 1199px) {
   .fox-sticky-buy__name,
   .fox-sticky-buy__actions add-to-cart[data-mode="buy-now"] {
@@ -539,7 +524,6 @@ html:has(dialog[open]) .fox-sticky-buy__bar {
   }
 }
 
-/* Mobile compact pill */
 @media (max-width: 767px) {
   .fox-sticky-buy.has-mobile .fox-sticky-buy__bar {
     display: flex;

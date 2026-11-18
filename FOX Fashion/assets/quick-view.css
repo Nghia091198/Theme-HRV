@@ -24,7 +24,6 @@ quick-view-component dialog[open]::backdrop {
   backdrop-filter: blur(15px);
 }
 
-/* A stacked modal (e.g. size guide) covers quick view; core modal restores it on close. */ 
 quick-view-component modal-component dialog {
   transition: opacity 200ms ease;
 }
@@ -126,13 +125,13 @@ quick-view-component modal-component[data-modal-suspended="true"] dialog {
   margin: 1.3rem 0;
 }
 .fox-product--quickview .fox-product__title { margin-bottom: 16px;font-size: clamp(1.5rem, 4vw, 2rem); }
-.fox-product--quickview .fox-product__price-wrap { 
-  font-size: 24px; line-height: 1.4; 
+.fox-product--quickview .fox-product__price-wrap {
+  font-size: 24px; line-height: 1.4;
   align-items: center;
 }
 .fox-product--quickview .fox-product__price-wrap[hidden] { display: none; }
 .fox-product--quickview .fox-product__price-wrap del { color: var(--fox-quick-view-muted); font-size: 16px; }
-.fox-product--quickview [data-role="sale-percent"]:not([hidden]):not(:empty) { 
+.fox-product--quickview [data-role="sale-percent"]:not([hidden]):not(:empty) {
     align-self: center;
     padding: 3px 8px;
     color: var(--percent-text, #fff);

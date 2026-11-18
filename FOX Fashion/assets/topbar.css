@@ -2,13 +2,13 @@
   color: var(--topbar-text);
   background-color: var(--topbar-bg);
   padding: 7px 0;
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 .topbar .wrapper {
   display: flex;
 }
 .topbar .topbar-content {
-  /* The announcement slider owns the full topbar row. */
+
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   flex: 1;

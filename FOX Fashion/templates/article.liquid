@@ -1,10 +1,9 @@
-{%- assign article_words = article.content | strip_html | split: ' ' | size -%}
 {%- capture article_full_url -%}{{ shop.url }}{{ article.url }}{%- endcapture -%}
-
-<div class="fox-blog fox-article">
+{%- assign article_has_sidebar = true -%}
+{%- if settings.article_show_sidebar == false -%}{%- assign article_has_sidebar = false -%}{%- endif -%}
+<div class="fox-blog fox-article{% unless article_has_sidebar %} fox-article--no-sidebar{% endunless %}">
   <div class="container">
     {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
-
     <header class="fox-article__header">
       {%- if article.tags.first != blank -%}<span class="fox-blog-chip">{{ article.tags.first | escape }}</span>{%- endif -%}
       <h1 class="fox-article__title">{{ article.title | escape }}</h1>
@@ -44,16 +43,9 @@
         {%- endif -%}
 
         <div id="fox-article-content" class="rte fox-article__content">{{ article.content }}</div>
-
-        {%- if article.tags.size > 0 -%}
-        <p class="fox-article__tags">
-          <strong>Tags:</strong>
-          {%- for tag in article.tags -%}<a class="fox-blog-chip" href="{{ blog.url | escape }}/tagged/{{ tag | handleize }}">{{ tag | escape }}</a>{%- endfor -%}
-        </p>
-        {%- endif -%}
       </main>
 
-      {%- include 'blog-sidebar' -%}
+      {%- if article_has_sidebar -%}{%- include 'content-sidebar' -%}{%- endif -%}
     </div> 
 
     {%- if settings.article_show_related != false -%}
@@ -63,8 +55,6 @@
       {%- for related_article in blog.articles -%}
         {%- if related_article.id != article.id and related_count < related_limit -%}{%- assign related_count = related_count | plus: 1 -%}{%- endif -%}
       {%- endfor -%}
-      {%- assign related_is_slider = false -%}
-      {%- if related_count > 4 -%}{%- assign related_is_slider = true -%}{%- endif -%}
       {%- assign related_rendered = 0 -%}
       {%- capture related_html -%}
         {%- for related_article in blog.articles -%}
@@ -72,22 +62,23 @@
             {%- assign related_rendered = related_rendered | plus: 1 -%}
             {%- assign blog_card_article = related_article -%}
             {%- assign blog_card_featured = false -%}
-            {%- if related_is_slider -%}<div class="swiper-slide fox-article__related-slide">{%- endif -%}
+            <div class="swiper-slide fox-article__related-slide">
             {%- include 'blog-article-card' -%}
-            {%- if related_is_slider -%}</div>{%- endif -%}
+            </div>
           {%- endif -%}
         {%- endfor -%}
       {%- endcapture -%}
       {%- assign related_title = settings.article_related_title | default: 'Bài viết liên quan' -%}
       {%- if related_count > 0 -%}
       <section class="fox-article__related" aria-labelledby="fox-article-related-title">
-        {%- if related_is_slider -%}
         <slider-component
           class="fox-article__related-slider"
           data-state="idle"
           data-preset="product"
-          data-autoplay="false"
-          data-loop="false"
+          data-autoplay="true"
+          data-autoplay-delay="4000"
+          data-pause-on-hover="true"
+          data-loop="{% if related_count > 4 %}true{% else %}false{% endif %}"
           data-pagination="false"
           data-navigation="true"
           data-slides-mobile="auto"
@@ -108,10 +99,6 @@
             <div class="swiper-wrapper">{{ related_html }}</div>
           </div>
         </slider-component>
-        {%- else -%}
-        <h2 id="fox-article-related-title" class="fox-article__related-title">{{ related_title | escape }}</h2>
-        <div class="fox-blog__grid fox-blog__grid--mobile-{{ settings.blog_mobile_columns | default: '2' }} fox-blog__grid--4">{{ related_html }}</div>
-        {%- endif -%}
       </section>
       {%- endif -%}
     {%- endif -%}

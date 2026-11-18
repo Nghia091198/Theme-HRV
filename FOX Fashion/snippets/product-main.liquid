@@ -16,7 +16,6 @@
     {%- include 'product-form' -%}
   </div>
   {%- if fox_product_context == 'page' -%}
-    {%- comment -%}Inside product-component so options, quantity and add-to-cart stay in sync.{%- endcomment -%}
-    {%- include 'product-sticky-buy' -%}
+    {%- if settings.shop_buying -%}{%- include 'product-sticky-buy' -%}{%- endif -%}
   {%- endif -%}
 </product-component>

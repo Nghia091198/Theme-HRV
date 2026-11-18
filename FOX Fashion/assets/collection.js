@@ -1,0 +1,727 @@
+(() => {
+  const ROOT_SELECTOR = '[data-collection-root]';
+  const FILTER_CONTROL_SELECTOR = 'input[type="checkbox"][data-filter][data-filter-value], input[type="radio"][data-filter][data-filter-value]';
+  const REQUEST_TIMEOUT = 10000;
+  // Single source for the URL parameter of each filter group; formatFilterParams() is built from it.
+  const FILTER_PARAMS = {
+    color: 'color',
+    material: 'tag1',
+    size: 'variant',
+    price: 'price',
+    fit: 'tag2',
+    vendor: 'vendor',
+    type: 'product_type',
+    availability: 'available',
+  };
+  const FILTER_PARAM_PATTERN = new RegExp(
+    `([?&](?:${Object.values(FILTER_PARAMS).map((param) => param.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})=[^&#]*)`,
+    'g',
+  );
+
+  function unique(values) {
+    return [...new Set(values.filter(Boolean))];
+  }
+
+  function getControls(root) {
+    return [...root.querySelectorAll(FILTER_CONTROL_SELECTOR)];
+  }
+
+  function setControlState(control, active) {
+    control.checked = active;
+  }
+
+  function getActiveValues(root) {
+    return unique(getControls(root)
+      .filter((control) => control.checked)
+      .map((control) => control.dataset.filterValue));
+  }
+
+  function hasNamedFilterParams(params) {
+    return Object.values(FILTER_PARAMS).some((param) => params.has(param));
+  }
+
+  function parseFilterParamValues(param, value) {
+    const values = (value || '').split(',').filter(Boolean);
+    if (param !== FILTER_PARAMS.color) return values;
+    return values.map((item) => item.startsWith('color:') ? item : `color:${item}`);
+  }
+
+  function serializeFilterParamValues(param, values) {
+    if (param !== FILTER_PARAMS.color) return values.join(',');
+    return values.map((value, index) => index ? value.replace(/^color:/, '') : value).join(',');
+  }
+
+  // Search page: data-keyword-query is the base query with a {keyword} slot, filled with the decoded keyword
+  // (data-keyword); characters of the filter syntax are dropped so any keyword keeps the query valid.
+  function getBaseQuery(root) {
+    if (root.dataset.keywordQuery && root.dataset.keyword) {
+      const keyword = root.dataset.keyword.replace(/[()&|*=,]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (keyword) return root.dataset.keywordQuery.replace('{keyword}', keyword);
+    }
+    return root.dataset.baseQuery || '';
+  }
+
+  function getGroupOperator(group) {
+    switch (group) {
+      case 'color':
+      case 'material':
+      case 'size':
+      case 'price':
+      case 'fit':
+      case 'vendor':
+      case 'type':
+        return '||';
+      default:
+        return '&&';
+    }
+  }
+
+  function buildQuery(root) {
+    const groups = new Map();
+    getControls(root)
+      .filter((control) => control.checked)
+      .forEach((control) => {
+        const group = control.dataset.filterGroup || 'other';
+        groups.set(group, [...(groups.get(group) || []), control.dataset.filterValue]);
+      });
+    const filters = [...groups.entries()]
+      .map(([group, values]) => {
+        const groupValues = unique(values);
+        return groupValues.length > 1
+          ? `(${groupValues.join(getGroupOperator(group))})`
+          : groupValues[0];
+      });
+    return `filter=${unique([getBaseQuery(root), ...filters]).join('&&')}`;
+  }
+
+  // data-always-search: the search page; its base query is the keyword, so every request goes through search.
+  function shouldUseSearch(root) {
+    if (root.dataset.alwaysSearch === 'true') return true;
+    return getActiveValues(root).length > 0 || (Number(root.dataset.sortCount || 1) > 1 && getSort(root) !== 'manual');
+  }
+
+  function getSort(root) {
+    return root.querySelector('[data-sort]')?.dataset.sortValue || 'manual';
+  }
+
+  function getSortFromParam(value) {
+    switch (value) {
+      case 'created-descending':
+      case '(updated_at:product=desc)':
+        return 'created-descending';
+      case 'price-ascending':
+      case '(price:product=asc)':
+        return 'price-ascending';
+      case 'price-descending':
+      case '(price:product=desc)':
+        return 'price-descending';
+      default:
+        return 'manual';
+    }
+  }
+
+  function getSearchSort(sort) {
+    switch (sort) {
+      case 'created-descending': return '(updated_at:product=desc)';
+      case 'price-ascending': return '(price:product=asc)';
+      case 'price-descending': return '(price:product=desc)';
+      default: return '';
+    }
+  }
+
+  function setSort(root, value) {
+    const sort = root.querySelector('[data-sort]');
+    if (!sort) return;
+    const selected = getSortFromParam(value);
+    const option = sort.querySelector(`[data-sort-option="${selected}"]`);
+    sort.dataset.sortValue = selected;
+    const label = sort.querySelector('[data-sort-label]');
+    if (label && option) label.textContent = option.textContent;
+    sort.querySelectorAll('[data-sort-option]').forEach((link) => {
+      if (link === option) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
+  function closeSort(root) {
+    const sort = root.querySelector('[data-sort]');
+    if (!sort?.open || sort.dataset.closing === 'true') return;
+    sort.dataset.closing = 'true';
+    const options = sort.querySelector('[data-role="sort-options"]');
+    if (options) options.inert = true;
+    window.clearTimeout(root._foxCollectionSortTimer);
+    root._foxCollectionSortTimer = window.setTimeout(() => {
+      sort.open = false;
+      if (options) {
+        options.inert = false;
+        options.removeAttribute('data-hover-active');
+      }
+      delete sort.dataset.closing;
+      delete sort.dataset.openedByHover;
+      root._foxCollectionSortTimer = null;
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 320);
+  }
+
+  function openSort(root) {
+    const sort = root.querySelector('[data-sort]');
+    if (!sort) return;
+    window.clearTimeout(root._foxCollectionSortTimer);
+    root._foxCollectionSortTimer = null;
+    delete sort.dataset.closing;
+    const options = sort.querySelector('[data-role="sort-options"]');
+    if (options) options.inert = false;
+    sort.dataset.openedByHover = 'true';
+    sort.open = true;
+  }
+
+  function moveSortIndicator(options, link) {
+    const item = link.closest('li');
+    if (!item) return;
+    const listRect = options.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    options.style.setProperty('--fox-sort-hover-y', `${itemRect.top - listRect.top}px`);
+    options.style.setProperty('--fox-sort-hover-height', `${itemRect.height}px`);
+    options.setAttribute('data-hover-active', '');
+  }
+
+  function readState(root) {
+    return { values: getActiveValues(root), sort: getSort(root) };
+  }
+
+  function applyState(root, state) {
+    const values = new Set(state.values || []);
+    getControls(root).forEach((control) => {
+      setControlState(control, values.has(control.dataset.filterValue));
+    });
+    setSort(root, state.sort || 'manual');
+    renderActiveFilters(root);
+  }
+
+  function getPage(url) {
+    const page = Number(new URL(url, window.location.href).searchParams.get('page') || 1);
+    return Number.isFinite(page) && page > 0 ? page : 1;
+  }
+
+  function buildRequestUrl(root, sourceUrl) {
+    const useSearch = shouldUseSearch(root);
+    const template = useSearch ? root.dataset.searchTemplate : root.dataset.productsTemplate;
+    const requestUrl = new URL(template || window.location.href, window.location.href);
+    const source = sourceUrl ? new URL(sourceUrl, window.location.href) : null;
+    const sort = getSort(root);
+
+    requestUrl.searchParams.set('view', 'data');
+    requestUrl.searchParams.set('page', String(source ? getPage(source) : 1));
+    const sortParam = useSearch ? 'sortby' : 'sort_by';
+    const otherSortParam = useSearch ? 'sort_by' : 'sortby';
+    requestUrl.searchParams.delete(otherSortParam);
+    if (sort && sort !== 'manual') requestUrl.searchParams.set(sortParam, useSearch ? getSearchSort(sort) : sort);
+    else requestUrl.searchParams.delete(sortParam);
+
+    if (useSearch) requestUrl.searchParams.set(root.dataset.queryParam || 'q', buildQuery(root));
+    else requestUrl.searchParams.delete(root.dataset.queryParam || 'q');
+
+    return requestUrl;
+  }
+
+  // Keep "," and ":" readable in every filter parameter (Đỏ,Vàng,Cam instead of Đỏ%2CVàng%2CCam).
+  // "+" stays encoded (%2B): a raw "+" would be read back as a space (price "500000+").
+  function formatFilterParams(url) {
+    return url.replace(
+      FILTER_PARAM_PATTERN,
+      (parameter) => parameter.replace(/%2C/gi, ',').replace(/%3A/gi, ':'),
+    );
+  }
+
+  function getCanonicalUrl(root, sourceUrl) {
+    const canonical = new URL(root.dataset.collectionUrl || window.location.pathname, window.location.href);
+    const source = sourceUrl ? new URL(sourceUrl, window.location.href) : null;
+    const sort = getSort(root);
+
+    if (source?.searchParams.get('page')) canonical.searchParams.set('page', source.searchParams.get('page'));
+    if (sort && sort !== 'manual') canonical.searchParams.set('sort_by', sort);
+    else {
+      canonical.searchParams.delete('sort_by');
+      canonical.searchParams.delete('sortby');
+    }
+    canonical.searchParams.delete(root.dataset.queryParam || 'q');
+    // Search page: the visible URL keeps the keyword (the filter query itself is never pushed).
+    if (root.dataset.keyword) canonical.searchParams.set('q', root.dataset.keyword);
+    if (root.dataset.pushFilterParams === 'true') {
+      const selected = new Map();
+      getControls(root).filter((control) => control.checked).forEach((control) => {
+        const param = FILTER_PARAMS[control.dataset.filterGroup];
+        const value = control.dataset.filterParamValue;
+        if (!param || !value) return;
+        selected.set(param, [...(selected.get(param) || []), value]);
+      });
+      Object.values(FILTER_PARAMS).forEach((param) => {
+        const values = unique(selected.get(param) || []);
+        if (values.length) canonical.searchParams.set(param, serializeFilterParamValues(param, values));
+      });
+    }
+
+    return formatFilterParams(canonical.toString());
+  }
+
+  function getResultsContent(root) {
+    return root.querySelector('[data-role="results-content"]');
+  }
+
+  function syncPaginationMode(root) {
+    const loadMore = root.dataset.paginationMode === 'load-more';
+    root.querySelectorAll('[data-pagination-load-more]').forEach((control) => {
+      control.hidden = !loadMore;
+    });
+  }
+
+  function setStatus(root, message) {
+    const status = root.querySelector('[data-role="status"]');
+    if (status) status.textContent = message || '';
+  }
+
+  // Desktop: after a filter change, bring the listing top (toolbar) back into view when it has been scrolled past.
+  function scrollToListing(root) {
+    if (root._foxCollectionMobile?.matches) return;
+    const target = root.querySelector('.fox-collection__toolbar') || root.querySelector('[data-role="results"]') || root;
+    const headerOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--fox-header-height'), 10) || 0;
+    const offset = headerOffset + 16;
+    const top = target.getBoundingClientRect().top;
+    if (top >= offset) return;
+    window.scrollTo({
+      top: window.scrollY + top - offset,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+  }
+
+  function renderActiveFilters(root) {
+    root.querySelectorAll('[data-role="active-filters"]').forEach((container) => {
+      container.replaceChildren();
+      const active = getControls(root).filter((control) => control.checked);
+      active.forEach((control) => {
+        const label = control.dataset.filterLabel || control.closest('label')?.textContent.trim() || '';
+        const chip = document.createElement('span');
+        chip.className = 'fox-collection__active-chip';
+        const text = document.createElement('span');
+        text.className = 'fox-collection__active-chip-label';
+        text.textContent = label;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'fox-collection__active-chip-remove';
+        remove.dataset.filterRemove = control.dataset.filterValue;
+        remove.setAttribute('aria-label', `Bỏ lọc ${label}`);
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('aria-hidden', 'true');
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#ic-close');
+        icon.append(use);
+        remove.append(icon);
+        chip.append(text, remove);
+        container.append(chip);
+      });
+    });
+    const hasActiveFilters = getActiveValues(root).length > 0;
+    const activeRow = root.querySelector('[data-role="active-filter-row"]');
+    if (activeRow) activeRow.hidden = !hasActiveFilters;
+    root.querySelectorAll('[data-filter-reset]').forEach((clear) => {
+      clear.hidden = !hasActiveFilters;
+    });
+  }
+
+  function syncResultSummary(root, content) {
+    if (!content) return;
+    const total = Number(content.dataset.resultCount);
+    const page = Number(content.dataset.resultPage || 1);
+    const visible = content.querySelectorAll('[data-role="product-grid"] > product-card').length;
+    if (!Number.isFinite(total) || !Number.isFinite(page) || !Number.isFinite(visible)) return;
+    const count = root.querySelector('[data-role="result-count"]');
+    const range = root.querySelector('[data-role="result-range"]');
+    const start = total > 0 && visible > 0 ? (page - 1) * Number(root.dataset.pageSize || 12) + 1 : 0;
+    const end = start ? Math.min(start + visible - 1, total) : 0;
+    if (count) count.textContent = String(total);
+    if (range) range.textContent = `${start}–${end}`;
+  }
+
+  function syncFromUrl(root) {
+    const params = new URL(window.location.href).searchParams;
+    const saved = window.history.state?.foxCollection;
+    const namedFilters = hasNamedFilterParams(params);
+    const selected = new Map(Object.values(FILTER_PARAMS).map((param) => [
+      param,
+      new Set(parseFilterParamValues(param, params.get(param))),
+    ]));
+    const legacyQuery = params.get(root.dataset.queryParam || 'q') || '';
+    const values = root.dataset.pushFilterParams === 'true'
+      ? getControls(root).filter((control) => {
+        if (namedFilters) {
+          const param = FILTER_PARAMS[control.dataset.filterGroup];
+          return selected.get(param)?.has(control.dataset.filterParamValue);
+        }
+        return legacyQuery.startsWith('filter=') && legacyQuery.includes(control.dataset.filterValue);
+      }).map((control) => control.dataset.filterValue)
+      : saved?.values || [];
+    const sort = getSortFromParam(params.get('sort_by') || params.get('sortby') || saved?.sort || 'manual');
+    applyState(root, { values, sort });
+  }
+
+  function setLoading(root, loading) {
+    const results = root.querySelector('[data-role="results"]');
+    const skeleton = root.querySelector('[data-role="loading"]');
+    if (loading) root.dataset.state = 'loading';
+    else if (root.dataset.state === 'loading') root.dataset.state = 'ready';
+    if (results) results.setAttribute('aria-busy', String(loading));
+    if (skeleton) skeleton.hidden = !loading;
+  }
+
+  function replaceResults(root, nextContent, append) {
+    const currentContent = getResultsContent(root);
+    if (!currentContent || !nextContent) throw new Error('Collection result fragment is missing.');
+
+    if (!append) {
+      currentContent.replaceWith(nextContent);
+      syncResultSummary(root, nextContent);
+      syncPaginationMode(root);
+      return;
+    }
+
+    const currentGrid = currentContent.querySelector('[data-role="product-grid"]');
+    const nextGrid = nextContent.querySelector('[data-role="product-grid"]');
+    if (!currentGrid || !nextGrid) throw new Error('Collection product grid is missing.');
+    nextGrid.querySelectorAll(':scope > *').forEach((item) => currentGrid.append(item));
+    currentContent.querySelector('[data-role="pagination"]')?.remove();
+    const nextPagination = nextContent.querySelector('[data-role="pagination"]');
+    if (nextPagination) currentContent.append(nextPagination);
+    syncResultSummary(root, nextContent);
+    syncPaginationMode(root);
+  }
+
+  async function request(root, sourceUrl, options = {}) {
+    const controller = new AbortController();
+    const previousController = root._foxCollectionRequest;
+    previousController?.abort();
+    root._foxCollectionRequest = controller;
+    let timedOut = false;
+    const timeout = window.setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, REQUEST_TIMEOUT);
+    const append = options.append === true;
+    const requestUrl = buildRequestUrl(root, sourceUrl);
+
+    setLoading(root, true);
+    setStatus(root, 'Đang tải sản phẩm…');
+
+    try {
+      const response = await fetch(requestUrl.toString(), {
+        signal: controller.signal,
+        credentials: 'same-origin',
+        headers: { Accept: 'text/html', 'X-Requested-With': 'XMLHttpRequest' },
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const html = await response.text();
+      const fragment = new DOMParser().parseFromString(html, 'text/html');
+      const nextContent = fragment.querySelector('[data-role="results-content"]');
+      if (!nextContent) throw new Error('Empty collection response.');
+      if (root._foxCollectionRequest !== controller) return;
+
+      replaceResults(root, nextContent, append);
+      root.dataset.query = buildQuery(root);
+      root.dataset.state = 'ready';
+      root._foxCollectionConfirmedState = readState(root);
+      if (!options.skipHistory) {
+        window.history.pushState(
+          { ...window.history.state, foxCollection: root._foxCollectionConfirmedState },
+          '',
+          getCanonicalUrl(root, sourceUrl),
+        );
+      }
+      setStatus(root, '');
+      root.dispatchEvent(new CustomEvent('collection:updated', {
+        bubbles: true,
+        detail: { url: requestUrl.toString(), query: root.dataset.query, append },
+      }));
+    } catch (error) {
+      if (root._foxCollectionRequest === controller && (error.name !== 'AbortError' || timedOut)) {
+        if (!options.skipHistory) applyState(root, root._foxCollectionConfirmedState);
+        root.dataset.state = 'error';
+        setStatus(root, 'Không thể tải sản phẩm. Vui lòng thử lại.');
+        console.warn('[collection] Request failed.', error);
+      }
+    } finally {
+      window.clearTimeout(timeout);
+      if (root._foxCollectionRequest === controller) {
+        root._foxCollectionRequest = null;
+        setLoading(root, false);
+      }
+    }
+  }
+
+  function toggleFilter(root, open) {
+    const filters = root.querySelector('[data-role="filters"]');
+    const shell = root.querySelector('.fox-collection__filter-column');
+    const media = root._foxCollectionMobile;
+    if (!filters) return;
+    const isDialog = media?.matches && open;
+    const wasDialog = filters.getAttribute('role') === 'dialog';
+    window.clearTimeout(root._foxCollectionFilterCloseTimer);
+    root._foxCollectionFilterCloseTimer = null;
+    if (wasDialog && !isDialog) {
+      filters.removeAttribute('role');
+      filters.removeAttribute('aria-modal');
+      window.FOX?.isOverlay?.(false, root);
+      root._foxCollectionReturnFocus?.focus();
+      root._foxCollectionReturnFocus = null;
+    }
+    root.dataset.filterOpen = String(open);
+    const toggle = root.querySelector('[data-filter-toggle]');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.classList.toggle('active', open);
+    }
+    const overlay = root.querySelector('[data-filter-overlay]');
+    if (shell) {
+      shell.removeAttribute('data-closing');
+      if (isDialog) {
+        if (overlay) overlay.hidden = false;
+        if (overlay) overlay.inert = false;
+        shell.setAttribute('data-open', '');
+      } else if (wasDialog && media?.matches) {
+        shell.removeAttribute('data-open');
+        shell.setAttribute('data-closing', '');
+        if (overlay) overlay.inert = true;
+        const finishClose = () => {
+          shell.removeAttribute('data-closing');
+          if (overlay) overlay.hidden = true;
+          root._foxCollectionFilterCloseTimer = null;
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) finishClose();
+        else root._foxCollectionFilterCloseTimer = window.setTimeout(finishClose, 360);
+      } else {
+        shell.removeAttribute('data-open');
+        if (overlay) overlay.hidden = true;
+        if (overlay) overlay.inert = true;
+      }
+    }
+    filters.inert = !open;
+    if (isDialog && !wasDialog) {
+      root._foxCollectionReturnFocus = document.activeElement;
+      filters.setAttribute('role', 'dialog');
+      filters.setAttribute('aria-modal', 'true');
+      window.FOX?.isOverlay?.(true, root, { lock: true, visual: false });
+      filters.querySelector('[data-filter-close]')?.focus();
+    } else if (!open && filters.contains(document.activeElement)) {
+      toggle?.focus();
+    }
+  }
+
+  function handleKeydown(root, event) {
+    const sort = root.querySelector('[data-sort]');
+    if (event.key === 'Escape' && sort?.open) {
+      closeSort(root);
+      sort.querySelector('summary')?.focus();
+      event.preventDefault();
+      return;
+    }
+    if (root.dataset.filterOpen !== 'true' || !root._foxCollectionMobile?.matches) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      toggleFilter(root, false);
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const filters = root.querySelector('[data-role="filters"]');
+    const focusable = [...filters.querySelectorAll('button:not([disabled]), summary, a[href], input:not([disabled]), select:not([disabled])')]
+      .filter((element) => element.getClientRects().length);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function handleClick(root, event) {
+    const sortSummary = event.target.closest('[data-sort] > summary');
+    if (sortSummary && root.contains(sortSummary) && sortSummary.parentElement.open) {
+      event.preventDefault();
+      if (sortSummary.parentElement.dataset.openedByHover === 'true') {
+        delete sortSummary.parentElement.dataset.openedByHover;
+        return;
+      }
+      closeSort(root);
+      return;
+    }
+    const sortOption = event.target.closest('[data-sort-option]');
+    if (sortOption && root.contains(sortOption)) {
+      event.preventDefault();
+      const previous = getSort(root);
+      setSort(root, sortOption.dataset.sortOption);
+      closeSort(root);
+      if (getSort(root) !== previous) request(root);
+      return;
+    }
+    const removeButton = event.target.closest('[data-filter-remove]');
+    if (removeButton && root.contains(removeButton)) {
+      const container = removeButton.closest('[data-role="active-filters"]');
+      const position = container ? [...container.querySelectorAll('[data-filter-remove]')].indexOf(removeButton) : -1;
+      const restoreFocus = document.activeElement === removeButton;
+      getControls(root)
+        .filter((control) => control.dataset.filterValue === removeButton.dataset.filterRemove)
+        .forEach((control) => setControlState(control, false));
+      renderActiveFilters(root);
+      if (restoreFocus) {
+        const remaining = container?.querySelectorAll('[data-filter-remove]') || [];
+        (remaining[Math.min(position, remaining.length - 1)] || root.querySelector('[data-filter-toggle]'))?.focus();
+      }
+      scrollToListing(root);
+      request(root);
+      return;
+    }
+
+    if (event.target.closest('[data-filter-reset]')) {
+      getControls(root).forEach((control) => setControlState(control, false));
+      renderActiveFilters(root);
+      scrollToListing(root);
+      request(root);
+      return;
+    }
+
+    if (event.target.closest('[data-filter-toggle]')) {
+      const open = root.dataset.filterOpen !== 'true';
+      if (!root._foxCollectionMobile?.matches) root._foxCollectionDesktopFilterOpen = open;
+      toggleFilter(root, open);
+      return;
+    }
+
+    if (event.target.closest('[data-filter-close]')) {
+      toggleFilter(root, false);
+      return;
+    }
+
+    const loadMore = event.target.closest('[data-pagination-load-more]');
+    if (loadMore && root.contains(loadMore)) {
+      event.preventDefault();
+      request(root, loadMore.dataset.paginationUrl, { append: true, skipHistory: true });
+      return;
+    }
+
+    const paginationLink = event.target.closest('[data-role="pagination"] a');
+    if (paginationLink && root.contains(paginationLink)) {
+      event.preventDefault();
+      request(root, paginationLink.href);
+    }
+  }
+
+  function handleChange(root, event) {
+    if (event.target.matches(FILTER_CONTROL_SELECTOR)) {
+      const filter = event.target;
+      getControls(root)
+        .filter((control) => control.dataset.filterValue === filter.dataset.filterValue)
+        .forEach((control) => setControlState(control, filter.checked));
+      renderActiveFilters(root);
+      scrollToListing(root);
+      request(root);
+      return;
+    }
+  }
+
+  function initialize(root) {
+    if (root.dataset.collectionReady === 'true') return;
+    root.dataset.collectionReady = 'true';
+    root._foxCollectionRequest = null;
+    setLoading(root, false);
+    const controller = new AbortController();
+    const { signal } = controller;
+    const mobile = window.matchMedia('(max-width: 767px)');
+    root._foxCollectionMobile = mobile;
+    root._foxCollectionDesktopFilterOpen = true;
+    toggleFilter(root, !mobile.matches);
+    const toggle = root.querySelector('[data-filter-toggle]');
+    if (toggle) toggle.hidden = false;
+
+    const sort = root.querySelector('[data-sort]');
+    if (sort) {
+      const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const options = sort.querySelector('[data-role="sort-options"]');
+      if (options) {
+        options.addEventListener('pointerover', (event) => {
+          const link = event.target.closest?.('[data-sort-option]');
+          if (link && options.contains(link)) moveSortIndicator(options, link);
+        }, { signal });
+        options.addEventListener('pointerleave', () => {
+          if (!options.contains(document.activeElement)) options.removeAttribute('data-hover-active');
+        }, { signal });
+        options.addEventListener('focusin', (event) => {
+          const link = event.target.closest?.('[data-sort-option]');
+          if (link && options.contains(link)) moveSortIndicator(options, link);
+        }, { signal });
+        options.addEventListener('focusout', (event) => {
+          if (!options.contains(event.relatedTarget)) options.removeAttribute('data-hover-active');
+        }, { signal });
+      }
+      sort.addEventListener('pointerenter', () => {
+        if (hoverQuery.matches) openSort(root);
+      }, { signal });
+      sort.addEventListener('pointerleave', () => {
+        if (hoverQuery.matches) closeSort(root);
+      }, { signal });
+      sort.addEventListener('focusout', (event) => {
+        if (!sort.contains(event.relatedTarget)) closeSort(root);
+      }, { signal });
+    }
+
+    root.addEventListener('click', (event) => handleClick(root, event), { signal });
+    root.addEventListener('change', (event) => handleChange(root, event), { signal });
+    root.addEventListener('keydown', (event) => handleKeydown(root, event), { signal });
+    document.addEventListener('click', (event) => {
+      const sort = root.querySelector('[data-sort]');
+      if (sort?.open && !sort.contains(event.target)) closeSort(root);
+    }, { signal });
+    mobile.addEventListener('change', () => {
+      toggleFilter(root, mobile.matches ? false : root._foxCollectionDesktopFilterOpen);
+    }, { signal });
+    window.addEventListener('popstate', () => {
+      syncFromUrl(root);
+      request(root, window.location.href, { skipHistory: true });
+    }, { signal });
+    window.addEventListener('pagehide', () => {
+      if (root.dataset.filterOpen === 'true') toggleFilter(root, false);
+      root._foxCollectionRequest?.abort();
+      window.clearTimeout(root._foxCollectionSortTimer);
+      window.clearTimeout(root._foxCollectionFilterCloseTimer);
+      root.querySelector('.fox-collection__filter-column')?.removeAttribute('data-closing');
+      const overlay = root.querySelector('[data-filter-overlay]');
+      if (overlay) overlay.hidden = true;
+      controller.abort();
+      delete root.dataset.collectionReady;
+    }, { once: true, signal });
+
+    const initialParams = new URL(window.location.href).searchParams;
+    const legacyFilter = (initialParams.get(root.dataset.queryParam || 'q') || '').startsWith('filter=');
+    const hasFilterParams = root.dataset.pushFilterParams === 'true' && (hasNamedFilterParams(initialParams) || legacyFilter);
+    syncFromUrl(root);
+    root._foxCollectionConfirmedState = readState(root);
+    window.history.replaceState(
+      { ...window.history.state, foxCollection: root._foxCollectionConfirmedState },
+      '',
+      hasFilterParams && legacyFilter ? getCanonicalUrl(root, window.location.href) : formatFilterParams(window.location.href),
+    );
+    syncPaginationMode(root);
+    // Search page renders no results in Liquid: they always load here, through the same view as filtering.
+    if (root.dataset.alwaysSearch === 'true' || hasFilterParams || initialParams.get('sortby') || (Number(root.dataset.sortCount || 1) > 1 && initialParams.get('sort_by'))) {
+      request(root, window.location.href, { skipHistory: true });
+    }
+  }
+
+  function initializeAll() {
+    document.querySelectorAll(ROOT_SELECTOR).forEach(initialize);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeAll, { once: true });
+  else initializeAll();
+  window.addEventListener('pageshow', initializeAll);
+})();

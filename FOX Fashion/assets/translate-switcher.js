@@ -1,22 +1,40 @@
 (() => {
   const COOKIE = 'googtrans';
+  const CHOICE_COOKIE = 'fox_lang';
+  const CHOICE_MAX_AGE = 60 * 60 * 24 * 365;
+  const EXPIRED = 'Thu, 01 Jan 1970 00:00:00 GMT';
   const SCRIPT_URL = 'https://translate.google.com/translate_a/element.js?cb=foxGoogleTranslateInit';
   const COMBO_WAIT_MS = 6000;
 
-  // Target language of the googtrans cookie ("/vi/en" → "en"), or null when the visitor never chose one.
-  function FOXTranslateReadLang() {
-    const match = document.cookie.match(/(?:^|;\s*)googtrans=\/[^/]*\/([^;]+)/);
+  // The visitor's choice lives in the theme's own cookie: Google never writes it, so it cannot go stale.
+  function FOXTranslateReadChoice() {
+    const match = document.cookie.match(/(?:^|;\s*)fox_lang=([^;]+)/);
     return match ? decodeURIComponent(match[1]) : null;
   }
 
-  // Google reads the cookie on the host and on the root domain: both are written / cleared.
-  function FOXTranslateWriteCookie(value) {
+  function FOXTranslateSaveChoice(lang) {
+    document.cookie = `${CHOICE_COOKIE}=${encodeURIComponent(lang)}; path=/; max-age=${CHOICE_MAX_AGE}; samesite=lax`;
+  }
+
+  // Google keeps googtrans copies per domain and per path, and the first one read wins: every copy (host, parent
+  // domains, each path up to the current page) is cleared, then the single value matching the choice is written.
+  function FOXTranslateSyncGoogle(source, lang) {
     const host = window.location.hostname;
-    const root = host.split('.').slice(-2).join('.');
-    const expires = value ? '' : '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    [`; domain=${host}`, `; domain=.${root}`, ''].forEach((domain) => {
-      document.cookie = `${COOKIE}=${value}${expires}; path=/${domain}`;
+    const parts = host.split('.');
+    const domains = ['', `; domain=${host}`, `; domain=.${host}`];
+    for (let index = 1; index < parts.length - 1; index += 1) domains.push(`; domain=.${parts.slice(index).join('.')}`);
+    const paths = ['/'];
+    window.location.pathname.split('/').filter(Boolean).reduce((path, segment) => {
+      const next = `${path}/${segment}`;
+      paths.push(next);
+      return next;
+    }, '');
+    domains.forEach((domain) => {
+      paths.forEach((path) => {
+        document.cookie = `${COOKIE}=; expires=${EXPIRED}; path=${path}${domain}`;
+      });
     });
+    if (lang !== source) document.cookie = `${COOKIE}=/${source}/${lang}; path=/`;
   }
 
   // Language switcher (snippets/translate-switcher.liquid): free Google Translate element, kept hidden.
@@ -46,13 +64,9 @@
       }, { signal });
 
       window.doTranslate = (pair) => this.translate(String(pair || '').split('|').pop());
-      // First visit (no cookie): show the default display language from settings. A visitor's own choice wins after.
-      const fallback = this.dataset.default || this.#source;
-      let current = FOXTranslateReadLang();
-      if (!current) {
-        current = fallback;
-        if (current !== this.#source) FOXTranslateWriteCookie(`/${this.#source}/${current}`);
-      }
+      // The visitor's saved choice, else the default display language from settings (first visit).
+      const current = FOXTranslateReadChoice() || this.dataset.default || this.#source;
+      FOXTranslateSyncGoogle(this.#source, current);
       this.#mark(current);
       if (current !== this.#source) this.#loadEngine();
       this.dataset.state = 'ready';
@@ -66,14 +80,14 @@
     translate(lang) {
       if (!lang) return;
       this.#setOpen(false);
-      // Back to the source language: "/vi/vi" (no translation) still records the choice, so the default display
-      // language is not applied again on the next visit. Reload restores the original text.
+      FOXTranslateSaveChoice(lang);
+      FOXTranslateSyncGoogle(this.#source, lang);
+      // Back to the source language: the saved choice keeps the default display language from coming back,
+      // and a reload restores the original text.
       if (lang === this.#source) {
-        FOXTranslateWriteCookie(`/${this.#source}/${this.#source}`);
         window.location.reload();
         return;
       }
-      FOXTranslateWriteCookie(`/${this.#source}/${lang}`);
       this.#mark(lang);
       this.#loadEngine().then(() => this.#applyCombo(lang));
     }

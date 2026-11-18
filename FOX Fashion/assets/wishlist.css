@@ -1,4 +1,3 @@
-/* Wishlist (assets/wishlist.js): hearts on product cards / product page, header count, wishlist page (layout B). */
 :root {
   --fox-wishlist-active: #e5484d;
 }
@@ -7,7 +6,6 @@ wishlist-button {
   display: inline-flex;
 }
 
-/* Heart icons are fill-based: drop the stroke the header adds to its line icons (header.css). */
 .fox-header__actions .fox-header-action--wishlist .icon-svg,
 .fox-wishlist-btn__icon,
 .fox-wishlist__empty-icon .icon-svg,
@@ -28,12 +26,10 @@ wishlist-button[data-active="true"] .fox-wishlist-btn__icon--on {
   display: block;
 }
 
-/* Card heart (style matches the other card actions in product-card.css). */
 .btn-wishlist[aria-pressed="true"] {
   color: var(--fox-wishlist-active);
 }
 
-/* Saved + hover/focus: the dark hover fill needs the light icon color like the other card actions. */
 .btn-wishlist[aria-pressed="true"]:is(:hover, :focus-visible) {
   color: var(--color-btn-text-secondary-hover, #fff);
 }
@@ -48,7 +44,6 @@ wishlist-button[data-active="true"] .fox-wishlist-btn__icon--on {
   100% { transform: scale(1); }
 }
 
-/* Inline heart: product page price row (smaller than the price line height). */
 .fox-wishlist-btn__trigger {
   display: grid;
   flex: 0 0 auto;
@@ -97,12 +92,10 @@ wishlist-button[data-active="true"] .fox-wishlist-btn__icon--on {
   margin-bottom: 0;
 }
 
-/* Header count (hidden while the wishlist is empty). */
 .fox-header-action__badge[hidden] {
   display: none;
 }
 
-/* Wishlist page (templates/page.wishlist.liquid): grid + sticky glass summary. */
 .fox-wishlist {
   --fox-wishlist-glass:
     radial-gradient(circle at 85% 120%, rgb(122 58 22 / 58%), transparent 46%),
@@ -167,7 +160,6 @@ wishlist-page:is([data-state="idle"], [data-state="loading"]) .fox-wishlist__loa
   min-width: 0;
 }
 
-/* Same framed card as the collection grid (mirrors .fox-collection__grid .product-card--collection in collection.css). */
 .fox-wishlist__grid product-card,
 .fox-wishlist__grid .product-loop {
   height: 100%;
@@ -246,12 +238,11 @@ wishlist-page:is([data-state="idle"], [data-state="loading"]) .fox-wishlist__loa
 }
 
 .fox-wishlist__grid .pro--price-original {
-  color: color-mix(in srgb, var(--color-text-theme, #1b2631) 55%, transparent);
+  color: color-mix(in srgb, var(--color-text-theme, #1b2631) 68%, transparent);
   font-size: 14px;
   font-weight: 400;
 }
 
-/* Unlike: filled red heart on the card corner (same language as the card heart); card labels move below it. */
 .fox-wishlist__remove {
   position: absolute;
   z-index: 5;
@@ -289,7 +280,6 @@ wishlist-page:is([data-state="idle"], [data-state="loading"]) .fox-wishlist__loa
   top: 5.2rem;
 }
 
-/* Summary card */
 .fox-wishlist__summary {
   align-self: start;
   padding: 2.2rem;
@@ -465,7 +455,6 @@ wishlist-page:is([data-state="idle"], [data-state="loading"]) .fox-wishlist__loa
   outline-offset: 2px;
 }
 
-/* Empty state */
 .fox-wishlist__empty {
   display: grid;
   justify-items: center;

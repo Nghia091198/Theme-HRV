@@ -100,7 +100,7 @@ Extensions kết nối qua event
 1. Tạo inventory tất cả nơi dùng Swiper.
 2. Tạo slider markup contract mới.
 3. Tách `SwiperComponent` khỏi `components.js`.
-4. Tạo asset `core-component-slider.js`.
+4. Tạo asset `cpn-slider.js`.
 5. Đăng ký custom element trong asset.
 6. Render slide 1–5 trong Liquid.
 7. Render navigation/pagination trong Liquid.
@@ -129,8 +129,8 @@ Extensions kết nối qua event
 ### Target
 
 ```text
-core-component-slider.js
-core-component-tabs.js
+cpn-slider.js
+cpn-tabs.js
 core-component-*.js
 effect-*.js
 ```

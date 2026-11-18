@@ -10,6 +10,9 @@
     #homeParent = null;
     #homeNextSibling = null;
     #activeDialog = null;
+    #pointerX = 0;
+    #pointerY = 0;
+    #frame = 0;
 
     connectedCallback() {
       if (this.#abortController) return;
@@ -38,6 +41,8 @@
     disconnectedCallback() {
       this.#abortController?.abort();
       this.#abortController = null;
+      cancelAnimationFrame(this.#frame);
+      this.#frame = 0;
       this.#observer?.disconnect();
       this.#observer = null;
       this.#boundZones = new WeakSet();
@@ -188,19 +193,30 @@
       this.#hotspotY = this.offsetHeight / 2;
     }
 
+    // Moved with a composited transform, written once per frame: left/top relayout and repaint whatever sits behind
+    // (video, backdrop blur in the story modal), which made the cursor visibly trail the pointer.
     #setPosition(clientX, clientY) {
-      this.style.left = `${clientX - this.#hotspotX + 5}px`;
-      this.style.top = `${clientY - this.#hotspotY + 5}px`;
+      this.#pointerX = clientX;
+      this.#pointerY = clientY;
+      if (this.#frame) return;
+      this.#frame = requestAnimationFrame(() => {
+        this.#frame = 0;
+        const x = this.#pointerX - this.#hotspotX + 5;
+        const y = this.#pointerY - this.#hotspotY + 5;
+        this.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
     }
 
     #show(zone, icon, clientX, clientY) {
       this.#activeZone?.classList.remove('is-cursor-active', 'is-cursor-native');
       this.#activeZone = zone;
       this.#useElement?.setAttribute('href', icon);
-      this.#setPosition(clientX, clientY);
       this.classList.add('is-active');
       zone.classList.remove('is-cursor-native');
       zone.classList.add('is-cursor-active');
+      // Zones may resize the cursor (e.g. the story modal): measure after the zone class is on.
+      this.#syncHotspot();
+      this.#setPosition(clientX, clientY);
     }
 
     #suspend(zone) {

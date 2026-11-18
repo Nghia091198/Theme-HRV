@@ -207,18 +207,23 @@ iframe.skiptranslate,
 @media (max-width: 767px) {
   .fox-translate {
     --fox-tr-edge: 1.4rem;
-    --fox-tr-size: 4.6rem;
+    --fox-tr-size: 5.5rem;
     --fox-tr-safe-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--fox-sticky-buy-offset, 0px));
     bottom: calc(1.6rem + var(--fox-tr-safe-bottom));
   }
 
-  html:has(.fox-float.has-fab .fox-float__btt) .fox-translate {
-    bottom: calc(1.6rem + 4.6rem + 1.2rem + var(--fox-tr-safe-bottom));
+  html:has(.fox-float.has-fab) .fox-translate {
+    bottom: calc(1.6rem + 0.05rem - 8px + var(--fox-tr-safe-bottom));
   }
 
   .fox-translate__current {
-    width: 3rem;
-    height: 3rem;
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .fox-translate__current .fox-translate__flag {
+    width: 2.64rem;
+    height: 1.76rem;
   }
 
   .fox-translate__menu {

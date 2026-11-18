@@ -1,6 +1,4 @@
 {% assign fox_mobile_menu_style = settings.header_mobile_menu_style | default: 'drilldown' %}
-{% comment %}The Style 2 drawer shell owns its configured color, persistent header and social footer.{% endcomment %}
-{% comment %}The off-canvas wrapper keeps motion reusable for future sidebars.{% endcomment %}
 <menu-drawer id="fox-menu-mobile" class="core-offcanvas fox-menu-drawer" data-position="left" data-state="idle" data-style="{{ fox_mobile_menu_style }}" aria-hidden="true" data-menu-url="/?view=menu-mobile" style="--fox-menu-color: {{ settings.theme_color | default: '#1B2631' | escape }};">
   <button type="button" class="core-offcanvas__overlay fox-menu-drawer__overlay" data-action="close-menu" aria-label="Đóng menu"></button>
   <aside class="core-offcanvas__panel fox-menu-drawer__panel" role="dialog" aria-modal="true" aria-label="Menu di động" tabindex="-1">
@@ -29,7 +27,6 @@
     {% endif %}
     <div class="fox-menu-drawer__content" data-role="mobile-content" aria-live="polite"></div>
     {% if fox_mobile_menu_style == 'drilldown' %}
-      {% comment %}Capture prevents an empty drawer footer when every URL is blank.{% endcomment %}
       {%- capture fox_mobile_socials -%}{%- include 'list-socials' with style:'social--basic',link_style:true -%}{%- endcapture -%}
       {%- assign fox_mobile_socials = fox_mobile_socials | strip -%}
       {%- if fox_mobile_socials != blank -%}<footer class="fox-menu-drawer__footer">{{ fox_mobile_socials }}</footer>{%- endif -%}

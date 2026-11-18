@@ -15,7 +15,7 @@
 {%- endfor -%}
 
 {%- if is_color -%}
-<ul class="fox-swatch">
+<div class="fox-swatch" role="group" aria-label="Màu sắc">
 	{%- for variant in product.variants -%}
 	{%- assign color = blank -%}
 	{%- if option_index == 0 -%}
@@ -53,12 +53,12 @@
 	{%- endfor -%}
 
 	{%- if count < swatch_limit -%}
-	<li class="fox-swatch__item swatch-color"{%- if swatch_image != '' -%} data-src="{{ swatch_image | product_img_url: 'large' }}"{%- endif -%}>
+	<span class="fox-swatch__item swatch-color"{%- if swatch_image != '' -%} data-src="{{ swatch_image | product_img_url: 'large' }}"{%- endif -%}>
 		<span class="swatch-element swatch-color">
-			<span class="fox-swatch__label fox-color--{{ color_handle }}" aria-hidden="true"></span> 
+			<span class="fox-swatch__label fox-color--{{ color_handle }}" aria-hidden="true"></span>
 			<span class="fox-swatch__name">{{ color }}</span>
 		</span>
-	</li>
+	</span>
 	{%- else -%}
 	{%- assign extra_count = extra_count | plus: 1 -%}
 	{%- endif -%}
@@ -67,8 +67,8 @@
 	{%- endfor -%}
 
 	{%- if extra_count > 0 -%}
-	<li class="fox-swatch__item fox-swatch__more"><span>+{{ extra_count }}</span></li>
+	<span class="fox-swatch__item fox-swatch__more"><span>+{{ extra_count }}</span></span>
 	{%- endif -%}
-</ul>
+</div>
 {%- endif -%}
 

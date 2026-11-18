@@ -1,5 +1,3 @@
-/* "Xem thêm / Thu gọn" block (snippets/component-expand-content.liquid + expand-content.js).
-   The fade is a mask (not a colored overlay) so it works on any background. Toggle: theme secondary button. */
 expand-content {
   display: block;
 }
@@ -15,8 +13,6 @@ expand-content[data-state="collapsed"] .fox-expand__viewport {
   mask-image: linear-gradient(to bottom, #000 calc(100% - 9rem), transparent 100%);
 }
 
-/* Toggle: theme secondary button (.btn.btn-secondary + button-effect from button.css).
-   --btn-color draws the .btn border so it stays visible on light surfaces. */
 .fox-expand__toggle {
   --btn-color: var(--color-btn-text-secondary, #1b2631);
   gap: 0.6rem;

@@ -1,5 +1,3 @@
-/* Size guide modal (snippets/size-guide-modal.liquid).  Loaded on first open by size-guide.js.
-   Surface mirrors the quick view glass; structure comes from core-component-modal.css. */
 .fox-size-guide__modal {
   --modal-width: min(62rem, calc(100vw - 3.2rem));
   --modal-max-height: min(86vh, 80rem);
@@ -15,7 +13,11 @@
   --fox-size-guide-muted: rgb(255 255 255 / 72%);
 }
 
-/* Inline card on the size guide page: same glass surface as the modal dialog. */
+size-guide,
+.fox-size-guide__tabs {
+  display: block;
+}
+
 .fox-size-guide__card {
   position: relative;
   padding: 2.8rem 3rem 3rem;
@@ -73,7 +75,6 @@
   font-size: 1.35rem;
 }
 
-/* Tabs (behavior: tabs-component) */
 .fox-size-guide__tabs .fox-size-guide__tablist {
   flex-wrap: nowrap;
   gap: 1rem;
@@ -121,7 +122,6 @@
   font-size: 1.4rem;
 }
 
-/* Table tab: merchant page content on the dark surface */
 .fox-size-guide__content {
   color: rgb(255 255 255 / 86%);
   font-size: 1.4rem;
@@ -177,7 +177,6 @@
   font-weight: 600;
 }
 
-/* Finder tab */
 .fox-size-guide__field {
   margin-bottom: 1.6rem;
 }

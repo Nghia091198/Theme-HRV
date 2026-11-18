@@ -1,5 +1,3 @@
-/* Reusable multi-level menu accordion (snippets/component-menu-accordion.liquid, behavior: accordion.js).
-   Colors follow currentColor so the menu fits light or dark (glass) surfaces. Tune with --fox-menu-accordion-*. */
 .fox-menu-accordion {
   --fox-menu-accordion-line: color-mix(in srgb, currentColor 12%, transparent);
   --fox-menu-accordion-muted: color-mix(in srgb, currentColor 78%, transparent);
@@ -74,7 +72,6 @@
   opacity: 1;
 }
 
-/* Plus / minus: the vertical stroke collapses when the branch is open. */
 .fox-menu-accordion__icon-v {
   transform-origin: center;
   transform-box: fill-box;

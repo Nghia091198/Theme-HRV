@@ -1,0 +1,66 @@
+{%- if settings.cart_page_coupons_show -%}
+  {%- assign coupon_count = 0 -%}
+  {%- capture coupon_slides -%}
+    {%- for coupon_index in (1..5) -%}
+      {%- capture coupon_show_key -%}cart_page_coupon_{{ coupon_index }}_show{%- endcapture -%}
+      {%- capture coupon_code_key -%}cart_page_coupon_{{ coupon_index }}_code{%- endcapture -%}
+      {%- capture coupon_title_key -%}cart_page_coupon_{{ coupon_index }}_title{%- endcapture -%}
+      {%- capture coupon_desc_key -%}cart_page_coupon_{{ coupon_index }}_desc{%- endcapture -%}
+      {%- assign coupon_code = settings[coupon_code_key] | strip -%}
+      {%- if settings[coupon_show_key] and coupon_code != blank -%}
+        {%- assign coupon_count = coupon_count | plus: 1 -%}
+        {%- assign coupon_row = coupon_count | modulo: 2 -%}
+        {%- if coupon_row == 1 -%}<div class="swiper-slide fox-coupon-slide">{%- endif -%}
+        <div class="fox-coupon">
+          <div class="fox-coupon__info">
+            {%- if settings[coupon_title_key] != blank -%}<strong class="fox-coupon__title">{{ settings[coupon_title_key] | escape }}</strong>{%- endif -%}
+            {%- if settings[coupon_desc_key] != blank -%}<span class="fox-coupon__desc">{{ settings[coupon_desc_key] | escape }}</span>{%- endif -%}
+            <code class="fox-coupon__code">{{ coupon_code | escape }}</code>
+          </div>
+          <button type="button" class="fox-coupon__copy" data-coupon-copy="{{ coupon_code | escape }}" aria-label="Sao chép mã {{ coupon_code | escape }}">
+            <span data-role="copy-label">Sao chép</span>
+          </button>
+        </div>
+        {%- if coupon_row == 0 -%}</div>{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign coupon_open = coupon_count | modulo: 2 -%}
+    {%- if coupon_open == 1 -%}</div>{%- endif -%}
+  {%- endcapture -%}
+
+  {%- if coupon_count > 0 -%}
+  {%- assign coupon_slide_count = coupon_count | plus: 1 | divided_by: 2 -%}
+  <section class="fox-cart-page__glass fox-cart-coupons" aria-labelledby="fox-cart-coupons-title">
+    <cart-coupons>
+      <slider-component
+        class="fox-cart-coupons__slider"
+        data-state="idle"
+        data-loop="false"
+        data-autoplay="false"
+        data-navigation="{% if coupon_slide_count > 1 %}true{% else %}false{% endif %}"
+        data-pagination="{% if coupon_slide_count > 1 %}true{% else %}false{% endif %}"
+        data-slides-mobile="1"
+        data-slides-tablet="1"
+        data-slides-desktop="1"
+        data-space-mobile="12"
+        data-space-tablet="12"
+        data-space-desktop="12">
+        <header class="fox-cart-coupons__head">
+          <h2 id="fox-cart-coupons-title" class="fox-cart-page__title">{{ settings.cart_page_coupons_title | default: 'Khuyến mãi dành cho bạn' | escape }}</h2>
+          {%- if coupon_slide_count > 1 -%}
+            {%- assign slider_controls_vertical = false -%}
+            {%- assign slider_controls_floating = false -%}
+            {%- assign slider_controls_label = 'Điều hướng mã khuyến mãi' -%}
+            {%- assign slider_controls_item_count = coupon_slide_count -%}
+            {%- include 'component-slider-controls' -%}
+          {%- endif -%}
+        </header>
+        <div class="swiper fox-cart-coupons__viewport" data-role="viewport" role="region" aria-label="{{ settings.cart_page_coupons_title | default: 'Khuyến mãi dành cho bạn' | escape }}">
+          <div class="swiper-wrapper">{{ coupon_slides }}</div>
+        </div>
+        {%- if coupon_slide_count > 1 -%}<div class="fox-cart-coupons__dots" data-role="pagination" aria-label="Trang mã khuyến mãi"></div>{%- endif -%}
+      </slider-component>
+    </cart-coupons>
+  </section>
+  {%- endif -%}
+{%- endif -%}

@@ -27,14 +27,12 @@
   pointer-events: none;
 }
 
-/* Never compete with an open modal, drawer, quick view or size guide. */
 html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .fox-float__toggle) {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-/* Desktop dock */
 .fox-float__dock {
   right: var(--fox-float-edge);
   bottom: calc(var(--fox-float-edge) + var(--fox-float-safe-bottom));
@@ -79,8 +77,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   filter: drop-shadow(0 0.2rem 0.4rem rgb(0 0 0 / 35%));
 }
 
-/* Hover / keyboard focus take the channel's brand color (--fox-float-brand, channel tints below). The light ring keeps
-   near-black brands (TikTok, X) apart from the dark glass. */
 .fox-float__dock-item:hover,
 .fox-float__dock-item:focus-visible {
   color: #fff;
@@ -93,18 +89,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
 .fox-float__dock-item:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
-}
-
-.fox-float__dock-item.is-primary::after {
-  content: '';
-  position: absolute;
-  top: 0.9rem;
-  right: 0.9rem;
-  width: 0.8rem;
-  height: 0.8rem;
-  background: #ff6b5b;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #333;
 }
 
 .fox-float__tip {
@@ -162,7 +146,7 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   bottom: calc(var(--fox-float-edge) + var(--fox-float-safe-bottom));
   width: var(--ic-size);
   height: var(--ic-size);
-  padding: 0; 
+  padding: 0;
   color: #fff;
   background: var(--fox-float-glass);
   border: 1px solid rgb(255 255 255 / 28%);
@@ -247,7 +231,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   transition-delay: 0ms;
 }
 
-/* Open: the channel closest to the toggle appears first. */
 .fox-float.is-grouped[data-dock-open="true"] .fox-float__dock-list > li:nth-last-child(1) .fox-float__dock-item { transition-delay: 0ms; }
 .fox-float.is-grouped[data-dock-open="true"] .fox-float__dock-list > li:nth-last-child(2) .fox-float__dock-item { transition-delay: 40ms; }
 .fox-float.is-grouped[data-dock-open="true"] .fox-float__dock-list > li:nth-last-child(3) .fox-float__dock-item { transition-delay: 80ms; }
@@ -264,7 +247,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   }
 }
 
-/* Back to top (progress ring = share of the page scrolled) */
 .fox-float__btt {
   right: calc(var(--fox-float-edge) + 0.2rem);
   bottom: calc(var(--fox-float-edge) + var(--fox-float-safe-bottom));
@@ -316,8 +298,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   height: 2rem;
 }
 
-/* The arrow leaves through the top and re-enters from the bottom on hover in AND out (button stays still).
-   Two identical keyframes with different names restart the animation on each state change. */
 .fox-float__btt .fox-float__btt-icon {
   animation: fox-float-btt-arrow-out 300ms ease-in-out;
 }
@@ -345,7 +325,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   outline-offset: 3px;
 }
 
-/* Mobile pill "Hỗ trợ": stacked channel icons + label + online status (opens the floating card). */
 .fox-float__fab {
   right: 1.4rem;
   bottom: calc(1.6rem + var(--fox-float-safe-bottom));
@@ -423,7 +402,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   outline-offset: 3px;
 }
 
-/* Channel tints (brand colors only, icons come from svg-cache). */
 .fox-float__channel--zalo { --fox-float-brand: #0068ff; }
 .fox-float__channel--messenger { --fox-float-brand: #7b5cff; }
 .fox-float__channel--phone { --fox-float-brand: #2f9e6b; }
@@ -438,8 +416,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
 .fox-float__channel--linkedin { --fox-float-brand: #0a66c2; }
 .fox-float__channel--map { --fox-float-brand: #e98a3a; }
 
-/* Floating card (modal-component): the transparent dialog holds the glass card and the close button,
-   and grows from the pill corner. */
 .fox-float__sheet-modal {
   --modal-width: min(40rem, calc(100vw - 2.8rem));
   --modal-max-height: calc(100dvh - 4rem);
@@ -551,10 +527,6 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   border-color: color-mix(in srgb, var(--fox-float-brand, #fff) 70%, transparent);
 }
 
-.fox-float__tile.is-primary {
-  border-color: rgb(255 255 255 / 40%);
-}
-
 .fox-float__tile-icon {
   display: grid;
   grid-row: 1 / span 2;
@@ -646,11 +618,30 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   .fox-float.has-dock .fox-float__dock {
     display: block;
   }
+
+  .fox-float.has-desktop-card .fox-float__fab {
+    display: flex;
+    right: var(--fox-float-edge);
+    bottom: calc(var(--fox-float-edge) + var(--fox-float-safe-bottom));
+  }
+
+  .fox-float.has-desktop-card.has-btt .fox-float__fab {
+    bottom: calc(var(--fox-float-edge) + var(--fox-float-btt-size) + var(--fox-float-gap) + var(--fox-float-safe-bottom));
+  }
+
+  .fox-float.has-desktop-card[data-state="ready"]:not([data-visible="true"]) .fox-float__fab {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1.2rem);
+    pointer-events: none;
+  }
+
+  .fox-float.has-desktop-card .fox-float__sheet-modal dialog {
+    margin: auto var(--fox-float-edge) calc(var(--fox-float-edge) + env(safe-area-inset-bottom, 0px)) auto;
+  }
 }
 
 @media (max-width: 767px) {
-  /* Mobile only: lift above the near full-width product sticky buy bar (product-sticky-buy.js).
-     On desktop the bar is a centered pill that leaves the corners free. */
   .fox-float {
     --fox-float-safe-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--fox-sticky-buy-offset, 0px));
   }
@@ -664,15 +655,26 @@ html:has(dialog[open]) :is(.fox-float__dock, .fox-float__fab, .fox-float__btt, .
   }
 
   .fox-float__btt {
-    --fox-float-btt-size: 4.6rem;
+    --fox-float-btt-size: 5rem;
     right: 2.1rem;
     bottom: calc(1.6rem + var(--fox-float-safe-bottom));
+  }
+
+  .fox-float__btt-arrow,
+  .fox-float__btt-icon {
+    width: 2.4rem;
+    height: 2.4rem;
   }
 
   .fox-float.has-fab .fox-float__btt {
     right: auto;
     left: 1.4rem;
-    bottom: calc(1.6rem + 0.5rem + var(--fox-float-safe-bottom) - 8px);
+    bottom: calc(1.6rem + 0.05rem + var(--fox-float-safe-bottom) - 8px);
+  }
+
+  html:has(.fox-translate) .fox-float.has-fab .fox-float__btt {
+    bottom: calc(1.6rem + 0.05rem + var(--fox-float-safe-bottom) - 8px + 5.5rem + 1.2rem);
+    top: auto !important;
   }
 }
 

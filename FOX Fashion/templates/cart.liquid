@@ -1,10 +1,27 @@
+{%- unless settings.shop_buying -%}<script>window.location = '/';</script>{%- endunless -%}
 <main class="fox-cart-page" data-template="cart">
   <div class="container">
+    {%- include 'component-breadcrumb' with container: false -%}
     <header class="fox-cart-page__header">
       <h1>Giỏ hàng</h1>
     </header>
-    <cart-root class="fox-cart-page__inner fox-mini-cart" style="--fox-cart-surface: {{ settings.theme_color | default: '#1B2631' | escape }};">
-      {% include 'cart-content' %}
-    </cart-root>
+
+    <cart-total class="fox-cart-page__layout" data-item-count="{{ cart.item_count }}">
+      <div class="fox-cart-page__main-col">
+        <cart-root class="fox-cart-page__main fox-cart-page__glass fox-mini-cart" style="--fox-cart-surface: {{ settings.theme_color | default: '#1B2631' | escape }};">
+          {% include 'cart-content' %}
+        </cart-root>
+        <div data-role="cart-side-note"{% if cart.item_count == 0 %} hidden{% endif %}>
+          {%- include 'cart-page-note' -%}
+        </div>
+      </div>
+      <aside class="fox-cart-page__side" data-role="cart-side" aria-label="Thông tin đơn hàng"{% if cart.item_count == 0 %} hidden{% endif %}>
+        {%- include 'cart-page-summary' -%}
+        {%- include 'cart-page-promotions' -%}
+      </aside>
+    </cart-total>
+
+    {%- include 'cart-page-recommend' -%}
+    {%- include 'collection-policy' with policy_context: 'cart' -%}
   </div>
 </main>

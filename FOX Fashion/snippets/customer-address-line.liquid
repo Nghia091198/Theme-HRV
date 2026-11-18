@@ -1,7 +1,3 @@
-{%- comment -%}
-  One-line customer address: only the parts that are filled (street, ward, district, province), comma separated.
-  Input: address_line_source (a customer address).
-{%- endcomment -%}
 {%- assign address_line_parts = '' -%}
 {%- if address_line_source.address1 != blank -%}{%- assign address_line_parts = address_line_parts | append: address_line_source.address1 | append: '||' -%}{%- endif -%}
 {%- if address_line_source.ward != blank -%}{%- assign address_line_parts = address_line_parts | append: address_line_source.ward | append: '||' -%}{%- endif -%}

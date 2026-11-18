@@ -1,4 +1,3 @@
-{% comment %}Synced by Haravan CLI: quickview fixes 2026-08-12.{% endcomment %}
 {%- assign selected_variant = product.variants.first -%}
 {%- assign selected_available_variant = false -%}
 {%- for variant in product.variants -%}
@@ -25,11 +24,11 @@
   {%- else -%}
   <h1 class="fox-product__title">{{ product.title | escape }}</h1>
   {%- endif -%}
+  {%- include 'product-review-badge' -%}
   <div class="fox-product__meta">
     <p class="fox-product__status" data-role="availability" aria-live="polite"></p>
     <p class="fox-product__sku" data-role="sku"{% if selected_variant.sku == blank %} hidden{% endif %}>{% if selected_variant.sku != blank %}SKU: {{ selected_variant.sku | escape }}{% endif %}</p>
   </div>
-  {%- comment -%}Liquid-formatted prices per variant:  product-component reuses them on variant change so the storefront money format (unit included) stays identical.{%- endcomment -%}
   <div hidden data-role="formatted-prices">
     {%- for variant in product.variants -%}
     <span data-price-variant="{{ variant.id }}" data-price="{{ variant.price | money | strip_html | escape }}" data-compare-price="{{ variant.compare_at_price | money | strip_html | escape }}"></span>
@@ -125,11 +124,22 @@
     {%- include 'product-policy-marquee' -%}
   {%- endif -%}
   {%- unless fox_product_context == 'page' -%}
-  <a class="fox-product__details-link fox-link-effect" href="{{ product.url }}">
-    <span class="fox-link-effect__label">Xem chi tiết</span>
-    <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
-    </svg>
+  <a class="fox-product__details-link" href="{{ product.url }}">
+    <span class="fox-link-effect">
+      <span class="fox-link-effect__label">Xem chi tiết</span>
+      <svg class="fox-link-effect__graphic" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+      </svg>
+    </span>
+    <svg class="icon-svg fox-product__details-arrow" aria-hidden="true" focusable="false"><use xlink:href="#ic-arrow-right"></use></svg>
   </a>
   {%- endunless -%}
+  {%- if fox_product_context == 'featured' and settings.product_show_share != false -%}
+  <div class="fox-product__share">
+    {%- capture share_url -%}{{ shop.url }}{{ product.url }}{%- endcapture -%}
+    {%- assign share_title = product.title -%}
+    {%- assign share_label = 'Chia sẻ' -%}
+    {%- include 'component-share' -%}
+  </div>
+  {%- endif -%}
 </div>

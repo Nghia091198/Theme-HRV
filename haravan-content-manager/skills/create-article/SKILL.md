@@ -38,6 +38,10 @@ For each article:
 
 Use `$image-skill` and its `imagegen` workflow to create every cover before any Haravan write occurs.
 
+Before writing any image prompt, read `../IMAGE-ART-DIRECTION.md` and follow it: one brand-world table per batch,
+the 7-layer prompt formula, the article-cover rules (one specific moment per article, subject on the right third,
+open space on the left), the rejection checklist and the export settings.
+
 - Generate one original JPEG cover per article at exactly `1920x1080`.
 - Keep each file below `1,048,576` bytes.
 - Do not include text, logos, watermarks, or identifiable brand marks.

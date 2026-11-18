@@ -71,7 +71,7 @@ Không gọi subagent cho việc nhỏ chỉ để tạo nghi thức.
   Feature lỗi giao diện ở một trang → kiểm tra **load point CSS** trước khi sửa code.
   Thứ tự nạp file trong `head_styles` quyết định CSS nào thắng khi cùng specificity.
 - CSS chỉ cần sau tương tác (vd. zoom ảnh) có thể để component tự nạp: URL truyền từ
-  Liquid qua `data-*` (`asset_url`), xem `core-component-image-zoom.js`.
+  Liquid qua `data-*` (`asset_url`), xem `cpn-image-zoom.js`.
 - Alternate template: `product.<view>.liquid` / `page.<view>.liquid` ↔ `?view=<view>`.
   Card sản phẩm qua AJAX: `FOX.loadProductFragment(handle, 'product-loop-data')`
   (template `product.product-loop-data.liquid`).

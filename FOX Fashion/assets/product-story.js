@@ -217,8 +217,15 @@ class FoxProductStory extends HTMLElement {
     video.pause();
     // Without a poster image the paused video is the cover: back to 0.1s (same as the #t=0.1 preload), past a
     // possible black first frame.
-    const coverTime = card.querySelector('.fox-product-story__media > img') ? 0 : 0.1;
-    if (reset) try { video.currentTime = coverTime; } catch (error) {}
+    const hasPoster = Boolean(card.querySelector('.fox-product-story__media > img'));
+    if (reset && hasPoster && video.dataset.videoSrc && video.getAttribute('src')) {
+      // A paused <video> keeps buffering the whole file; drop the source so a card that scrolled away stops
+      // downloading (#loadVideo sets it again on the next preview).
+      video.removeAttribute('src');
+      video.load();
+    } else if (reset) {
+      try { video.currentTime = hasPoster ? 0 : 0.1; } catch (error) {}
+    }
     card.removeAttribute('data-previewing');
   }
 
@@ -343,19 +350,28 @@ class FoxProductStory extends HTMLElement {
 
   #observeMedia() {
     if (!('IntersectionObserver' in window)) return;
-    // Start mobile previews only while a story is near the viewport.
+    // Mobile previews start only for a card that stays in view for a moment (the row is a moving marquee: cards that
+    // just pass by must not start downloading their video).
+    const timers = new Map();
+    const PREVIEW_DELAY = 800;
     this.#viewportObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        clearTimeout(timers.get(entry.target));
+        timers.delete(entry.target);
         if (entry.isIntersecting) {
           if (this.dataset.mobilePreview !== 'false' && !this.#reducedMotion && !this.#modalOpen && !window.matchMedia('(hover: hover)').matches) {
-            this.#playCard(entry.target);
+            timers.set(entry.target, setTimeout(() => {
+              timers.delete(entry.target);
+              if (!this.#modalOpen) this.#playCard(entry.target);
+            }, PREVIEW_DELAY));
           }
         } else {
           this.#stopCard(entry.target, true);
         }
       });
-    }, { rootMargin: '180px 0px', threshold: 0.65 });
+    }, { rootMargin: '0px', threshold: 0.65 });
     this.#cards.forEach((card) => this.#viewportObserver.observe(card));
+    this.#abort?.signal.addEventListener('abort', () => timers.forEach((timer) => clearTimeout(timer)));
   }
 
   async #hydrateProducts() {

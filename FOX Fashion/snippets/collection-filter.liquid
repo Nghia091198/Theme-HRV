@@ -1,8 +1,3 @@
-{%- assign filter_limit = 10 -%}
-{%- comment -%}
-  filter_groups_collapsed: render every group closed (search page: groups are dropdowns, opened one at a time).
-  Default: groups open (collection sidebar).
-{%- endcomment -%}
 {%- assign filter_group_open_attr = 'open' -%}
 {%- if filter_groups_collapsed -%}{%- assign filter_group_open_attr = '' -%}{%- endif -%}
 <aside class="core-offcanvas__panel fox-collection__filters" data-role="filters" aria-label="Bộ lọc sản phẩm">
@@ -23,12 +18,10 @@
   {%- if settings.use_type_filter -%}
   <details class="fox-collection__filter-group" {{ filter_group_open_attr }}>
     <summary>{{settings.title_type_filter}}</summary>
-    {%- assign fox_filter_option_count = 0 -%}
     <ul id="fox-collection-type-options-{{ collection.id | default: 0 }}" class="fox-collection__filter-options fox-scrollbar">
       {%- for fox_product_type in collection.all_types -%}
         {%- if fox_product_type != blank -%}
-          {%- assign fox_filter_option_count = fox_filter_option_count | plus: 1 -%}
-      <li{% if fox_filter_option_count > filter_limit %} data-filter-extra{% endif %}>
+      <li>
         <label class="fox-collection__filter-option">
           <input type="checkbox" data-filter data-filter-group="type" data-filter-label="{{ fox_product_type | escape }}" data-filter-param-value="{{ fox_product_type | escape }}" data-filter-value="(product_type:product**={{ fox_product_type | escape }})">
           <span>{{ fox_product_type | escape }}</span>
@@ -37,21 +30,16 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
-    {%- if fox_filter_option_count > filter_limit -%}
-      <button type="button" class="fox-collection__filter-options-toggle" data-filter-options-toggle aria-controls="fox-collection-type-options-{{ collection.id | default: 0 }}" aria-expanded="true" hidden>Xem thêm</button>
-    {%- endif -%}
   </details>
   {%- endif -%}
 
   {%- if settings.use_vendor_filter -%}
   <details class="fox-collection__filter-group" {{ filter_group_open_attr }}>
     <summary>{{settings.title_vendor_filter}}</summary>
-    {%- assign fox_filter_option_count = 0 -%}
     <ul id="fox-collection-vendor-options-{{ collection.id | default: 0 }}" class="fox-collection__filter-options fox-scrollbar">
       {%- for fox_vendor in collection.all_vendors -%}
         {%- if fox_vendor != blank -%}
-          {%- assign fox_filter_option_count = fox_filter_option_count | plus: 1 -%}
-      <li{% if fox_filter_option_count > filter_limit %} data-filter-extra{% endif %}>
+      <li>
         <label class="fox-collection__filter-option">
           <input type="checkbox" data-filter data-filter-group="vendor" data-filter-label="{{ fox_vendor | escape }}" data-filter-param-value="{{ fox_vendor | escape }}" data-filter-value="(vendor:product**={{ fox_vendor | escape }})">
           <span>{{ fox_vendor | escape }}</span>
@@ -60,9 +48,6 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
-    {%- if fox_filter_option_count > filter_limit -%}
-      <button type="button" class="fox-collection__filter-options-toggle" data-filter-options-toggle aria-controls="fox-collection-vendor-options-{{ collection.id | default: 0 }}" aria-expanded="true" hidden>Xem thêm</button>
-    {%- endif -%}
   </details>
   {%- endif -%}
 
@@ -107,7 +92,6 @@
   {%- if settings.use_color_filter -%}
   <details class="fox-collection__filter-group" {{ filter_group_open_attr }}>
     <summary>{{ settings.title_color_filter | default: 'Màu sắc' | escape }}</summary>
-    {%- assign fox_filter_option_count = 0 -%}
     <ul id="fox-collection-color-options-{{ collection.id | default: 0 }}" class="fox-collection__filter-options fox-scrollbar fox-collection__filter-options--color">
       {%- for fox_color_index in (1..21) -%}
         {%- capture fox_color_show_key -%}use_color_filter_{{ fox_color_index }}{%- endcapture -%}
@@ -117,7 +101,6 @@
         {%- if settings[fox_color_show_key] and fox_color_name != blank -%}
           {%- assign fox_color_code = settings[fox_color_code_key] | default: '#000000' -%}
           {%- capture fox_color_tag -%}{{ fox_color_name }}{%- endcapture -%}
-          {%- assign fox_filter_option_count = fox_filter_option_count | plus: 1 -%}
       <li>
         <label class="fox-collection__filter-option">
           <input type="checkbox" data-filter data-filter-group="color" data-filter-label="{{ fox_color_name | escape }}" data-filter-param-value="{{ fox_color_tag | escape }}" data-filter-value="(variant:product=*{{ fox_color_tag | escape }})">
@@ -151,13 +134,11 @@
   {%- if settings.use_metal_filter -%}
   <details class="fox-collection__filter-group" {{ filter_group_open_attr }}>
     <summary>{{ settings.title_metal_filter | default: 'Chất liệu' | escape }}</summary>
-    {%- assign fox_filter_option_count = 0 -%}
     <ul id="fox-collection-material-options-{{ collection.id | default: 0 }}" class="fox-collection__filter-options fox-scrollbar">
       {%- for tag in collection.all_tags -%}
         {%- if tag contains 'material:' -%}
           {%- assign fox_tag_label = tag | split: ':' | last | strip -%}
-          {%- assign fox_filter_option_count = fox_filter_option_count | plus: 1 -%}
-      <li{% if fox_filter_option_count > 5 %} data-filter-extra{% endif %}>
+      <li>
         <label class="fox-collection__filter-option">
           <input type="checkbox" data-filter data-filter-group="material" data-filter-label="{{ fox_tag_label | escape }}" data-filter-param-value="{{ tag | escape }}" data-filter-value="(tag:product contains {{ tag | escape }})">
           <span>{{ fox_tag_label | escape }}</span>
@@ -166,9 +147,6 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
-    {%- if fox_filter_option_count > 5 -%}
-      <button type="button" class="fox-collection__filter-options-toggle" data-filter-options-toggle aria-controls="fox-collection-material-options-{{ collection.id | default: 0 }}" aria-expanded="true" hidden>Xem thêm</button>
-    {%- endif -%}
   </details>
   {%- endif -%}
 
@@ -176,13 +154,11 @@
   {%- if settings.use_form_filter -%}
   <details class="fox-collection__filter-group" {{ filter_group_open_attr }}>
     <summary>{{ settings.title_form_filter | default: 'Form dáng' | escape }}</summary>
-    {%- assign fox_filter_option_count = 0 -%}
     <ul id="fox-collection-fit-options-{{ collection.id | default: 0 }}" class="fox-collection__filter-options fox-scrollbar">
       {%- for tag in collection.all_tags -%}
         {%- if tag contains 'fit:' -%}
           {%- assign fox_tag_label = tag | split: ':' | last | strip -%}
-          {%- assign fox_filter_option_count = fox_filter_option_count | plus: 1 -%}
-      <li{% if fox_filter_option_count > 5 %} data-filter-extra{% endif %}>
+      <li>
         <label class="fox-collection__filter-option">
           <input type="checkbox" data-filter data-filter-group="fit" data-filter-label="{{ fox_tag_label | escape }}" data-filter-param-value="{{ tag | escape }}" data-filter-value="(tag:product contains {{ tag | escape }})">
           <span>{{ fox_tag_label | escape }}</span>
@@ -191,9 +167,6 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
-    {%- if fox_filter_option_count > 5 -%}
-      <button type="button" class="fox-collection__filter-options-toggle" data-filter-options-toggle aria-controls="fox-collection-fit-options-{{ collection.id | default: 0 }}" aria-expanded="true" hidden>Xem thêm</button>
-    {%- endif -%}
   </details>
   {%- endif -%}
 

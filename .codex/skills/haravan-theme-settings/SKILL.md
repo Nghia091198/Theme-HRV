@@ -10,12 +10,12 @@ Create settings that are easy for merchants to scan and safe for the current Har
 ## Required Context
 
 1. Read the repository `AGENTS.md`.
-2. Read `docs/settings-guide.md` and `docs/FOXTHEME_Setting_Libs_Full_v3.md` for every settings task. Read `docs/haravan-guidelines.md` for Haravan syntax and `docs/image-guide.md` when uploads or media are involved.
+2. Read `docs/settings-guide.md`, `docs/settings-structure.md` and `docs/FOXTHEME_Setting_Libs_Full_v3.md` for every settings task. Read `docs/haravan-guidelines.md` for Haravan syntax and `docs/image-guide.md` when uploads or media are involved. After editing `config/settings.html`, run `node scripts/format-settings-html.mjs --write` and `node scripts/settings-lock.mjs`; run `settings-lock.mjs --update` only for an intentional structure change and report it.
 3. Inspect surrounding fieldsets and all callers of affected keys.
 4. Preserve existing setting IDs unless the task explicitly includes a compatible migration.
 5. Report every new file before creating it, including purpose, caller, and deploy status.
 
-If documentation conflicts, follow the user's request and `AGENTS.md`, then `docs/settings-guide.md` for merchant setting keys and labels, then the established contract of the affected feature, then examples in the FOXTHEME library. Consult `docs/GUIDANCE-CONFLICTS.md` and record the decision as an assumption.
+If documentation conflicts, follow the user's request and `AGENTS.md`, then `docs/settings-guide.md` for merchant setting keys and labels and `docs/settings-structure.md` for the file structure (group order, indentation, `<h3>` vs nested fieldset, structure lock), then the established contract of the affected feature, then examples in the FOXTHEME library. Consult `docs/GUIDANCE-CONFLICTS.md` and record the decision as an assumption.
 
 ## Markup Contract
 

@@ -45,15 +45,10 @@
             <span class="btn__label">{{ part.title | escape }}</span>
             <span data-btn-effect-span aria-hidden="true"></span>
           </a>
+        {%- elsif part.title == fox_pagination_current_page -%}
+          <span class="fox-pagination__link is-current" aria-current="page">{{ part.title }}</span>
         {%- else -%}
-          <span
-            class="fox-pagination__link{% if part.title == fox_pagination_current_page %} is-current{% endif %}"
-            {% if part.title == fox_pagination_current_page %}
-              aria-current="page"
-            {% endif %}
-          >
-            {{- part.title | escape -}}
-          </span>
+          <span class="fox-pagination__ellipsis" aria-hidden="true">…</span>
         {%- endif -%}
       {%- endfor -%}
     </div>

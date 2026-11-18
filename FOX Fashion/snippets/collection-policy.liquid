@@ -1,4 +1,12 @@
-{%- if settings.collection_policy_show != false -%}
+{%- assign fox_policy_visible = false -%}
+{%- if policy_context == 'cart' -%}
+  {%- if settings.cart_page_policy_show -%}{%- assign fox_policy_visible = true -%}{%- endif -%}
+{%- elsif policy_context == 'page' -%}
+  {%- if settings.page_policy_show -%}{%- assign fox_policy_visible = true -%}{%- endif -%}
+{%- elsif settings.collection_policy_show != false -%}
+  {%- assign fox_policy_visible = true -%}
+{%- endif -%}
+{%- if fox_policy_visible -%}
   <section class="fox-collection__policy" aria-label="Cam kết mua sắm">
     {%- for fox_policy_index in (1..4) -%}
       {%- capture fox_policy_title_key -%}collection_policy_{{ fox_policy_index }}_title{%- endcapture -%}

@@ -1,6 +1,3 @@
-{%- comment -%}
-  Order address card body: name, then only the filled lines. Input: order_address (billing or shipping address).
-{%- endcomment -%}
 <address class="fox-account-order-card__address">
   {%- if order_address.name != blank -%}<strong>{{ order_address.name }}</strong>{%- endif -%}
   {%- if order_address.company != blank -%}<span>{{ order_address.company }}</span>{%- endif -%}

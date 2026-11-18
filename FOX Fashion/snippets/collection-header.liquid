@@ -2,7 +2,11 @@
     <img class="fox-collection__hero-image" src="{{ fox_collection_banner | escape }}" width="1920" height="500" loading="eager" decoding="async" fetchpriority="high" alt="">
 {%- endif -%}
 <div class="container fox-collection__hero-content">
+    {%- if fox_collection_banner != blank -%}
+    {%- include 'component-breadcrumb' with bgColor: 'transparent', textColor: '#ffffff' -%}
+    {%- else -%}
     {%- include 'component-breadcrumb' with bgColor: settings.collection_bgColor, textColor: settings.collection_textColor -%}
+    {%- endif -%}
     <div class="fox-collection__hero-heading"><h1 class="fox-section__title">{{ collection.title | default: 'Sản phẩm' | escape }}</h1>
 {%- if collection.description != blank -%}
     <div class="fox-collection__description">{{ collection.description }}</div>

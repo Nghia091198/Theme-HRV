@@ -1,11 +1,3 @@
-{%- comment -%}
-  Reusable multi-level menu (up to 5 levels) built on accordion-component (accordion.js), nested per level.
-  Input: menu_accordion_handle (linklist handle), menu_accordion_id (unique id prefix per instance).
-  Haravan nests menus by handle: a link's children are linklists[link.handle].links (same as the header menu).
-  A branch starts expanded when the link or one of its direct children is the current page.
-  A level is wrapped in accordion-component only when one of its items has children.
-  Styles: assets/menu-accordion.css (colors follow currentColor).
-{%- endcomment -%}
 {%- assign menu_accordion_id = menu_accordion_id | default: 'fox-menu-accordion' -%}
 {%- assign menu_accordion_links = linklists[menu_accordion_handle].links -%}
 {%- capture menu_accordion_icon -%}<svg class="fox-menu-accordion__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="fox-menu-accordion__icon-h" d="M5 12h14"/><path class="fox-menu-accordion__icon-v" d="M12 5v14"/></svg>{%- endcapture -%}

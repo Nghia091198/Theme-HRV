@@ -1,5 +1,3 @@
-/* Contact page (templates/page.contact.liquid). Aurora head (palette of page.size-guide), cards floating over its
-   bottom edge, glass form card, Google Map. */
 .fox-contact {
   --fox-ct-ink: var(--color-text-theme, #1b2631);
   --fox-ct-muted: color-mix(in srgb, var(--fox-ct-ink) 62%, transparent);
@@ -20,7 +18,6 @@
   white-space: nowrap;
 }
 
-/* Aurora head */
 .fox-contact__hero {
   position: relative;
   isolation: isolate;
@@ -117,7 +114,6 @@
   font-size: clamp(1.5rem, 1.6vw, 1.7rem);
 }
 
-/* Cards + form */
 .fox-contact__body {
   position: relative;
   display: grid;
@@ -150,7 +146,6 @@
 .fox-contact__card--chat { --fox-ct-brand: #0068ff; }
 .fox-contact__card--stores { --fox-ct-brand: #3555a8; }
 
-/* Whole card is the link to the store list page; it stays still on hover like the other cards. */
 .fox-contact__card--stores {
   color: inherit;
   text-decoration: none;
@@ -161,7 +156,6 @@
   outline-offset: 3px;
 }
 
-/* Card head: icon bubble on the left, a pill on the right (card note, or the live status on the chat card). */
 .fox-contact__card-head {
   display: flex;
   align-items: center;
@@ -239,7 +233,6 @@
   height: 1.4rem;
 }
 
-/* Wave underline of the theme link effect (link-effect.css), played when the whole link (icon + label) is hovered. */
 .fox-contact__card-link .fox-link-effect {
   --fox-link-effect-stroke-width: 2px;
 }
@@ -248,7 +241,6 @@
   transform: translate3d(calc(-66.6% * var(--fox-link-effect-direction, 1)), 0, 0);
 }
 
-/* 24/7 chat card: glass */
 .fox-contact__card--chat {
   color: #fff;
   background: var(--fox-ct-glass);
@@ -346,7 +338,6 @@
   height: 1.6rem;
 }
 
-/* Glass form card */
 .fox-contact__form-card {
   align-self: start;
   padding: 2.8rem;
@@ -480,7 +471,6 @@
   border-color: rgb(255 255 255 / 60%);
 }
 
-/* Theme secondary button on the glass (button.css + button-effect). */
 .fox-contact__submit {
   --btn-color: #fff;
   gap: 0.8rem;
@@ -507,7 +497,6 @@
   --reset-style-line: rgb(255 255 255 / 18%);
 }
 
-/* Google Map */
 .fox-contact__map-section {
   margin-top: clamp(4rem, 5vw, 6rem);
 }
@@ -576,8 +565,6 @@
     gap: 1rem;
   }
 
-  /* Horizontal card, grid only: icon column on the left (fixed width, so every card's content column lines up),
-     title · value stacked on the right, the action link (last child, so last row) pushed to the bottom-right. */
   .fox-contact__card {
     grid-template-columns: 3.8rem minmax(0, 1fr);
     column-gap: 1.4rem;
@@ -591,7 +578,6 @@
     grid-column: 2;
   }
 
-  /* The head's children (bubble, live pill) become grid items: bubble in the icon column, pill moved to the end. */
   .fox-contact__card > .fox-contact__card-head {
     display: contents;
   }

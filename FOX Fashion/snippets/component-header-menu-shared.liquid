@@ -1,7 +1,3 @@
-{% comment %}
-  Shared menu preparation with concise local variable names.
-  Operations: menu-state, category-keys, link-group-state.
-{% endcomment %}
 
 {% if operation == 'menu-state' %}
   {% assign menu_children = linklists[menu_link.handle].links %}

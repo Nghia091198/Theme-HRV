@@ -2,7 +2,7 @@
   const DEFAULT_VARIANT_TITLE = 'Default Title';
 
   // Display-only companion of product-component (snippets/product-sticky-buy.liquid sits inside it):
-  // option selects, quantity buttons and <add-to-cart> are handled by core-commerce-product.js.
+  // option selects, quantity buttons and <add-to-cart> are handled by product.js.
   class StickyBuy extends HTMLElement {
     #abortController = null;
     #observer = null;

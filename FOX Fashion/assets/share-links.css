@@ -1,4 +1,3 @@
-/* Share icons (snippets/component-share.liquid + share-links.js). Colors follow currentColor. */
 .fox-share {
   display: flex;
   flex-wrap: wrap;
@@ -65,7 +64,6 @@
   outline-offset: 2px;
 }
 
-/* "Đã sao chép" tooltip above the copy icon. */
 .fox-share__btn.is-copied::after {
   content: attr(data-copied-label);
   position: absolute;
@@ -91,7 +89,6 @@
   white-space: nowrap;
 }
 
-/* Messenger app link only works on phones/tablets. */
 @media (hover: hover) and (pointer: fine) {
   .fox-share__item--touch {
     display: none;

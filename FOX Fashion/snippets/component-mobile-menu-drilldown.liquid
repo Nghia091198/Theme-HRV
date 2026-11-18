@@ -1,5 +1,4 @@
 {% assign drill_links = linklists[menuHandle].links %}
-{% comment %}Concise shared state drives panels; JavaScript only manages navigation.{% endcomment %}
 
 <div class="fox-mobile-drilldown" data-role="drilldown" data-root-panel="fox-mobile-panel-root">
   <section class="fox-mobile-drilldown__panel" id="fox-mobile-panel-root" data-panel-id="fox-mobile-panel-root" data-level="0" data-state="active" aria-hidden="false">
@@ -55,7 +54,6 @@
               {% endfor %}
             </ul>
 
-            {% comment %}The product slider stays last in the mega panel to preserve menu-first navigation.{% endcomment %}
             {% assign drill_collection = collections[settings.header_mega_1_collection] %}
             {% if settings.header_mega_1_collection_show and drill_collection != empty %}
               <section class="fox-mobile-drilldown__products" aria-label="{{ settings.header_mega_1_collection_title | escape }}">
@@ -68,7 +66,7 @@
                     {% for product in drill_collection.products limit: settings.header_mega_1_product_limit %}
                       <div class="swiper-slide">
                         <article class="fox-mobile-drilldown__product-card">
-                          <a class="fox-mobile-drilldown__product-image" href="{{ product.url }}" aria-label="{{ product.title | strip | escape }}"><img src="{% if product.images.size > 0 %}{{ product.featured_image | product_img_url: 'master' }}{% else %}{{ 'no_image.jpg' | asset_url }}{% endif %}" width="180" height="180" loading="lazy" decoding="async" alt="{{ product.title | strip | escape }}"></a>
+                          <a class="fox-mobile-drilldown__product-image" href="{{ product.url }}" aria-label="{{ product.title | strip | escape }}"><img src="{% if product.images.size > 0 %}{{ product.featured_image | product_img_url: 'large' }}{% else %}{{ 'no_image.jpg' | asset_url }}{% endif %}" width="180" height="180" loading="lazy" decoding="async" alt="{{ product.title | strip | escape }}"></a>
                           <div class="fox-mobile-drilldown__product-detail">
                             <h4><a href="{{ product.url }}">{{ product.title | escape }}</a></h4>
                             <div class="fox-mobile-drilldown__product-price">{% if product.variants[0].price > 0 %}{{ product.variants[0].price | money }}{% else %}{{ settings.product_contact_title }}{% endif %}{% if product.variants[0].compare_at_price > product.variants[0].price %}<del>{{ product.variants[0].compare_at_price | money }}</del>{% endif %}</div>
@@ -132,7 +130,6 @@
         {% endfor %}
       {% endif %}
 
-      {% comment %}Capture every regular descendant panel while its level-1 context is active.{% endcomment %}
     {% for lv2 in lv2_links %}
       {% assign lv2_index = forloop.index %}
       {% assign lv3_links = linklists[lv2.handle].links %}

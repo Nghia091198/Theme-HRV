@@ -1,5 +1,3 @@
-/* Shared policy strip  (snippets/collection-policy.liquid) for collection and product pages.
-   Class names keep the original fox-collection__policy* contract used by the snippet. */
 .fox-collection__policy {
   --fox-policy-border: var(--color-border, #e4e5e6);
   --fox-policy-muted: var(--color-text-secondary, #101010);

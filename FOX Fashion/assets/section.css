@@ -1,19 +1,3 @@
-/**
- * fox-section
- * Shared section layout + typography contract (brand-agnostic).
- *
- * Container: dùng .container / .container-fluid từ utilities.min.css.
- *   .container       -> boxed, max-width 1400px
- *   .container-fluid -> full width
- * KHÔNG tạo wrapper max-width riêng cho từng section.
- *
- * Typography: .fox-section__title / __subtitle / __desc sở hữu STRUCTURE + margin.
- * Mỗi section chỉ override token, không viết lại font-size/weight/color rời rạc:
- *   --fox-section-title-size / -weight / -leading / -spacing / -color / -font
- *   --fox-section-subtitle-size / -weight / -color
- *   --fox-section-desc-size / -leading / -color
- */
-
 .fox-section__header {
   display: flex;
   flex-direction: column;

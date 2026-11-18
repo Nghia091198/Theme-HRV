@@ -1,0 +1,21 @@
+{%- if settings.app_review_show -%}
+  {%- case settings.app_review_app -%}
+    {%- when 'easy_review' -%}
+      {%- assign rate_review = product.metafields.starbap['starbaprv.badge'] | append: '' -%}
+      {%- if rate_review != '' -%}
+        {%- assign rate_number = rate_review | replace: ' đánh giá', ')' | replace: "starbap-prev-badgetext'>", "starbap-prev-badgetext'>(" -%}
+        <div class="fox-review-badge starbaprv-widget starbaprv-preview-badge starbaprv-preview-badge--with-link" data-id="{{ product.id }}" data-url="{{ product.handle }}">{{ rate_number }}</div>
+      {%- else -%}
+        <div class="fox-review-badge starbaprv-widget-null">
+          <div class="starbap-prev-null">
+            {%- for star in (1..5) -%}
+            <a class="starbap-star starbap--off" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" focusable="false"><path fill="currentColor" d="M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 1.12-6.55L2.48 9.42l6.58-.96L12 2.5z"></path></svg></a>
+            {%- endfor -%}
+            <span class="starbap-prev-badgetext">(0)</span>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- when 'omni_review' -%}
+      <div class="fox-review-badge onireviewapp-loop">{{ product.metafields.onistudio['reviewapp.loop'] }}</div>
+  {%- endcase -%}
+{%- endif -%}

@@ -1,79 +1,83 @@
-{%- if settings.fox_product_story_show -%}
+{%- assign story_prefix = story_prefix | default: 'fox_product_story' -%}
+{%- assign story_dom_id = story_prefix | replace: '_', '-' -%}
+{%- capture story_show_key -%}{{ story_prefix }}_show{%- endcapture -%}
+
+{%- if settings[story_show_key] -%}
+  {%- capture story_title_key -%}{{ story_prefix }}_title{%- endcapture -%}
+  {%- capture story_desc_key -%}{{ story_prefix }}_desc{%- endcapture -%}
+  {%- capture story_bg_key -%}{{ story_prefix }}_bg{%- endcapture -%}
+  {%- capture story_text_key -%}{{ story_prefix }}_text{%- endcapture -%}
+  {%- capture story_pt_key -%}{{ story_prefix }}_padding_top{%- endcapture -%}
+  {%- capture story_pb_key -%}{{ story_prefix }}_padding_bottom{%- endcapture -%}
+  {%- capture story_pt_mobile_key -%}{{ story_prefix }}_padding_top_mobile{%- endcapture -%}
+  {%- capture story_pb_mobile_key -%}{{ story_prefix }}_padding_bottom_mobile{%- endcapture -%}
+  {%- capture story_hover_key -%}{{ story_prefix }}_hover_preview{%- endcapture -%}
+  {%- capture story_mobile_key -%}{{ story_prefix }}_mobile_preview{%- endcapture -%}
+  {%- capture story_pause_key -%}{{ story_prefix }}_pause_on_hover{%- endcapture -%}
+  {%- assign story_heading = settings[story_title_key] | default: 'Shop the Feed' -%}
 
   {%- assign story_count = 0 -%}
   {%- capture story_cards -%}
     {%- for story_index in (1..6) -%}
-      {%- capture show_key -%}fox_product_story_{{ story_index }}_show{%- endcapture -%}
-      {%- capture poster_key -%}fox_product_story_{{ story_index }}_poster.jpg{%- endcapture -%}
-      {%- capture video_key -%}fox_product_story_{{ story_index }}_mp4_url{%- endcapture -%}
-      {%- assign story_video_fallback = '' -%}
-      {%- case story_index -%}
-        {%- when 1 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/7db445d02098435a92b12771d59568c2/7db445d02098435a92b12771d59568c2.HD-1080p-7.2Mbps-65170171.mp4?v=0' -%}
-        {%- when 2 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/9b5ae9995bdd407faba2826d7aebbca0/9b5ae9995bdd407faba2826d7aebbca0.HD-1080p-7.2Mbps-65170170.mp4?v=0' -%}
-        {%- when 3 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/16713045ecab457bb1811ddcf9433fd6/16713045ecab457bb1811ddcf9433fd6.HD-1080p-7.2Mbps-65170535.mp4?v=0' -%}
-        {%- when 4 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/463ac79c0114479291d4a4aeb9e7c91e/463ac79c0114479291d4a4aeb9e7c91e.HD-1080p-2.5Mbps-65170402.mp4?v=0' -%}
-        {%- when 5 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/97af13af0b804e5cbc19c623e831c011/97af13af0b804e5cbc19c623e831c011.HD-1080p-7.2Mbps-65170169.mp4?v=0' -%}
-        {%- when 6 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/f1238248f543418dbbd2ab6c52377ba1/f1238248f543418dbbd2ab6c52377ba1.HD-1080p-7.2Mbps-65170342.mp4?v=0' -%}
-      {%- endcase -%}
-      {%- assign story_video_value = settings[video_key] | default: story_video_fallback -%}
-      {%- unless settings[show_key] == false -%}
-      {%- if settings[poster_key] != blank or story_video_value != blank -%}
+      {%- capture show_key -%}{{ story_prefix }}_{{ story_index }}_show{%- endcapture -%}
+      {%- capture poster_key -%}{{ story_prefix }}_{{ story_index }}_poster.jpg{%- endcapture -%}
+      {%- capture media_key -%}{{ story_prefix }}_{{ story_index }}_media_type{%- endcapture -%}
+      {%- capture video_key -%}{{ story_prefix }}_{{ story_index }}_mp4_url{%- endcapture -%}
+      {%- assign story_has_media = false -%}
+      {%- if settings[poster_key] != blank -%}{%- assign story_has_media = true -%}{%- endif -%}
+      {%- if settings[media_key] == 'type_mp4' or settings[media_key] == blank -%}{%- if settings[video_key] != blank -%}{%- assign story_has_media = true -%}{%- endif -%}{%- endif -%}
+      {%- if settings[show_key] and story_has_media -%}
         {%- assign story_render_index = story_count -%}
         {%- assign story_mode = 'card' -%}
         <div class="swiper-slide">{%- include 'product-story-item' -%}</div>
         {%- assign story_count = story_count | plus: 1 -%}
       {%- endif -%}
-      {%- endunless -%}
     {%- endfor -%}
   {%- endcapture -%}
   {%- if story_count > 0 -%}
     {%- capture modal_slides -%}
       {%- assign story_render_count = 0 -%}
       {%- for story_index in (1..6) -%}
-        {%- capture show_key -%}fox_product_story_{{ story_index }}_show{%- endcapture -%}
-        {%- capture poster_key -%}fox_product_story_{{ story_index }}_poster.jpg{%- endcapture -%}
-        {%- capture video_key -%}fox_product_story_{{ story_index }}_mp4_url{%- endcapture -%}
-        {%- assign story_video_fallback = '' -%}
-        {%- case story_index -%}
-          {%- when 1 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/7db445d02098435a92b12771d59568c2/7db445d02098435a92b12771d59568c2.HD-1080p-7.2Mbps-65170171.mp4?v=0' -%}
-          {%- when 2 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/9b5ae9995bdd407faba2826d7aebbca0/9b5ae9995bdd407faba2826d7aebbca0.HD-1080p-7.2Mbps-65170170.mp4?v=0' -%}
-          {%- when 3 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/16713045ecab457bb1811ddcf9433fd6/16713045ecab457bb1811ddcf9433fd6.HD-1080p-7.2Mbps-65170535.mp4?v=0' -%}
-          {%- when 4 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/463ac79c0114479291d4a4aeb9e7c91e/463ac79c0114479291d4a4aeb9e7c91e.HD-1080p-2.5Mbps-65170402.mp4?v=0' -%}
-          {%- when 5 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/97af13af0b804e5cbc19c623e831c011/97af13af0b804e5cbc19c623e831c011.HD-1080p-7.2Mbps-65170169.mp4?v=0' -%}
-          {%- when 6 -%}{%- assign story_video_fallback = 'https://athora-theme.myshopify.com/cdn/shop/videos/c/vp/f1238248f543418dbbd2ab6c52377ba1/f1238248f543418dbbd2ab6c52377ba1.HD-1080p-7.2Mbps-65170342.mp4?v=0' -%}
-        {%- endcase -%}
-        {%- assign story_video_value = settings[video_key] | default: story_video_fallback -%}
-        {%- unless settings[show_key] == false -%}
-        {%- if settings[poster_key] != blank or story_video_value != blank -%}
+        {%- capture show_key -%}{{ story_prefix }}_{{ story_index }}_show{%- endcapture -%}
+        {%- capture poster_key -%}{{ story_prefix }}_{{ story_index }}_poster.jpg{%- endcapture -%}
+        {%- capture media_key -%}{{ story_prefix }}_{{ story_index }}_media_type{%- endcapture -%}
+        {%- capture video_key -%}{{ story_prefix }}_{{ story_index }}_mp4_url{%- endcapture -%}
+        {%- assign story_has_media = false -%}
+        {%- if settings[poster_key] != blank -%}{%- assign story_has_media = true -%}{%- endif -%}
+        {%- if settings[media_key] == 'type_mp4' or settings[media_key] == blank -%}{%- if settings[video_key] != blank -%}{%- assign story_has_media = true -%}{%- endif -%}{%- endif -%}
+        {%- if settings[show_key] and story_has_media -%}
           {%- assign story_render_index = story_render_count -%}
           {%- assign story_mode = 'modal' -%}
           {%- include 'product-story-item' -%}
           {%- assign story_render_count = story_render_count | plus: 1 -%}
         {%- endif -%}
-        {%- endunless -%}
       {%- endfor -%}
     {%- endcapture -%}
-<section class="fox-product-story" button-color style="--fox-product-story-bg: {{ settings.fox_product_story_bg | default: '#f3eee8' }}; --fox-product-story-color: {{ settings.fox_product_story_text | default: '#1b2631' }}; --fox-product-story-pt: {{ settings.fox_product_story_padding_top | default: 60 }}px; --fox-product-story-pb: {{ settings.fox_product_story_padding_bottom | default: 60 }}px; --fox-product-story-pt-mobile: {{ settings.fox_product_story_padding_top_mobile | default: 36 }}px; --fox-product-story-pb-mobile: {{ settings.fox_product_story_padding_bottom_mobile | default: 36 }}px;" aria-labelledby="fox-product-story-heading">
-  <fox-product-story data-state="idle" data-hover-preview="{{ settings.fox_product_story_hover_preview }}" data-mobile-preview="{{ settings.fox_product_story_mobile_preview }}">
+<section class="fox-product-story" button-color style="--fox-product-story-bg: {{ settings[story_bg_key] | default: '#f3eee8' }}; --fox-product-story-color: {{ settings[story_text_key] | default: '#1b2631' }}; --fox-product-story-pt: {{ settings[story_pt_key] | default: 60 }}px; --fox-product-story-pb: {{ settings[story_pb_key] | default: 60 }}px; --fox-product-story-pt-mobile: {{ settings[story_pt_mobile_key] | default: 36 }}px; --fox-product-story-pb-mobile: {{ settings[story_pb_mobile_key] | default: 36 }}px;" aria-labelledby="{{ story_dom_id }}-heading">
+  <fox-product-story data-state="idle" data-hover-preview="{{ settings[story_hover_key] }}" data-mobile-preview="{{ settings[story_mobile_key] }}">
     <div class="container-fluid">
       <header class="fox-product-story__header">
-        <h2 class="fox-section__title" id="fox-product-story-heading">{{ settings.fox_product_story_title | default: 'Shop the Feed' | escape }}</h2>
-        {%- if settings.fox_product_story_desc != blank -%}<p class="fox-section__desc">{{ settings.fox_product_story_desc | escape }}</p>{%- endif -%}
+        <h2 class="fox-section__title" id="{{ story_dom_id }}-heading">{{ story_heading | escape }}</h2>
+        {%- if settings[story_desc_key] != blank -%}<p class="fox-section__desc">{{ settings[story_desc_key] | escape }}</p>{%- endif -%}
       </header>
-      <slider-component class="fox-product-story__slider" data-preset="story" data-state="idle" data-autoplay="true" data-autoplay-delay="0" data-transition-duration="6500" data-pause-on-hover="{{ settings.fox_product_story_pause_on_hover }}" data-free-mode="false" data-loop="true" data-marquee="true" data-navigation="false" data-slides-mobile="1" data-slides-tablet="3" data-slides-desktop="5" data-space-mobile="15" data-space-tablet="24" data-space-desktop="24">
+      <slider-component class="fox-product-story__slider" data-preset="story" data-state="idle" data-autoplay="true" data-autoplay-delay="0" data-transition-duration="6500" data-pause-on-hover="{{ settings[story_pause_key] }}" data-free-mode="false" data-loop="true" data-marquee="true" data-navigation="false" data-slides-mobile="1" data-slides-tablet="3" data-slides-desktop="5" data-space-mobile="15" data-space-tablet="24" data-space-desktop="24">
         <div class="swiper" data-role="viewport"><div class="swiper-wrapper">{{ story_cards }}</div></div>
       </slider-component>
     </div>
-    <modal-component id="fox-product-story-modal" class="fox-product-story__modal" data-state="closed">
-      <dialog data-role="dialog" cursor-zone data-icon="#ic-times" aria-labelledby="fox-product-story-modal-title">
-        <div data-role="surface" data-cursor-native>
+    <modal-component id="{{ story_dom_id }}-modal" class="fox-product-story__modal" data-state="closed">
+      <dialog data-role="dialog" aria-labelledby="{{ story_dom_id }}-modal-title">
+        <button type="button" class="fox-product-story__dismiss" data-action="close" aria-label="Đóng">
+          <svg class="icon-svg" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><use xlink:href="#ic-times"></use></svg>
+        </button>
+        <div data-role="surface">
           <header class="fox-product-story__modal-header" data-role="header">
             <div class="fox-product-story__author">
               {%- if settings.footer_instagram_url != blank -%}<a href="{{ settings.footer_instagram_url | escape }}" target="_blank" rel="nofollow noopener noreferrer" aria-label="Instagram - {{ shop.name | escape }}">{%- endif -%}
                 <span class="fox-product-story__avatar">
-                  <img src="{%- if settings['favicon.png'] contains '//' -%}{{ settings['favicon.png'] | escape }}{%- elsif settings['favicon.png'] != blank -%}{{ settings['favicon.png'] | asset_url | escape }}{%- elsif settings['logo.png'] contains '//' -%}{{ settings['logo.png'] | escape }}{%- elsif settings['logo.png'] != blank -%}{{ settings['logo.png'] | asset_url | escape }}{%- else -%}{{ 'logo.png' | asset_url | escape }}{%- endif -%}" alt="" width="28" height="28" loading="lazy">
+                  {%- capture story_avatar_key -%}{{ story_prefix }}_avatar.png{%- endcapture -%}
+                  {%- include 'render-img' with src: story_avatar_key, decorative: true, w: '36', h: '36' -%}
                 </span>
-                <span id="fox-product-story-modal-title">{{ shop.name | escape }}</span>
+                <span id="{{ story_dom_id }}-modal-title">{{ shop.name | escape }}</span>
               {%- if settings.footer_instagram_url != blank -%}</a>{%- endif -%}
             </div>
             <button type="button" class="btn btn-secondary" data-action="close" aria-label="Đóng"><span aria-hidden="true">&times;</span></button>

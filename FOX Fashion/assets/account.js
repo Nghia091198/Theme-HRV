@@ -21,11 +21,6 @@
   syncAccountNav();
   window.addEventListener('hashchange', syncAccountNav);
 
-  const navStatus = root.querySelector('[data-account-nav-status]');
-  root.querySelectorAll('[data-account-placeholder]').forEach((button) => {
-    button.addEventListener('click', () => { if (navStatus) navStatus.textContent = 'Tính năng đang được phát triển'; });
-  });
-
   const birthday = root.querySelector('[data-account-date-picker]');
   if (birthday && typeof window.flatpickr === 'function') window.flatpickr(birthday, { allowInput: true, dateFormat: 'd/m/Y', disableMobile: true });
 

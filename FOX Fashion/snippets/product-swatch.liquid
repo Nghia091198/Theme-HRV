@@ -1,5 +1,4 @@
 {%- if product.variants.size > 1 -%}
-{%- comment -%}Size guide trigger: options whose handle contains  "kich-thuoc" or "size" get a button that opens snippets/size-guide-modal.liquid.{%- endcomment -%}
 {%- assign size_guide_enabled = false -%}
 {%- if settings.size_guide_show -%}
   {%- assign size_guide_page = settings.size_guide_page_url | strip -%}

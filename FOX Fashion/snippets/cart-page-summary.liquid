@@ -1,0 +1,55 @@
+{%- assign delivery_value = cart.attributes['Delivery Time'] -%}
+<section class="fox-cart-page__glass fox-cart-summary" aria-labelledby="fox-cart-summary-title">
+  <h2 id="fox-cart-summary-title" class="fox-cart-page__title">Thông tin đơn hàng</h2>
+
+  {%- if settings.cart_page_delivery_show -%}
+  <cart-delivery class="fox-cart-delivery"
+    data-start="{{ settings.cart_page_delivery_start | default: 8 }}"
+    data-end="{{ settings.cart_page_delivery_end | default: 21 }}"
+    data-value="{{ delivery_value | escape }}">
+    <fieldset class="fox-cart-delivery__modes">
+      <legend class="fox-cart-delivery__label">{{ settings.cart_page_delivery_title | default: 'Thời gian giao hàng' | escape }}</legend>
+      <label class="fox-cart-radio">
+        <input type="radio" name="fox-cart-delivery-mode" value="asap" data-role="mode">
+        <span class="fox-cart-radio__mark" aria-hidden="true"></span>
+        <span>Giao khi có hàng</span>
+      </label>
+      <label class="fox-cart-radio">
+        <input type="radio" name="fox-cart-delivery-mode" value="schedule" data-role="mode">
+        <span class="fox-cart-radio__mark" aria-hidden="true"></span>
+        <span>Chọn thời gian</span>
+      </label>
+    </fieldset>
+    <div class="fox-cart-delivery__schedule" data-role="schedule" hidden>
+      <label class="fox-cart-field">
+        <span class="fox-cart-field__label">Ngày giao</span>
+        <input type="date" class="fox-cart-field__control" data-role="date" required>
+      </label>
+      <label class="fox-cart-field">
+        <span class="fox-cart-field__label">Khung giờ</span>
+        <select class="fox-cart-field__control" data-role="slot" required></select>
+      </label>
+      {%- if settings.cart_page_delivery_tip != blank -%}
+      <p class="fox-cart-delivery__tip" role="note">
+        <span class="fox-cart-delivery__tip-icon" aria-hidden="true">!</span>
+        <span>{{ settings.cart_page_delivery_tip | escape }}</span>
+      </p>
+      {%- endif -%}
+    </div>
+    <p class="fox-cart-delivery__status" data-role="status" aria-live="polite"></p>
+  </cart-delivery>
+  {%- endif -%}
+
+  <div class="fox-cart-summary__total">
+    <span>Tổng tiền</span>
+    <strong data-role="side-total">{{ cart.total_price | money }}</strong>
+  </div>
+  <ul class="fox-cart-summary__notes">
+    <li>Phí vận chuyển sẽ được tính ở trang thanh toán.</li>
+    <li>Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</li>
+  </ul>
+  <a href="/checkout" class="btn btn-primary fox-cart-summary__checkout" button-effect>
+    <span class="btn__label">Thanh toán</span>
+    <span data-btn-effect-span aria-hidden="true"></span>
+  </a>
+</section>

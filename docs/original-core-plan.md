@@ -457,7 +457,7 @@ Theme/
 │   └── vi.json
 │
 ├── snippets/
-│   ├── core-component-slider.liquid
+│   ├── cpn-slider.liquid
 │   ├── core-slider-controls.liquid
 │   ├── core-responsive-image.liquid
 │   ├── core-button.liquid
@@ -582,7 +582,7 @@ Ví dụ:
 ```text
 section-hero-slider.liquid
 section-featured-collection.liquid
-core-component-slider.liquid
+cpn-slider.liquid
 core-responsive-image.liquid
 product-card.liquid
 cart-drawer.liquid

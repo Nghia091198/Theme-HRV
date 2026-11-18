@@ -1,4 +1,3 @@
-{%- comment -%}Variant tuples are shared by all cart lines of the same product.{%- endcomment -%}
 {%- assign cart_mapped_products = ',' -%}
 {%- for item in cart.items -%}
   {%- assign cart_product_key = item.product_id | prepend: ',' | append: ',' -%}

@@ -1,34 +1,37 @@
 #PROCESSING
+- kiểm tra lại các swatch element khi hết hàng chỉ disable không cần có dâu gạch ngang
 
-- loop sản phẩm dời list action dạng row bottom ở giữa => done
-- trang sản phẩm build
-	+ lỗi zoom => done
-	+ bật section collection lên check => done
-	+ style mobile	=> done
-	+ sidebar product bottom => done
-	+ location => done
-	+ sizeguide => done
+trang chủ: 
+  
+
+- trang sản phẩm 
 - trang page size
-- icon addthis
-	+ preview lại code chỉ dùng for rồi check có != blank để check hiện thị hay ẩn, không dùng mảng + namn như hiện tại
+	+ build
 - trang faq
 	+ preview + feedback
 - trang aboutus
 	+ preview + feedback
-	
-- trang collection
-	+ check filter color
+- trang contact
+	+ build
+- trang stores
+	+ build
+
 - trang 404 => done
 	
 - trang Yêu thích
 	
+## function refactor
+- tableofcontent  build dạng dùng chung, không dùng các class mang tính privte như blog_
+- build thêm attribute vào #tableofcontent một attribute để định dạng lấy ở đâu làm mục lục, ví dụ tableofcontent-target="#product-description"
+
 
 ### DONE LIST
 - Trang product
-
+- Trang collection
+- Trang contact
 #APP - Lib icons
 ## Client
-- update endpoint api client GET icon-sets -> list-icon
+
 - refactors structure: component, hook
 - khi chọn tab khác listing chưa scroll top
 - thanh search nằm trên navigate
@@ -37,12 +40,13 @@
 - chia thêm tab Flag
 ## Server 
 - group các icon cờ các nước vào group Flag
+- update endpoint api client GET icon-sets -> list-icon
+
 -----------
 
 #FEATURE
 
-- nếu sử dụng type từ đây thì không cần khai báo bên json và không cần chỉnh sửa file này luôn
-- xem lại endpoint /prints/list đang làm gì có cần tạo endpoint không
+
 
 
 

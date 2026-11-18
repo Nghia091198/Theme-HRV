@@ -1,8 +1,3 @@
-{%- comment -%}
-  Reusable share icons (product page, article). Input: share_url (absolute), share_title, share_label (optional).
-  Each icon has its own setting (share_facebook, share_messenger, share_x, share_email, share_copy, share_native).
-  Messenger uses the app link, so it shows on touch devices only. Behavior: assets/share-links.js.
-{%- endcomment -%}
 <share-links class="fox-share" data-state="idle" data-url="{{ share_url | escape }}" data-title="{{ share_title | escape }}">
   {%- if share_label != blank -%}
   <span class="fox-share__label">

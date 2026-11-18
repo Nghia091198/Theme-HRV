@@ -1,0 +1,21 @@
+# Keep the Haravan theme settings files in their current format (see docs/settings-guide.md for labels and keys).
+root = true
+
+# Theme settings UI: tab indent, CRLF, one structural tag / one row per line (docs/settings-structure.md). The canonical
+# formatter (scripts/format-settings-html.mjs, run on save) also strips trailing whitespace.
+[**/config/settings.html]
+charset = utf-8
+end_of_line = crlf
+indent_style = tab
+indent_size = 4
+tab_width = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Theme settings values: space indent, LF.
+[**/config/settings_data.json]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = false

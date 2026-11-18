@@ -1,14 +1,3 @@
-{%- comment -%}
-  Reusable "Xem thêm / Thu gọn" block (behavior: assets/expand-content.js, styles: assets/expand-content.css).
-  Input:
-    expand_html        content HTML (required)
-    expand_id          unique id for this block
-    expand_preset      height preset from window.FOX.config.expandContent.presets (shop-config.liquid),
-                       e.g. productDescription, collectionDescription, pageContent
-    expand_max_height  optional px height for this block only (overrides the preset)
-    expand_class       optional extra class on the content wrapper (e.g. rte)
-  Without JavaScript the content stays fully visible.
-{%- endcomment -%}
 {%- assign expand_id = expand_id | default: 'fox-expand' -%}
 <expand-content class="fox-expand" data-state="idle"{% if expand_preset != blank %} data-preset="{{ expand_preset }}"{% endif %}{% if expand_max_height != blank %} data-max-height="{{ expand_max_height }}"{% endif %}>
   <div class="fox-expand__viewport" id="{{ expand_id }}-viewport" data-role="viewport">

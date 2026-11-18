@@ -101,9 +101,9 @@ ProductForm
 ### File
 
 ```text
-core-foundation-dom.js
-core-component-slider.js
-core-commerce-cart.js
+cpn-dom.js
+cpn-slider.js
+cart.js
 media-progress.css
 scroll-viewport.js
 home.js
@@ -117,7 +117,7 @@ Feature behavior hoặc skin riêng của FOX dùng tên ngắn:
 ```
 
 `core-*` chỉ dành cho module brand-agnostic có mục tiêu tái sử dụng giữa nhiều
-theme. Không tạo tên dài như `core-component-media-progress.css` cho feature
+theme. Không tạo tên dài như `cpn-media-progress.css` cho feature
 thuộc FOX. Snippet reusable tiếp tục dùng prefix `component-*`; snippet riêng
 của theme, kể cả markup commerce, dùng tên tính năng không prefix.
 Alternate template dùng tên view không prefix, ví dụ `product.quick-view.liquid`

@@ -1,1 +1,22 @@
-/* */
+{%- assign page_has_sidebar = settings.page_show_sidebar -%}
+<div class="fox-blog fox-article fox-page{% unless page_has_sidebar %} fox-article--no-sidebar{% endunless %}">
+  <div class="container">
+    {%- include 'component-breadcrumb' with container: false, bgColor: 'transparent' -%}
+    <header class="fox-article__header">
+      <h1 class="fox-article__title">{{ page.title | escape }}</h1>
+    </header>
+
+    <div class="fox-blog__layout fox-article__layout">
+      <main class="fox-article__main">
+        <div class="rte fox-article__content">{{ page.content }}</div>
+      </main>
+      {%- if page_has_sidebar -%}
+        {%- assign sidebar_context = 'page' -%}
+        {%- include 'content-sidebar' -%} 
+        {%- assign sidebar_context = blank -%}
+      {%- endif -%}
+    </div>
+
+    {%- include 'collection-policy' with policy_context: 'page' -%}
+  </div>
+</div>

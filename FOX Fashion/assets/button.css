@@ -27,7 +27,7 @@
 .swiper-button-next:after {
     content: none;
 }
-.swiper-button-container .swiper-button-prev:after, 
+.swiper-button-container .swiper-button-prev:after,
 .swiper-button-container .swiper-button-next:after {
     position: static;
     transform: unset;
@@ -102,7 +102,7 @@ button[data-tooltip]:hover:before {
     z-index: 20;
 }
 
-.btn {   
+.btn {
   position: relative;
   isolation: isolate;
   overflow: hidden;

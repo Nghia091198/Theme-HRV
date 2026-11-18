@@ -1,7 +1,6 @@
 (() => {
   const BUNDLE = '[data-bundle-variants]';
   const MESSAGES = {
-    added: 'Đã thêm cả bộ vào giỏ hàng',
     failed: 'Không thể thêm bộ sản phẩm vào giỏ hàng',
   };
 
@@ -16,14 +15,16 @@
       .map((variantId) => ({ variantId, quantity: 1 }));
     if (!items.length) return;
 
+    const progress = window.FOX.cart.progress;
     button.disabled = true;
+    progress?.start();
     try {
       const result = await window.FOX.cart.addMany(items);
-      if (result?.added) window.FOX.toast?.success(MESSAGES.added);
-      else window.FOX.toast?.error(MESSAGES.failed);
+      if (!result?.added) window.FOX.toast?.error(MESSAGES.failed);
     } catch (error) {
       window.FOX.toast?.error(error?.message || MESSAGES.failed);
     } finally {
+      progress?.done();
       button.disabled = false;
     }
   });

@@ -35,26 +35,14 @@
               {%- capture iwto_desc_key -%}iwto_{{ iwto_index }}_desc{%- endcapture -%}
               {%- capture iwto_button_key -%}iwto_{{ iwto_index }}_btn_title{%- endcapture -%}
               {%- capture iwto_url_key -%}iwto_{{ iwto_index }}_url{%- endcapture -%}
-              {%- assign iwto_image = settings[iwto_image_key] | default: iwto_image_key -%}
-              {%- assign iwto_image_url = iwto_image | asset_url -%}
-              {%- if iwto_image contains '//' -%}
-                {%- assign iwto_image_url = iwto_image -%}
-              {%- endif -%}
               {%- assign iwto_item_title = settings[iwto_title_key] -%}
               {%- assign iwto_button_title = settings[iwto_button_key] -%}
               {%- assign iwto_item_url = settings[iwto_url_key] -%}
+              {%- assign iwto_image_alt = settings[iwto_alt_key] | default: iwto_item_title | escape -%}
 
               <article class="fox-iwto-card" role="listitem">
                 <div class="fox-iwto-card__media">
-                  <img
-                    class="fox-iwto-card__image"
-                    src="{{ iwto_image_url | escape }}"
-                    alt="{{ settings[iwto_alt_key] | default: iwto_item_title | escape }}"
-                    width="864"
-                    height="812"
-                    sizes="(min-width: 1150px) calc(30vw + 10vw), (min-width: 600px) 70vw, 88vw"
-                    loading="lazy"
-                    decoding="async">
+                  {%- include 'render-img' with src: iwto_image_key, class: 'fox-iwto-card__image', alt: iwto_image_alt, w: '864', h: '812', sizes: '(min-width: 1150px) calc(30vw + 10vw), (min-width: 600px) 70vw, 88vw' -%}
                 </div>
 
                 <div class="fox-iwto-card__content">

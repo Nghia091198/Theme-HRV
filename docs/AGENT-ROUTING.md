@@ -4,6 +4,9 @@ This file keeps root `AGENTS.md` short and makes context loading deliberate.
 
 | Task | Auto/global workflow | Project skill(s) | Primary docs | Recommended subagent flow |
 |---|---|---|---|---|
+| **Build a whole new theme** ("làm cho tôi một theme") | follow the playbook phases in order, with its approval gates | per phase (see playbook) | **THEME-BUILD-PLAYBOOK** (read first), then the docs it names per phase | per phase; never skip a gate |
+| Brand / logo / favicon kit | concepts → variants → kit, user picks at each step | — | brand-logo-guide | implementer (assets) → user approval |
+| Core feature (newsletter popup, recent orders / sales pop, other site-wide features) | keep the documented settings location, keys, files and behaviour contract | haravan-theme-settings when settings change | **core-features** (contract), settings-structure | implementer → QA with the listed debug/test scripts |
 | New storefront section/layout | incremental (if multi-file), browser verify | frontend-ui-engineering | PATTERN-DISCOVERY, coding-standard, haravan-guidelines, relevant component/settings/image guide | code_mapper/pattern discovery → resolve design intent → frontend_implementer → ui_qc → haravan_reviewer |
 | Visual/responsive bug | debugging, browser verify | frontend-ui-engineering + ui-qc | relevant component/CSS docs | code_mapper → frontend_implementer → ui_qc |
 | Reusable Web Component | incremental, browser verify, review | frontend-component (+ frontend-ui-engineering if visual) | PATTERN-DISCOVERY when new UI pattern, coding-standard, component-library | code_mapper → resolve reuse/reference if needed → frontend_implementer → haravan_reviewer |

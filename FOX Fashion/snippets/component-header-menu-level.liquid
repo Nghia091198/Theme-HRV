@@ -1,4 +1,3 @@
-{% comment %}Desktop/basic markup consumes concise shared menu state.{% endcomment %}
 <ul class="fox-menu{% if mobile %} fox-menu--mobile{% endif %}" role="list">
   {% for link in linklists[menuHandle].links %}
     {% include 'component-header-menu-shared' with operation: 'menu-state', menu_link: link %}

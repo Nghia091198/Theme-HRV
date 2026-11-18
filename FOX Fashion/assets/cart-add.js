@@ -9,9 +9,55 @@
 
     const MESSAGES = {
         chooseVariant: 'Vui lòng chọn phân loại sản phẩm',
-        added: 'Đã thêm vào giỏ hàng',
         addFailed: 'Không thể thêm sản phẩm vào giỏ hàng',
     };
+
+    const PROGRESS_CLASS = 'fox-cart-progress';
+    const PROGRESS_FINISH = 420;
+    const PROGRESS_MIN_VISIBLE = 600;
+
+    const progress = (() => {
+        let bar = null;
+        let active = 0;
+        let finishTimer = 0;
+        let startedAt = 0;
+        const element = () => {
+            if (bar?.isConnected) return bar;
+            bar = document.createElement('div');
+            bar.className = PROGRESS_CLASS;
+            bar.setAttribute('aria-hidden', 'true');
+            bar.dataset.state = 'idle';
+            bar.append(document.createElement('span'));
+            document.body.append(bar);
+            return bar;
+        };
+        const finish = () => {
+            bar.dataset.state = 'done';
+            finishTimer = setTimeout(() => { bar.dataset.state = 'idle'; }, PROGRESS_FINISH);
+        };
+        return {
+            start() {
+                active += 1;
+                clearTimeout(finishTimer);
+                const node = element();
+                if (node.dataset.state === 'running') return;
+                startedAt = performance.now();
+                node.dataset.state = 'idle';
+                void node.offsetWidth;
+                node.dataset.state = 'running';
+            },
+            done() {
+                active = Math.max(0, active - 1);
+                if (active || !bar) return;
+                const remaining = PROGRESS_MIN_VISIBLE - (performance.now() - startedAt);
+                clearTimeout(finishTimer);
+                if (remaining > 0) finishTimer = setTimeout(() => { if (!active) finish(); }, remaining);
+                else finish();
+            },
+        };
+    })();
+
+    if (FOX.cart) FOX.cart.progress = progress;
 
     class AddToCart extends HTMLElement {
         #trigger = null;
@@ -55,6 +101,7 @@
 
             const buyNow = this.dataset.mode === MODE_BUY_NOW;
             this.#setBusy(true);
+            progress.start();
 
             try {
                 if (buyNow) {
@@ -62,12 +109,12 @@
                 } else {
                     await FOX.cart.add(variantId, this.quantity);
                     this.dataset.state = 'idle';
-                    FOX.toast.success(MESSAGES.added);
                 }
             } catch (error) {
                 this.dataset.state = 'error';
                 FOX.toast.error(error.message || MESSAGES.addFailed);
             } finally {
+                progress.done();
                 this.#setBusy(false);
             }
         }
@@ -86,4 +133,4 @@
     document.addEventListener(CART_EVENTS.added, () => {
         document.querySelector('mini-cart')?.open();
     });
-})();
+})(); 

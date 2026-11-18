@@ -172,7 +172,6 @@
   margin-top: 2.4rem;
 }
 
-/* Liquid omits this wrapper when blank; this remains as a defensive fallback. */
 .fox-footer__socials:not(:has(.block-list-social)) {
   display: none;
 }
@@ -241,7 +240,7 @@
 
 .fox-footer__contact-item span,
 .fox-footer__contact-extra {
-  white-space: pre-line;  
+  white-space: pre-line;
   overflow-wrap: anywhere;
 }
 

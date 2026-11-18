@@ -1,0 +1,56 @@
+{%- if settings.cart_page_recommend_show -%}
+  {%- assign recommend_handle = settings.cart_page_recommend_collection | default: 'all' | strip -%}
+  {%- assign recommend_collection = collections[recommend_handle] -%}
+  {%- assign recommend_title = settings.cart_page_recommend_title | default: 'Có thể bạn sẽ thích' -%}
+  {%- assign recommend_limit = settings.cart_page_recommend_limit | default: 8 | plus: 0 -%}
+  {%- capture recommend_in_cart -%}|{%- for item in cart.items -%}{{ item.product.handle }}|{%- endfor -%}{%- endcapture -%}
+  {%- assign recommend_count = 0 -%}
+  {%- capture recommend_slides -%}
+    {%- for product in recommend_collection.products -%}
+      {%- capture recommend_token -%}|{{ product.handle }}|{%- endcapture -%}
+      {%- if recommend_count < recommend_limit and product.available -%}
+        {%- unless recommend_in_cart contains recommend_token -%}
+          {%- assign recommend_count = recommend_count | plus: 1 -%}
+          {%- assign product_card_context = 'collection' -%}
+          {%- assign grid = '' -%}
+          <div class="swiper-slide fox-product-carousel__slide">
+            {%- include 'product-loop' -%}
+          </div>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if recommend_count > 0 -%}
+  <section class="fox-product-carousel fox-cart-page__recommend" aria-labelledby="fox-cart-recommend-heading">
+    <slider-component
+      class="fox-product-carousel__slider"
+      data-state="idle"
+      data-preset="product"
+      data-autoplay="false"
+      data-loop="false"
+      data-pagination="false"
+      data-navigation="true"
+      data-slides-mobile="auto"
+      data-slides-tablet="auto"
+      data-slides-desktop="auto"
+      data-space-mobile="12"
+      data-space-tablet="16"
+      data-space-desktop="16">
+      <header class="fox-product-carousel__header">
+        <h2 id="fox-cart-recommend-heading" class="fox-section__title fox-product-carousel__title">{{ recommend_title | escape }}</h2>
+        <div class="fox-product-carousel__actions">
+          {%- assign slider_controls_vertical = false -%}
+          {%- assign slider_controls_floating = false -%}
+          {%- assign slider_controls_label = 'Điều hướng sản phẩm gợi ý' -%}
+          {%- assign slider_controls_item_count = recommend_count -%}
+          {%- include 'component-slider-controls' -%}
+        </div>
+      </header>
+      <div class="swiper fox-product-carousel__viewport" data-role="viewport" role="region" aria-label="{{ recommend_title | escape }}">
+        <div class="swiper-wrapper">{{- recommend_slides -}}</div>
+      </div>
+    </slider-component>
+  </section>
+  {%- endif -%}
+{%- endif -%}

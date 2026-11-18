@@ -1,7 +1,3 @@
-{%- comment -%}
-  Size guide content shared by the modal (size-guide-modal.liquid) and the page (page.size-guide.liquid).
-  Input: size_guide_id (id prefix, unique per instance), size_guide_page_url, size_guide_sheet_url.
-{%- endcomment -%}
 {%- assign size_guide_id = size_guide_id | default: 'fox-size-guide' -%}
 <tabs-component class="fox-size-guide__tabs" data-state="idle">
   <div class="fox-size-guide__tablist" role="tablist" aria-label="{{ settings.size_guide_title | default: 'Hướng dẫn chọn size' | escape }}">

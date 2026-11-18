@@ -89,7 +89,6 @@
   display: none;
 }
 
-/* Full list grouped province → district (rendered by Liquid from shop.addresses). */
 .fox-store-stock__province {
   margin-top: 1.6rem;
 }
@@ -234,7 +233,6 @@
   display: none;
 }
 
-/* Close button: quick view close (ring + icon from quick-view.css); only its position is set here. */
 .fox-store-stock__close {
   top: 1.6rem;
   right: 1.6rem;
@@ -252,7 +250,6 @@
   opacity: 0.75;
 }
 
-/* Province tabs (rendered by Liquid; filter in product-store-stock.js). */
 .fox-store-stock__tabs {
   display: flex;
   gap: 0.8rem;

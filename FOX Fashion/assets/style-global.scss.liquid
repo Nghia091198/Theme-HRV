@@ -8,7 +8,7 @@ body {
     position: initial;
     font-size: 14px;
 }
-body,a {color: var(--shop-text-color);} 
+body,a {color: var(--shop-text-color);}
 h1,h2,h3,h4,h5,h6,
 .h1,.h2,.h3,.h4,.h5,.h6 {
     font-family: var(--base-font-title), sans-serif;
@@ -82,6 +82,17 @@ h1,h2,h3,h4,h5,h6,
     background: var(--color-btn-bg-primary, #1b2631);
     color: var(--color-btn-text-primary, #fff);
 }
+
+.fox-pagination__ellipsis {
+    display: grid;
+    min-width: 2.4rem;
+    height: var(--p-size, 44px);
+    place-items: center;
+    color: var(--color-text-secondary, #687078);
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    user-select: none;
+}
 .fox-pagination__link:focus-visible {
     outline: 2px solid var(--color-text-theme, #1b2631);
     outline-offset: 3px;
@@ -92,10 +103,6 @@ h1,h2,h3,h4,h5,h6,
     }
 }
 
-/* Global focus (zero specificity with :where(), so any component can still set its own focus style).
-   Text fields never draw the browser focus box: the caret shows focus and their wrappers (search pill, form
-   fields) highlight with :focus-within. Buttons and links: no ring after a mouse click, a clean ring that follows
-   their shape for keyboard focus (needed for accessibility). */
 :where(input, textarea, select):focus,
 :where(input, textarea, select):focus-visible {
     outline: none;
@@ -110,14 +117,72 @@ h1,h2,h3,h4,h5,h6,
     outline-offset: 2px;
 }
 
-/* Checkboxes, radios and switches stay visible to the keyboard (they have no caret). */
 :where(input[type="checkbox"], input[type="radio"]):focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
 }
 
-/* .reset-style: wrap merchant rich text (page / article / product description) to restore readable
-   defaults removed by the theme reset. Borders and fills use currentColor so it fits light or dark surfaces. */
+:where(input, textarea, select):-webkit-autofill,
+:where(input, textarea, select):-webkit-autofill:hover,
+:where(input, textarea, select):-webkit-autofill:focus {
+    -webkit-text-fill-color: inherit;
+    caret-color: currentColor;
+    transition: background-color 600000s ease-in-out 0s, color 600000s ease-in-out 0s;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    :root :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]), textarea, select) {
+        font-size: 16px;
+    }
+}
+
+.fox-buying-off add-to-cart,
+.fox-buying-off .fox-product__quantity,
+.fox-buying-off [data-bundle-variants],
+.fox-buying-off wishlist-page [data-action="add-all"] {
+    display: none !important;
+}
+
+.fox-review-badge {
+    margin: 2px 0 5px;
+    line-height: 1.2;
+}
+
+.fox-review-badge .starbap-prev-null {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    font-size: 12px;
+}
+
+.fox-review-badge .starbap-star {
+    display: inline-flex;
+    color: #fdce18;
+}
+
+.fox-review-badge .starbap-prev-badgetext {
+    margin-left: 4px;
+    color: inherit;
+    opacity: .7;
+}
+
+.fox-review-widget {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.fox-product-info__panel--reviews .fox-review-widget {
+    margin-top: 0;
+}
+
+.fox-review-widget__clear {
+    clear: both;
+}
+
+html[data-input="touch"] :focus-visible {
+    outline: none !important;
+}
+
 .reset-style {
     --reset-style-line: color-mix(in srgb, currentColor 16%, transparent);
     --reset-style-fill: color-mix(in srgb, currentColor 6%, transparent);
@@ -134,7 +199,6 @@ h1,h2,h3,h4,h5,h6,
     margin-bottom: 0;
 }
 
-/* Headings */
 .reset-style h1,
 .reset-style h2,
 .reset-style h3,
@@ -157,7 +221,6 @@ h1,h2,h3,h4,h5,h6,
     text-transform: uppercase;
 }
 
-/* Text */
 .reset-style p,
 .reset-style ul,
 .reset-style ol,
@@ -195,7 +258,6 @@ h1,h2,h3,h4,h5,h6,
     border-radius: 0.3rem;
 }
 
-/* Lists */
 .reset-style ul,
 .reset-style ol {
     padding-left: 2.2rem;
@@ -223,7 +285,6 @@ h1,h2,h3,h4,h5,h6,
     margin: 0 0 1rem 1.6rem;
 }
 
-/* Quote */
 .reset-style blockquote {
     padding: 1.6rem 2rem;
     font-size: 1.05em;
@@ -244,7 +305,6 @@ h1,h2,h3,h4,h5,h6,
     opacity: 0.75;
 }
 
-/* Table */
 .reset-style table {
     width: 100%;
     border-collapse: collapse;
@@ -301,7 +361,6 @@ h1,h2,h3,h4,h5,h6,
     text-align: center;
 }
 
-/* Code & divider */
 .reset-style code,
 .reset-style kbd {
     padding: 0.1em 0.4em;
@@ -336,6 +395,10 @@ h1,h2,h3,h4,h5,h6,
     .reset-style blockquote {padding: 1.2rem 1.4rem;}
     .fox-pagination__link {
         --p-size: 34px;
+        font-size: 13px;
+    }
+    .fox-pagination__ellipsis {
+        height: 34px;
         font-size: 13px;
     }
     .fox-pagination__link--direction .icon-svg {

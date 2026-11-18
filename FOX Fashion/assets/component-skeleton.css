@@ -1,10 +1,4 @@
-/**
- * component-skeleton
- * Brand-agnostic loading placeholder (shimmer).
- * Structure/state only. Themeable via CSS custom properties.
- */
-
-.skeleton { 
+.skeleton {
   --skeleton-cols: 4;
   --skeleton-gap: 20px;
   --skeleton-base: #eceff3;
@@ -64,7 +58,6 @@
 .skeleton__line--sm { height: 12px; width: 60%; }
 .skeleton__line--price { height: 14px; width: 45%; }
 
-/* Shimmer sweep */
 .skeleton__media::after,
 .skeleton__line::after {
   content: "";

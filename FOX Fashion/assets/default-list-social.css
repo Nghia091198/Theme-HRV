@@ -5,7 +5,7 @@
 .list-social .social-item {
   position: relative;
   line-height: 0;
-} 
+}
 .list-social .social-item:hover svg {
   animation: bounceScale 0.3s ease;
 }
@@ -14,7 +14,7 @@
   --icon-height: 20px;
 }
 .list-social .social-item a {
-  /* Caller controls the social color. */
+
   color: inherit;
   cursor: pointer;
   display: inline-block;

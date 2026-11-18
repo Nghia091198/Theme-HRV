@@ -1,4 +1,8 @@
-{%- assign alt = alt | default: shop.name -%}
+{%- if decorative -%}
+  {%- assign alt = '' -%}
+{%- else -%}
+  {%- assign alt = alt | default: shop.name -%}
+{%- endif -%}
 {%- assign w = w | default: w | default: "" -%}
 {%- assign h = h | default: h | default: "" -%}
 {%- assign w_mb = w_mobile | default: w | default: "" -%}

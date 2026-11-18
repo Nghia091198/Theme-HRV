@@ -1,10 +1,3 @@
-{%- comment -%}
-  snippet: home-category
-  Dùng preset collections của scroll-viewport.js.
-  Settings keys (thêm vào config/settings.html):
-    hcs_show, hcs_title, hcs_desc, hcs_btn_title, hcs_btn_url
-    hcs_N_show, hcs_N_image.png, hcs_N_alt, hcs_N_url, hcs_N_label  (N = 1..6)
-{%- endcomment -%}
 
 {%- if settings.hcs_show -%}
 
@@ -85,9 +78,11 @@
                     title="{{ _label | strip }}"
                   >
                     <div class="fox-hcs__card-media">
-                        {%- capture img_src -%}hcs_{{ i }}_image{%- endcapture -%}
-                        {%- include 'render-img' with src: k_image,class: 'fox-hcs__card-img',alt: hcs_alt,w: '800',h: '800',sizes: '(min-width: 1150px) calc(min(430px, 40%)), (min-width: 480px) 50vw, 100vw'-%}
-                      
+                        {%- if _label != blank -%}
+                        {%- include 'render-img' with src: k_image, class: 'fox-hcs__card-img', decorative: true, w: '800', h: '800', sizes: '(min-width: 1150px) calc(min(430px, 40%)), (min-width: 480px) 50vw, 100vw' -%}
+                        {%- else -%}
+                        {%- include 'render-img' with src: k_image, class: 'fox-hcs__card-img', alt: _alt, w: '800', h: '800', sizes: '(min-width: 1150px) calc(min(430px, 40%)), (min-width: 480px) 50vw, 100vw' -%}
+                        {%- endif -%}
                     </div>
                     {%- if _label != blank -%}
                     <div class="fox-hcs__card-content">
@@ -104,6 +99,44 @@
             {%- endfor -%}
           </div>
         </div>
+
+        <slider-component class="fox-hcs__slider" data-preset="product" data-state="idle" data-autoplay="true" data-autoplay-delay="3000" data-loop="true" data-pause-on-hover="true" data-navigation="true" data-pagination="false" data-slides-mobile="1.2" data-slides-tablet="2.2" data-slides-desktop="3" data-space-mobile="12" data-space-tablet="16" data-space-desktop="16">
+          <div class="swiper" data-role="viewport">
+            <div class="swiper-wrapper">
+              {%- for i in (1..6) -%}
+                {%- capture k_show  -%}hcs_{{ i }}_show{%- endcapture -%}
+                {%- capture k_image -%}hcs_{{ i }}_image.png{%- endcapture -%}
+                {%- capture k_alt   -%}hcs_{{ i }}_alt{%- endcapture -%}
+                {%- capture k_url   -%}hcs_{{ i }}_url{%- endcapture -%}
+                {%- capture k_label -%}hcs_{{ i }}_label{%- endcapture -%}
+                {%- if settings[k_show] -%}
+                {%- assign _alt   = settings[k_alt]   | default: settings[k_label] | default: shop.name -%}
+                {%- assign _url   = settings[k_url]   | default: '/collections/all' -%}
+                {%- assign _label = settings[k_label] -%}
+                <div class="swiper-slide fox-hcs__slide">
+                  <a href="{{ _url }}" class="fox-hcs__slide-link" title="{{ _label | strip }}">
+                    {%- if _label != blank -%}
+                    {%- include 'render-img' with src: k_image, class: 'fox-hcs__slide-img', decorative: true, w: '800', h: '800', sizes: '85vw' -%}
+                    <span class="fox-hcs__card-label btn btn-secondary"><span class="btn__label">{{ _label }}</span></span>
+                    {%- else -%}
+                    {%- include 'render-img' with src: k_image, class: 'fox-hcs__slide-img', alt: _alt, w: '800', h: '800', sizes: '85vw' -%}
+                    {%- endif -%}
+                  </a>
+                </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="fox-hcs__slider-controls">
+            {%- assign slider_controls_vertical = false -%}
+            {%- assign slider_controls_floating = false -%}
+            {%- assign slider_controls_label = 'Điều khiển danh mục' -%}
+            {%- assign slider_controls_item_count = hcs_count -%}
+            {%- include 'component-slider-controls' -%}
+            {%- assign slider_controls_label = blank -%}
+            {%- assign slider_controls_item_count = blank -%}
+          </div>
+        </slider-component>
 
       </div>
     </div>
@@ -184,6 +217,41 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 24ch;
+}
+
+/* Mobile autoplay slider (same cards); the scroll-effect list stays from 768px up. */
+.fox-hcs__slider { display: none; }
+
+@media (max-width: 767px) {
+  .fox-hcs__scroll { display: none; }
+  .fox-hcs__slider { display: block; margin-top: 2rem; }
+  .fox-hcs__slide { height: auto; }
+  .fox-hcs__slide-link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-md, 14px);
+    text-decoration: none;
+  }
+  .fox-hcs__slide-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fox-hcs__slide-link .fox-hcs__card-label {
+    position: absolute;
+    left: 1.6rem;
+    bottom: 1.6rem;
+    z-index: 1;
+    max-width: calc(100% - 3.2rem);
+  }
+  /* Same controls as the lookbook product slider (component-slider-controls): previous · progress · next. */
+  .fox-hcs__slider-controls { display: flex; justify-content: center; margin-top: 1.4rem; }
+  .fox-hcs__slider-controls .fox-slider-controls { flex-direction: row; margin: 0 auto; }
+  .fox-hcs__slider-controls .fox-slider-progress { width: 4.4rem; height: .25rem; }
+  .fox-hcs__slider-controls .fox-slider-progress__bar { transform: scaleX(var(--fox-slider-progress, 0)); transform-origin: left; }
 }
 </style>
 

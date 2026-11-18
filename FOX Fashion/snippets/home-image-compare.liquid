@@ -1,23 +1,10 @@
-{%- comment -%}
-  Liquid keeps both figures readable before the comparison behavior initializes.
-{%- endcomment -%}
 {%- if settings.image_compare_show -%}
-  {%- capture left_key -%}image_compare_left_image.jpg{%- endcapture -%}
-  {%- capture right_key -%}image_compare_right_image.jpg{%- endcapture -%}
-  {%- assign left_image = settings[left_key] | default: 'image_compare_left_image.jpg' -%}
-  {%- assign right_image = settings[right_key] | default: 'image_compare_right_image.jpg' -%}
-  {%- assign left_url = left_image | asset_url -%}
-  {%- assign right_url = right_image | asset_url -%}
+  {%- assign left_url = 'image_compare_left_image.jpg' | asset_url -%}
+  {%- assign right_url = 'image_compare_right_image.jpg' | asset_url -%}
   {%- assign position = settings.image_compare_position | default: 50 | plus: 0 -%}
   {%- assign left_label = settings.image_compare_left_label -%}
   {%- assign right_label = settings.image_compare_right_label -%}
 
-  {%- if left_image contains '//' -%}
-    {%- assign left_url = left_image -%}
-  {%- endif -%}
-  {%- if right_image contains '//' -%}
-    {%- assign right_url = right_image -%}
-  {%- endif -%}
   {%- if position < 0 -%}
     {%- assign position = 0 -%}
   {%- elsif position > 100 -%}
@@ -50,7 +37,7 @@
               class="fox-image-compare__image"
               data-role="left-image"
               src="{{ left_url | escape }}"
-              alt="{{ settings.image_compare_left_alt | default: left_label | default: 'Người phụ nữ ngồi tập yoga trong áo thun xám và quần legging đen' | escape }}"
+              alt="{{ settings.image_compare_left_alt | default: left_label | default: shop.name | escape }}"
               width="1672"
               height="860"
               sizes="(min-width: 1884px) 1824px, (min-width: 768px) calc(100vw - 60px), calc(100vw - 30px)"
@@ -68,7 +55,7 @@
               class="fox-image-compare__image"
               data-role="right-image"
               src="{{ right_url | escape }}"
-              alt="{{ settings.image_compare_right_alt | default: right_label | default: 'Người phụ nữ ngồi tập yoga trong bộ đồ tập màu xanh cobalt' | escape }}"
+              alt="{{ settings.image_compare_right_alt | default: right_label | default: shop.name | escape }}"
               width="1672"
               height="860"
               sizes="(min-width: 1884px) 1824px, (min-width: 768px) calc(100vw - 60px), calc(100vw - 30px)"

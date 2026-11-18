@@ -6,7 +6,7 @@
 {%- endfor -%}
 
 {%- assign gallery_item_count = product.images.size | plus: gallery_youtube_count -%}
-{%- assign gallery_zoom_stylesheet = 'core-component-image-zoom.css' | asset_url -%} 
+{%- assign gallery_zoom_stylesheet = 'cpn-image-zoom.css' | asset_url -%} 
 <div class="fox-product__gallery" data-role="gallery">
   <slider-component
     data-role="gallery-main"
@@ -69,7 +69,6 @@
           data-media-src="{{ image.src | escape }}"
           data-media-alt="{{ image.alt | default: product.title | strip | escape }}">
           <div class="fox-product__media-ratio ratio-image">
-            {%- comment -%}Quick view keeps the gallery static; product pages retain zoom.{%- endcomment -%}
             <image-zoom
               class="core-image-zoom"
               data-zoom-mode="external"

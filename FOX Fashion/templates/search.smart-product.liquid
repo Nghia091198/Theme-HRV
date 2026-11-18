@@ -1,11 +1,4 @@
 {% layout none %}
-{%- comment -%}
-  Search panel results, products (assets/search-panel.js): /search?q=<q>&type=product&view=smart-product
-  data-total feeds the tab count. 4 products per row (2 on tablet/mobile), smartsearch_result_rows rows (2 or 3):
-  up to 4 × rows loaded is a static grid; more becomes a slider whose slides stack `rows` cards (column order).
-  "Xem thêm {rest}" links to the full search page when the total is larger than smartsearch_result_limit.
-  Cards are the shared product card (product-loop, context 'search').
-{%- endcomment -%}
 {%- assign smart_limit = settings.smartsearch_result_limit | default: 12 | plus: 0 -%}
 {%- if smart_limit < 1 -%}{%- assign smart_limit = 12 -%}{%- endif -%}
 {%- assign smart_rows = settings.smartsearch_result_rows | default: 2 | plus: 0 -%}

@@ -1,0 +1,43 @@
+{%- assign ro_visible = false -%}
+{%- if settings.recent_orders_show -%}
+  {%- unless template contains 'cart' or template contains 'customers' -%}{%- assign ro_visible = true -%}{%- endunless -%}
+{%- endif -%}
+{%- if ro_visible -%}
+  {%- capture ro_items -%}
+    {%- for ro_index in (1..6) -%}
+      {%- capture ro_show_key -%}recent_order_{{ ro_index }}_show{%- endcapture -%}
+      {%- capture ro_handle_key -%}recent_order_{{ ro_index }}_handle{%- endcapture -%}
+      {%- capture ro_name_key -%}recent_order_{{ ro_index }}_name{%- endcapture -%}
+      {%- capture ro_place_key -%}recent_order_{{ ro_index }}_place{%- endcapture -%}
+      {%- capture ro_time_key -%}recent_order_{{ ro_index }}_time{%- endcapture -%}
+      {%- assign ro_handle = settings[ro_handle_key] | strip | split: '/products/' | last | split: '?' | first | split: '#' | first | remove: '/' -%}
+      {%- if settings[ro_show_key] and ro_handle != blank -%}
+        <li data-ro-item data-handle="{{ ro_handle | escape }}" data-name="{{ settings[ro_name_key] | escape }}" data-place="{{ settings[ro_place_key] | escape }}" data-time="{{ settings[ro_time_key] | escape }}"></li>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if ro_items != blank -%}
+  <recent-orders
+    class="fox-ro{% unless settings.recent_orders_mobile %} fox-ro--desktop-only{% endunless %}"
+    data-delay="{{ settings.recent_orders_delay | default: 8 }}"
+    data-duration="{{ settings.recent_orders_duration | default: 6 }}"
+    data-gap="{{ settings.recent_orders_gap | default: 12 }}"
+    data-max-days="{{ settings.recent_orders_max_days | default: 7 }}"
+    data-state="idle">
+    <ul data-ro-source hidden>{{ ro_items }}</ul>
+    <div class="fox-ro__card" data-ro-card role="status" aria-live="polite" hidden>
+      <a class="fox-ro__link" href="#" data-ro-link>
+        <span class="fox-ro__thumb"><img data-ro-image src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" width="76" height="92" decoding="async"></span>
+        <span class="fox-ro__text">
+          <span class="fox-ro__who"><strong data-ro-name></strong> <span data-ro-action></span></span>
+          <span class="fox-ro__title" data-ro-title></span>
+          <span class="fox-ro__time" data-ro-time></span>
+        </span>
+      </a>
+      <button type="button" class="fox-ro__close" data-ro-close aria-label="Ẩn thông báo đơn hàng">
+        <svg aria-hidden="true" focusable="false" width="10" height="10" viewBox="0 0 10 10"><path fill="currentColor" d="M6.18 5 9.76 1.42A.83.83 0 0 0 8.58.24L5 3.82 1.42.24A.83.83 0 0 0 .24 1.42L3.82 5 .24 8.58a.83.83 0 1 0 1.18 1.18L5 6.18l3.58 3.58a.83.83 0 0 0 1.18-1.18L6.18 5Z"></path></svg>
+      </button>
+    </div>
+  </recent-orders>
+  {%- endif -%}
+{%- endif -%}

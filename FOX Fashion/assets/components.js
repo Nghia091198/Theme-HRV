@@ -129,6 +129,22 @@ if (document.readyState === 'loading') {
   BtnEffectController.init();
 }
 
+// Input mode for focus rings (html[data-input="touch"], style-global): touch screens draw no ring after a tap, nor
+// when a closing panel returns focus to its button in code (Safari iOS shows :focus-visible then). Mouse keeps the
+// browser default; any key press brings keyboard focus rings back (tablets with a keyboard).
+function FOXTrackInputMode() {
+  const root = document.documentElement;
+  document.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'touch' || event.pointerType === 'pen') root.dataset.input = 'touch';
+    else delete root.dataset.input;
+  }, { capture: true, passive: true });
+  document.addEventListener('keydown', () => {
+    delete root.dataset.input;
+  }, { capture: true });
+}
+
+FOXTrackInputMode();
+
 class SlideContentReveal {
   static #instance = null;
 
